@@ -915,23 +915,24 @@
                 <div class="timeline-item">
                     <h4>PhD, Population Health Sciences</h4>
                     <p class="institution">Duke University School of Medicine</p>
-                    <p class="period">2024</p>
+                    <p class="period">2025</p>
                     <p>Dissertation: "Getting to the Heart of Discrimination in Healthcare"</p>
+                    <p style="margin-top: 0.75rem;"><strong>Dissertation Committee:</strong></p>
+                    <ul style="margin-left: 1.5rem; margin-top: 0.5rem;">
+                        <li>Chair: Matthew E. Dupre</li>
+                        <li>Emily C. O'Brien</li>
+                        <li>Ann Marie Navar</li>
+                        <li>M. Alan Brookhart</li>
+                        <li>Roland J. Thorpe Jr.</li>
+                    </ul>
                 </div>
 
-                <!-- Add your other degrees here -->
                 <div class="timeline-item">
-                    <h4>Master's Degree</h4>
-                    <p class="institution">Your Institution</p>
-                    <p class="period">Year</p>
-                    <p>Add relevant details about your master's program</p>
-                </div>
-
-                <div class="timeline-item">
-                    <h4>Bachelor's Degree</h4>
-                    <p class="institution">Your Institution</p>
-                    <p class="period">Year</p>
-                    <p>Add relevant details about your undergraduate education</p>
+                    <h4>BA, Anthropology with Honors</h4>
+                    <p class="institution">Dartmouth College</p>
+                    <p class="period">2021</p>
+                    <p>Minor in Environmental Sciences</p>
+                    <p style="margin-top: 0.75rem;"><strong>Thesis Advisor:</strong> Elizabeth Carpenter-Song</p>
                 </div>
             </div>
 
@@ -991,10 +992,10 @@
                 <p>I write about health equity, population health research, and the intersection of science and policy on my Substack, <strong>Not Being Green</strong>.</p>
                 <div class="btn-group">
                     <a href="https://www.notbeinggreen.com" class="substack-badge" target="_blank">
-                        📝 Visit Not Being Green
+                        Visit Not Being Green
                     </a>
                     <button id="subscribe-btn" class="btn" onclick="showSubscribeForm()">
-                        ✉️ Subscribe to Newsletter
+                        Subscribe to Newsletter
                     </button>
                 </div>
 
@@ -1331,11 +1332,11 @@
             const btn = document.getElementById('subscribe-btn');
             if (form.style.display === 'none') {
                 form.style.display = 'block';
-                btn.textContent = '✉️ Hide Subscribe Form';
+                btn.textContent = 'Hide Subscribe Form';
                 form.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
             } else {
                 form.style.display = 'none';
-                btn.textContent = '✉️ Subscribe to Newsletter';
+                btn.textContent = 'Subscribe to Newsletter';
             }
         }
 
