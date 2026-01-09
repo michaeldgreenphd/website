@@ -8,6 +8,7 @@ A clean, professional website with a medical/health sciences aesthetic built wit
 - **Medical Aesthetic**: Clean, professional design with your signature green color (#2E7D32)
 - **Tab Navigation**: Six main sections (Home, Research, Publications, CV, Media & Outreach, Contact)
 - **ORCID Integration**: Automatic publication fetching from your ORCID profile (0000-0002-4982-8154)
+- **Substack Integration**: Automatic blog post fetching from Not Being Green (notbeinggreen.com)
 - **Smooth Animations**: Subtle transitions and hover effects
 - **Accessibility**: Semantic HTML and ARIA labels for better accessibility
 
@@ -39,16 +40,19 @@ A clean, professional website with a medical/health sciences aesthetic built wit
    - Sorted by year (newest first) with journal names, DOI links, and publication types
    - No manual updates needed - it syncs with your ORCID profile!
 
-5. **Media Appearances** (Lines 702-710)
+5. **Substack Blog** - ✅ **Already Integrated!**
+   - Your recent blog posts are automatically fetched from Not Being Green (notbeinggreen.com)
+   - Shows the 5 most recent posts with titles, dates, and excerpts
+   - Links directly to your Substack for full posts
+   - No manual updates needed!
+
+6. **Media Appearances** (Lines 702-710)
    - Add your actual media appearances and interviews
    - Remove placeholder text when you add real content
 
-6. **CV PDF** (Line 584)
+7. **CV PDF** (Line 584)
    - Upload your CV PDF to the website directory
    - Ensure the filename matches or update the link
-
-7. **Substack Link** (Line 689)
-   - Add your actual Substack URL
 
 ### Optional Enhancements
 
@@ -94,6 +98,35 @@ If you need to update the ORCID ID (though your current ID is already set):
 2. Locate the line: `const ORCID_ID = '0000-0002-4982-8154';`
 3. Replace with your ORCID ID
 
+## Substack Integration
+
+The website automatically fetches and displays your recent blog posts from your Substack publication.
+
+### How It Works
+
+- **Substack URL**: notbeinggreen.com
+- **Feed**: Uses the Substack RSS feed
+- **Display**: Shows the 5 most recent posts with title, date, excerpt, and link
+- **API**: Uses RSS2JSON API to convert RSS to JSON format
+- **No Maintenance**: Automatically updates when you publish new posts on Substack
+
+### Features
+
+- Displays post title with clickable link
+- Publication date formatted nicely
+- 200-character excerpt of each post
+- "Read full post" links to your Substack
+- Loading animation while fetching
+- Error handling with direct Substack link fallback
+- Prominent Substack badge linking to your blog
+
+### Changing Substack URL
+
+If you need to update the Substack URL:
+1. Find the JavaScript section at the bottom of `index.html`
+2. Locate the line: `const SUBSTACK_URL = 'notbeinggreen.com';`
+3. Replace with your Substack domain
+
 ## File Structure
 
 ```
@@ -136,12 +169,13 @@ Since you own your domain through Squarespace, you have a few options:
 
 The following features can be added in future updates:
 
-1. **Automatic Substack Integration**: Pull latest blog posts automatically ✨
-2. **Google Scholar Integration**: Display citation metrics and additional publication details ✨
+1. **Google Scholar Integration**: Display citation metrics and additional publication details ✨
+2. **Comment System**: Add a commenting system for blog engagement ✨
 
 ### ✅ Already Implemented
 
 - **ORCID Publication Integration**: Automatically fetches and displays all publications from your ORCID profile with DOI links, journal names, and publication years
+- **Substack Blog Integration**: Automatically displays your 5 most recent posts from Not Being Green with titles, dates, excerpts, and links
 
 ## Browser Compatibility
 
