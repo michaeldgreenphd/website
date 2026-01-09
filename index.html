@@ -7,8 +7,8 @@
 
     <style>
         :root {
-            --primary-green: #2E7D32;
-            --light-green: #4CAF50;
+            --primary-green: #2D6A4F;
+            --light-green: #52B788;
             --accent-blue: #1976D2;
             --light-gray: #F5F5F5;
             --medium-gray: #E0E0E0;
@@ -34,6 +34,10 @@
             color: var(--dark-gray);
             background: linear-gradient(135deg, var(--white) 0%, var(--light-gray) 100%);
             min-height: 100vh;
+        }
+
+        h1, h2 {
+            font-family: Georgia, 'Times New Roman', serif;
         }
 
         /* Header */
@@ -125,8 +129,8 @@
             height: 300px;
             border-radius: 8px;
             overflow: hidden;
-            box-shadow: var(--card-shadow);
-            border: 3px solid var(--primary-green);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.12);
+            border: 1px solid var(--medium-gray);
             background: var(--medium-gray);
             display: flex;
             align-items: center;
@@ -168,13 +172,27 @@
             padding: 2rem;
             margin-bottom: 2rem;
             box-shadow: var(--card-shadow);
-            border-left: 4px solid var(--primary-green);
             transition: transform 0.3s, box-shadow 0.3s;
         }
 
         .card:hover {
             transform: translateY(-2px);
             box-shadow: var(--hover-shadow);
+        }
+
+        /* Hero card - no border for cleaner look */
+        .hero .card {
+            border: none;
+        }
+
+        /* Major section cards - top border */
+        section > .card:first-child {
+            border-top: 4px solid var(--primary-green);
+        }
+
+        /* Subsection cards - subtle left border */
+        section > .card:not(:first-child) {
+            border-left: 3px solid rgba(45, 106, 79, 0.3);
         }
 
         .card h2 {
@@ -296,24 +314,26 @@
         }
 
         .contact-item {
-            padding: 2rem;
-            background: rgba(46, 125, 50, 0.05);
+            padding: 1.5rem;
+            background: var(--white);
             border-radius: 8px;
             transition: all 0.3s;
-            text-align: center;
-            border: 2px solid transparent;
+            text-align: left;
+            border-left: 3px solid var(--primary-green);
+            box-shadow: var(--card-shadow);
         }
 
         .contact-item:hover {
-            background: rgba(46, 125, 50, 0.1);
-            border-color: var(--primary-green);
-            transform: translateY(-4px);
+            transform: translateX(4px);
+            box-shadow: var(--hover-shadow);
         }
 
         .contact-item h3 {
             color: var(--primary-green);
-            margin: 0 0 1rem 0;
-            font-size: 1.1rem;
+            margin: 0 0 0.5rem 0;
+            font-size: 1rem;
+            font-weight: 600;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
         }
 
         .contact-item p {
@@ -657,15 +677,17 @@
 
         /* Footer */
         footer {
-            background: var(--dark-gray);
-            color: var(--white);
+            background: linear-gradient(to bottom, transparent, rgba(45, 106, 79, 0.05));
+            color: var(--dark-gray);
             text-align: center;
-            padding: 2rem;
+            padding: 3rem 2rem 2rem;
             margin-top: 4rem;
+            border-top: 1px solid var(--medium-gray);
         }
 
         footer p {
             margin: 0;
+            opacity: 0.7;
         }
 
         /* Section visibility */
