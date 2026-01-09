@@ -6,7 +6,8 @@ A clean, professional website with a medical/health sciences aesthetic built wit
 
 - **Responsive Design**: Works seamlessly on desktop, tablet, and mobile devices
 - **Medical Aesthetic**: Clean, professional design with your signature green color (#2E7D32)
-- **Tab Navigation**: Five main sections (Home, Research, CV, Media & Outreach, Contact)
+- **Tab Navigation**: Six main sections (Home, Research, Publications, CV, Media & Outreach, Contact)
+- **ORCID Integration**: Automatic publication fetching from your ORCID profile (0000-0002-4982-8154)
 - **Smooth Animations**: Subtle transitions and hover effects
 - **Accessibility**: Semantic HTML and ARIA labels for better accessibility
 
@@ -32,10 +33,11 @@ A clean, professional website with a medical/health sciences aesthetic built wit
    - Add your LinkedIn profile URL
    - Add your Twitter/X handle if applicable
 
-4. **Publications** (Lines 614-627)
-   - Add your actual publications
-   - Use the example format provided
-   - This section is marked for future automatic updates
+4. **Publications** - ✅ **Already Integrated!**
+   - Your publications are automatically fetched from your ORCID profile
+   - The Publications tab uses the ORCID API to display all your works
+   - Sorted by year (newest first) with journal names, DOI links, and publication types
+   - No manual updates needed - it syncs with your ORCID profile!
 
 5. **Media Appearances** (Lines 702-710)
    - Add your actual media appearances and interviews
@@ -63,6 +65,34 @@ The website uses your signature green color:
 - **Accent Blue**: #1976D2 (links in media section)
 
 To change colors, update the CSS variables in the `:root` section (lines 10-18).
+
+## ORCID Integration
+
+The website automatically fetches and displays your publications from your ORCID profile.
+
+### How It Works
+
+- **ORCID ID**: 0000-0002-4982-8154
+- **API**: Uses the public ORCID API (https://pub.orcid.org/v3.0)
+- **Display**: Publications are shown with title, year, journal, type, and DOI links
+- **Sorting**: Automatically sorted by publication year (newest first)
+- **No Maintenance**: Whenever you update your ORCID profile, the website reflects those changes automatically
+
+### Features
+
+- Official ORCID badge with direct link to your profile
+- Loading animation while fetching data
+- Error handling with fallback to direct ORCID profile link
+- Clean, medical-themed styling matching the rest of the site
+- Mobile-responsive design
+- Direct DOI links to each publication
+
+### Changing ORCID ID
+
+If you need to update the ORCID ID (though your current ID is already set):
+1. Find the JavaScript section at the bottom of `index.html`
+2. Locate the line: `const ORCID_ID = '0000-0002-4982-8154';`
+3. Replace with your ORCID ID
 
 ## File Structure
 
@@ -102,15 +132,16 @@ Since you own your domain through Squarespace, you have a few options:
 4. Enable GitHub Pages in repository settings
 5. Point your domain to GitHub Pages
 
-## Future Enhancements (Mentioned)
+## Future Enhancements
 
-The following features are planned for future implementation:
+The following features can be added in future updates:
 
-1. **Automatic Substack Integration**: Pull latest blog posts automatically
-2. **Research Article Auto-Update**: Connect to PubMed or similar API
-3. **Google Scholar Integration**: Display publications directly from Google Scholar
+1. **Automatic Substack Integration**: Pull latest blog posts automatically ✨
+2. **Google Scholar Integration**: Display citation metrics and additional publication details ✨
 
-These will require JavaScript APIs and/or backend services.
+### ✅ Already Implemented
+
+- **ORCID Publication Integration**: Automatically fetches and displays all publications from your ORCID profile with DOI links, journal names, and publication years
 
 ## Browser Compatibility
 

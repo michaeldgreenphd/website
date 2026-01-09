@@ -404,6 +404,120 @@
             text-decoration: underline;
         }
 
+        /* ORCID Styles */
+        .orcid-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.5rem 1rem;
+            background: #fff;
+            border: 2px solid #A6CE39;
+            border-radius: 4px;
+            text-decoration: none;
+            color: #333;
+            font-weight: 500;
+            transition: all 0.3s;
+        }
+
+        .orcid-badge:hover {
+            background: #A6CE39;
+            transform: translateY(-2px);
+            box-shadow: var(--card-shadow);
+        }
+
+        .orcid-icon {
+            width: 24px;
+            height: 24px;
+        }
+
+        .publication-item {
+            padding: 1.5rem;
+            background: linear-gradient(135deg, var(--white) 0%, rgba(46, 125, 50, 0.02) 100%);
+            border-radius: 6px;
+            margin-bottom: 1.5rem;
+            border-left: 3px solid var(--primary-green);
+            transition: all 0.3s;
+        }
+
+        .publication-item:hover {
+            box-shadow: var(--card-shadow);
+            transform: translateX(4px);
+        }
+
+        .publication-item h4 {
+            color: var(--primary-green);
+            margin-bottom: 0.75rem;
+            font-size: 1.1rem;
+            line-height: 1.4;
+        }
+
+        .publication-item .journal-info {
+            color: #666;
+            font-style: italic;
+            margin-bottom: 0.5rem;
+            font-size: 0.95rem;
+        }
+
+        .publication-item .pub-year {
+            display: inline-block;
+            background: var(--primary-green);
+            color: white;
+            padding: 0.25rem 0.75rem;
+            border-radius: 4px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            margin-bottom: 0.75rem;
+        }
+
+        .publication-item .doi-link {
+            display: inline-block;
+            margin-top: 0.5rem;
+            color: var(--accent-blue);
+            text-decoration: none;
+            font-size: 0.9rem;
+            font-weight: 500;
+        }
+
+        .publication-item .doi-link:hover {
+            text-decoration: underline;
+        }
+
+        .loading-spinner {
+            text-align: center;
+            padding: 3rem;
+            color: var(--primary-green);
+        }
+
+        .loading-spinner::after {
+            content: "⟳";
+            font-size: 3rem;
+            display: inline-block;
+            animation: spin 1s linear infinite;
+        }
+
+        @keyframes spin {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+
+        .error-message {
+            padding: 1.5rem;
+            background: #ffebee;
+            border-left: 4px solid #c62828;
+            border-radius: 4px;
+            color: #c62828;
+        }
+
+        .publications-count {
+            display: inline-block;
+            background: rgba(46, 125, 50, 0.1);
+            color: var(--primary-green);
+            padding: 0.5rem 1rem;
+            border-radius: 4px;
+            font-weight: 600;
+            margin-bottom: 1rem;
+        }
+
         /* Footer */
         footer {
             background: var(--dark-gray);
@@ -533,6 +647,7 @@
             <ul class="nav-links">
                 <li><a href="#home" class="nav-link active" data-section="home">Home</a></li>
                 <li><a href="#research" class="nav-link" data-section="research">Research</a></li>
+                <li><a href="#publications" class="nav-link" data-section="publications">Publications</a></li>
                 <li><a href="#cv" class="nav-link" data-section="cv">CV</a></li>
                 <li><a href="#media" class="nav-link" data-section="media">Media & Outreach</a></li>
                 <li><a href="#contact" class="nav-link" data-section="contact">Contact</a></li>
@@ -613,6 +728,33 @@
                     <p class="journal">Duke University, 2024</p>
                     <p class="authors">Michael D. Green</p>
                     <p class="description">Three-paper dissertation examining healthcare discrimination through measurement validation, longitudinal analysis of patient-provider interactions, and cardiovascular outcomes.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Publications Section with ORCID Integration -->
+        <section id="publications">
+            <div class="card">
+                <h2>Publications</h2>
+                <p>All publications are automatically fetched from my ORCID profile. ORCID provides a persistent digital identifier that distinguishes me from other researchers and ensures proper attribution of my work.</p>
+
+                <div class="btn-group">
+                    <a href="https://orcid.org/0000-0002-4982-8154" target="_blank" class="orcid-badge">
+                        <svg class="orcid-icon" viewBox="0 0 256 256">
+                            <path fill="#A6CE39" d="M256,128c0,70.7-57.3,128-128,128C57.3,256,0,198.7,0,128C0,57.3,57.3,0,128,0C198.7,0,256,57.3,256,128z"/>
+                            <path fill="#FFF" d="M86.3,186.2H70.9V79.1h15.4v48.4V186.2z"/>
+                            <path fill="#FFF" d="M108.9,79.1h41.6c39.6,0,57,28.3,57,53.6c0,27.5-21.5,53.6-56.8,53.6h-41.8V79.1z M124.3,172.4h24.5c34.9,0,42.9-26.5,42.9-39.7c0-21.5-13.7-39.7-43.7-39.7h-23.7V172.4z"/>
+                            <path fill="#FFF" d="M88.7,56.8c0,5.5-4.5,10.1-10.1,10.1c-5.6,0-10.1-4.6-10.1-10.1c0-5.6,4.5-10.1,10.1-10.1C84.2,46.7,88.7,51.3,88.7,56.8z"/>
+                        </svg>
+                        ORCID: 0000-0002-4982-8154
+                    </a>
+                </div>
+            </div>
+
+            <div class="card">
+                <h2>Published Works</h2>
+                <div id="publications-list">
+                    <div class="loading-spinner"></div>
                 </div>
             </div>
         </section>
@@ -853,6 +995,141 @@
                 navLinksContainer.classList.remove('active');
             }
         });
+
+        // ORCID Publications Integration
+        const ORCID_ID = '0000-0002-4982-8154';
+        const ORCID_API_BASE = 'https://pub.orcid.org/v3.0';
+
+        // Fetch publications when Publications tab is clicked
+        document.querySelector('[data-section="publications"]').addEventListener('click', function() {
+            const publicationsList = document.getElementById('publications-list');
+
+            // Only fetch if not already loaded
+            if (publicationsList.querySelector('.loading-spinner')) {
+                fetchORCIDPublications();
+            }
+        });
+
+        async function fetchORCIDPublications() {
+            const publicationsList = document.getElementById('publications-list');
+
+            try {
+                // Fetch works from ORCID API
+                const response = await fetch(`${ORCID_API_BASE}/${ORCID_ID}/works`, {
+                    headers: {
+                        'Accept': 'application/json'
+                    }
+                });
+
+                if (!response.ok) {
+                    throw new Error('Failed to fetch publications');
+                }
+
+                const data = await response.json();
+                const works = data.group || [];
+
+                if (works.length === 0) {
+                    publicationsList.innerHTML = '<p>No publications found.</p>';
+                    return;
+                }
+
+                // Display count
+                let html = `<div class="publications-count">Total Publications: ${works.length}</div>`;
+
+                // Sort by year (newest first)
+                works.sort((a, b) => {
+                    const yearA = getPublicationYear(a);
+                    const yearB = getPublicationYear(b);
+                    return yearB - yearA;
+                });
+
+                // Display each publication
+                works.forEach(workGroup => {
+                    const work = workGroup['work-summary'][0]; // Get first work summary
+                    html += formatPublication(work);
+                });
+
+                publicationsList.innerHTML = html;
+
+            } catch (error) {
+                console.error('Error fetching ORCID publications:', error);
+                publicationsList.innerHTML = `
+                    <div class="error-message">
+                        <strong>Unable to load publications</strong><br>
+                        There was an error fetching publications from ORCID. Please try again later or visit my
+                        <a href="https://orcid.org/${ORCID_ID}" target="_blank">ORCID profile</a> directly.
+                    </div>
+                `;
+            }
+        }
+
+        function formatPublication(work) {
+            const title = work.title?.title?.value || 'Untitled';
+            const year = getPublicationYear(work);
+            const journalTitle = work['journal-title']?.value || '';
+            const type = work.type || '';
+
+            // Get DOI or external ID
+            let doi = '';
+            let doiUrl = '';
+            if (work['external-ids'] && work['external-ids']['external-id']) {
+                const externalIds = work['external-ids']['external-id'];
+                const doiId = externalIds.find(id => id['external-id-type'] === 'doi');
+                if (doiId) {
+                    doi = doiId['external-id-value'];
+                    doiUrl = doiId['external-id-url']?.value || `https://doi.org/${doi}`;
+                }
+            }
+
+            let html = `
+                <div class="publication-item">
+                    ${year ? `<div class="pub-year">${year}</div>` : ''}
+                    <h4>${escapeHtml(title)}</h4>
+            `;
+
+            if (journalTitle) {
+                html += `<div class="journal-info">${escapeHtml(journalTitle)}</div>`;
+            }
+
+            if (type) {
+                html += `<div style="color: #888; font-size: 0.9rem; margin-top: 0.5rem;">Type: ${formatType(type)}</div>`;
+            }
+
+            if (doiUrl) {
+                html += `<a href="${escapeHtml(doiUrl)}" target="_blank" class="doi-link">View Publication →</a>`;
+            }
+
+            html += `</div>`;
+            return html;
+        }
+
+        function getPublicationYear(workGroup) {
+            let work;
+            if (workGroup['work-summary']) {
+                work = workGroup['work-summary'][0];
+            } else {
+                work = workGroup;
+            }
+
+            if (work['publication-date']) {
+                return work['publication-date'].year?.value || '';
+            }
+            return '';
+        }
+
+        function formatType(type) {
+            // Convert type string to readable format
+            return type.toLowerCase()
+                .split('-')
+                .map(word => word.charAt(0).toUpperCase() + word.slice(1))
+                .join(' ');
+        }
+
+        function escapeHtml(text) {
+            const div = document.createElement('div');
+            div.textContent = text;
+            return div.innerHTML;
+        }
     </script>
 </body>
 </html>
