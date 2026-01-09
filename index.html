@@ -595,6 +595,65 @@
             box-shadow: var(--card-shadow);
         }
 
+        /* Social Media Styles */
+        .social-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1.5rem;
+            margin-top: 2rem;
+        }
+
+        .social-link {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            padding: 1.5rem;
+            background: var(--white);
+            border: 2px solid var(--medium-gray);
+            border-radius: 8px;
+            text-decoration: none;
+            transition: all 0.3s;
+            color: var(--dark-gray);
+        }
+
+        .social-link:hover {
+            transform: translateY(-4px);
+            box-shadow: var(--card-shadow);
+        }
+
+        .social-link.instagram:hover {
+            border-color: #E4405F;
+            background: linear-gradient(135deg, rgba(228, 64, 95, 0.05) 0%, rgba(251, 173, 80, 0.05) 100%);
+        }
+
+        .social-link.bluesky:hover {
+            border-color: #1185FE;
+            background: rgba(17, 133, 254, 0.05);
+        }
+
+        .social-link.linkedin:hover {
+            border-color: #0A66C2;
+            background: rgba(10, 102, 194, 0.05);
+        }
+
+        .social-icon {
+            font-size: 2rem;
+            min-width: 40px;
+            text-align: center;
+        }
+
+        .social-info h3 {
+            margin: 0 0 0.25rem 0;
+            color: var(--primary-green);
+            font-size: 1.1rem;
+        }
+
+        .social-info p {
+            margin: 0;
+            font-size: 0.9rem;
+            color: #666;
+        }
+
         /* Footer */
         footer {
             background: var(--dark-gray);
@@ -927,7 +986,7 @@
                 <h2>Blog & Writing</h2>
                 <p>I write about health equity, population health research, and the intersection of science and policy on my Substack, <strong>Not Being Green</strong>.</p>
                 <div class="btn-group">
-                    <a href="https://notbeinggreen.com" class="substack-badge" target="_blank">
+                    <a href="https://www.notbeinggreen.com" class="substack-badge" target="_blank">
                         📝 Visit Not Being Green on Substack
                     </a>
                 </div>
@@ -976,6 +1035,37 @@
         <!-- Contact Section -->
         <section id="contact">
             <div class="card">
+                <h2>Connect With Me</h2>
+                <p>Follow my work and connect with me on social media for updates on research, health equity discussions, and insights from population health sciences.</p>
+
+                <div class="social-grid">
+                    <a href="https://www.instagram.com/michaeldgreenphd/" target="_blank" class="social-link instagram">
+                        <div class="social-icon">📷</div>
+                        <div class="social-info">
+                            <h3>Instagram</h3>
+                            <p>@michaeldgreenphd</p>
+                        </div>
+                    </a>
+
+                    <a href="https://bsky.app/profile/michaeldgreen.phd" target="_blank" class="social-link bluesky">
+                        <div class="social-icon">🦋</div>
+                        <div class="social-info">
+                            <h3>Bluesky</h3>
+                            <p>michaeldgreen.phd</p>
+                        </div>
+                    </a>
+
+                    <a href="https://www.linkedin.com/in/michaeldgreenphd" target="_blank" class="social-link linkedin">
+                        <div class="social-icon">💼</div>
+                        <div class="social-info">
+                            <h3>LinkedIn</h3>
+                            <p>michaeldgreenphd</p>
+                        </div>
+                    </a>
+                </div>
+            </div>
+
+            <div class="card">
                 <h2>Get in Touch</h2>
                 <p>I'm always interested in connecting with fellow researchers, collaborators, and those interested in health equity research. Feel free to reach out through any of the channels below.</p>
             </div>
@@ -993,7 +1083,7 @@
 
                 <div class="contact-item">
                     <h3>LinkedIn</h3>
-                    <p><a href="#" target="_blank">Connect on LinkedIn</a></p>
+                    <p><a href="https://www.linkedin.com/in/michaeldgreenphd" target="_blank">Connect on LinkedIn</a></p>
                 </div>
 
                 <div class="contact-item">
@@ -1082,7 +1172,7 @@
         const ORCID_API_BASE = 'https://pub.orcid.org/v3.0';
 
         // Substack Integration
-        const SUBSTACK_URL = 'notbeinggreen.com';
+        const SUBSTACK_URL = 'www.notbeinggreen.com';
         const RSS_FEED_URL = `https://${SUBSTACK_URL}/feed`;
 
         // Fetch publications when Publications tab is clicked
@@ -1241,7 +1331,7 @@
                 const data = await response.json();
 
                 if (data.status !== 'ok' || !data.items || data.items.length === 0) {
-                    substackPosts.innerHTML = '<p>No recent posts found. <a href="https://notbeinggreen.com" target="_blank">Visit the blog directly →</a></p>';
+                    substackPosts.innerHTML = '<p>No recent posts found. <a href="https://www.notbeinggreen.com" target="_blank">Visit the blog directly →</a></p>';
                     return;
                 }
 
@@ -1259,7 +1349,7 @@
                     <div class="error-message">
                         <strong>Unable to load recent posts</strong><br>
                         There was an error fetching posts from Substack. Please visit
-                        <a href="https://notbeinggreen.com" target="_blank" style="color: #c62828; font-weight: 600;">Not Being Green</a> directly to read the latest posts.
+                        <a href="https://www.notbeinggreen.com" target="_blank" style="color: #c62828; font-weight: 600;">Not Being Green</a> directly to read the latest posts.
                     </div>
                 `;
             }
