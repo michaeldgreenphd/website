@@ -1,0 +1,858 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Michael D. Green, PhD - Population Health Sciences</title>
+
+    <style>
+        :root {
+            --primary-green: #2E7D32;
+            --light-green: #4CAF50;
+            --accent-blue: #1976D2;
+            --light-gray: #F5F5F5;
+            --medium-gray: #E0E0E0;
+            --dark-gray: #333333;
+            --white: #FFFFFF;
+            --card-shadow: 0 2px 8px rgba(0,0,0,0.08);
+            --hover-shadow: 0 4px 16px rgba(0,0,0,0.12);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+            line-height: 1.6;
+            color: var(--dark-gray);
+            background: linear-gradient(135deg, var(--white) 0%, var(--light-gray) 100%);
+            min-height: 100vh;
+        }
+
+        /* Header */
+        header {
+            background: var(--white);
+            border-bottom: 3px solid var(--primary-green);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+        }
+
+        nav {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 1rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+
+        .logo {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--primary-green);
+            text-decoration: none;
+            transition: opacity 0.3s;
+        }
+
+        .logo:hover {
+            opacity: 0.8;
+        }
+
+        .nav-links {
+            display: flex;
+            list-style: none;
+            gap: 2rem;
+        }
+
+        .nav-links a {
+            text-decoration: none;
+            color: var(--dark-gray);
+            font-weight: 500;
+            padding: 0.5rem 1rem;
+            border-radius: 4px;
+            transition: all 0.3s;
+            position: relative;
+        }
+
+        .nav-links a:hover {
+            color: var(--primary-green);
+            background: rgba(46, 125, 50, 0.05);
+        }
+
+        .nav-links a.active {
+            color: var(--primary-green);
+        }
+
+        .nav-links a.active::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 1rem;
+            right: 1rem;
+            height: 3px;
+            background: var(--primary-green);
+            border-radius: 2px;
+        }
+
+        /* Container */
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 3rem 2rem;
+        }
+
+        /* Hero Section */
+        .hero {
+            display: grid;
+            grid-template-columns: 300px 1fr;
+            gap: 3rem;
+            align-items: center;
+            margin-bottom: 3rem;
+        }
+
+        .profile-image-container {
+            width: 300px;
+            height: 300px;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: var(--card-shadow);
+            border: 3px solid var(--primary-green);
+            background: var(--medium-gray);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 3rem;
+            color: var(--primary-green);
+        }
+
+        .profile-image {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .hero-content h1 {
+            font-size: 2.5rem;
+            color: var(--dark-gray);
+            margin-bottom: 0.5rem;
+        }
+
+        .hero-content .subtitle {
+            color: var(--primary-green);
+            font-size: 1.25rem;
+            margin-bottom: 1rem;
+            font-weight: 500;
+        }
+
+        .hero-content .affiliation {
+            color: #666;
+            margin-bottom: 1.5rem;
+            line-height: 1.8;
+        }
+
+        /* Cards */
+        .card {
+            background: var(--white);
+            border-radius: 8px;
+            padding: 2rem;
+            margin-bottom: 2rem;
+            box-shadow: var(--card-shadow);
+            border-left: 4px solid var(--primary-green);
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+
+        .card:hover {
+            transform: translateY(-2px);
+            box-shadow: var(--hover-shadow);
+        }
+
+        .card h2 {
+            color: var(--primary-green);
+            margin-bottom: 1.5rem;
+            font-size: 1.75rem;
+        }
+
+        .card h3 {
+            color: var(--dark-gray);
+            margin-top: 2rem;
+            margin-bottom: 1rem;
+            font-size: 1.25rem;
+        }
+
+        .card h3:first-of-type {
+            margin-top: 1.5rem;
+        }
+
+        .card p {
+            margin-bottom: 1rem;
+            line-height: 1.8;
+        }
+
+        .card ul {
+            margin-left: 1.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .card ul li {
+            margin-bottom: 0.5rem;
+            line-height: 1.8;
+        }
+
+        /* Research Items */
+        .research-item {
+            padding: 1.5rem;
+            background: linear-gradient(135deg, var(--white) 0%, rgba(46, 125, 50, 0.02) 100%);
+            border-radius: 6px;
+            margin-bottom: 1.5rem;
+            border: 1px solid rgba(46, 125, 50, 0.1);
+            transition: all 0.3s;
+        }
+
+        .research-item:hover {
+            border-color: rgba(46, 125, 50, 0.3);
+            box-shadow: var(--card-shadow);
+        }
+
+        .research-item h4 {
+            color: var(--primary-green);
+            margin-bottom: 0.75rem;
+            font-size: 1.1rem;
+        }
+
+        .research-item .journal {
+            color: #666;
+            font-style: italic;
+            margin-bottom: 0.5rem;
+        }
+
+        .research-item .authors {
+            font-size: 0.9rem;
+            color: #555;
+            line-height: 1.6;
+        }
+
+        .research-item .description {
+            margin-top: 0.75rem;
+            color: var(--dark-gray);
+            line-height: 1.7;
+        }
+
+        /* Buttons */
+        .btn {
+            display: inline-block;
+            padding: 0.75rem 1.5rem;
+            background: var(--primary-green);
+            color: var(--white);
+            text-decoration: none;
+            border-radius: 4px;
+            font-weight: 500;
+            transition: all 0.3s;
+            border: 2px solid var(--primary-green);
+            cursor: pointer;
+        }
+
+        .btn:hover {
+            background: transparent;
+            color: var(--primary-green);
+            transform: translateY(-2px);
+            box-shadow: var(--card-shadow);
+        }
+
+        .btn-outline {
+            background: transparent;
+            color: var(--primary-green);
+            border: 2px solid var(--primary-green);
+        }
+
+        .btn-outline:hover {
+            background: var(--primary-green);
+            color: var(--white);
+        }
+
+        .btn-group {
+            margin-top: 2rem;
+            display: flex;
+            gap: 1rem;
+            flex-wrap: wrap;
+        }
+
+        /* Contact Grid */
+        .contact-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+            margin-top: 2rem;
+        }
+
+        .contact-item {
+            padding: 2rem;
+            background: rgba(46, 125, 50, 0.05);
+            border-radius: 8px;
+            transition: all 0.3s;
+            text-align: center;
+            border: 2px solid transparent;
+        }
+
+        .contact-item:hover {
+            background: rgba(46, 125, 50, 0.1);
+            border-color: var(--primary-green);
+            transform: translateY(-4px);
+        }
+
+        .contact-item h3 {
+            color: var(--primary-green);
+            margin: 0 0 1rem 0;
+            font-size: 1.1rem;
+        }
+
+        .contact-item p {
+            margin: 0;
+            color: var(--dark-gray);
+        }
+
+        .contact-item a {
+            color: var(--primary-green);
+            text-decoration: none;
+            font-weight: 500;
+            transition: opacity 0.3s;
+        }
+
+        .contact-item a:hover {
+            opacity: 0.7;
+            text-decoration: underline;
+        }
+
+        /* Education/CV Timeline */
+        .timeline-item {
+            padding: 1.5rem;
+            border-left: 3px solid var(--primary-green);
+            margin-bottom: 2rem;
+            margin-left: 1rem;
+            background: rgba(46, 125, 50, 0.02);
+            border-radius: 4px;
+        }
+
+        .timeline-item h4 {
+            color: var(--primary-green);
+            margin-bottom: 0.5rem;
+        }
+
+        .timeline-item .institution {
+            font-weight: 600;
+            color: var(--dark-gray);
+            margin-bottom: 0.25rem;
+        }
+
+        .timeline-item .period {
+            color: #666;
+            font-size: 0.9rem;
+            margin-bottom: 0.75rem;
+        }
+
+        .timeline-item p {
+            margin: 0;
+            line-height: 1.7;
+        }
+
+        /* Media Items */
+        .media-item {
+            padding: 1.5rem;
+            background: var(--white);
+            border: 1px solid var(--medium-gray);
+            border-radius: 6px;
+            margin-bottom: 1.5rem;
+            transition: all 0.3s;
+        }
+
+        .media-item:hover {
+            box-shadow: var(--card-shadow);
+            border-color: var(--primary-green);
+        }
+
+        .media-item h4 {
+            color: var(--primary-green);
+            margin-bottom: 0.5rem;
+        }
+
+        .media-item .source {
+            color: #666;
+            font-size: 0.9rem;
+            margin-bottom: 0.75rem;
+        }
+
+        .media-item p {
+            margin: 0;
+        }
+
+        .media-item a {
+            color: var(--accent-blue);
+            text-decoration: none;
+            font-weight: 500;
+        }
+
+        .media-item a:hover {
+            text-decoration: underline;
+        }
+
+        /* Footer */
+        footer {
+            background: var(--dark-gray);
+            color: var(--white);
+            text-align: center;
+            padding: 2rem;
+            margin-top: 4rem;
+        }
+
+        footer p {
+            margin: 0;
+        }
+
+        /* Section visibility */
+        section {
+            display: none;
+            animation: fadeIn 0.3s ease-in;
+        }
+
+        section.active {
+            display: block;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Subtle medical accent */
+        .medical-accent {
+            position: fixed;
+            top: 50%;
+            right: -100px;
+            width: 200px;
+            height: 200px;
+            background: linear-gradient(45deg, rgba(46, 125, 50, 0.03) 0%, transparent 70%);
+            border-radius: 50%;
+            z-index: -1;
+        }
+
+        /* Mobile Menu Toggle */
+        .menu-toggle {
+            display: none;
+            background: none;
+            border: none;
+            font-size: 1.5rem;
+            color: var(--primary-green);
+            cursor: pointer;
+        }
+
+        /* Mobile Responsiveness */
+        @media (max-width: 768px) {
+            nav {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+
+            .menu-toggle {
+                display: block;
+                position: absolute;
+                top: 1.5rem;
+                right: 2rem;
+            }
+
+            .nav-links {
+                flex-direction: column;
+                gap: 0;
+                width: 100%;
+                max-height: 0;
+                overflow: hidden;
+                transition: max-height 0.3s ease;
+            }
+
+            .nav-links.active {
+                max-height: 500px;
+                margin-top: 1rem;
+            }
+
+            .nav-links li {
+                width: 100%;
+            }
+
+            .nav-links a {
+                display: block;
+                padding: 1rem;
+            }
+
+            .hero {
+                grid-template-columns: 1fr;
+                text-align: center;
+                gap: 2rem;
+            }
+
+            .profile-image-container {
+                margin: 0 auto;
+            }
+
+            .hero-content h1 {
+                font-size: 2rem;
+            }
+
+            .btn-group {
+                justify-content: center;
+            }
+
+            .contact-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Subtle medical accent -->
+    <div class="medical-accent"></div>
+
+    <!-- Navigation -->
+    <header>
+        <nav>
+            <a href="#home" class="logo">Michael D. Green, PhD</a>
+            <button class="menu-toggle" aria-label="Toggle menu">☰</button>
+            <ul class="nav-links">
+                <li><a href="#home" class="nav-link active" data-section="home">Home</a></li>
+                <li><a href="#research" class="nav-link" data-section="research">Research</a></li>
+                <li><a href="#cv" class="nav-link" data-section="cv">CV</a></li>
+                <li><a href="#media" class="nav-link" data-section="media">Media & Outreach</a></li>
+                <li><a href="#contact" class="nav-link" data-section="contact">Contact</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <!-- Main Content -->
+    <div class="container">
+        <!-- Home Section -->
+        <section id="home" class="active">
+            <div class="hero">
+                <div class="profile-image-container">
+                    <!-- Replace the content below with: <img src="your-photo.jpg" alt="Michael D. Green, PhD" class="profile-image"> -->
+                    <span>MDG</span>
+                </div>
+                <div class="hero-content">
+                    <h1>Michael D. Green, PhD</h1>
+                    <p class="subtitle">Population Health Sciences Researcher</p>
+                    <p class="affiliation">
+                        Postdoctoral Fellow<br>
+                        Johns Hopkins Bloomberg School of Public Health
+                    </p>
+                    <p>Investigating healthcare discrimination, cardiovascular health disparities, and cognitive aging through rigorous epidemiological methods and health equity frameworks.</p>
+                    <div class="btn-group">
+                        <a href="#research" class="btn nav-link" data-section="research">View Research</a>
+                        <a href="#contact" class="btn-outline nav-link" data-section="contact">Get in Touch</a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card">
+                <h2>About My Work</h2>
+                <p>I recently completed my PhD in Population Health Sciences at Duke University School of Medicine, where my dissertation "Getting to the Heart of Discrimination in Healthcare" examined measurement tools, patient-provider interactions, and cardiovascular outcomes associated with healthcare discrimination.</p>
+
+                <p>Currently, I'm transitioning to a postdoctoral position at Johns Hopkins through an F99/K00 fellowship, shifting my research focus from cardiovascular to cognitive health and Alzheimer's disease/related dementias (AD/ADRD).</p>
+
+                <p>My work combines advanced epidemiological methods with health equity frameworks to understand and address disparities in healthcare access and outcomes. I'm particularly interested in how experiences of discrimination influence health behaviors, healthcare utilization, and long-term health outcomes across diverse populations.</p>
+            </div>
+        </section>
+
+        <!-- Research Section -->
+        <section id="research">
+            <div class="card">
+                <h2>Research Focus</h2>
+                <p>My research examines the intersection of healthcare discrimination and health outcomes, with particular emphasis on cardiovascular and cognitive health disparities. I employ mixed-methods approaches and advanced quantitative techniques to understand how systemic inequities manifest in health outcomes.</p>
+
+                <h3>Current Research Areas</h3>
+
+                <div class="research-item">
+                    <h4>Healthcare Discrimination Measurement</h4>
+                    <p class="description">Systematic review and psychometric evaluation of discrimination measurement instruments in healthcare settings following PRISMA-COSMIN guidelines. This work aims to establish best practices for assessing patient experiences of discrimination and their health impacts.</p>
+                </div>
+
+                <div class="research-item">
+                    <h4>Patient-Provider Interactions</h4>
+                    <p class="description">Longitudinal analysis of associations between discrimination experiences and healthcare utilization patterns using the Health and Retirement Study. Investigating how experiences of discrimination shape patient engagement with the healthcare system over time.</p>
+                </div>
+
+                <div class="research-item">
+                    <h4>Cardiovascular Health Disparities</h4>
+                    <p class="description">Group-based trajectory modeling and survival analysis examining relationships between healthcare discrimination and cardiovascular outcomes. Exploring how discrimination experiences contribute to disparate cardiovascular disease burden across populations.</p>
+                </div>
+
+                <div class="research-item">
+                    <h4>Cognitive Aging & Dementia</h4>
+                    <p class="description">Emerging research focus on Alzheimer's disease and related dementias (AD/ADRD), investigating how social determinants of health and discrimination experiences influence cognitive aging trajectories and dementia risk.</p>
+                </div>
+            </div>
+
+            <div class="card">
+                <h2>Selected Publications</h2>
+                <p><em>A comprehensive list of publications will be added here. This section will be automatically updated with new publications in future updates.</em></p>
+
+                <!-- Example publication format - replace with actual publications -->
+                <div class="research-item">
+                    <h4>Dissertation: Getting to the Heart of Discrimination in Healthcare</h4>
+                    <p class="journal">Duke University, 2024</p>
+                    <p class="authors">Michael D. Green</p>
+                    <p class="description">Three-paper dissertation examining healthcare discrimination through measurement validation, longitudinal analysis of patient-provider interactions, and cardiovascular outcomes.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- CV Section -->
+        <section id="cv">
+            <div class="card">
+                <h2>Curriculum Vitae</h2>
+                <p>Download my complete CV for detailed information about my education, research experience, publications, presentations, and awards.</p>
+                <div class="btn-group">
+                    <a href="cv.pdf" class="btn" target="_blank">Download Full CV (PDF)</a>
+                </div>
+            </div>
+
+            <div class="card">
+                <h2>Education</h2>
+
+                <div class="timeline-item">
+                    <h4>PhD, Population Health Sciences</h4>
+                    <p class="institution">Duke University School of Medicine</p>
+                    <p class="period">2024</p>
+                    <p>Dissertation: "Getting to the Heart of Discrimination in Healthcare"</p>
+                </div>
+
+                <!-- Add your other degrees here -->
+                <div class="timeline-item">
+                    <h4>Master's Degree</h4>
+                    <p class="institution">Your Institution</p>
+                    <p class="period">Year</p>
+                    <p>Add relevant details about your master's program</p>
+                </div>
+
+                <div class="timeline-item">
+                    <h4>Bachelor's Degree</h4>
+                    <p class="institution">Your Institution</p>
+                    <p class="period">Year</p>
+                    <p>Add relevant details about your undergraduate education</p>
+                </div>
+            </div>
+
+            <div class="card">
+                <h2>Academic Positions</h2>
+
+                <div class="timeline-item">
+                    <h4>Postdoctoral Fellow</h4>
+                    <p class="institution">Johns Hopkins Bloomberg School of Public Health</p>
+                    <p class="period">2024 - Present</p>
+                    <p>F99/K00 Fellowship - Focus on cognitive health and Alzheimer's disease/related dementias (AD/ADRD)</p>
+                </div>
+            </div>
+
+            <div class="card">
+                <h2>Honors & Awards</h2>
+                <ul>
+                    <li><strong>Best Student Paper Award</strong> - Gerontological Society of America, 2025</li>
+                    <li><strong>F99/K00 Predoctoral to Postdoctoral Fellowship</strong> - National Institute on Aging (NIA), NIH</li>
+                    <li>Additional awards and honors can be added here</li>
+                </ul>
+            </div>
+
+            <div class="card">
+                <h2>Research Expertise</h2>
+                <h3>Methods</h3>
+                <ul>
+                    <li>Longitudinal data analysis</li>
+                    <li>Group-based trajectory modeling</li>
+                    <li>Survival analysis</li>
+                    <li>Psychometric evaluation</li>
+                    <li>Mixed-methods research</li>
+                    <li>Systematic reviews (PRISMA-COSMIN)</li>
+                </ul>
+
+                <h3>Research Areas</h3>
+                <ul>
+                    <li>Health equity and disparities</li>
+                    <li>Healthcare discrimination</li>
+                    <li>Cardiovascular epidemiology</li>
+                    <li>Cognitive aging and dementia</li>
+                    <li>Social determinants of health</li>
+                    <li>Patient-provider interactions</li>
+                </ul>
+            </div>
+        </section>
+
+        <!-- Media & Outreach Section -->
+        <section id="media">
+            <div class="card">
+                <h2>Media & Public Engagement</h2>
+                <p>I'm committed to translating research findings into accessible information for diverse audiences and contributing to public discourse on health equity and healthcare disparities.</p>
+            </div>
+
+            <div class="card">
+                <h2>Blog & Writing</h2>
+                <p>Follow my Substack for regular updates on health equity research, policy implications, and insights from population health sciences.</p>
+                <div class="btn-group">
+                    <a href="#" class="btn-outline" target="_blank">Visit My Substack</a>
+                </div>
+
+                <h3>Recent Posts</h3>
+                <p><em>Latest blog posts will appear here. This section will be automatically updated with new Substack posts in future updates.</em></p>
+            </div>
+
+            <div class="card">
+                <h2>Media Appearances & Interviews</h2>
+
+                <!-- Example media item - replace with actual appearances -->
+                <div class="media-item">
+                    <h4>Media Appearance Title</h4>
+                    <p class="source">Publication/Outlet Name, Date</p>
+                    <p>Brief description of the interview or article. <a href="#" target="_blank">Read more →</a></p>
+                </div>
+
+                <p><em>Add your media appearances, interviews, and press coverage here.</em></p>
+            </div>
+
+            <div class="card">
+                <h2>Public Speaking & Presentations</h2>
+                <p>I regularly present my research at academic conferences and public forums. Recent presentations include:</p>
+                <ul>
+                    <li>Gerontological Society of America Annual Meeting, 2025</li>
+                    <li>Add other conferences and presentations here</li>
+                </ul>
+            </div>
+
+            <div class="card">
+                <h2>Science Communication</h2>
+                <p>I believe in making research accessible and engaging for broad audiences. I'm available for:</p>
+                <ul>
+                    <li>Speaking engagements on health equity and population health</li>
+                    <li>Media interviews and commentary</li>
+                    <li>Podcast appearances</li>
+                    <li>Educational webinars and workshops</li>
+                </ul>
+                <p><a href="#contact" class="btn-outline nav-link" data-section="contact">Contact me for speaking opportunities</a></p>
+            </div>
+        </section>
+
+        <!-- Contact Section -->
+        <section id="contact">
+            <div class="card">
+                <h2>Get in Touch</h2>
+                <p>I'm always interested in connecting with fellow researchers, collaborators, and those interested in health equity research. Feel free to reach out through any of the channels below.</p>
+            </div>
+
+            <div class="contact-grid">
+                <div class="contact-item">
+                    <h3>Email</h3>
+                    <p><a href="mailto:your.email@jhu.edu">your.email@jhu.edu</a></p>
+                </div>
+
+                <div class="contact-item">
+                    <h3>Google Scholar</h3>
+                    <p><a href="#" target="_blank">View Profile</a></p>
+                </div>
+
+                <div class="contact-item">
+                    <h3>LinkedIn</h3>
+                    <p><a href="#" target="_blank">Connect on LinkedIn</a></p>
+                </div>
+
+                <div class="contact-item">
+                    <h3>Twitter/X</h3>
+                    <p><a href="#" target="_blank">Follow @yourhandle</a></p>
+                </div>
+            </div>
+
+            <div class="card">
+                <h2>Institutional Affiliation</h2>
+                <p>
+                    <strong>Johns Hopkins Bloomberg School of Public Health</strong><br>
+                    Department of Epidemiology<br>
+                    615 N. Wolfe Street<br>
+                    Baltimore, MD 21205
+                </p>
+            </div>
+
+            <div class="card">
+                <h2>Collaboration Interests</h2>
+                <p>I'm particularly interested in collaborations involving:</p>
+                <ul>
+                    <li>Health equity and disparities research</li>
+                    <li>Cognitive aging and dementia prevention</li>
+                    <li>Healthcare discrimination and bias</li>
+                    <li>Social determinants of health</li>
+                    <li>Community-engaged research</li>
+                    <li>Methodological innovations in epidemiology</li>
+                </ul>
+            </div>
+        </section>
+    </div>
+
+    <!-- Footer -->
+    <footer>
+        <p>&copy; 2024 Michael D. Green, PhD. All rights reserved.</p>
+    </footer>
+
+    <!-- Navigation Script -->
+    <script>
+        // Section navigation
+        const navLinks = document.querySelectorAll('.nav-link');
+        const sections = document.querySelectorAll('section');
+
+        navLinks.forEach(link => {
+            link.addEventListener('click', function(e) {
+                e.preventDefault();
+
+                // Remove active class from all links and sections
+                navLinks.forEach(l => l.classList.remove('active'));
+                sections.forEach(s => s.classList.remove('active'));
+
+                // Add active class to clicked link
+                this.classList.add('active');
+
+                // Show corresponding section
+                const sectionId = this.getAttribute('data-section');
+                document.getElementById(sectionId).classList.add('active');
+
+                // Close mobile menu if open
+                const navLinksContainer = document.querySelector('.nav-links');
+                navLinksContainer.classList.remove('active');
+
+                // Scroll to top smoothly
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+            });
+        });
+
+        // Mobile menu toggle
+        const menuToggle = document.querySelector('.menu-toggle');
+        const navLinksContainer = document.querySelector('.nav-links');
+
+        menuToggle.addEventListener('click', function() {
+            navLinksContainer.classList.toggle('active');
+        });
+
+        // Close mobile menu when clicking outside
+        document.addEventListener('click', function(e) {
+            if (!e.target.closest('nav')) {
+                navLinksContainer.classList.remove('active');
+            }
+        });
+    </script>
+</body>
+</html>
