@@ -987,8 +987,18 @@
                 <p>I write about health equity, population health research, and the intersection of science and policy on my Substack, <strong>Not Being Green</strong>.</p>
                 <div class="btn-group">
                     <a href="https://www.notbeinggreen.com" class="substack-badge" target="_blank">
-                        📝 Visit Not Being Green on Substack
+                        📝 Visit Not Being Green
                     </a>
+                    <button id="subscribe-btn" class="btn" onclick="showSubscribeForm()">
+                        ✉️ Subscribe to Newsletter
+                    </button>
+                </div>
+
+                <!-- Substack Subscribe Embed -->
+                <div id="subscribe-form" style="display: none; margin-top: 2rem; padding: 2rem; background: rgba(46, 125, 50, 0.05); border-radius: 8px; border: 2px solid var(--primary-green);">
+                    <h3 style="color: var(--primary-green); margin-top: 0;">Subscribe to Not Being Green</h3>
+                    <p>Get the latest posts delivered right to your inbox</p>
+                    <iframe src="https://www.notbeinggreen.com/embed" width="100%" height="320" style="border:1px solid #EEE; background:white; border-radius: 4px;" frameborder="0" scrolling="no"></iframe>
                 </div>
 
                 <h3>Recent Posts</h3>
@@ -1316,43 +1326,97 @@
             return div.innerHTML;
         }
 
-        // Substack Posts Fetching
+        // Subscribe form toggle
+        function showSubscribeForm() {
+            const form = document.getElementById('subscribe-form');
+            const btn = document.getElementById('subscribe-btn');
+            if (form.style.display === 'none') {
+                form.style.display = 'block';
+                btn.textContent = '✉️ Hide Subscribe Form';
+                form.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+            } else {
+                form.style.display = 'none';
+                btn.textContent = '✉️ Subscribe to Newsletter';
+            }
+        }
+
+        // Substack Posts Fetching - Try multiple methods
         async function fetchSubstackPosts() {
             const substackPosts = document.getElementById('substack-posts');
 
             try {
-                // Use RSS2JSON API to convert RSS feed to JSON
-                const response = await fetch(`https://api.rss2json.com/v1/api.json?rss_url=${encodeURIComponent(RSS_FEED_URL)}&count=5`);
+                // Try method 1: RSS2JSON API
+                let response = await fetch(`https://api.rss2json.com/v1/api.json?rss_url=${encodeURIComponent(RSS_FEED_URL)}&count=5&api_key=YOUR_API_KEY`);
 
                 if (!response.ok) {
-                    throw new Error('Failed to fetch Substack posts');
+                    // Try method 2: CORS proxy
+                    response = await fetch(`https://api.allorigins.win/get?url=${encodeURIComponent(RSS_FEED_URL)}`);
+
+                    if (response.ok) {
+                        const proxyData = await response.json();
+                        const parser = new DOMParser();
+                        const xmlDoc = parser.parseFromString(proxyData.contents, "text/xml");
+                        displayPostsFromXML(xmlDoc, substackPosts);
+                        return;
+                    }
                 }
 
                 const data = await response.json();
 
-                if (data.status !== 'ok' || !data.items || data.items.length === 0) {
-                    substackPosts.innerHTML = '<p>No recent posts found. <a href="https://www.notbeinggreen.com" target="_blank">Visit the blog directly →</a></p>';
-                    return;
+                if (data.status === 'ok' && data.items && data.items.length > 0) {
+                    // Display posts from RSS2JSON
+                    let html = '';
+                    data.items.slice(0, 5).forEach(post => {
+                        html += formatSubstackPost(post);
+                    });
+                    substackPosts.innerHTML = html;
+                } else {
+                    // Fallback: Show embedded iframe or direct link
+                    showFallbackPosts(substackPosts);
                 }
-
-                // Display posts
-                let html = '';
-                data.items.forEach(post => {
-                    html += formatSubstackPost(post);
-                });
-
-                substackPosts.innerHTML = html;
 
             } catch (error) {
                 console.error('Error fetching Substack posts:', error);
-                substackPosts.innerHTML = `
-                    <div class="error-message">
-                        <strong>Unable to load recent posts</strong><br>
-                        There was an error fetching posts from Substack. Please visit
-                        <a href="https://www.notbeinggreen.com" target="_blank" style="color: #c62828; font-weight: 600;">Not Being Green</a> directly to read the latest posts.
-                    </div>
-                `;
+                showFallbackPosts(substackPosts);
             }
+        }
+
+        function showFallbackPosts(container) {
+            container.innerHTML = `
+                <div style="padding: 2rem; background: rgba(46, 125, 50, 0.05); border-radius: 8px; text-align: center;">
+                    <p style="margin-bottom: 1.5rem; color: var(--dark-gray);">Visit <strong>Not Being Green</strong> to read the latest posts on health equity, population health research, and policy insights.</p>
+                    <a href="https://www.notbeinggreen.com/archive" target="_blank" class="btn" style="display: inline-block;">
+                        📚 Browse All Posts
+                    </a>
+                </div>
+            `;
+        }
+
+        function displayPostsFromXML(xmlDoc, container) {
+            const items = xmlDoc.querySelectorAll('item');
+            if (items.length === 0) {
+                showFallbackPosts(container);
+                return;
+            }
+
+            let html = '';
+            Array.from(items).slice(0, 5).forEach(item => {
+                const title = item.querySelector('title')?.textContent || 'Untitled';
+                const link = item.querySelector('link')?.textContent || '#';
+                const pubDate = item.querySelector('pubDate')?.textContent || '';
+                const description = item.querySelector('description')?.textContent || '';
+
+                const post = {
+                    title: title,
+                    link: link,
+                    pubDate: pubDate ? new Date(pubDate).toISOString() : '',
+                    description: description
+                };
+
+                html += formatSubstackPost(post);
+            });
+
+            container.innerHTML = html;
         }
 
         function formatSubstackPost(post) {
