@@ -514,14 +514,14 @@
         }
 
         .research-item .journal {
-            color: #666;
+            color: var(--text-secondary);
             font-style: italic;
             margin-bottom: 0.5rem;
         }
 
         .research-item .authors {
             font-size: 0.9rem;
-            color: #555;
+            color: var(--text-secondary);
             line-height: 1.6;
         }
 
@@ -671,7 +671,7 @@
         }
 
         .media-item .source {
-            color: #666;
+            color: var(--text-secondary);
             font-size: 0.9rem;
             margin-bottom: 0.75rem;
         }
@@ -696,11 +696,11 @@
             align-items: center;
             gap: 0.5rem;
             padding: 0.5rem 1rem;
-            background: #fff;
+            background: var(--white);
             border: 2px solid #A6CE39;
             border-radius: 4px;
             text-decoration: none;
-            color: #333;
+            color: var(--text-primary);
             font-weight: 500;
             transition: all 0.3s;
         }
@@ -738,7 +738,7 @@
         }
 
         .publication-item .journal-info {
-            color: #666;
+            color: var(--text-secondary);
             font-style: italic;
             margin-bottom: 0.5rem;
             font-size: 0.95rem;
@@ -747,7 +747,7 @@
         .publication-item .pub-year {
             display: inline-block;
             background: var(--primary-green);
-            color: white;
+            color: var(--white);
             padding: 0.25rem 0.75rem;
             border-radius: 4px;
             font-size: 0.85rem;
@@ -766,6 +766,12 @@
 
         .publication-item .doi-link:hover {
             text-decoration: underline;
+        }
+
+        .publication-item .pub-type {
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+            margin-top: 0.5rem;
         }
 
         .loading-spinner {
@@ -855,7 +861,7 @@
         }
 
         .substack-post .post-date {
-            color: #666;
+            color: var(--text-secondary);
             font-size: 0.9rem;
             margin-bottom: 0.75rem;
         }
@@ -955,7 +961,7 @@
         .social-info p {
             margin: 0;
             font-size: 0.9rem;
-            color: #666;
+            color: var(--text-secondary);
         }
 
         /* Footer */
@@ -1997,7 +2003,7 @@
             }
 
             if (type) {
-                html += `<div style="color: #888; font-size: 0.9rem; margin-top: 0.5rem;">Type: ${formatType(type)}</div>`;
+                html += `<div class="pub-type">Type: ${formatType(type)}</div>`;
             }
 
             if (doiUrl) {
