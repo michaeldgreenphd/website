@@ -139,88 +139,69 @@
             gap: 15px;
         }
 
-        /* Palm Tree (Jamaica) */
+        /* Palm Tree (Jamaica) - Custom SVG */
         .palm {
             position: relative;
-            width: 40px;
-            height: 80px;
+            width: 50px;
+            height: 90px;
             animation: sway 2s ease-in-out infinite;
         }
 
-        .palm::before {
-            content: '';
-            position: absolute;
-            bottom: 0;
-            left: 50%;
-            transform: translateX(-50%);
-            width: 4px;
-            height: 60px;
-            background: #52B788;
+        .palm svg {
+            width: 100%;
+            height: 100%;
         }
 
-        .palm::after {
-            content: '🌴';
-            position: absolute;
-            top: 0;
-            left: 50%;
-            transform: translateX(-50%);
-            font-size: 30px;
-            animation: growElement 1.8s ease-in-out infinite;
-        }
-
-        /* Hibiscus (Jamaica) */
+        /* Hibiscus (Jamaica) - Custom SVG */
         .hibiscus {
-            font-size: 35px;
+            width: 50px;
+            height: 50px;
             animation: bloom 2.2s ease-in-out infinite;
             animation-delay: 0.2s;
         }
 
-        .hibiscus::before {
-            content: '🌺';
+        .hibiscus svg {
+            width: 100%;
+            height: 100%;
         }
 
-        /* Crab */
+        /* Crab - Custom SVG */
         .crab {
-            font-size: 30px;
+            width: 55px;
+            height: 40px;
             animation: scuttle 2.5s ease-in-out infinite;
             animation-delay: 0.4s;
         }
 
-        .crab::before {
-            content: '🦀';
+        .crab svg {
+            width: 100%;
+            height: 100%;
         }
 
-        /* Pine Tree */
+        /* Pine Tree - Custom SVG */
         .pine {
-            position: relative;
-            width: 0;
-            height: 0;
-            border-left: 15px solid transparent;
-            border-right: 15px solid transparent;
-            border-bottom: 60px solid #52B788;
+            width: 45px;
+            height: 75px;
             animation: growTree 2s ease-in-out infinite;
             animation-delay: 0.6s;
         }
 
-        .pine::before {
-            content: '';
-            position: absolute;
-            bottom: -60px;
-            left: -5px;
-            width: 10px;
-            height: 15px;
-            background: #52B788;
+        .pine svg {
+            width: 100%;
+            height: 100%;
         }
 
-        /* White Oak */
+        /* White Oak - Custom SVG */
         .oak {
-            font-size: 35px;
+            width: 50px;
+            height: 50px;
             animation: rustle 2.3s ease-in-out infinite;
             animation-delay: 0.8s;
         }
 
-        .oak::before {
-            content: '🍂';
+        .oak svg {
+            width: 100%;
+            height: 100%;
         }
 
         @keyframes growTree {
@@ -1110,11 +1091,70 @@
     <!-- Page Loader -->
     <div id="page-loader">
         <div class="loader-forest">
-            <div class="palm"></div>
-            <div class="hibiscus"></div>
-            <div class="crab"></div>
-            <div class="pine"></div>
-            <div class="oak"></div>
+            <div class="palm">
+                <svg viewBox="0 0 50 90" xmlns="http://www.w3.org/2000/svg">
+                    <!-- Curved trunk -->
+                    <path d="M25 90 Q22 60 25 30" stroke="#52B788" stroke-width="3" fill="none" stroke-linecap="round"/>
+                    <!-- Fronds -->
+                    <path d="M25 25 Q15 15 10 10" stroke="#2D6A4F" stroke-width="2.5" fill="none" stroke-linecap="round"/>
+                    <path d="M25 25 Q20 12 18 5" stroke="#2D6A4F" stroke-width="2.5" fill="none" stroke-linecap="round"/>
+                    <path d="M25 25 Q28 12 32 5" stroke="#2D6A4F" stroke-width="2.5" fill="none" stroke-linecap="round"/>
+                    <path d="M25 25 Q35 15 40 10" stroke="#2D6A4F" stroke-width="2.5" fill="none" stroke-linecap="round"/>
+                    <path d="M25 25 Q25 10 25 3" stroke="#2D6A4F" stroke-width="2.5" fill="none" stroke-linecap="round"/>
+                </svg>
+            </div>
+            <div class="hibiscus">
+                <svg viewBox="0 0 50 50" xmlns="http://www.w3.org/2000/svg">
+                    <!-- Center -->
+                    <circle cx="25" cy="25" r="4" fill="#3d5a4a"/>
+                    <!-- 5 petals -->
+                    <ellipse cx="25" cy="12" rx="6" ry="12" fill="#52B788" opacity="0.9"/>
+                    <ellipse cx="38" cy="18" rx="6" ry="12" fill="#52B788" opacity="0.9" transform="rotate(72 25 25)"/>
+                    <ellipse cx="35" cy="35" rx="6" ry="12" fill="#52B788" opacity="0.9" transform="rotate(144 25 25)"/>
+                    <ellipse cx="15" cy="35" rx="6" ry="12" fill="#52B788" opacity="0.9" transform="rotate(216 25 25)"/>
+                    <ellipse cx="12" cy="18" rx="6" ry="12" fill="#52B788" opacity="0.9" transform="rotate(288 25 25)"/>
+                </svg>
+            </div>
+            <div class="crab">
+                <svg viewBox="0 0 55 40" xmlns="http://www.w3.org/2000/svg">
+                    <!-- Body -->
+                    <ellipse cx="27.5" cy="25" rx="12" ry="9" fill="#2D6A4F"/>
+                    <!-- Left claw -->
+                    <path d="M15 25 Q10 22 8 20 L6 18" stroke="#52B788" stroke-width="3" fill="none" stroke-linecap="round"/>
+                    <ellipse cx="6" cy="16" rx="4" ry="3" fill="#52B788"/>
+                    <!-- Right claw -->
+                    <path d="M40 25 Q45 22 47 20 L49 18" stroke="#52B788" stroke-width="3" fill="none" stroke-linecap="round"/>
+                    <ellipse cx="49" cy="16" rx="4" ry="3" fill="#52B788"/>
+                    <!-- Eyes -->
+                    <circle cx="22" cy="22" r="2.5" fill="#F5F5F5"/>
+                    <circle cx="33" cy="22" r="2.5" fill="#F5F5F5"/>
+                    <circle cx="22" cy="22" r="1.2" fill="#1a3d2e"/>
+                    <circle cx="33" cy="22" r="1.2" fill="#1a3d2e"/>
+                    <!-- Legs -->
+                    <line x1="18" y1="32" x2="15" y2="38" stroke="#2D6A4F" stroke-width="2" stroke-linecap="round"/>
+                    <line x1="23" y1="33" x2="21" y2="39" stroke="#2D6A4F" stroke-width="2" stroke-linecap="round"/>
+                    <line x1="32" y1="33" x2="34" y2="39" stroke="#2D6A4F" stroke-width="2" stroke-linecap="round"/>
+                    <line x1="37" y1="32" x2="40" y2="38" stroke="#2D6A4F" stroke-width="2" stroke-linecap="round"/>
+                </svg>
+            </div>
+            <div class="pine">
+                <svg viewBox="0 0 45 75" xmlns="http://www.w3.org/2000/svg">
+                    <!-- Tree layers -->
+                    <path d="M22.5 5 L10 25 L15 25 L5 40 L12 40 L2 55 L42 55 L32 40 L39 40 L29 25 L34 25 Z" fill="#2D6A4F"/>
+                    <!-- Trunk -->
+                    <rect x="18" y="55" width="8" height="20" fill="#3d5a4a"/>
+                </svg>
+            </div>
+            <div class="oak">
+                <svg viewBox="0 0 50 50" xmlns="http://www.w3.org/2000/svg">
+                    <!-- Oak leaf with lobes -->
+                    <path d="M25 5 Q22 8 20 12 Q18 10 15 12 Q16 16 18 20 Q15 22 12 25 Q15 28 18 30 Q16 34 15 38 Q18 40 20 38 Q22 42 25 45 Q28 42 30 38 Q32 40 35 38 Q34 34 32 30 Q35 28 38 25 Q35 22 32 20 Q34 16 35 12 Q32 10 30 12 Q28 8 25 5 Z" fill="#52B788" opacity="0.9"/>
+                    <!-- Veins -->
+                    <line x1="25" y1="5" x2="25" y2="45" stroke="#2D6A4F" stroke-width="1.5"/>
+                    <path d="M25 15 Q20 18 15 20" stroke="#2D6A4F" stroke-width="1" fill="none"/>
+                    <path d="M25 15 Q30 18 35 20" stroke="#2D6A4F" stroke-width="1" fill="none"/>
+                </svg>
+            </div>
         </div>
     </div>
 
@@ -1507,8 +1547,18 @@
                 <p>Outside of research, I stay active and creative through a mix of running, hiking, occasional film photography, and travel (a city with a subway or a mountain town).</p>
             </div>
 
-            <!-- LA Chargers Fan -->
+            <!-- Film Photography -->
             <div class="card" style="animation: fadeInUp 0.6s ease-out;">
+                <h3>Film Photography</h3>
+                <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.2rem; margin-top: 1.5rem; max-width: 900px; margin-left: auto; margin-right: auto;">
+                    <img src="film 1.png" alt="Mountain valley" style="width: 100%; height: auto; border-radius: 8px; box-shadow: var(--card-shadow); transition: transform 0.3s ease;" onmouseover="this.style.transform='translateY(-8px)'" onmouseout="this.style.transform='translateY(0)'">
+                    <img src="film 2.png" alt="Badlands" style="width: 100%; height: auto; border-radius: 8px; box-shadow: var(--card-shadow); transition: transform 0.3s ease;" onmouseover="this.style.transform='translateY(-8px)'" onmouseout="this.style.transform='translateY(0)'">
+                    <img src="film 3.png" alt="Coastal resort" style="width: 100%; height: auto; border-radius: 8px; box-shadow: var(--card-shadow); transition: transform 0.3s ease;" onmouseover="this.style.transform='translateY(-8px)'" onmouseout="this.style.transform='translateY(0)'">
+                </div>
+            </div>
+
+            <!-- LA Chargers Fan -->
+            <div class="card" style="animation: fadeInUp 0.6s ease-out 0.1s; animation-fill-mode: backwards;">
                 <h3>Die-Hard Chargers Fan</h3>
                 <div style="text-align: center; margin-top: 1.5rem; max-width: 700px; margin-left: auto; margin-right: auto;">
                     <img src="chargers sofi.png" alt="At SoFi Stadium" style="width: 100%; height: auto; border-radius: 8px; box-shadow: var(--card-shadow); transition: transform 0.3s ease;" onmouseover="this.style.transform='scale(1.02)'" onmouseout="this.style.transform='scale(1)'">
@@ -1517,7 +1567,7 @@
             </div>
 
             <!-- Running -->
-            <div class="card" style="animation: fadeInUp 0.6s ease-out 0.1s; animation-fill-mode: backwards;">
+            <div class="card" style="animation: fadeInUp 0.6s ease-out 0.2s; animation-fill-mode: backwards;">
                 <h3>Running</h3>
                 <div style="display: grid; grid-template-columns: 350px 1fr; gap: 2.5rem; align-items: start; margin-top: 1.5rem;">
                     <div style="text-align: center;">
@@ -1530,26 +1580,8 @@
                 </div>
             </div>
 
-            <!-- Photography -->
-            <div class="card" style="animation: fadeInUp 0.6s ease-out 0.2s; animation-fill-mode: backwards;">
-                <h3>Photography</h3>
-                <div style="text-align: center; margin-top: 1.5rem; max-width: 700px; margin-left: auto; margin-right: auto;">
-                    <img src="photography.png" alt="Photography at the loch" style="width: 100%; height: auto; border-radius: 8px; box-shadow: var(--card-shadow); transition: transform 0.3s ease, box-shadow 0.3s ease;" onmouseover="this.style.transform='scale(1.02)'; this.style.boxShadow='0 8px 24px rgba(0,0,0,0.15)'" onmouseout="this.style.transform='scale(1)'; this.style.boxShadow='var(--card-shadow)'">
-                </div>
-            </div>
-
-            <!-- Film Photography -->
-            <div class="card" style="animation: fadeInUp 0.6s ease-out 0.3s; animation-fill-mode: backwards;">
-                <h3>Film Photography</h3>
-                <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.2rem; margin-top: 1.5rem; max-width: 900px; margin-left: auto; margin-right: auto;">
-                    <img src="film 1.png" alt="Mountain valley" style="width: 100%; height: auto; border-radius: 8px; box-shadow: var(--card-shadow); transition: transform 0.3s ease;" onmouseover="this.style.transform='translateY(-8px)'" onmouseout="this.style.transform='translateY(0)'">
-                    <img src="film 2.png" alt="Badlands" style="width: 100%; height: auto; border-radius: 8px; box-shadow: var(--card-shadow); transition: transform 0.3s ease;" onmouseover="this.style.transform='translateY(-8px)'" onmouseout="this.style.transform='translateY(0)'">
-                    <img src="film 3.png" alt="Coastal resort" style="width: 100%; height: auto; border-radius: 8px; box-shadow: var(--card-shadow); transition: transform 0.3s ease;" onmouseover="this.style.transform='translateY(-8px)'" onmouseout="this.style.transform='translateY(0)'">
-                </div>
-            </div>
-
             <!-- Hiking -->
-            <div class="card" style="animation: fadeInUp 0.6s ease-out 0.4s; animation-fill-mode: backwards;">
+            <div class="card" style="animation: fadeInUp 0.6s ease-out 0.3s; animation-fill-mode: backwards;">
                 <h3>Hiking</h3>
                 <div style="display: grid; grid-template-columns: 400px 1fr; gap: 2rem; margin-top: 1.5rem; align-items: start;">
                     <img src="hiking 1.png" alt="Alpine hiking" style="width: 100%; height: auto; border-radius: 8px; box-shadow: var(--card-shadow); transition: transform 0.3s ease;" onmouseover="this.style.transform='scale(1.03)'" onmouseout="this.style.transform='scale(1)'">
@@ -1558,7 +1590,7 @@
             </div>
 
             <!-- Travel / City Scenes -->
-            <div class="card" style="animation: fadeInUp 0.6s ease-out 0.5s; animation-fill-mode: backwards;">
+            <div class="card" style="animation: fadeInUp 0.6s ease-out 0.4s; animation-fill-mode: backwards;">
                 <h3>Travel</h3>
                 <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 2rem; margin-top: 1.5rem; max-width: 900px; margin-left: auto; margin-right: auto;">
                     <img src="city 1.png" alt="Paris street scene" style="width: 100%; height: auto; border-radius: 8px; box-shadow: var(--card-shadow); transition: transform 0.3s ease;" onmouseover="this.style.transform='translateY(-5px) rotate(-1deg)'" onmouseout="this.style.transform='translateY(0) rotate(0deg)'">
