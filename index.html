@@ -791,6 +791,16 @@
             .contact-grid {
                 grid-template-columns: 1fr;
             }
+
+            /* For Fun section mobile responsiveness */
+            #forfun .card div[style*="grid-template-columns: 1fr 1fr"],
+            #forfun .card div[style*="grid-template-columns: repeat(3, 1fr)"] {
+                grid-template-columns: 1fr !important;
+            }
+
+            #forfun .nav-links.active {
+                max-height: 600px;
+            }
         }
     </style>
 </head>
@@ -809,6 +819,7 @@
                 <li><a href="#publications" class="nav-link" data-section="publications">Publications</a></li>
                 <li><a href="#cv" class="nav-link" data-section="cv">CV</a></li>
                 <li><a href="#media" class="nav-link" data-section="media">Media</a></li>
+                <li><a href="#forfun" class="nav-link" data-section="forfun">For Fun</a></li>
                 <li><a href="#contact" class="nav-link" data-section="contact">Contact</a></li>
             </ul>
         </nav>
@@ -1167,6 +1178,111 @@
                     <h4><a href="https://www.vnews.com/Dartmouth-rower-Michael-Green-recalls-10-week-internship-with-Centers-for-Disease-Control-and-Prevention-in-Atlanta-33536222" target="_blank">Big Green rower had front-row seat to the crisis response at CDC</a></h4>
                     <p class="source">Valley News, March 2020</p>
                     <p>Coverage of internship experience at CDC during early COVID-19 response.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- For Fun Section -->
+        <section id="forfun">
+            <div class="card">
+                <h2>For Fun</h2>
+                <p>Outside of research, I stay active and creative through a mix of sports fandom, running, hiking, photography, and travel.</p>
+            </div>
+
+            <!-- LA Chargers Fan -->
+            <div class="card">
+                <h3>LA Chargers Fan</h3>
+                <div style="text-align: center; margin-top: 1.5rem;">
+                    <img src="chargers_sofi.png" alt="At SoFi Stadium" style="max-width: 100%; height: auto; border-radius: 8px; box-shadow: var(--card-shadow);">
+                    <p style="margin-top: 1rem; font-style: italic; color: #666;">Die-hard Chargers fan — here at SoFi Stadium</p>
+                </div>
+            </div>
+
+            <!-- Running -->
+            <div class="card">
+                <h3>Running</h3>
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 2rem; align-items: center; margin-top: 1.5rem;">
+                    <div style="text-align: center;">
+                        <img src="running.png" alt="Running" style="max-width: 100%; height: auto; border-radius: 8px; box-shadow: var(--card-shadow);">
+                    </div>
+                    <div>
+                        <p>Here is my most versatile playlist — fully satisfies no one but also rarely dissatisfies everyone.</p>
+                        <iframe style="border-radius:12px; margin-top: 1rem;" src="https://open.spotify.com/embed/playlist/5tfvES2hactUtgckmQfwhm?utm_source=generator" width="100%" height="352" frameBorder="0" allowfullscreen="" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Hiking -->
+            <div class="card">
+                <h3>Hiking</h3>
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; margin-top: 1.5rem;">
+                    <img src="hiking_1.png" alt="Alpine hiking" style="width: 100%; height: auto; border-radius: 8px; box-shadow: var(--card-shadow);">
+                    <img src="hiking_2.png" alt="Snowy mountain trail" style="width: 100%; height: auto; border-radius: 8px; box-shadow: var(--card-shadow);">
+                </div>
+            </div>
+
+            <!-- Film Photography -->
+            <div class="card">
+                <h3>Film Photography</h3>
+                <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 1rem; margin-top: 1.5rem;">
+                    <img src="film_1.png" alt="Mountain valley" style="width: 100%; height: auto; border-radius: 8px; box-shadow: var(--card-shadow);">
+                    <img src="film_2.png" alt="Badlands" style="width: 100%; height: auto; border-radius: 8px; box-shadow: var(--card-shadow);">
+                    <img src="film_3.png" alt="Coastal resort" style="width: 100%; height: auto; border-radius: 8px; box-shadow: var(--card-shadow);">
+                </div>
+            </div>
+
+            <!-- Travel / City Scenes -->
+            <div class="card">
+                <h3>Travel</h3>
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; margin-top: 1.5rem;">
+                    <img src="city_1.png" alt="Paris street scene" style="width: 100%; height: auto; border-radius: 8px; box-shadow: var(--card-shadow);">
+                    <img src="city_2.png" alt="Tropical coastal walkway" style="width: 100%; height: auto; border-radius: 8px; box-shadow: var(--card-shadow);">
+                </div>
+            </div>
+
+            <!-- Photography -->
+            <div class="card">
+                <h3>Photography</h3>
+                <div style="text-align: center; margin-top: 1.5rem;">
+                    <img src="photography.png" alt="Photography at the loch" style="max-width: 100%; height: auto; border-radius: 8px; box-shadow: var(--card-shadow);">
+                </div>
+            </div>
+
+            <!-- Podcasts -->
+            <div class="card">
+                <h3>Podcasts I Enjoy</h3>
+                <p>Some podcasts I regularly listen to:</p>
+
+                <div class="podcast-list" style="margin-top: 1.5rem;">
+                    <div class="podcast-item" style="margin-bottom: 1.5rem; padding-bottom: 1.5rem; border-bottom: 1px solid var(--medium-gray);">
+                        <h4 style="margin-bottom: 0.5rem;"><a href="https://www.whyshoulditrustyou.net/" target="_blank" style="color: var(--primary-green); text-decoration: none;">Why Should I Trust You</a></h4>
+                        <p style="margin: 0; line-height: 1.8;">Explores why so many people don't trust public health and institutions, and whether we can build back from that. The hosts invite diverse perspectives and approach every conversation with compassion and understanding. (Clearly related to my work.)</p>
+                    </div>
+
+                    <div class="podcast-item" style="margin-bottom: 1.5rem; padding-bottom: 1.5rem; border-bottom: 1px solid var(--medium-gray);">
+                        <h4 style="margin-bottom: 0.5rem;"><a href="https://www.nytimes.com/column/hard-fork" target="_blank" style="color: var(--primary-green); text-decoration: none;">Hard Fork</a></h4>
+                        <p style="margin: 0; line-height: 1.8;">Each week, journalists Kevin Roose and Casey Newton explore and make sense of the rapidly changing world of tech.</p>
+                    </div>
+
+                    <div class="podcast-item" style="margin-bottom: 1.5rem; padding-bottom: 1.5rem; border-bottom: 1px solid var(--medium-gray);">
+                        <h4 style="margin-bottom: 0.5rem;"><a href="https://hopswithpop.substack.com/" target="_blank" style="color: var(--primary-green); text-decoration: none;">Hops with Pop</a></h4>
+                        <p style="margin: 0; line-height: 1.8;">A podcast and Substack blog by Daniel Popper, The Athletic's Chargers beat writer.</p>
+                    </div>
+
+                    <div class="podcast-item" style="margin-bottom: 1.5rem; padding-bottom: 1.5rem; border-bottom: 1px solid var(--medium-gray);">
+                        <h4 style="margin-bottom: 0.5rem;"><a href="https://kemidoll.com/podcast/" target="_blank" style="color: var(--primary-green); text-decoration: none;">Your Unapologetic Career Podcast</a></h4>
+                        <p style="margin: 0; line-height: 1.8;">By Kemi Doll, a career coach for women of color in academic medicine. I don't identify as such, but appreciate her insights and candor.</p>
+                    </div>
+
+                    <div class="podcast-item" style="margin-bottom: 1.5rem; padding-bottom: 1.5rem; border-bottom: 1px solid var(--medium-gray);">
+                        <h4 style="margin-bottom: 0.5rem;"><a href="https://kffhealthnews.org/news/tag/what-the-health/" target="_blank" style="color: var(--primary-green); text-decoration: none;">What the Health</a></h4>
+                        <p style="margin: 0; line-height: 1.8;">A healthcare policy podcast from the Kaiser Family Foundation.</p>
+                    </div>
+
+                    <div class="podcast-item" style="margin-bottom: 0;">
+                        <h4 style="margin-bottom: 0.5rem;"><a href="https://podcasts.voxmedia.com/show/on-with-kara-swisher" target="_blank" style="color: var(--primary-green); text-decoration: none;">On with Kara Swisher</a></h4>
+                        <p style="margin: 0; line-height: 1.8;">The podcast of tech/media journalist Kara Swisher, my favorite interviewer.</p>
+                    </div>
                 </div>
             </div>
         </section>
