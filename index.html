@@ -1189,8 +1189,16 @@
 
             /* For Fun section mobile responsiveness */
             #forfun .card div[style*="grid-template-columns: 1fr 1fr"],
-            #forfun .card div[style*="grid-template-columns: repeat(3, 1fr)"] {
+            #forfun .card div[style*="grid-template-columns: repeat(3, 1fr)"],
+            #forfun .card div[style*="grid-template-columns: auto 1fr"] {
                 grid-template-columns: 1fr !important;
+            }
+
+            /* Stack running image above Spotify playlist on mobile */
+            #fun-running img {
+                height: auto !important;
+                max-width: 100%;
+                margin-bottom: 1.5rem;
             }
 
             #forfun .nav-links.active {
@@ -1303,17 +1311,19 @@
                 <div class="profile-image-container">
                     <img src="Fall 2025 Headshot.JPG" alt="Michael D. Green, PhD" class="profile-image">
                 </div>
-                <div class="hero-content">
-                    <h1>Michael D. Green, PhD</h1>
-                    <p class="subtitle">Population Health Sciences Researcher</p>
-                    <p class="affiliation">
-                        Postdoctoral Fellow<br>
-                        Johns Hopkins Bloomberg School of Public Health
-                    </p>
-                    <p>I am a United States based population health researcher focusing on understanding how unequal treatment in healthcare leads to health inequities, and how to solve them.</p>
-                    <div class="btn-group">
-                        <a href="#research" class="btn nav-link" data-section="research">View Research</a>
-                        <a href="#contact" class="btn-outline nav-link" data-section="contact">Get in Touch</a>
+                <div class="card">
+                    <div class="hero-content">
+                        <h1>Michael D. Green, PhD</h1>
+                        <p class="subtitle">Population Health Sciences Researcher</p>
+                        <p class="affiliation">
+                            Postdoctoral Fellow<br>
+                            Johns Hopkins Bloomberg School of Public Health
+                        </p>
+                        <p>I am a United States based population health researcher focusing on understanding how unequal treatment in healthcare leads to health inequities, and how to solve them.</p>
+                        <div class="btn-group">
+                            <a href="#research" class="btn nav-link" data-section="research">View Research</a>
+                            <a href="#contact" class="btn-outline nav-link" data-section="contact">Get in Touch</a>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -1430,6 +1440,7 @@
                         <li><a href="#cv-expertise">Research Expertise</a></li>
                         <li><a href="#cv-education">Education</a></li>
                         <li><a href="#cv-awards">Honors & Awards</a></li>
+                        <li><a href="#cv-service">Service</a></li>
                     </ul>
                 </aside>
 
@@ -1527,6 +1538,93 @@
                     <p class="institution">Dartmouth College, The John Sloan Dickey Center for International Understanding</p>
                     <p class="period">January 2021</p>
                     <p>From center website: "provides students with a framework to demonstrate the knowledge and skills they have acquired to address complex global health challenges in a changing world. The Certificate combines coursework from across the curriculum with a field experience in global health."</p>
+                </div>
+                    </div>
+
+                    <div class="card" id="cv-service">
+                        <h2>Service</h2>
+
+                <div class="timeline-item">
+                    <h4>Early Career Committee Member, Council on Quality of Care and Outcomes Research (QCOR)</h4>
+                    <p class="institution">American Heart Association (AHA)</p>
+                    <p class="period">July 2025 – Present</p>
+                    <p>Member of the American Heart Association's QCOR Council Early Career Committee which "provide input regarding the Council's efforts to serve the needs of early career professionals"</p>
+                </div>
+
+                <div class="timeline-item">
+                    <h4>Student Representative, Board of Directors</h4>
+                    <p class="institution"><a href="https://iaphs.org" target="_blank" style="color: var(--primary-green); text-decoration: none;">Interdisciplinary Association for Population Health Sciences (IAPHS)</a></p>
+                    <p class="period">November 2023 – November 2025</p>
+                    <p>Elected to serve 3-year term on the board of directors for IAPHS. Additionally, will chair the student committee during this term.</p>
+                </div>
+
+                <div class="timeline-item">
+                    <h4>Founding Member, Population Health Sciences Graduate Student Association (PHSGSA)</h4>
+                    <p class="institution">Department of Population Health Science, Duke University School of Medicine</p>
+                    <p class="period">August 2023 – December 2025</p>
+                    <p>Co-wrote initial charter, led submission of organization application, led first two elections, and co-led activities for the department-sponsored graduate student association for the department.</p>
+                </div>
+
+                <div class="timeline-item">
+                    <h4>Diversity, Equity, and Inclusion Committee Member</h4>
+                    <p class="institution">Department of Population Health Science, Educational Programs Group, Duke University School of Medicine</p>
+                    <p class="period">July 2022 – November 2024</p>
+                </div>
+
+                <div class="timeline-item">
+                    <h4>Student Journal Club Organizer</h4>
+                    <p class="institution">Department of Population Health Science, Duke University School of Medicine</p>
+                    <p class="period">August 2023 – November 2024</p>
+                    <p>Orchestrated the first Ph.D. student led journal club at the Department of Population Health Sciences at the Duke University School of Medicine. Which took place during the Fall Semester 2023 and 2024. 5 students and 2 faculty members presented.</p>
+                </div>
+
+                <div class="timeline-item">
+                    <h4>Committee Member, Gordon G. Hammes Teach Faculty Award Selection Committee</h4>
+                    <p class="institution">Duke University School of Medicine</p>
+                    <p class="period">January 2024 – May 2024</p>
+                    <p>Appointed to Duke School of Medicine Ph.D. student committee overseeing that oversees the selection process for the annual award which "recognize a faculty member for continuing excellence in teaching and mentoring, and for exemplary commitment to the education of graduate students within Basic Science Departments and Graduate Training Programs of the School of Medicine."</p>
+                </div>
+
+                <div class="timeline-item">
+                    <h4>Generation Now Committee Member</h4>
+                    <p class="institution"><a href="https://www.amostbeautifulthingincfund.org/" target="_blank" style="color: var(--primary-green); text-decoration: none;">A Most Beautiful Thing Inclusion Fund</a>, Seattle, WA</p>
+                    <p class="period">April 2022 – April 2023</p>
+                    <p>The A Most Beautiful Thing Inclusion Fund aims to build a diverse, inclusive, and equitable sport in rowing. The AMBTIF is housed as its own fund, under the umbrella of the George Pocock Rowing Foundation.</p>
+                </div>
+
+                <div class="timeline-item">
+                    <h4>Erg and Student Services Data Analyst</h4>
+                    <p class="institution">George Pocock Rowing Foundation, Seattle, WA</p>
+                    <p class="period">November 2020 – November 2021</p>
+                    <p><em>AmeriCorps VISTA: Up2Us Sports Inc</em><br>
+                    Supervisor: Kayla Cloud</p>
+                </div>
+
+                <div class="timeline-item">
+                    <h4>Council Member</h4>
+                    <p class="institution"><a href="https://www.dartmouth.edu/~library/col/" target="_blank" style="color: var(--primary-green); text-decoration: none;">Council on the Library</a>, Dartmouth College</p>
+                    <p class="period">September 2020 – June 2021</p>
+                    <p>One of two undergraduate students appointed for academic year on council of faculty, students, and staff to provide feedback on Library operations and activities to the Dean of the Libraries and their leadership team</p>
+                </div>
+
+                <div class="timeline-item">
+                    <h4>Dean Search Committee Member</h4>
+                    <p class="institution">Dartmouth College</p>
+                    <p class="period">June 2019 – November 2019</p>
+                    <p>Black and First Generation Low-Income Assistant Dean position for the Office of Pluralism and Leadership at Dartmouth College.</p>
+                </div>
+
+                <div class="timeline-item">
+                    <h4>Executive Board Member</h4>
+                    <p class="institution">Men of Color Alliance, Dartmouth College</p>
+                    <p class="period">October 2017 – June 2021</p>
+                </div>
+
+                <div class="timeline-item">
+                    <h4>Executive Board Member</h4>
+                    <p class="institution">Globemed Dartmouth</p>
+                    <p class="period">September 2017 – September 2020</p>
+                    <p>"Global Health university" team member and financial chair</p>
                 </div>
                     </div>
                 </div>
