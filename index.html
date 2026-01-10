@@ -425,7 +425,7 @@
         }
 
         .hero-content .affiliation {
-            color: #666;
+            color: var(--text-secondary);
             margin-bottom: 1.5rem;
             line-height: 1.8;
         }
@@ -640,7 +640,7 @@
         }
 
         .timeline-item .period {
-            color: #666;
+            color: var(--text-secondary);
             font-size: 0.9rem;
             margin-bottom: 0.75rem;
         }
@@ -1016,6 +1016,103 @@
             cursor: pointer;
         }
 
+        /* Section Sidebar Navigation */
+        .section-with-sidebar {
+            display: grid;
+            grid-template-columns: 220px 1fr;
+            gap: 3rem;
+            align-items: start;
+        }
+
+        .section-sidebar {
+            position: sticky;
+            top: 120px;
+            padding: 1.5rem;
+            background: var(--white);
+            border-radius: 8px;
+            box-shadow: var(--card-shadow);
+        }
+
+        .section-sidebar h3 {
+            font-size: 0.9rem;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            color: var(--text-secondary);
+            margin-bottom: 1rem;
+            font-weight: 600;
+        }
+
+        .sidebar-nav {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        .sidebar-nav li {
+            margin-bottom: 0.5rem;
+        }
+
+        .sidebar-nav a {
+            display: block;
+            padding: 0.6rem 0.8rem;
+            color: var(--text-primary);
+            text-decoration: none;
+            border-radius: 4px;
+            font-size: 0.9rem;
+            transition: all 0.3s ease;
+            position: relative;
+            padding-left: 1.5rem;
+        }
+
+        .sidebar-nav a::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 0;
+            height: 2px;
+            background: var(--primary-green);
+            transition: width 0.3s ease;
+        }
+
+        .sidebar-nav a:hover {
+            background: rgba(46, 125, 50, 0.05);
+            color: var(--primary-green);
+        }
+
+        .sidebar-nav a:hover::before {
+            width: 8px;
+        }
+
+        .sidebar-nav a.active {
+            background: rgba(46, 125, 50, 0.1);
+            color: var(--primary-green);
+            font-weight: 600;
+        }
+
+        .sidebar-nav a.active::before {
+            width: 12px;
+            height: 3px;
+            background: var(--primary-green);
+            animation: slideIn 0.4s ease;
+        }
+
+        @keyframes slideIn {
+            from {
+                width: 0;
+                opacity: 0;
+            }
+            to {
+                width: 12px;
+                opacity: 1;
+            }
+        }
+
+        .section-content {
+            min-width: 0;
+        }
+
         /* Mobile Responsiveness */
         @media (max-width: 768px) {
             nav {
@@ -1073,6 +1170,15 @@
 
             .contact-grid {
                 grid-template-columns: 1fr;
+            }
+
+            /* Hide sidebar on mobile */
+            .section-with-sidebar {
+                grid-template-columns: 1fr;
+            }
+
+            .section-sidebar {
+                display: none;
             }
 
             /* For Fun section mobile responsiveness */
@@ -1310,8 +1416,20 @@
                 </div>
             </div>
 
-            <div class="card">
-                <h2>Academic Positions</h2>
+            <div class="section-with-sidebar">
+                <aside class="section-sidebar">
+                    <h3>Sections</h3>
+                    <ul class="sidebar-nav">
+                        <li><a href="#cv-positions">Academic Positions</a></li>
+                        <li><a href="#cv-expertise">Research Expertise</a></li>
+                        <li><a href="#cv-education">Education</a></li>
+                        <li><a href="#cv-awards">Honors & Awards</a></li>
+                    </ul>
+                </aside>
+
+                <div class="section-content">
+                    <div class="card" id="cv-positions">
+                        <h2>Academic Positions</h2>
 
                 <div class="timeline-item">
                     <h4>Postdoctoral Fellow</h4>
@@ -1320,10 +1438,10 @@
                     <p><strong>Advisor: Roland J. Thorpe Jr.</strong></p>
                     <p>Supported by NIA K00 Award. Fellowship focused on research and training in cognitive health and Alzheimer's disease/related dementias (AD/ADRD)</p>
                 </div>
-            </div>
+                    </div>
 
-            <div class="card">
-                <h2>Research Expertise</h2>
+                    <div class="card" id="cv-expertise">
+                        <h2>Research Expertise</h2>
                 <h3>Methods</h3>
                 <ul>
                     <li>Longitudinal data analysis</li>
@@ -1338,10 +1456,10 @@
                     <li>Cardiovascular epidemiology</li>
                     <li>Aging</li>
                 </ul>
-            </div>
+                    </div>
 
-            <div class="card">
-                <h2>Education</h2>
+                    <div class="card" id="cv-education">
+                        <h2>Education</h2>
 
                 <div class="timeline-item">
                     <h4>PhD, Population Health Sciences</h4>
@@ -1365,10 +1483,10 @@
                     <p>Minor in Environmental Sciences</p>
                     <p style="margin-top: 0.75rem;"><strong>Thesis Advisor:</strong> Elizabeth Carpenter-Song</p>
                 </div>
-            </div>
+                    </div>
 
-            <div class="card">
-                <h2>Honors & Awards</h2>
+                    <div class="card" id="cv-awards">
+                        <h2>Honors & Awards</h2>
 
                 <div class="timeline-item">
                     <h4>Person-in-Training Award, Health Sciences Section</h4>
@@ -1404,6 +1522,8 @@
                     <p class="period">January 2021</p>
                     <p>From center website: "provides students with a framework to demonstrate the knowledge and skills they have acquired to address complex global health challenges in a changing world. The Certificate combines coursework from across the curriculum with a field experience in global health."</p>
                 </div>
+                    </div>
+                </div>
             </div>
         </section>
 
@@ -1414,8 +1534,18 @@
                 <p>I'm committed to translating research findings into accessible information for diverse audiences and contributing to public discourse on health equity and healthcare disparities.</p>
             </div>
 
-            <div class="card">
-                <h2>Science Communication</h2>
+            <div class="section-with-sidebar">
+                <aside class="section-sidebar">
+                    <h3>Sections</h3>
+                    <ul class="sidebar-nav">
+                        <li><a href="#media-communication">Science Communication</a></li>
+                        <li><a href="#media-appearances">Media Appearances</a></li>
+                    </ul>
+                </aside>
+
+                <div class="section-content">
+                    <div class="card" id="media-communication">
+                        <h2>Science Communication</h2>
                 <p>I write about health equity, population health research, and the intersection of science and policy on my Substack, <strong>Not Being Green</strong>.</p>
                 <div class="btn-group">
                     <a href="https://www.notbeinggreen.com" class="substack-badge" target="_blank">
@@ -1437,10 +1567,10 @@
                 <div id="substack-posts">
                     <div class="loading-spinner"></div>
                 </div>
-            </div>
+                    </div>
 
-            <div class="card">
-                <h2>Media Appearances & Interviews</h2>
+                    <div class="card" id="media-appearances">
+                        <h2>Media Appearances & Interviews</h2>
 
                 <div class="media-item">
                     <h4><a href="https://www.aamchealthjustice.org/news/rethinking-race-reconstruct-research-practices-introducing-population-conscious-analysis" target="_blank">Rethinking 'Race' to Reconstruct Research Practices: Introducing Population-Conscious Analysis</a></h4>
@@ -1537,6 +1667,8 @@
                     <p class="source">Valley News, March 2020</p>
                     <p>Coverage of internship experience at CDC during early COVID-19 response.</p>
                 </div>
+                    </div>
+                </div>
             </div>
         </section>
 
@@ -1547,28 +1679,41 @@
                 <p>Outside of research, I stay active and creative through a mix of running, hiking, occasional film photography, and travel (a city with a subway or a mountain town).</p>
             </div>
 
-            <!-- Film Photography -->
-            <div class="card" style="animation: fadeInUp 0.6s ease-out;">
-                <h3>Film Photography</h3>
+            <div class="section-with-sidebar">
+                <aside class="section-sidebar">
+                    <h3>Sections</h3>
+                    <ul class="sidebar-nav">
+                        <li><a href="#fun-photography">Film Photography</a></li>
+                        <li><a href="#fun-chargers">Chargers Fan</a></li>
+                        <li><a href="#fun-running">Running</a></li>
+                        <li><a href="#fun-travel">Travel</a></li>
+                        <li><a href="#fun-podcasts">Podcasts</a></li>
+                    </ul>
+                </aside>
+
+                <div class="section-content">
+                    <!-- Film Photography -->
+                    <div class="card" id="fun-photography" style="animation: fadeInUp 0.6s ease-out;">
+                        <h3>Film Photography</h3>
                 <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.2rem; margin-top: 1.5rem; max-width: 900px; margin-left: auto; margin-right: auto;">
                     <img src="film 1.png" alt="Mountain valley" style="width: 100%; height: auto; border-radius: 8px; box-shadow: var(--card-shadow); transition: transform 0.3s ease;" onmouseover="this.style.transform='translateY(-8px)'" onmouseout="this.style.transform='translateY(0)'">
                     <img src="film 2.png" alt="Badlands" style="width: 100%; height: auto; border-radius: 8px; box-shadow: var(--card-shadow); transition: transform 0.3s ease;" onmouseover="this.style.transform='translateY(-8px)'" onmouseout="this.style.transform='translateY(0)'">
                     <img src="film 3.png" alt="Coastal resort" style="width: 100%; height: auto; border-radius: 8px; box-shadow: var(--card-shadow); transition: transform 0.3s ease;" onmouseover="this.style.transform='translateY(-8px)'" onmouseout="this.style.transform='translateY(0)'">
                 </div>
-            </div>
+                    </div>
 
-            <!-- LA Chargers Fan -->
-            <div class="card" style="animation: fadeInUp 0.6s ease-out 0.1s; animation-fill-mode: backwards;">
-                <h3>Die-Hard Chargers Fan</h3>
+                    <!-- LA Chargers Fan -->
+                    <div class="card" id="fun-chargers" style="animation: fadeInUp 0.6s ease-out 0.1s; animation-fill-mode: backwards;">
+                        <h3>Die-Hard Chargers Fan</h3>
                 <div style="text-align: center; margin-top: 1.5rem; max-width: 500px; margin-left: auto; margin-right: auto;">
                     <img src="chargers sofi.png" alt="At SoFi Stadium" style="width: 100%; height: auto; border-radius: 8px; box-shadow: var(--card-shadow); transition: transform 0.3s ease;" onmouseover="this.style.transform='scale(1.02)'" onmouseout="this.style.transform='scale(1)'">
                     <p style="margin-top: 1rem; font-style: italic; color: var(--text-secondary);">Here at SoFi Stadium</p>
                 </div>
-            </div>
+                    </div>
 
-            <!-- Running -->
-            <div class="card" style="animation: fadeInUp 0.6s ease-out 0.2s; animation-fill-mode: backwards;">
-                <h3>Running</h3>
+                    <!-- Running -->
+                    <div class="card" id="fun-running" style="animation: fadeInUp 0.6s ease-out 0.2s; animation-fill-mode: backwards;">
+                        <h3>Running</h3>
                 <div style="display: grid; grid-template-columns: auto 1fr; gap: 2.5rem; align-items: start; margin-top: 1.5rem;">
                     <div style="text-align: center;">
                         <img src="running.png" alt="Running" style="height: 352px; width: auto; border-radius: 8px; box-shadow: var(--card-shadow); transition: transform 0.3s ease;" onmouseover="this.style.transform='translateY(-5px)'" onmouseout="this.style.transform='translateY(0)'">
@@ -1578,20 +1723,20 @@
                         <iframe style="border-radius:12px; margin-top: 1rem;" src="https://open.spotify.com/embed/playlist/5tfvES2hactUtgckmQfwhm?utm_source=generator" width="100%" height="352" frameBorder="0" allowfullscreen="" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe>
                     </div>
                 </div>
-            </div>
+                    </div>
 
-            <!-- Travel / City Scenes -->
-            <div class="card" style="animation: fadeInUp 0.6s ease-out 0.3s; animation-fill-mode: backwards;">
-                <h3>Travel</h3>
+                    <!-- Travel / City Scenes -->
+                    <div class="card" id="fun-travel" style="animation: fadeInUp 0.6s ease-out 0.3s; animation-fill-mode: backwards;">
+                        <h3>Travel</h3>
                 <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 2rem; margin-top: 1.5rem; max-width: 900px; margin-left: auto; margin-right: auto;">
                     <img src="city 1.png" alt="Paris street scene" style="width: 100%; height: auto; border-radius: 8px; box-shadow: var(--card-shadow); transition: transform 0.3s ease;" onmouseover="this.style.transform='translateY(-5px) rotate(-1deg)'" onmouseout="this.style.transform='translateY(0) rotate(0deg)'">
                     <img src="city 2.png" alt="Tropical coastal walkway" style="width: 100%; height: auto; border-radius: 8px; box-shadow: var(--card-shadow); transition: transform 0.3s ease;" onmouseover="this.style.transform='translateY(-5px) rotate(1deg)'" onmouseout="this.style.transform='translateY(0) rotate(0deg)'">
                 </div>
-            </div>
+                    </div>
 
-            <!-- Podcasts -->
-            <div class="card">
-                <h3>Podcasts I Enjoy</h3>
+                    <!-- Podcasts -->
+                    <div class="card" id="fun-podcasts">
+                        <h3>Podcasts I Enjoy</h3>
                 <p>Some podcasts I regularly listen to:</p>
 
                 <div class="podcast-list" style="margin-top: 1.5rem;">
@@ -1623,6 +1768,8 @@
                     <div class="podcast-item" style="margin-bottom: 0;">
                         <h4 style="margin-bottom: 0.5rem;"><a href="https://podcasts.voxmedia.com/show/on-with-kara-swisher" target="_blank" style="color: var(--primary-green); text-decoration: none;">On with Kara Swisher</a></h4>
                         <p style="margin: 0; line-height: 1.8;">The podcast of tech/media journalist Kara Swisher, my favorite interviewer.</p>
+                    </div>
+                </div>
                     </div>
                 </div>
             </div>
@@ -2038,6 +2185,101 @@
                 loader.classList.add('hidden');
             }, 800); // Show loader for at least 800ms
         });
+    </script>
+
+    <!-- Sidebar Scroll Animation Script -->
+    <script>
+        // Scroll-based sidebar navigation
+        function initSidebarNavigation() {
+            const sidebarNavs = document.querySelectorAll('.sidebar-nav');
+
+            if (sidebarNavs.length === 0) return;
+
+            // Throttle function to improve performance
+            function throttle(func, wait) {
+                let timeout;
+                return function executedFunction(...args) {
+                    const later = () => {
+                        clearTimeout(timeout);
+                        func(...args);
+                    };
+                    clearTimeout(timeout);
+                    timeout = setTimeout(later, wait);
+                };
+            }
+
+            // Update active state based on scroll position
+            function updateActiveSection() {
+                sidebarNavs.forEach(nav => {
+                    const links = nav.querySelectorAll('a');
+                    let currentActive = null;
+                    let maxVisibility = 0;
+
+                    links.forEach(link => {
+                        const targetId = link.getAttribute('href').substring(1);
+                        const targetSection = document.getElementById(targetId);
+
+                        if (targetSection) {
+                            const rect = targetSection.getBoundingClientRect();
+                            const viewportHeight = window.innerHeight;
+
+                            // Calculate how much of the section is visible
+                            const visibleTop = Math.max(0, rect.top);
+                            const visibleBottom = Math.min(viewportHeight, rect.bottom);
+                            const visibleHeight = Math.max(0, visibleBottom - visibleTop);
+                            const visibilityRatio = visibleHeight / viewportHeight;
+
+                            // Consider section active if it's the most visible and meets threshold
+                            if (visibilityRatio > maxVisibility && rect.top < viewportHeight * 0.5) {
+                                maxVisibility = visibilityRatio;
+                                currentActive = link;
+                            }
+                        }
+                    });
+
+                    // Update active class
+                    links.forEach(link => {
+                        if (link === currentActive) {
+                            if (!link.classList.contains('active')) {
+                                link.classList.add('active');
+                            }
+                        } else {
+                            link.classList.remove('active');
+                        }
+                    });
+                });
+            }
+
+            // Smooth scroll to section when clicking sidebar links
+            document.querySelectorAll('.sidebar-nav a').forEach(link => {
+                link.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    const targetId = link.getAttribute('href').substring(1);
+                    const targetSection = document.getElementById(targetId);
+
+                    if (targetSection) {
+                        const offsetTop = targetSection.offsetTop - 100; // Account for fixed header
+                        window.scrollTo({
+                            top: offsetTop,
+                            behavior: 'smooth'
+                        });
+                    }
+                });
+            });
+
+            // Listen to scroll events with throttling
+            window.addEventListener('scroll', throttle(updateActiveSection, 100));
+
+            // Initial check
+            updateActiveSection();
+        }
+
+        // Initialize when DOM is ready
+        if (document.readyState === 'loading') {
+            document.addEventListener('DOMContentLoaded', initSidebarNavigation);
+        } else {
+            initSidebarNavigation();
+        }
     </script>
 </body>
 </html>
