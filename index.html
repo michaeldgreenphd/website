@@ -7,6 +7,7 @@
 
     <style>
         :root {
+            /* Light mode colors */
             --primary-green: #2D6A4F;
             --light-green: #52B788;
             --accent-blue: #1976D2;
@@ -14,8 +15,30 @@
             --medium-gray: #E0E0E0;
             --dark-gray: #333333;
             --white: #FFFFFF;
+            --bg-primary: #FFFFFF;
+            --bg-secondary: #F5F5F5;
+            --text-primary: #333333;
+            --text-secondary: #666666;
             --card-shadow: 0 2px 8px rgba(0,0,0,0.08);
             --hover-shadow: 0 4px 16px rgba(0,0,0,0.12);
+            --border-color: #E0E0E0;
+        }
+
+        [data-theme="dark"] {
+            /* Dark mode - inverted with green as background */
+            --primary-green: #52B788;
+            --light-green: #2D6A4F;
+            --bg-primary: #1a3d2e;
+            --bg-secondary: #2D6A4F;
+            --text-primary: #F5F5F5;
+            --text-secondary: #E0E0E0;
+            --white: #1a3d2e;
+            --light-gray: #2D6A4F;
+            --medium-gray: #3d5a4a;
+            --dark-gray: #F5F5F5;
+            --card-shadow: 0 2px 8px rgba(0,0,0,0.3);
+            --hover-shadow: 0 4px 16px rgba(0,0,0,0.4);
+            --border-color: #3d5a4a;
         }
 
         * {
@@ -29,15 +52,145 @@
         }
 
         body {
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+            font-family: Palatino, 'Palatino Linotype', Tahoma, Geneva, serif;
             line-height: 1.6;
-            color: var(--dark-gray);
-            background: linear-gradient(135deg, var(--white) 0%, var(--light-gray) 100%);
+            color: var(--text-primary);
+            background: linear-gradient(135deg, var(--bg-primary) 0%, var(--bg-secondary) 100%);
             min-height: 100vh;
+            position: relative;
+            transition: background 0.3s ease, color 0.3s ease;
+        }
+
+        /* Forest Background Pattern */
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-image:
+                url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="100" height="100" viewBox="0 0 100 100"><path d="M50 10 L55 30 L50 25 L45 30 Z M50 25 L57 45 L50 38 L43 45 Z M50 38 L60 60 L50 50 L40 60 Z" fill="%232D6A4F" opacity="0.03"/></svg>'),
+                url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="150" height="150" viewBox="0 0 100 100"><path d="M50 15 L54 30 L50 26 L46 30 Z M50 26 L56 42 L50 36 L44 42 Z M50 36 L58 55 L50 47 L42 55 Z" fill="%232D6A4F" opacity="0.02"/></svg>');
+            background-size: 100px 100px, 150px 150px;
+            background-position: 0 0, 50px 50px;
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        [data-theme="dark"] body::before {
+            background-image:
+                url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="100" height="100" viewBox="0 0 100 100"><path d="M50 10 L55 30 L50 25 L45 30 Z M50 25 L57 45 L50 38 L43 45 Z M50 38 L60 60 L50 50 L40 60 Z" fill="%2352B788" opacity="0.05"/></svg>'),
+                url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="150" height="150" viewBox="0 0 100 100"><path d="M50 15 L54 30 L50 26 L46 30 Z M50 26 L56 42 L50 36 L44 42 Z M50 36 L58 55 L50 47 L42 55 Z" fill="%2352B788" opacity="0.03"/></svg>');
+        }
+
+        .container {
+            position: relative;
+            z-index: 1;
         }
 
         h1, h2 {
-            font-family: Georgia, 'Times New Roman', serif;
+            font-family: Palatino, 'Palatino Linotype', Georgia, serif;
+        }
+
+        /* Page Loading Animation */
+        #page-loader {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, #2D6A4F 0%, #1a3d2e 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 10000;
+            transition: opacity 0.5s ease, visibility 0.5s ease;
+        }
+
+        #page-loader.hidden {
+            opacity: 0;
+            visibility: hidden;
+        }
+
+        .loader-forest {
+            position: relative;
+            width: 200px;
+            height: 100px;
+        }
+
+        .tree {
+            position: absolute;
+            bottom: 0;
+            width: 0;
+            height: 0;
+            border-left: 15px solid transparent;
+            border-right: 15px solid transparent;
+            border-bottom: 60px solid #52B788;
+            animation: growTree 1.5s ease-in-out infinite;
+        }
+
+        .tree:nth-child(1) {
+            left: 20px;
+            animation-delay: 0s;
+        }
+
+        .tree:nth-child(2) {
+            left: 70px;
+            animation-delay: 0.3s;
+            transform: scale(1.2);
+        }
+
+        .tree:nth-child(3) {
+            left: 120px;
+            animation-delay: 0.6s;
+        }
+
+        .tree::before {
+            content: '';
+            position: absolute;
+            bottom: -60px;
+            left: -5px;
+            width: 10px;
+            height: 15px;
+            background: #3d5a4a;
+        }
+
+        @keyframes growTree {
+            0%, 100% {
+                transform: scaleY(0.8);
+                opacity: 0.5;
+            }
+            50% {
+                transform: scaleY(1.1);
+                opacity: 1;
+            }
+        }
+
+        /* Dark Mode Toggle */
+        .theme-toggle {
+            position: fixed;
+            top: 80px;
+            right: 2rem;
+            z-index: 1001;
+            background: var(--primary-green);
+            color: var(--white);
+            border: none;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            cursor: pointer;
+            box-shadow: var(--card-shadow);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            transition: all 0.3s ease;
+        }
+
+        .theme-toggle:hover {
+            transform: scale(1.1);
+            box-shadow: var(--hover-shadow);
         }
 
         /* Header */
@@ -507,13 +660,31 @@
             text-align: center;
             padding: 3rem;
             color: var(--primary-green);
+            position: relative;
+            height: 80px;
+            display: flex;
+            align-items: flex-end;
+            justify-content: center;
+            gap: 20px;
+        }
+
+        .loading-spinner::before,
+        .loading-spinner::after {
+            content: '';
+            width: 0;
+            height: 0;
+            border-left: 10px solid transparent;
+            border-right: 10px solid transparent;
+            border-bottom: 40px solid var(--primary-green);
+            animation: growTree 1.2s ease-in-out infinite;
+        }
+
+        .loading-spinner::before {
+            animation-delay: 0s;
         }
 
         .loading-spinner::after {
-            content: "⟳";
-            font-size: 3rem;
-            display: inline-block;
-            animation: spin 1s linear infinite;
+            animation-delay: 0.4s;
         }
 
         @keyframes spin {
@@ -805,6 +976,20 @@
     </style>
 </head>
 <body>
+    <!-- Page Loader -->
+    <div id="page-loader">
+        <div class="loader-forest">
+            <div class="tree"></div>
+            <div class="tree"></div>
+            <div class="tree"></div>
+        </div>
+    </div>
+
+    <!-- Theme Toggle Button -->
+    <button class="theme-toggle" id="theme-toggle" aria-label="Toggle dark mode">
+        <span class="toggle-icon">🌙</span>
+    </button>
+
     <!-- Subtle medical accent -->
     <div class="medical-accent"></div>
 
@@ -1186,24 +1371,24 @@
         <section id="forfun">
             <div class="card">
                 <h2>For Fun</h2>
-                <p>Outside of research, I stay active and creative through a mix of sports fandom, running, hiking, photography, and travel.</p>
+                <p>Outside of research, I stay active and creative through a mix of running, hiking, occasional film photography, and travel (a city with a subway or a mountain town).</p>
             </div>
 
             <!-- LA Chargers Fan -->
             <div class="card">
                 <h3>LA Chargers Fan</h3>
-                <div style="text-align: center; margin-top: 1.5rem;">
-                    <img src="chargers_sofi.png" alt="At SoFi Stadium" style="max-width: 100%; height: auto; border-radius: 8px; box-shadow: var(--card-shadow);">
-                    <p style="margin-top: 1rem; font-style: italic; color: #666;">Die-hard Chargers fan — here at SoFi Stadium</p>
+                <div style="text-align: center; margin-top: 1.5rem; max-width: 900px; margin-left: auto; margin-right: auto;">
+                    <img src="chargers_sofi.png" alt="At SoFi Stadium" style="width: 100%; height: auto; border-radius: 8px; box-shadow: var(--card-shadow);">
+                    <p style="margin-top: 1rem; font-style: italic; color: var(--text-secondary);">Die-hard Chargers fan — here at SoFi Stadium</p>
                 </div>
             </div>
 
             <!-- Running -->
             <div class="card">
                 <h3>Running</h3>
-                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 2rem; align-items: center; margin-top: 1.5rem;">
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 2.5rem; align-items: center; margin-top: 1.5rem;">
                     <div style="text-align: center;">
-                        <img src="running.png" alt="Running" style="max-width: 100%; height: auto; border-radius: 8px; box-shadow: var(--card-shadow);">
+                        <img src="running.png" alt="Running" style="width: 100%; height: auto; border-radius: 8px; box-shadow: var(--card-shadow);">
                     </div>
                     <div>
                         <p>Here is my most versatile playlist — fully satisfies no one but also rarely dissatisfies everyone.</p>
@@ -1215,7 +1400,7 @@
             <!-- Hiking -->
             <div class="card">
                 <h3>Hiking</h3>
-                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; margin-top: 1.5rem;">
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 2rem; margin-top: 1.5rem;">
                     <img src="hiking_1.png" alt="Alpine hiking" style="width: 100%; height: auto; border-radius: 8px; box-shadow: var(--card-shadow);">
                     <img src="hiking_2.png" alt="Snowy mountain trail" style="width: 100%; height: auto; border-radius: 8px; box-shadow: var(--card-shadow);">
                 </div>
@@ -1224,7 +1409,7 @@
             <!-- Film Photography -->
             <div class="card">
                 <h3>Film Photography</h3>
-                <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 1rem; margin-top: 1.5rem;">
+                <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.5rem; margin-top: 1.5rem;">
                     <img src="film_1.png" alt="Mountain valley" style="width: 100%; height: auto; border-radius: 8px; box-shadow: var(--card-shadow);">
                     <img src="film_2.png" alt="Badlands" style="width: 100%; height: auto; border-radius: 8px; box-shadow: var(--card-shadow);">
                     <img src="film_3.png" alt="Coastal resort" style="width: 100%; height: auto; border-radius: 8px; box-shadow: var(--card-shadow);">
@@ -1234,7 +1419,7 @@
             <!-- Travel / City Scenes -->
             <div class="card">
                 <h3>Travel</h3>
-                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; margin-top: 1.5rem;">
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 2rem; margin-top: 1.5rem;">
                     <img src="city_1.png" alt="Paris street scene" style="width: 100%; height: auto; border-radius: 8px; box-shadow: var(--card-shadow);">
                     <img src="city_2.png" alt="Tropical coastal walkway" style="width: 100%; height: auto; border-radius: 8px; box-shadow: var(--card-shadow);">
                 </div>
@@ -1243,8 +1428,8 @@
             <!-- Photography -->
             <div class="card">
                 <h3>Photography</h3>
-                <div style="text-align: center; margin-top: 1.5rem;">
-                    <img src="photography.png" alt="Photography at the loch" style="max-width: 100%; height: auto; border-radius: 8px; box-shadow: var(--card-shadow);">
+                <div style="text-align: center; margin-top: 1.5rem; max-width: 900px; margin-left: auto; margin-right: auto;">
+                    <img src="photography.png" alt="Photography at the loch" style="width: 100%; height: auto; border-radius: 8px; box-shadow: var(--card-shadow);">
                 </div>
             </div>
 
@@ -1667,6 +1852,36 @@
                 </div>
             `;
         }
+
+        // Dark Mode Toggle
+        const themeToggle = document.getElementById('theme-toggle');
+        const toggleIcon = themeToggle.querySelector('.toggle-icon');
+
+        // Check for saved theme preference or default to light mode
+        const currentTheme = localStorage.getItem('theme') || 'light';
+        document.documentElement.setAttribute('data-theme', currentTheme);
+        updateToggleIcon(currentTheme);
+
+        themeToggle.addEventListener('click', function() {
+            let theme = document.documentElement.getAttribute('data-theme');
+            let newTheme = theme === 'dark' ? 'light' : 'dark';
+
+            document.documentElement.setAttribute('data-theme', newTheme);
+            localStorage.setItem('theme', newTheme);
+            updateToggleIcon(newTheme);
+        });
+
+        function updateToggleIcon(theme) {
+            toggleIcon.textContent = theme === 'dark' ? '☀️' : '🌙';
+        }
+
+        // Page Loader
+        window.addEventListener('load', function() {
+            const loader = document.getElementById('page-loader');
+            setTimeout(() => {
+                loader.classList.add('hidden');
+            }, 800); // Show loader for at least 800ms
+        });
     </script>
 </body>
 </html>
