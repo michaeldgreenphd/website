@@ -563,6 +563,124 @@
             line-height: 1.7;
         }
 
+        /* Research Area Cards */
+        .research-area-card {
+            background: linear-gradient(135deg, var(--white) 0%, rgba(46, 125, 50, 0.02) 100%);
+            border-left: 4px solid var(--primary-green);
+            border-radius: 8px;
+            padding: 1.5rem;
+            margin-bottom: 2rem;
+            box-shadow: var(--card-shadow);
+            transition: all 0.3s ease;
+        }
+
+        .research-area-card:hover {
+            transform: translateY(-2px);
+            box-shadow: var(--hover-shadow);
+            border-left-width: 6px;
+        }
+
+        .research-area-header {
+            display: flex;
+            gap: 1.5rem;
+            align-items: flex-start;
+        }
+
+        .research-area-icon {
+            font-size: 3rem;
+            flex-shrink: 0;
+        }
+
+        .research-area-content {
+            flex: 1;
+        }
+
+        .research-area-content h3 {
+            color: var(--primary-green);
+            font-size: 1.4rem;
+            margin-bottom: 0.75rem;
+        }
+
+        .research-area-description {
+            color: var(--text-secondary);
+            line-height: 1.7;
+            margin-bottom: 1rem;
+        }
+
+        .view-publications-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            color: var(--primary-green);
+            font-weight: 600;
+            text-decoration: none;
+            transition: all 0.3s;
+            cursor: pointer;
+        }
+
+        .view-publications-btn:hover {
+            gap: 0.75rem;
+            color: var(--light-green);
+        }
+
+        .view-publications-btn.expanded::after {
+            content: ' ↑';
+        }
+
+        .publications-container {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.4s ease-out, margin-top 0.4s ease-out;
+        }
+
+        .publications-container.expanded {
+            max-height: 2000px;
+            margin-top: 1.5rem;
+            padding-top: 1rem;
+            border-top: 2px solid rgba(46, 125, 50, 0.1);
+        }
+
+        .publication-item-expandable {
+            background: rgba(46, 125, 50, 0.04);
+            border-left: 3px solid var(--light-green);
+            padding: 1rem;
+            margin-bottom: 0.75rem;
+            border-radius: 4px;
+            transition: all 0.3s;
+        }
+
+        .publication-item-expandable:hover {
+            background: rgba(46, 125, 50, 0.08);
+            border-left-width: 4px;
+        }
+
+        .publication-item-expandable a {
+            color: var(--primary-green);
+            text-decoration: none;
+            font-weight: 500;
+            line-height: 1.6;
+        }
+
+        .publication-item-expandable a:hover {
+            text-decoration: underline;
+        }
+
+        .pub-bullet {
+            display: inline-block;
+            margin-right: 0.5rem;
+        }
+
+        /* Responsive adjustments for research cards */
+        @media (max-width: 768px) {
+            .research-area-header {
+                flex-direction: column;
+            }
+
+            .research-area-icon {
+                font-size: 2.5rem;
+            }
+        }
+
         /* Buttons */
         .btn {
             display: inline-flex;
@@ -1439,42 +1557,116 @@
             </div>
 
             <div class="card">
-                <h2>Research Focus</h2>
-                <p>My research examines the intersection of healthcare discrimination and health outcomes, with particular emphasis on cardiovascular and cognitive health disparities. I employ mixed-methods approaches and advanced quantitative techniques to understand how systemic inequities manifest in health outcomes.</p>
+                <p style="font-size: 1.1rem; line-height: 1.8; margin-bottom: 2rem;">My research focuses on understanding and eliminating healthcare inequities through rigorous methodological approaches.</p>
 
-                <h3>Current Research Areas</h3>
+                <h2 style="margin-bottom: 1.5rem;">Research Areas</h2>
 
-                <div class="research-item">
-                    <h4>Healthcare Discrimination Measurement</h4>
-                    <p class="description">Systematic review and psychometric evaluation of discrimination measurement instruments in healthcare settings following PRISMA-COSMIN guidelines. This work aims to establish best practices for assessing patient experiences of discrimination and their health impacts.</p>
+                <!-- Healthcare Discrimination Card -->
+                <div class="research-area-card" data-topic="discrimination">
+                    <div class="research-area-header">
+                        <div class="research-area-icon">🏥</div>
+                        <div class="research-area-content">
+                            <h3>Healthcare Discrimination</h3>
+                            <p class="research-area-description">Family members feeling mistreated and consequently forgoing care is the main reason I became interested in healthcare research. After hearing their stories and seeing the deterioration of their condition, I decided to focus both on experiences of discrimination that individuals identify (perceived discrimination) and the manifestation of differences in human condition and treatment (health disparities).</p>
+                            <a href="#" class="view-publications-btn" data-target="discrimination-pubs">View Projects →</a>
+                        </div>
+                    </div>
+                    <div class="publications-container" id="discrimination-pubs">
+                        <div class="publication-item-expandable">
+                            <span class="pub-bullet">📄</span>
+                            <a href="https://link.springer.com/article/10.1007/s11606-025-09796-w" target="_blank" rel="noopener noreferrer">
+                                Factors Associated with Perceived Discrimination in Healthcare Among United States Middle-aged and Older Adults
+                            </a>
+                        </div>
+                        <div class="publication-item-expandable">
+                            <span class="pub-bullet">📄</span>
+                            <a href="https://link.springer.com/article/10.1007/s40615-025-02602-7" target="_blank" rel="noopener noreferrer">
+                                Development and Initial Validation of a Measure of Parental Racial/Ethnic Discrimination in Pediatric Healthcare
+                            </a>
+                        </div>
+                        <div class="publication-item-expandable">
+                            <span class="pub-bullet">📄</span>
+                            <a href="https://www.medrxiv.org/content/10.1101/2025.04.14.25325800v1" target="_blank" rel="noopener noreferrer">
+                                Impact of Discrimination in Healthcare on Patterns of Doctor Visits Over Time
+                            </a>
+                        </div>
+                        <div class="publication-item-expandable">
+                            <span class="pub-bullet">📄</span>
+                            <a href="https://www.medrxiv.org/content/10.1101/2024.12.18.24319227v1" target="_blank" rel="noopener noreferrer">
+                                Measurement of perceived healthcare discrimination and its implications on population health research: A systematic review protocol
+                            </a>
+                        </div>
+                    </div>
                 </div>
 
-                <div class="research-item">
-                    <h4>Patient-Provider Interactions</h4>
-                    <p class="description">Longitudinal analysis of associations between discrimination experiences and healthcare utilization patterns using the Health and Retirement Study. Investigating how experiences of discrimination shape patient engagement with the healthcare system over time.</p>
+                <!-- Diversity in Clinical Trials Card -->
+                <div class="research-area-card" data-topic="diversity">
+                    <div class="research-area-header">
+                        <div class="research-area-icon">🔬</div>
+                        <div class="research-area-content">
+                            <h3>Diversity and Representation in Clinical Trials</h3>
+                            <p class="research-area-description">There are a lot of claims about the state (and importance) of diversity in clinical research. I believe it is a moral imperative to strive to achieve generalizability for research. In order to achieve it, you also must consistently assess it.</p>
+                            <a href="#" class="view-publications-btn" data-target="diversity-pubs">View Projects →</a>
+                        </div>
+                    </div>
+                    <div class="publications-container" id="diversity-pubs">
+                        <div class="publication-item-expandable">
+                            <span class="pub-bullet">📄</span>
+                            <a href="https://www.medrxiv.org/content/10.1101/2025.07.21.25331865v1" target="_blank" rel="noopener noreferrer">
+                                Racial and Ethnic Diversity in Clinical Studies Reported to ClinicalTrials.gov, 2009-2024
+                            </a>
+                        </div>
+                        <div class="publication-item-expandable">
+                            <span class="pub-bullet">📄</span>
+                            <a href="https://www.sciencedirect.com/science/article/abs/pii/S0002870323000017" target="_blank" rel="noopener noreferrer">
+                                Public reporting of black participation in anti-hypertensive drug clinical trials
+                            </a>
+                        </div>
+                    </div>
                 </div>
 
-                <div class="research-item">
-                    <h4>Cardiovascular Health Disparities</h4>
-                    <p class="description">Group-based trajectory modeling and survival analysis examining relationships between healthcare discrimination and cardiovascular outcomes. Exploring how discrimination experiences contribute to disparate cardiovascular disease burden across populations.</p>
-                </div>
-
-                <div class="research-item">
-                    <h4>Cognitive Aging & Dementia</h4>
-                    <p class="description">Emerging research focus on Alzheimer's disease and related dementias (AD/ADRD), investigating how social determinants of health and discrimination experiences influence cognitive aging trajectories and dementia risk.</p>
-                </div>
-            </div>
-
-            <div class="card">
-                <h2>Selected Publications</h2>
-                <p><em>A comprehensive list of publications will be added here. This section will be automatically updated with new publications in future updates.</em></p>
-
-                <!-- Example publication format - replace with actual publications -->
-                <div class="research-item">
-                    <h4>Dissertation: Getting to the Heart of Discrimination in Healthcare</h4>
-                    <p class="journal">Duke University, 2024</p>
-                    <p class="authors">Michael D. Green</p>
-                    <p class="description">Three-paper dissertation examining healthcare discrimination through measurement validation, longitudinal analysis of patient-provider interactions, and cardiovascular outcomes.</p>
+                <!-- Social Determinants of Health Card -->
+                <div class="research-area-card" data-topic="sdoh">
+                    <div class="research-area-header">
+                        <div class="research-area-icon">❤️</div>
+                        <div class="research-area-content">
+                            <h3>Social Determinants of Health and Cardiovascular Disease</h3>
+                            <p class="research-area-description">Understanding how socioeconomic factors shape cardiovascular outcomes, including hospital readmissions, heart failure trajectories, and cardiovascular multimorbidity disparities by race and sex.</p>
+                            <a href="#" class="view-publications-btn" data-target="sdoh-pubs">View Projects →</a>
+                        </div>
+                    </div>
+                    <div class="publications-container" id="sdoh-pubs">
+                        <div class="publication-item-expandable">
+                            <span class="pub-bullet">📄</span>
+                            <a href="https://www.jacc.org/doi/abs/10.1016/j.jacadv.2025.102103" target="_blank" rel="noopener noreferrer">
+                                Cardiovascular Multimorbidity in Older Adults in the United States by Race and Sex
+                            </a>
+                        </div>
+                        <div class="publication-item-expandable">
+                            <span class="pub-bullet">📄</span>
+                            <a href="https://www.ahajournals.org/doi/10.1161/CIRCOUTCOMES.124.011141" target="_blank" rel="noopener noreferrer">
+                                Association Between Socioeconomic Disadvantage and Risks of Early and Recurrent Admissions Among Patients With Newly Diagnosed Heart Failure
+                            </a>
+                        </div>
+                        <div class="publication-item-expandable">
+                            <span class="pub-bullet">📄</span>
+                            <a href="https://journals.plos.org/plosone/article?id=10.1371/journal.pone.0318419" target="_blank" rel="noopener noreferrer">
+                                Racial and ethnic disparities in longitudinal trajectories of cardiovascular risk factors in U.S. middle-aged and older adults
+                            </a>
+                        </div>
+                        <div class="publication-item-expandable">
+                            <span class="pub-bullet">📄</span>
+                            <a href="https://psycnet.apa.org/record/2024-73766-001" target="_blank" rel="noopener noreferrer">
+                                Everyday discrimination and age-related trajectories of blood pressure among Black and White middle-aged and older adults
+                            </a>
+                        </div>
+                        <div class="publication-item-expandable">
+                            <span class="pub-bullet">📄</span>
+                            <a href="https://journals.plos.org/mentalhealth/article?id=10.1371/journal.pmen.0000208" target="_blank" rel="noopener noreferrer">
+                                Navigating family life with Hypoplastic Left Heart Syndrome: A qualitative study
+                            </a>
+                        </div>
+                    </div>
                 </div>
             </div>
         </section>
@@ -2482,6 +2674,30 @@
         } else {
             initSidebarNavigation();
         }
+
+        // Research Publications Expand/Collapse Functionality
+        document.querySelectorAll('.view-publications-btn').forEach(button => {
+            button.addEventListener('click', function(e) {
+                e.preventDefault();
+                e.stopPropagation();
+
+                const targetId = this.getAttribute('data-target');
+                const container = document.getElementById(targetId);
+                const isExpanded = container.classList.contains('expanded');
+
+                // Toggle expansion
+                container.classList.toggle('expanded');
+                this.classList.toggle('expanded');
+
+                // Update button text
+                const currentText = this.textContent.trim();
+                if (isExpanded) {
+                    this.textContent = 'View Projects →';
+                } else {
+                    this.textContent = 'Hide Projects';
+                }
+            });
+        });
     </script>
 </body>
 </html>
