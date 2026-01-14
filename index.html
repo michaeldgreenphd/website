@@ -1154,6 +1154,60 @@
             z-index: -1;
         }
 
+        /* Scroll Progress Bar */
+        .scroll-progress-bar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 0%;
+            height: 3px;
+            background: linear-gradient(90deg, var(--primary-green) 0%, var(--light-green) 100%);
+            z-index: 9999;
+            transition: width 0.1s ease-out;
+            box-shadow: 0 0 10px rgba(46, 125, 50, 0.5);
+        }
+
+        /* Fade-in Animations */
+        .fade-in {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+        }
+
+        .fade-in.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .fade-in-left {
+            opacity: 0;
+            transform: translateX(-30px);
+            transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+        }
+
+        .fade-in-left.visible {
+            opacity: 1;
+            transform: translateX(0);
+        }
+
+        .fade-in-right {
+            opacity: 0;
+            transform: translateX(30px);
+            transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+        }
+
+        .fade-in-right.visible {
+            opacity: 1;
+            transform: translateX(0);
+        }
+
+        /* Stagger delay for multiple elements */
+        .fade-in:nth-child(1) { transition-delay: 0.1s; }
+        .fade-in:nth-child(2) { transition-delay: 0.2s; }
+        .fade-in:nth-child(3) { transition-delay: 0.3s; }
+        .fade-in:nth-child(4) { transition-delay: 0.4s; }
+        .fade-in:nth-child(5) { transition-delay: 0.5s; }
+
         /* Mobile Menu Toggle */
         .menu-toggle {
             display: none;
@@ -1445,6 +1499,9 @@
         </span>
     </button>
 
+    <!-- Scroll Progress Indicator -->
+    <div class="scroll-progress-bar"></div>
+
     <!-- Subtle medical accent -->
     <div class="medical-accent"></div>
 
@@ -1507,7 +1564,7 @@
 
                     <img src="Fall 2025 Headshot.JPG" alt="Michael D. Green, PhD" class="profile-image">
                 </div>
-                <div class="card">
+                <div class="card fade-in">
                     <div class="hero-content">
                         <h1>Michael D. Green, PhD</h1>
                         <p class="subtitle">Population Health Researcher</p>
@@ -1524,7 +1581,7 @@
                 </div>
             </div>
 
-            <div class="card">
+            <div class="card fade-in">
                 <h2>About My Research</h2>
                 <p>My name is Michael D. Green, and I am a population health sciences researcher, who completed a Ph.D. in Population Health Sciences at the Duke University School of Medicine in 2025. I was born in Maryland, but moved 7 times before the age of 18. I am a member of the Dartmouth College class of 2021, where I graduated with Honors in Anthropology and a minor in Environmental Sciences. I additionally was a 4-year varsity athlete on the Heavyweight Rowing team, which I joined without any prior experience during the winter of my Freshman year.</p>
 
@@ -1536,7 +1593,7 @@
 
         <!-- Research Section -->
         <section id="research">
-            <div class="card">
+            <div class="card fade-in">
                 <div class="btn-group" style="justify-content: center;">
                     <a href="https://scholar.google.com/citations?user=ea2W0QgAAAAJ&hl=en" target="_blank" class="btn" style="font-size: 1.1rem; padding: 0.9rem 1.8rem;">
                         <img src="google scholar logo.png" alt="Google Scholar" style="width: 28px; height: 28px; vertical-align: middle; margin-right: 10px;">
@@ -1545,13 +1602,13 @@
                 </div>
             </div>
 
-            <div class="card">
+            <div class="card fade-in">
                 <p style="font-size: 1.1rem; line-height: 1.8; margin-bottom: 2rem;">My research focuses on understanding and eliminating healthcare inequities through rigorous methodological approaches.</p>
 
                 <h2 style="margin-bottom: 1.5rem;">Research Areas</h2>
 
                 <!-- Healthcare Discrimination Card -->
-                <div class="research-area-card" data-topic="discrimination">
+                <div class="research-area-card fade-in-left" data-topic="discrimination">
                     <div class="research-area-header">
                         <div class="research-area-content">
                             <h3>Healthcare Discrimination</h3>
@@ -1588,7 +1645,7 @@
                 </div>
 
                 <!-- Diversity in Clinical Trials Card -->
-                <div class="research-area-card" data-topic="diversity">
+                <div class="research-area-card fade-in" data-topic="diversity">
                     <div class="research-area-header">
                         <div class="research-area-content">
                             <h3>Diversity and Representation in Clinical Trials</h3>
@@ -1613,7 +1670,7 @@
                 </div>
 
                 <!-- Social Determinants of Health Card -->
-                <div class="research-area-card" data-topic="sdoh">
+                <div class="research-area-card fade-in-right" data-topic="sdoh">
                     <div class="research-area-header">
                         <div class="research-area-content">
                             <h3>Social Determinants of Health and Cardiovascular Disease</h3>
@@ -1659,7 +1716,7 @@
 
         <!-- Publications Section with ORCID Integration -->
         <section id="publications">
-            <div class="card">
+            <div class="card fade-in">
                 <h2>Publications</h2>
                 <p>All published manuscripts are available on <a href="published-manuscripts.html" style="color: var(--primary-green); font-weight: 600; text-decoration: underline;">this page linked here</a>. You can click on the images below to view specific projects. (Last Update 1/2026)</p>
 
@@ -1681,7 +1738,7 @@
                 </div>
             </div>
 
-            <div class="card">
+            <div class="card fade-in">
                 <h2>Published Works</h2>
                 <div id="publications-list">
                     <div class="loading-spinner"></div>
@@ -1691,7 +1748,7 @@
 
         <!-- CV Section -->
         <section id="cv">
-            <div class="card">
+            <div class="card fade-in">
                 <h2>Curriculum Vitae</h2>
                 <p>Download my complete CV for detailed information about my education, research experience, publications, presentations, and awards.</p>
                 <div class="btn-group">
@@ -1899,7 +1956,7 @@
 
         <!-- Media Section -->
         <section id="media">
-            <div class="card">
+            <div class="card fade-in">
                 <h2>Media</h2>
                 <p>I'm committed to translating research findings into accessible formats such as blogs, short-form videos, and podcasts.</p>
             </div>
@@ -2043,7 +2100,7 @@
 
         <!-- For Fun Section -->
         <section id="forfun">
-            <div class="card">
+            <div class="card fade-in">
                 <h2>For Fun</h2>
                 <p>Outside of research, I stay active and creative through a mix of running, hiking, occasional film photography, and travel (a city with a subway or a mountain town).</p>
             </div>
@@ -2145,7 +2202,7 @@
 
         <!-- Contact Section -->
         <section id="contact">
-            <div class="card">
+            <div class="card fade-in">
                 <h2>Connect With Me</h2>
                 <p>Follow my work and connect with me on social media for updates on research, health equity discussions, and insights from population health sciences.</p>
 
@@ -2176,7 +2233,7 @@
                 </div>
             </div>
 
-            <div class="card">
+            <div class="card fade-in">
                 <h2>Get in Touch</h2>
                 <p>I'm always interested in connecting with fellow researchers, collaborators, and those interested in health equity research. Feel free to reach out through any of the channels below.</p>
             </div>
@@ -2193,7 +2250,7 @@
                 </div>
             </div>
 
-            <div class="card">
+            <div class="card fade-in">
                 <h2>Collaboration Interests</h2>
                 <p>I'm particularly interested in collaborations involving:</p>
                 <ul>
@@ -2681,6 +2738,48 @@
                 }
             });
         });
+
+        // Scroll Progress Bar
+        function updateScrollProgress() {
+            const scrollProgress = document.querySelector('.scroll-progress-bar');
+            const windowHeight = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+            const scrolled = (window.scrollY / windowHeight) * 100;
+            scrollProgress.style.width = scrolled + '%';
+        }
+
+        window.addEventListener('scroll', updateScrollProgress);
+        updateScrollProgress(); // Initialize on load
+
+        // Scroll-triggered Fade-in Animations
+        function initScrollAnimations() {
+            const observerOptions = {
+                root: null,
+                threshold: 0.1,
+                rootMargin: '0px 0px -50px 0px'
+            };
+
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('visible');
+                        // Optionally unobserve after animation to improve performance
+                        // observer.unobserve(entry.target);
+                    }
+                });
+            }, observerOptions);
+
+            // Observe all elements with fade-in classes
+            document.querySelectorAll('.fade-in, .fade-in-left, .fade-in-right').forEach(el => {
+                observer.observe(el);
+            });
+        }
+
+        // Initialize animations when DOM is ready
+        if (document.readyState === 'loading') {
+            document.addEventListener('DOMContentLoaded', initScrollAnimations);
+        } else {
+            initScrollAnimations();
+        }
     </script>
 </body>
 </html>
