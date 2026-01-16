@@ -106,7 +106,32 @@
         }
 
         h1, h2 {
-            font-family: Palatino, 'Palatino Linotype', Georgia, serif;
+            font-family: Palatino, 'Palatino Linotype', Tahoma, Geneva, serif;
+        }
+
+        /* Link styling */
+        a {
+            text-decoration: underline;
+        }
+
+        a:hover {
+            text-decoration: underline;
+        }
+
+        /* Remove underline from specific navigation and button links */
+        .nav-link,
+        .btn,
+        .btn-outline,
+        .social-link,
+        .orcid-badge,
+        .logo {
+            text-decoration: none;
+        }
+
+        .nav-link:hover,
+        .btn:hover,
+        .btn-outline:hover {
+            text-decoration: none;
         }
 
         /* Page Loading Animation */
@@ -1572,7 +1597,7 @@
                             Postdoctoral Fellow<br>
                             Johns Hopkins Bloomberg School of Public Health
                         </p>
-                        <p>I am a United States based population health researcher focusing on understanding how unequal treatment in healthcare leads to health inequities, and how to solve them.</p>
+                        <p>I am a United States based population health researcher focused on understanding how unequal treatment in healthcare leads to health inequities, and how to solve them.</p>
                         <div class="btn-group">
                             <a href="#research" class="btn nav-link" data-section="research">View Research</a>
                             <a href="#contact" class="btn-outline nav-link" data-section="contact">Get in Touch</a>
@@ -1792,6 +1817,7 @@
                 <h3>Research Areas</h3>
                 <ul>
                     <li>Healthcare discrimination</li>
+                    <li>Diversity and representation in clinical trials</li>
                     <li>Social determinants of health</li>
                     <li>Cardiovascular epidemiology</li>
                     <li>Aging</li>
@@ -2235,7 +2261,7 @@
 
             <div class="card fade-in">
                 <h2>Get in Touch</h2>
-                <p>I'm always interested in connecting with fellow researchers, collaborators, and those interested in health equity research. Feel free to reach out through any of the channels below.</p>
+                <p>I'm often interested in connecting with fellow researchers, collaborators, and those whom I feel my values align. Feel free to reach out through the channels below (after reading the <a href="faq.html">FAQ</a>).</p>
             </div>
 
             <div class="contact-grid">
@@ -2519,7 +2545,7 @@
         function showFallbackPosts(container) {
             container.innerHTML = `
                 <div style="padding: 2rem; background: rgba(46, 125, 50, 0.05); border-radius: 8px; text-align: center;">
-                    <p style="margin: 0; color: var(--dark-gray);">Click the <strong>"Visit Not Being Green"</strong> button above to read the latest posts on health equity, population health research, and policy insights.</p>
+                    <p style="margin: 0; color: var(--dark-gray);">Click the <strong>"Visit Not Being Green"</strong> button above to read the latest posts.</p>
                 </div>
             `;
         }

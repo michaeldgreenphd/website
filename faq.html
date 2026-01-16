@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FAQ - Michael D. Green, PhD</title>
+
+    <style>
+        :root {
+            --primary-green: #2E7D32;
+            --light-green: #4CAF50;
+            --accent-blue: #1976D2;
+            --light-gray: #F5F5F5;
+            --medium-gray: #E0E0E0;
+            --dark-gray: #333333;
+            --white: #FFFFFF;
+            --card-shadow: 0 2px 8px rgba(0,0,0,0.08);
+            --hover-shadow: 0 4px 16px rgba(0,0,0,0.12);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: Palatino, 'Palatino Linotype', Tahoma, Geneva, serif;
+            line-height: 1.6;
+            color: var(--dark-gray);
+            background: linear-gradient(135deg, var(--white) 0%, var(--light-gray) 100%);
+            min-height: 100vh;
+        }
+
+        /* Header */
+        header {
+            background: var(--white);
+            border-bottom: 3px solid var(--primary-green);
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+            padding: 2rem 0;
+        }
+
+        .header-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 2rem;
+        }
+
+        .header-content h1 {
+            color: var(--primary-green);
+            font-size: 2.5rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .header-content p {
+            color: #666;
+            font-size: 1.1rem;
+        }
+
+        .back-link {
+            display: inline-block;
+            margin-top: 1rem;
+            color: var(--primary-green);
+            text-decoration: underline;
+            font-weight: 500;
+            transition: opacity 0.3s;
+        }
+
+        .back-link:hover {
+            opacity: 0.7;
+        }
+
+        /* Container */
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 3rem 2rem;
+        }
+
+        .intro-text {
+            background: var(--white);
+            border-radius: 8px;
+            padding: 2rem;
+            margin-bottom: 3rem;
+            box-shadow: var(--card-shadow);
+            border-left: 4px solid var(--primary-green);
+        }
+
+        .intro-text p {
+            line-height: 1.8;
+        }
+
+        /* FAQ Items */
+        .faq-item {
+            background: var(--white);
+            border-radius: 8px;
+            padding: 2rem;
+            margin-bottom: 2rem;
+            box-shadow: var(--card-shadow);
+            border-left: 4px solid var(--primary-green);
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+
+        .faq-item:hover {
+            transform: translateY(-2px);
+            box-shadow: var(--hover-shadow);
+        }
+
+        .faq-item h3 {
+            color: var(--primary-green);
+            margin-bottom: 1rem;
+            font-size: 1.3rem;
+            line-height: 1.4;
+        }
+
+        .faq-item .answer {
+            color: var(--dark-gray);
+            line-height: 1.8;
+        }
+
+        .faq-item a {
+            color: var(--primary-green);
+            text-decoration: underline;
+            font-weight: 600;
+        }
+
+        .faq-item a:hover {
+            opacity: 0.7;
+        }
+
+        /* Footer */
+        footer {
+            background: var(--dark-gray);
+            color: var(--white);
+            text-align: center;
+            padding: 2rem;
+            margin-top: 4rem;
+        }
+
+        /* Mobile */
+        @media (max-width: 768px) {
+            .header-content h1 {
+                font-size: 2rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header>
+        <div class="header-content">
+            <h1>Frequently Asked Questions</h1>
+            <p>Michael D. Green, PhD - Population Health Sciences</p>
+            <a href="index.html#contact" class="back-link">← Back to Main Site</a>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <div class="container">
+        <div class="intro-text">
+            <p>I often get these questions, so I figured having this page to either send people to (or even better if people read them before reaching out to me).</p>
+        </div>
+
+        <!-- FAQ 1 -->
+        <div class="faq-item">
+            <h3>Q: Are you open to speaking engagements, podcasts, and/or interviews?</h3>
+            <p class="answer">A: Yes, I think this is important.</p>
+        </div>
+
+        <!-- FAQ 2 -->
+        <div class="faq-item">
+            <h3>Q: What is the best way to reach you?</h3>
+            <p class="answer">A: Email is preferred. I usually check around 8 a.m. Eastern time and 4 p.m. Eastern time. If I have not responded to an inquiry within a week, feel free to resend your message.</p>
+        </div>
+
+        <!-- FAQ 3 -->
+        <div class="faq-item">
+            <h3>Q: Are you currently on the academic job market?</h3>
+            <p class="answer">A: I am not on the market for any other post-doctoral opportunities. I am open to consulting and collaboration opportunities. If your department is hiring for an assistant professor position and you think I am a good fit, I am happy to discuss. My current desire is to pursue an academic position, but I am open to other arrangements if they align with my values and work.</p>
+        </div>
+
+        <!-- FAQ 4 -->
+        <div class="faq-item">
+            <h3>Q: Do you have any advice for applying to a Ph.D. program or a general overview of your experience?</h3>
+            <p class="answer">A: I wrote an extended essay about this on my blog. It is available on <a href="https://www.notbeinggreen.com?utm_source=navbar&utm_medium=web" target="_blank" rel="noopener noreferrer">Substack</a> for free. Please read it in full before reaching out about meeting. If you have additional questions, email is usually the best first step.</p>
+        </div>
+
+        <!-- FAQ 5 -->
+        <div class="faq-item">
+            <h3>Q: Can you send me your previous grant proposals?</h3>
+            <p class="answer">A: If it is ongoing work, no. For work that has been completed, I am happy to, as long as you do not redistribute it without my permission.</p>
+        </div>
+
+        <!-- FAQ 6 -->
+        <div class="faq-item">
+            <h3>Q: Are you taking on any mentees?</h3>
+            <p class="answer">A: I traditionally have not engaged in any cold-call-style mentor-mentee relationships. I have met a number of great mentees and collaborators through organizations like the American Heart Association, IAPHS, and other places I have been affiliated. Usually, I prefer to work with people through existing collaborations. Time permitting, I am happy to point you in the direction of resources (and people when appropriate) whom I think could be helpful.</p>
+        </div>
+
+    </div>
+
+    <!-- Footer -->
+    <footer>
+        <p>&copy; 2026 Michael D. Green, PhD. All rights reserved.</p>
+    </footer>
+</body>
+</html>
