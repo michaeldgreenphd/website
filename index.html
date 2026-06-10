@@ -711,6 +711,133 @@
             }
         }
 
+        /* Google Scholar Dashboard */
+        .scholar-meta {
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+        }
+
+        .scholar-grid {
+            display: grid;
+            grid-template-columns: minmax(0, 2fr) minmax(0, 1fr);
+            grid-template-areas:
+                "metrics metrics"
+                "chart   coauthors";
+            gap: 2rem;
+            margin-top: 1.5rem;
+        }
+
+        .scholar-metrics {
+            grid-area: metrics;
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 1rem;
+        }
+
+        .metric-block {
+            padding: 1.25rem 1rem;
+            text-align: center;
+            background: rgba(46, 125, 50, 0.04);
+            border: 1px solid rgba(46, 125, 50, 0.12);
+            border-radius: 10px;
+        }
+
+        .metric-value {
+            display: block;
+            font-size: clamp(2rem, 1.5rem + 2vw, 2.75rem);
+            font-weight: 700;
+            line-height: 1.1;
+            color: var(--primary-green);
+            font-variant-numeric: tabular-nums;
+        }
+
+        .metric-label {
+            display: block;
+            margin-top: 0.4rem;
+            font-size: 0.8rem;
+            font-weight: 500;
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
+            color: var(--text-secondary);
+        }
+
+        .scholar-chart {
+            grid-area: chart;
+            margin: 0;
+            min-width: 0;
+        }
+
+        .scholar-chart img {
+            width: 100%;
+            height: auto;
+            display: block;
+        }
+
+        .scholar-chart .chart-dark {
+            display: none;
+        }
+
+        [data-theme="dark"] .scholar-chart .chart-light {
+            display: none;
+        }
+
+        [data-theme="dark"] .scholar-chart .chart-dark {
+            display: block;
+        }
+
+        .scholar-chart figcaption {
+            margin-top: 0.75rem;
+            text-align: center;
+            font-size: 0.85rem;
+            color: var(--text-secondary);
+        }
+
+        .scholar-coauthors {
+            grid-area: coauthors;
+            min-width: 0;
+        }
+
+        .scholar-coauthors h3 {
+            margin: 0 0 0.75rem 0;
+            font-size: 0.9rem;
+            font-weight: 600;
+            letter-spacing: 0.06em;
+            text-transform: uppercase;
+            color: var(--text-secondary);
+        }
+
+        .scholar-coauthors ul {
+            list-style: none;
+            margin: 0;
+            padding: 0;
+        }
+
+        .scholar-coauthors li {
+            padding: 0.6rem 0;
+            border-bottom: 1px solid var(--border-color);
+            line-height: 1.45;
+        }
+
+        .scholar-coauthors li:last-child {
+            border-bottom: none;
+        }
+
+        .scholar-coauthors a {
+            color: var(--primary-green);
+            font-weight: 500;
+            text-decoration: none;
+        }
+
+        .scholar-coauthors a:hover {
+            text-decoration: underline;
+        }
+
+        .coauthor-affiliation {
+            display: block;
+            font-size: 0.85rem;
+            color: var(--text-secondary);
+        }
+
         /* Buttons */
         .btn {
             display: inline-flex;
@@ -747,25 +874,73 @@
             color: var(--white);
         }
 
-        /* Theme-shape button icons (hibiscus, crab) — drawn in currentColor so
-           they follow the button's text color across fill/outline/hover states */
-        .btn-shape {
-            width: 1.5em;
-            height: 1.5em;
-            flex-shrink: 0;
+        /* Standalone theme-shape buttons (hibiscus, crab): the SVG graphic IS
+           the interactive control. Drawn in currentColor so the shapes adapt
+           to light/dark themes automatically. */
+        .shape-actions {
+            margin-top: 2rem;
+            display: flex;
+            gap: 2.5rem;
+            flex-wrap: wrap;
         }
 
-        .hero .btn {
-            border-radius: 50px;
-            padding: 0.75rem 1.75rem;
+        .shape-action {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 0.5rem;
         }
 
-        .btn:hover .shape-hibiscus {
+        .shape-btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 72px;
+            height: 72px;
+            padding: 6px;
+            color: var(--primary-green);
+            border-radius: 50%;
+            cursor: pointer;
+            -webkit-tap-highlight-color: transparent;
+            transition: transform 0.25s ease, color 0.25s ease, filter 0.25s ease;
+        }
+
+        .shape-btn svg {
+            width: 100%;
+            height: 100%;
+            display: block;
+        }
+
+        .shape-btn:hover {
+            color: var(--light-green);
+            transform: translateY(-4px) scale(1.08);
+            filter: drop-shadow(0 6px 12px rgba(45, 106, 79, 0.35));
+        }
+
+        .shape-btn:hover .shape-hibiscus {
             animation: bloom 1.8s ease-in-out infinite;
         }
 
-        .btn:hover .shape-crab {
+        .shape-btn:hover .shape-crab {
             animation: scuttle 1.8s ease-in-out infinite;
+        }
+
+        .shape-btn:focus-visible {
+            outline: 2px solid var(--primary-green);
+            outline-offset: 4px;
+        }
+
+        .shape-btn:active {
+            transform: scale(0.92);
+            filter: none;
+            transition-duration: 0.1s;
+        }
+
+        .shape-action-label {
+            font-size: 0.9rem;
+            font-weight: 500;
+            color: var(--text-secondary);
+            letter-spacing: 0.02em;
         }
 
         .btn-group {
@@ -1465,6 +1640,27 @@
                 justify-content: center;
             }
 
+            .shape-actions {
+                justify-content: center;
+            }
+
+            .scholar-grid {
+                grid-template-columns: 1fr;
+                grid-template-areas:
+                    "metrics"
+                    "chart"
+                    "coauthors";
+                gap: 1.5rem;
+            }
+
+            .scholar-metrics {
+                gap: 0.6rem;
+            }
+
+            .metric-block {
+                padding: 1rem 0.5rem;
+            }
+
             .contact-grid {
                 grid-template-columns: 1fr;
             }
@@ -1668,32 +1864,36 @@
                             Johns Hopkins Bloomberg School of Public Health
                         </p>
                         <p>I am a United States based population health researcher focused on understanding how unequal treatment in healthcare leads to health inequities, and how to solve them.</p>
-                        <div class="btn-group">
-                            <a href="#research" class="btn nav-link" data-section="research">
-                                <svg class="btn-shape shape-hibiscus" viewBox="0 0 50 50" aria-hidden="true" focusable="false">
-                                    <circle cx="25" cy="25" r="4" fill="currentColor"/>
-                                    <ellipse cx="25" cy="12" rx="6" ry="12" fill="currentColor" opacity="0.8"/>
-                                    <ellipse cx="38" cy="18" rx="6" ry="12" fill="currentColor" opacity="0.8" transform="rotate(72 25 25)"/>
-                                    <ellipse cx="35" cy="35" rx="6" ry="12" fill="currentColor" opacity="0.8" transform="rotate(144 25 25)"/>
-                                    <ellipse cx="15" cy="35" rx="6" ry="12" fill="currentColor" opacity="0.8" transform="rotate(216 25 25)"/>
-                                    <ellipse cx="12" cy="18" rx="6" ry="12" fill="currentColor" opacity="0.8" transform="rotate(288 25 25)"/>
-                                </svg>
-                                View Research
-                            </a>
-                            <a href="#contact" class="btn btn-outline nav-link" data-section="contact">
-                                <svg class="btn-shape shape-crab" viewBox="0 0 55 40" aria-hidden="true" focusable="false">
-                                    <ellipse cx="27.5" cy="25" rx="12" ry="9" fill="currentColor"/>
-                                    <path d="M15 25 Q10 22 8 20 L6 18" stroke="currentColor" stroke-width="3" fill="none" stroke-linecap="round"/>
-                                    <ellipse cx="6" cy="16" rx="4" ry="3" fill="currentColor"/>
-                                    <path d="M40 25 Q45 22 47 20 L49 18" stroke="currentColor" stroke-width="3" fill="none" stroke-linecap="round"/>
-                                    <ellipse cx="49" cy="16" rx="4" ry="3" fill="currentColor"/>
-                                    <line x1="18" y1="32" x2="15" y2="38" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
-                                    <line x1="23" y1="33" x2="21" y2="39" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
-                                    <line x1="32" y1="33" x2="34" y2="39" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
-                                    <line x1="37" y1="32" x2="40" y2="38" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
-                                </svg>
-                                Get in Touch
-                            </a>
+                        <div class="shape-actions">
+                            <div class="shape-action">
+                                <a href="#research" class="shape-btn nav-link" data-section="research" aria-label="View Research" title="View Research">
+                                    <svg class="shape-hibiscus" viewBox="0 0 50 50" aria-hidden="true" focusable="false">
+                                        <circle cx="25" cy="25" r="4" fill="currentColor"/>
+                                        <ellipse cx="25" cy="12" rx="6" ry="12" fill="currentColor" opacity="0.8"/>
+                                        <ellipse cx="38" cy="18" rx="6" ry="12" fill="currentColor" opacity="0.8" transform="rotate(72 25 25)"/>
+                                        <ellipse cx="35" cy="35" rx="6" ry="12" fill="currentColor" opacity="0.8" transform="rotate(144 25 25)"/>
+                                        <ellipse cx="15" cy="35" rx="6" ry="12" fill="currentColor" opacity="0.8" transform="rotate(216 25 25)"/>
+                                        <ellipse cx="12" cy="18" rx="6" ry="12" fill="currentColor" opacity="0.8" transform="rotate(288 25 25)"/>
+                                    </svg>
+                                </a>
+                                <span class="shape-action-label" aria-hidden="true">View Research</span>
+                            </div>
+                            <div class="shape-action">
+                                <a href="#contact" class="shape-btn nav-link" data-section="contact" aria-label="Get in Touch" title="Get in Touch">
+                                    <svg class="shape-crab" viewBox="0 0 55 40" aria-hidden="true" focusable="false">
+                                        <ellipse cx="27.5" cy="25" rx="12" ry="9" fill="currentColor"/>
+                                        <path d="M15 25 Q10 22 8 20 L6 18" stroke="currentColor" stroke-width="3" fill="none" stroke-linecap="round"/>
+                                        <ellipse cx="6" cy="16" rx="4" ry="3" fill="currentColor"/>
+                                        <path d="M40 25 Q45 22 47 20 L49 18" stroke="currentColor" stroke-width="3" fill="none" stroke-linecap="round"/>
+                                        <ellipse cx="49" cy="16" rx="4" ry="3" fill="currentColor"/>
+                                        <line x1="18" y1="32" x2="15" y2="38" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+                                        <line x1="23" y1="33" x2="21" y2="39" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+                                        <line x1="32" y1="33" x2="34" y2="39" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+                                        <line x1="37" y1="32" x2="40" y2="38" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+                                    </svg>
+                                </a>
+                                <span class="shape-action-label" aria-hidden="true">Get in Touch</span>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -1717,6 +1917,26 @@
                         <img loading="lazy" decoding="async" src="google scholar logo.png" alt="Google Scholar" style="width: 28px; height: 28px; vertical-align: middle; margin-right: 10px;">
                         View Google Scholar Profile
                     </a>
+                </div>
+            </div>
+
+            <!-- Google Scholar Dashboard: populated from scholar_stats.json,
+                 which a daily GitHub Action refreshes (scripts/fetch_scholar.py).
+                 Stays hidden until the data file exists and loads. -->
+            <div class="card fade-in" id="scholar-dashboard" hidden>
+                <h2>Citation Metrics</h2>
+                <p class="scholar-meta">Source: <a href="https://scholar.google.com/citations?user=ea2W0QgAAAAJ&amp;hl=en" target="_blank" rel="noopener noreferrer">Google Scholar</a><span id="scholar-updated"></span></p>
+                <div class="scholar-grid">
+                    <div class="scholar-metrics" id="scholar-metrics"></div>
+                    <figure class="scholar-chart">
+                        <img src="citations_over_time.png" alt="Bar chart of citations per year" class="chart-light" loading="lazy" decoding="async">
+                        <img src="citations_over_time_dark.png" alt="" class="chart-dark" loading="lazy" decoding="async" aria-hidden="true">
+                        <figcaption>Citations per year</figcaption>
+                    </figure>
+                    <aside class="scholar-coauthors">
+                        <h3>Frequent Co-Authors</h3>
+                        <ul id="scholar-coauthors-list"></ul>
+                    </aside>
                 </div>
             </div>
 
@@ -2482,6 +2702,12 @@
                     substackPosts.dataset.loaded = 'true';
                     fetchSubstackPosts();
                 }
+            } else if (sectionId === 'research') {
+                const dashboard = document.getElementById('scholar-dashboard');
+                if (!dashboard.dataset.loaded) {
+                    dashboard.dataset.loaded = 'true';
+                    fetchScholarStats();
+                }
             }
         }
 
@@ -2580,6 +2806,55 @@
                     </div>
                 `;
             }
+        }
+
+        // Google Scholar Dashboard: reads scholar_stats.json, which is kept
+        // fresh by a daily GitHub Action (scripts/fetch_scholar.py). The card
+        // stays hidden if the file doesn't exist yet or fails to load.
+        async function fetchScholarStats() {
+            const dashboard = document.getElementById('scholar-dashboard');
+
+            try {
+                const response = await fetch('scholar_stats.json', { cache: 'no-cache' });
+                if (!response.ok) {
+                    throw new Error(`scholar_stats.json returned ${response.status}`);
+                }
+                renderScholarDashboard(await response.json());
+                dashboard.hidden = false;
+            } catch (error) {
+                console.warn('Scholar dashboard unavailable:', error);
+                dashboard.dataset.loaded = ''; // retry next time the tab is opened
+            }
+        }
+
+        function renderScholarDashboard(data) {
+            const metrics = data.metrics || {};
+            const stats = [
+                { label: 'Citations', value: metrics.citations },
+                { label: 'h-index', value: metrics.h_index },
+                { label: 'i10-index', value: metrics.i10_index }
+            ];
+
+            document.getElementById('scholar-metrics').innerHTML = stats.map(stat => `
+                <div class="metric-block">
+                    <span class="metric-value">${Number(stat.value || 0).toLocaleString()}</span>
+                    <span class="metric-label">${stat.label}</span>
+                </div>
+            `).join('');
+
+            if (data.updated) {
+                document.getElementById('scholar-updated').textContent = ` · Data as of ${data.updated}`;
+            }
+
+            const coauthors = (data.coauthors || []).slice(0, 12);
+            document.getElementById('scholar-coauthors-list').innerHTML = coauthors.map(coauthor => `
+                <li>
+                    ${coauthor.profile_url
+                        ? `<a href="${escapeHtml(coauthor.profile_url)}" target="_blank" rel="noopener noreferrer">${escapeHtml(coauthor.name)}</a>`
+                        : escapeHtml(coauthor.name)}
+                    ${coauthor.affiliation ? `<span class="coauthor-affiliation">${escapeHtml(coauthor.affiliation)}</span>` : ''}
+                </li>
+            `).join('');
         }
 
         function formatPublication(work) {
