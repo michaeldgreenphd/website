@@ -46,22 +46,23 @@ CHART_DARK_PATH = REPO_ROOT / "citations_over_time_dark.png"
 MAX_COAUTHORS = 12  # keep the dashboard list compact
 RETRIES = 3         # Scholar occasionally rate-limits; retry with backoff
 
-# Muted, minimalist palettes. Bars use a slate blue; the latest (current)
-# year is highlighted in the site's brand green to tie into the theme.
+# Muted, minimalist palettes drawn from the site's design tokens (theme.css):
+# desaturated green-slate bars with the current year highlighted in the
+# brand primary; green-tinted neutral text instead of default blacks/grays.
 PALETTES = {
     "light": {
-        "bar": "#46627F",        # muted slate blue
-        "bar_latest": "#2D6A4F", # brand green highlight for the current year
-        "text": "#333333",
-        "subtext": "#666666",
-        "spine": "#D0D0D0",
+        "bar": "#5E7D70",        # muted green-slate (neutral family)
+        "bar_latest": "#2D6A4F", # --color-primary highlight for current year
+        "text": "#22332B",       # --color-text
+        "subtext": "#5B6962",    # --color-text-secondary
+        "spine": "#E2E8E4",      # --color-border
     },
     "dark": {
-        "bar": "#8FAEC9",        # lifted slate for dark backgrounds
-        "bar_latest": "#52B788",
-        "text": "#F5F5F5",
-        "subtext": "#C9C9C9",
-        "spine": "#4A6354",
+        "bar": "#7FA391",        # lifted green-slate for dark surfaces
+        "bar_latest": "#52B788", # dark-mode --color-primary
+        "text": "#F2F5F3",
+        "subtext": "#C9D4CE",
+        "spine": "#3D5A4A",
     },
 }
 

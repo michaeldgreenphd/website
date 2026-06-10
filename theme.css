@@ -1,0 +1,218 @@
+/* ==========================================================================
+   theme.css — Global design tokens & base styles
+   --------------------------------------------------------------------------
+   Single source of truth for color, typography, spacing, radii, and depth.
+   Design system synthesis:
+     - Beaird & George: mathematical scale, analogous green color harmony
+       with tinted neutrals; consistent proportional rhythm.
+     - Santa Maria: serif display (Fraunces) paired with a humanist sans
+       (DM Sans); fluid modular type scale; 60–75ch reading measure.
+     - Wathan & Schoger: muted green-tinted grays instead of pure black,
+       soft layered shadows instead of heavy borders, whitespace and
+       font-weight for hierarchy.
+
+   Legacy variable names (--primary-green, --card-shadow, ...) are aliased
+   to the new tokens so existing component CSS keeps working unchanged.
+   ========================================================================== */
+
+:root {
+    /* ----- Color: brand ------------------------------------------------- */
+    --color-primary: #2D6A4F;        /* deep brand green */
+    --color-primary-strong: #1F4D38; /* pressed / emphasis */
+    --color-primary-soft: #52B788;   /* secondary green, accents */
+    --color-primary-tint: rgba(45, 106, 79, 0.06);  /* subtle fills */
+    --color-accent: #1976D2;         /* rare informational accent */
+
+    /* ----- Color: green-tinted neutrals (no pure black or default gray) - */
+    --color-bg: #F4F7F5;             /* page background */
+    --color-bg-elevated: #FBFCFB;    /* gradient start, raised regions */
+    --color-surface: #FFFFFF;        /* cards */
+    --color-text: #22332B;           /* primary copy */
+    --color-text-secondary: #5B6962; /* supporting copy, metadata */
+    --color-text-muted: #75847B;     /* captions, fine print */
+    --color-border: #E2E8E4;         /* hairlines, dividers */
+
+    /* ----- Typography ---------------------------------------------------- */
+    --font-sans: 'DM Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    --font-serif: 'Fraunces', Georgia, 'Times New Roman', serif;
+
+    /* Fluid modular scale (~1.2 minor third, expanding slightly on desktop) */
+    --text-xs: 0.8rem;
+    --text-sm: 0.9rem;
+    --text-base: 1rem;
+    --text-lg: clamp(1.1rem, 1.05rem + 0.25vw, 1.2rem);
+    --text-xl: clamp(1.25rem, 1.15rem + 0.5vw, 1.45rem);
+    --text-2xl: clamp(1.5rem, 1.32rem + 0.9vw, 1.85rem);
+    --text-3xl: clamp(1.9rem, 1.62rem + 1.4vw, 2.4rem);
+    --text-4xl: clamp(2.25rem, 1.87rem + 1.9vw, 2.9rem);
+
+    --leading-tight: 1.2;   /* display headings */
+    --leading-snug: 1.45;   /* subheads, dense UI */
+    --leading-body: 1.7;    /* long-form copy */
+    --measure: 70ch;        /* 60–75 character reading width */
+
+    /* ----- Spacing: strict 4px base grid --------------------------------- */
+    --space-1: 0.25rem;   /*  4px */
+    --space-2: 0.5rem;    /*  8px */
+    --space-3: 0.75rem;   /* 12px */
+    --space-4: 1rem;      /* 16px */
+    --space-6: 1.5rem;    /* 24px */
+    --space-8: 2rem;      /* 32px */
+    --space-10: 2.5rem;   /* 40px */
+    --space-12: 3rem;     /* 48px */
+    --space-16: 4rem;     /* 64px */
+
+    /* ----- Radii ---------------------------------------------------------- */
+    --radius-sm: 6px;
+    --radius-md: 10px;
+    --radius-lg: 12px;
+
+    /* ----- Depth: soft layered shadows over heavy borders ----------------- */
+    --shadow-sm: 0 1px 3px rgba(34, 51, 43, 0.05), 0 4px 12px rgba(34, 51, 43, 0.06);
+    --shadow-md: 0 2px 6px rgba(34, 51, 43, 0.06), 0 8px 20px rgba(34, 51, 43, 0.08);
+    --shadow-lg: 0 6px 14px rgba(34, 51, 43, 0.08), 0 14px 32px rgba(34, 51, 43, 0.12);
+
+    /* ----- Legacy aliases (consumed by existing component CSS) ------------ */
+    --primary-green: var(--color-primary);
+    --light-green: var(--color-primary-soft);
+    --accent-blue: var(--color-accent);
+    --light-gray: var(--color-bg);
+    --medium-gray: var(--color-border);
+    --dark-gray: var(--color-text);
+    --white: var(--color-surface);
+    --bg-primary: var(--color-bg-elevated);
+    --bg-secondary: var(--color-bg);
+    --text-primary: var(--color-text);
+    --text-secondary: var(--color-text-secondary);
+    --border-color: var(--color-border);
+    --card-shadow: var(--shadow-sm);
+    --hover-shadow: var(--shadow-lg);
+    --objective-bg: var(--color-primary-tint);
+}
+
+/* ----- Dark theme: same token names, inverted values ----------------------- */
+[data-theme="dark"] {
+    --color-primary: #52B788;
+    --color-primary-strong: #74C9A1;
+    --color-primary-soft: #2D6A4F;
+    --color-primary-tint: rgba(82, 183, 136, 0.1);
+
+    --color-bg: #163327;
+    --color-bg-elevated: #1A3D2E;
+    --color-surface: #1F4433;
+    --color-text: #F2F5F3;
+    --color-text-secondary: #C9D4CE;
+    --color-text-muted: #9FAFA6;
+    --color-border: #3D5A4A;
+
+    --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.25), 0 4px 12px rgba(0, 0, 0, 0.3);
+    --shadow-md: 0 2px 6px rgba(0, 0, 0, 0.3), 0 8px 20px rgba(0, 0, 0, 0.35);
+    --shadow-lg: 0 6px 14px rgba(0, 0, 0, 0.35), 0 14px 32px rgba(0, 0, 0, 0.4);
+
+    /* Legacy aliases that swap in dark mode */
+    --primary-green: var(--color-primary);
+    --light-green: var(--color-primary-soft);
+    --light-gray: var(--color-bg);
+    --medium-gray: var(--color-border);
+    --dark-gray: var(--color-text);
+    --white: var(--color-surface);
+    --bg-primary: var(--color-bg-elevated);
+    --bg-secondary: var(--color-bg);
+}
+
+/* ==========================================================================
+   Base element styles
+   ========================================================================== */
+
+html {
+    scroll-behavior: smooth;
+}
+
+body {
+    font-family: var(--font-sans);
+    font-size: var(--text-base);
+    line-height: var(--leading-body);
+    color: var(--color-text);
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+}
+
+/* Serif display voice for major headings; sans + weight for minor levels */
+h1, h2, h3 {
+    font-family: var(--font-serif);
+    font-weight: 600;
+    line-height: var(--leading-tight);
+    letter-spacing: -0.015em;
+}
+
+h4, h5, h6 {
+    font-family: var(--font-sans);
+    font-weight: 700;
+    line-height: var(--leading-snug);
+    letter-spacing: -0.01em;
+}
+
+/* Reading measure: cap long-form copy at 60–75 characters */
+.card p,
+.intro-text p,
+.timeline-item p,
+.media-item p,
+.faq-item .answer,
+.manuscript-item .objective,
+.manuscript-item .coauthors {
+    max-width: var(--measure);
+}
+
+::selection {
+    background: rgba(82, 183, 136, 0.3);
+}
+
+a:focus-visible,
+button:focus-visible {
+    outline: 2px solid var(--color-primary);
+    outline-offset: 2px;
+    border-radius: 2px;
+}
+
+/* ==========================================================================
+   Layout utilities (4px-grid container system)
+   ========================================================================== */
+
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: var(--space-12) var(--space-8);
+}
+
+.container--narrow {
+    max-width: 800px;
+}
+
+.container--flush {
+    padding-top: 0;
+    padding-bottom: 0;
+}
+
+@media (max-width: 768px) {
+    .container {
+        padding: var(--space-8) var(--space-4);
+    }
+}
+
+/* ==========================================================================
+   Motion preferences
+   ========================================================================== */
+
+@media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+    }
+
+    html {
+        scroll-behavior: auto;
+    }
+}
