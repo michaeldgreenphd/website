@@ -21,7 +21,7 @@ Usage:
 """
 
 import json
-import signal
+import multiprocessing
 import sys
 import time
 from datetime import date
@@ -73,14 +73,6 @@ PALETTES = {
 # --- Data fetching ------------------------------------------------------------
 
 
-class FetchTimeout(Exception):
-    """Raised when a single fetch attempt exceeds FETCH_TIMEOUT_S."""
-
-
-def _alarm_handler(signum, frame):
-    raise FetchTimeout(f"attempt exceeded {FETCH_TIMEOUT_S}s")
-
-
 def _enable_free_proxies():
     """Route scholarly through rotating free proxies.
 
@@ -99,32 +91,58 @@ def _enable_free_proxies():
         print(f"Proxy setup failed ({err}); continuing direct", file=sys.stderr)
 
 
-def fetch_author():
-    """Fetch and hydrate the author record, retrying on transient failures.
+def _fetch_worker(queue, use_proxy):
+    """Child-process body: fetch the author record and report via queue."""
+    try:
+        if use_proxy:
+            _enable_free_proxies()
+        author = scholarly.search_author_id(SCHOLAR_ID)
+        author = scholarly.fill(
+            author, sections=["basics", "indices", "counts", "coauthors"]
+        )
+        queue.put(("ok", dict(author)))
+    except Exception as err:  # noqa: BLE001 - scholarly raises broadly
+        queue.put(("err", repr(err)))
 
-    Each attempt (including proxy setup) runs under a hard SIGALRM timeout
-    so a hung connection fails fast and the next attempt gets its turn.
+
+def fetch_author():
+    """Fetch the author record with hard per-attempt timeouts.
+
+    Each attempt runs in a separate process that is terminated at
+    FETCH_TIMEOUT_S. Process isolation is deliberate: scholarly's internal
+    retry loop swallows in-process timeout exceptions (signal.alarm proved
+    insufficient), and a tarpitted connection would otherwise hang the CI
+    job until the workflow-level timeout. Retries route through free
+    proxies to get a fresh IP.
     """
     last_err = None
-    signal.signal(signal.SIGALRM, _alarm_handler)
 
     for attempt in range(1, RETRIES + 1):
-        signal.alarm(FETCH_TIMEOUT_S)
-        try:
-            if attempt > 1:
-                _enable_free_proxies()
-            author = scholarly.search_author_id(SCHOLAR_ID)
-            return scholarly.fill(
-                author, sections=["basics", "indices", "counts", "coauthors"]
-            )
-        except Exception as err:  # noqa: BLE001 - scholarly raises broadly
-            last_err = err
-            print(f"Fetch attempt {attempt}/{RETRIES} failed: {err}", file=sys.stderr)
-            if attempt < RETRIES:
-                print("Retrying in 10s...", file=sys.stderr)
-                time.sleep(10)
-        finally:
-            signal.alarm(0)
+        queue = multiprocessing.Queue()
+        proc = multiprocessing.Process(
+            target=_fetch_worker, args=(queue, attempt > 1), daemon=True
+        )
+        proc.start()
+        proc.join(FETCH_TIMEOUT_S)
+
+        if proc.is_alive():
+            proc.terminate()
+            proc.join(5)
+            last_err = f"attempt timed out after {FETCH_TIMEOUT_S}s (terminated)"
+            print(f"Fetch attempt {attempt}/{RETRIES}: {last_err}", file=sys.stderr)
+        else:
+            try:
+                status, payload = queue.get(timeout=5)
+            except Exception:  # noqa: BLE001 - empty queue means worker died
+                status, payload = "err", "worker exited without a result"
+            if status == "ok":
+                return payload
+            last_err = payload
+            print(f"Fetch attempt {attempt}/{RETRIES} failed: {payload}", file=sys.stderr)
+
+        if attempt < RETRIES:
+            print("Retrying in 10s...", file=sys.stderr)
+            time.sleep(10)
 
     raise SystemExit(f"Unable to fetch Google Scholar profile: {last_err}")
 
