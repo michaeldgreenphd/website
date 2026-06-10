@@ -639,8 +639,18 @@
         }
 
         .pub-bullet {
-            display: inline-block;
-            margin-right: 0.5rem;
+            display: inline-flex;
+            width: 1em;
+            height: 1em;
+            margin-right: var(--space-2);
+            color: var(--primary-green);
+            vertical-align: -0.1em;
+            flex-shrink: 0;
+        }
+
+        .pub-bullet svg {
+            width: 100%;
+            height: 100%;
         }
 
         /* Responsive adjustments for research cards */
@@ -1832,35 +1842,6 @@
         <!-- Research Section -->
         <section id="research">
             <div class="card fade-in">
-                <div class="btn-group" style="justify-content: center;">
-                    <a href="https://scholar.google.com/citations?user=ea2W0QgAAAAJ&hl=en" target="_blank" class="btn" style="font-size: 1.1rem; padding: 0.9rem 1.8rem;">
-                        <img loading="lazy" decoding="async" src="google scholar logo.png" alt="Google Scholar" style="width: 28px; height: 28px; vertical-align: middle; margin-right: 10px;">
-                        View Google Scholar Profile
-                    </a>
-                </div>
-            </div>
-
-            <!-- Google Scholar Dashboard: populated from scholar_stats.json,
-                 which a daily GitHub Action refreshes (scripts/fetch_scholar.py).
-                 Stays hidden until the data file exists and loads. -->
-            <div class="card fade-in" id="scholar-dashboard" hidden>
-                <h2>Citation Metrics</h2>
-                <p class="scholar-meta">Source: <a href="https://scholar.google.com/citations?user=ea2W0QgAAAAJ&amp;hl=en" target="_blank" rel="noopener noreferrer">Google Scholar</a><span id="scholar-updated"></span></p>
-                <div class="scholar-grid">
-                    <div class="scholar-metrics" id="scholar-metrics"></div>
-                    <figure class="scholar-chart">
-                        <img src="citations_over_time.png" alt="Bar chart of citations per year" class="chart-light" loading="lazy" decoding="async">
-                        <img src="citations_over_time_dark.png" alt="" class="chart-dark" loading="lazy" decoding="async" aria-hidden="true">
-                        <figcaption>Citations per year</figcaption>
-                    </figure>
-                    <aside class="scholar-coauthors">
-                        <h3>Frequent Co-Authors</h3>
-                        <ul id="scholar-coauthors-list"></ul>
-                    </aside>
-                </div>
-            </div>
-
-            <div class="card fade-in">
                 <p style="font-size: 1.1rem; line-height: 1.8; margin-bottom: 2rem;">My research focuses on understanding and eliminating healthcare inequities through rigorous methodological approaches.</p>
 
                 <h2 style="margin-bottom: 1.5rem;">Research Areas</h2>
@@ -1876,31 +1857,31 @@
                     </div>
                     <div class="publications-container" id="discrimination-pubs">
                         <div class="publication-item-expandable">
-                            <span class="pub-bullet">📄</span>
+                            <span class="pub-bullet" aria-hidden="true"><svg viewBox="0 0 20 20" focusable="false"><path d="M10 1 L13.5 6.5 L11.8 6 L15 11 L12.8 10.4 L16 15.5 L4 15.5 L7.2 10.4 L5 11 L8.2 6 L6.5 6.5 Z" fill="currentColor"/><rect x="9" y="15.5" width="2" height="3" fill="currentColor" opacity="0.7"/></svg></span>
                             <a href="https://www.ahajournals.org/doi/10.1161/CIRCOUTCOMES.125.012661" target="_blank" rel="noopener noreferrer">
                                 Association Between Discrimination in Health Care and ASCVD Among Middle-Aged and Older Adults in the United States
                             </a>
                         </div>
                         <div class="publication-item-expandable">
-                            <span class="pub-bullet">📄</span>
+                            <span class="pub-bullet" aria-hidden="true"><svg viewBox="0 0 20 20" focusable="false"><path d="M10 1 L13.5 6.5 L11.8 6 L15 11 L12.8 10.4 L16 15.5 L4 15.5 L7.2 10.4 L5 11 L8.2 6 L6.5 6.5 Z" fill="currentColor"/><rect x="9" y="15.5" width="2" height="3" fill="currentColor" opacity="0.7"/></svg></span>
                             <a href="https://link.springer.com/article/10.1007/s11606-025-09796-w" target="_blank" rel="noopener noreferrer">
                                 Factors Associated with Perceived Discrimination in Healthcare Among United States Middle-aged and Older Adults
                             </a>
                         </div>
                         <div class="publication-item-expandable">
-                            <span class="pub-bullet">📄</span>
+                            <span class="pub-bullet" aria-hidden="true"><svg viewBox="0 0 20 20" focusable="false"><path d="M10 1 L13.5 6.5 L11.8 6 L15 11 L12.8 10.4 L16 15.5 L4 15.5 L7.2 10.4 L5 11 L8.2 6 L6.5 6.5 Z" fill="currentColor"/><rect x="9" y="15.5" width="2" height="3" fill="currentColor" opacity="0.7"/></svg></span>
                             <a href="https://link.springer.com/article/10.1007/s40615-025-02602-7" target="_blank" rel="noopener noreferrer">
                                 Development and Initial Validation of a Measure of Parental Racial/Ethnic Discrimination in Pediatric Healthcare
                             </a>
                         </div>
                         <div class="publication-item-expandable">
-                            <span class="pub-bullet">📄</span>
+                            <span class="pub-bullet" aria-hidden="true"><svg viewBox="0 0 20 20" focusable="false"><path d="M10 1 L13.5 6.5 L11.8 6 L15 11 L12.8 10.4 L16 15.5 L4 15.5 L7.2 10.4 L5 11 L8.2 6 L6.5 6.5 Z" fill="currentColor"/><rect x="9" y="15.5" width="2" height="3" fill="currentColor" opacity="0.7"/></svg></span>
                             <a href="https://www.medrxiv.org/content/10.1101/2025.04.14.25325800v1" target="_blank" rel="noopener noreferrer">
                                 Impact of Discrimination in Healthcare on Patterns of Doctor Visits Over Time
                             </a>
                         </div>
                         <div class="publication-item-expandable">
-                            <span class="pub-bullet">📄</span>
+                            <span class="pub-bullet" aria-hidden="true"><svg viewBox="0 0 20 20" focusable="false"><path d="M10 1 L13.5 6.5 L11.8 6 L15 11 L12.8 10.4 L16 15.5 L4 15.5 L7.2 10.4 L5 11 L8.2 6 L6.5 6.5 Z" fill="currentColor"/><rect x="9" y="15.5" width="2" height="3" fill="currentColor" opacity="0.7"/></svg></span>
                             <a href="https://www.medrxiv.org/content/10.1101/2024.12.18.24319227v1" target="_blank" rel="noopener noreferrer">
                                 Measurement of perceived healthcare discrimination and its implications on population health research: A systematic review protocol
                             </a>
@@ -1919,19 +1900,19 @@
                     </div>
                     <div class="publications-container" id="diversity-pubs">
                         <div class="publication-item-expandable">
-                            <span class="pub-bullet">🌐</span>
+                            <span class="pub-bullet" aria-hidden="true"><svg viewBox="0 0 50 50" focusable="false"><circle cx="25" cy="25" r="5" fill="currentColor"/><ellipse cx="25" cy="12" rx="7" ry="12" fill="currentColor" opacity="0.75"/><ellipse cx="38" cy="18" rx="7" ry="12" fill="currentColor" opacity="0.75" transform="rotate(72 25 25)"/><ellipse cx="35" cy="35" rx="7" ry="12" fill="currentColor" opacity="0.75" transform="rotate(144 25 25)"/><ellipse cx="15" cy="35" rx="7" ry="12" fill="currentColor" opacity="0.75" transform="rotate(216 25 25)"/><ellipse cx="12" cy="18" rx="7" ry="12" fill="currentColor" opacity="0.75" transform="rotate(288 25 25)"/></svg></span>
                             <a href="https://www.civicsample.com" target="_blank" rel="noopener noreferrer">
                                 Civic Sample
                             </a>
                         </div>
                         <div class="publication-item-expandable">
-                            <span class="pub-bullet">📄</span>
+                            <span class="pub-bullet" aria-hidden="true"><svg viewBox="0 0 20 20" focusable="false"><path d="M10 1 L13.5 6.5 L11.8 6 L15 11 L12.8 10.4 L16 15.5 L4 15.5 L7.2 10.4 L5 11 L8.2 6 L6.5 6.5 Z" fill="currentColor"/><rect x="9" y="15.5" width="2" height="3" fill="currentColor" opacity="0.7"/></svg></span>
                             <a href="https://bmjopenquality.bmj.com/content/15/2/e003801" target="_blank" rel="noopener noreferrer">
                                 Racial and Ethnic Diversity in Clinical Studies Reported to ClinicalTrials.gov, 2009-2024
                             </a>
                         </div>
                         <div class="publication-item-expandable">
-                            <span class="pub-bullet">📄</span>
+                            <span class="pub-bullet" aria-hidden="true"><svg viewBox="0 0 20 20" focusable="false"><path d="M10 1 L13.5 6.5 L11.8 6 L15 11 L12.8 10.4 L16 15.5 L4 15.5 L7.2 10.4 L5 11 L8.2 6 L6.5 6.5 Z" fill="currentColor"/><rect x="9" y="15.5" width="2" height="3" fill="currentColor" opacity="0.7"/></svg></span>
                             <a href="https://www.sciencedirect.com/science/article/abs/pii/S0002870323000017" target="_blank" rel="noopener noreferrer">
                                 Public reporting of black participation in anti-hypertensive drug clinical trials
                             </a>
@@ -1950,42 +1931,61 @@
                     </div>
                     <div class="publications-container" id="sdoh-pubs">
                         <div class="publication-item-expandable">
-                            <span class="pub-bullet">📄</span>
+                            <span class="pub-bullet" aria-hidden="true"><svg viewBox="0 0 20 20" focusable="false"><path d="M10 1 L13.5 6.5 L11.8 6 L15 11 L12.8 10.4 L16 15.5 L4 15.5 L7.2 10.4 L5 11 L8.2 6 L6.5 6.5 Z" fill="currentColor"/><rect x="9" y="15.5" width="2" height="3" fill="currentColor" opacity="0.7"/></svg></span>
                             <a href="https://www.ahajournals.org/doi/10.1161/CIRCOUTCOMES.125.012661" target="_blank" rel="noopener noreferrer">
                                 Association Between Discrimination in Health Care and ASCVD Among Middle-Aged and Older Adults in the United States
                             </a>
                         </div>
                         <div class="publication-item-expandable">
-                            <span class="pub-bullet">📄</span>
+                            <span class="pub-bullet" aria-hidden="true"><svg viewBox="0 0 20 20" focusable="false"><path d="M10 1 L13.5 6.5 L11.8 6 L15 11 L12.8 10.4 L16 15.5 L4 15.5 L7.2 10.4 L5 11 L8.2 6 L6.5 6.5 Z" fill="currentColor"/><rect x="9" y="15.5" width="2" height="3" fill="currentColor" opacity="0.7"/></svg></span>
                             <a href="https://www.jacc.org/doi/abs/10.1016/j.jacadv.2025.102103" target="_blank" rel="noopener noreferrer">
                                 Cardiovascular Multimorbidity in Older Adults in the United States by Race and Sex
                             </a>
                         </div>
                         <div class="publication-item-expandable">
-                            <span class="pub-bullet">📄</span>
+                            <span class="pub-bullet" aria-hidden="true"><svg viewBox="0 0 20 20" focusable="false"><path d="M10 1 L13.5 6.5 L11.8 6 L15 11 L12.8 10.4 L16 15.5 L4 15.5 L7.2 10.4 L5 11 L8.2 6 L6.5 6.5 Z" fill="currentColor"/><rect x="9" y="15.5" width="2" height="3" fill="currentColor" opacity="0.7"/></svg></span>
                             <a href="https://www.ahajournals.org/doi/10.1161/CIRCOUTCOMES.124.011141" target="_blank" rel="noopener noreferrer">
                                 Association Between Socioeconomic Disadvantage and Risks of Early and Recurrent Admissions Among Patients With Newly Diagnosed Heart Failure
                             </a>
                         </div>
                         <div class="publication-item-expandable">
-                            <span class="pub-bullet">📄</span>
+                            <span class="pub-bullet" aria-hidden="true"><svg viewBox="0 0 20 20" focusable="false"><path d="M10 1 L13.5 6.5 L11.8 6 L15 11 L12.8 10.4 L16 15.5 L4 15.5 L7.2 10.4 L5 11 L8.2 6 L6.5 6.5 Z" fill="currentColor"/><rect x="9" y="15.5" width="2" height="3" fill="currentColor" opacity="0.7"/></svg></span>
                             <a href="https://journals.plos.org/plosone/article?id=10.1371/journal.pone.0318419" target="_blank" rel="noopener noreferrer">
                                 Racial and ethnic disparities in longitudinal trajectories of cardiovascular risk factors in U.S. middle-aged and older adults
                             </a>
                         </div>
                         <div class="publication-item-expandable">
-                            <span class="pub-bullet">📄</span>
+                            <span class="pub-bullet" aria-hidden="true"><svg viewBox="0 0 20 20" focusable="false"><path d="M10 1 L13.5 6.5 L11.8 6 L15 11 L12.8 10.4 L16 15.5 L4 15.5 L7.2 10.4 L5 11 L8.2 6 L6.5 6.5 Z" fill="currentColor"/><rect x="9" y="15.5" width="2" height="3" fill="currentColor" opacity="0.7"/></svg></span>
                             <a href="https://psycnet.apa.org/record/2024-73766-001" target="_blank" rel="noopener noreferrer">
                                 Everyday discrimination and age-related trajectories of blood pressure among Black and White middle-aged and older adults
                             </a>
                         </div>
                         <div class="publication-item-expandable">
-                            <span class="pub-bullet">📄</span>
+                            <span class="pub-bullet" aria-hidden="true"><svg viewBox="0 0 20 20" focusable="false"><path d="M10 1 L13.5 6.5 L11.8 6 L15 11 L12.8 10.4 L16 15.5 L4 15.5 L7.2 10.4 L5 11 L8.2 6 L6.5 6.5 Z" fill="currentColor"/><rect x="9" y="15.5" width="2" height="3" fill="currentColor" opacity="0.7"/></svg></span>
                             <a href="https://journals.plos.org/mentalhealth/article?id=10.1371/journal.pmen.0000208" target="_blank" rel="noopener noreferrer">
                                 Navigating family life with Hypoplastic Left Heart Syndrome: A qualitative study
                             </a>
                         </div>
                     </div>
+                </div>
+            </div>
+            <!-- Google Scholar Dashboard: populated from scholar_stats.json,
+                 which a daily GitHub Action refreshes (scripts/fetch_scholar.py).
+                 Stays hidden until the data file exists and loads. -->
+            <div class="card fade-in" id="scholar-dashboard" hidden>
+                <h2>Citation Metrics</h2>
+                <p class="scholar-meta">Source: <a href="https://scholar.google.com/citations?user=ea2W0QgAAAAJ&amp;hl=en" target="_blank" rel="noopener noreferrer">Google Scholar</a><span id="scholar-updated"></span></p>
+                <div class="scholar-grid">
+                    <div class="scholar-metrics" id="scholar-metrics"></div>
+                    <figure class="scholar-chart">
+                        <img src="citations_over_time.png" alt="Bar chart of citations per year" class="chart-light" loading="lazy" decoding="async">
+                        <img src="citations_over_time_dark.png" alt="" class="chart-dark" loading="lazy" decoding="async" aria-hidden="true">
+                        <figcaption>Citations per year</figcaption>
+                    </figure>
+                    <aside class="scholar-coauthors">
+                        <h3>Frequent Co-Authors</h3>
+                        <ul id="scholar-coauthors-list"></ul>
+                    </aside>
                 </div>
             </div>
         </section>
