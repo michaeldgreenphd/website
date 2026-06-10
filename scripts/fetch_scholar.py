@@ -45,7 +45,7 @@ CHART_LIGHT_PATH = REPO_ROOT / "citations_over_time.png"
 CHART_DARK_PATH = REPO_ROOT / "citations_over_time_dark.png"
 
 MAX_COAUTHORS = 12   # keep the dashboard list compact
-RETRIES = 3          # Scholar occasionally rate-limits; retry with backoff
+RETRIES = 4          # attempt 1 is direct; later attempts rotate free proxies
 FETCH_TIMEOUT_S = 90 # hard cap per attempt; Scholar tarpits blocked IPs and
                      # scholarly will otherwise hang until the CI job times out
 

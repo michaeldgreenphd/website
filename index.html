@@ -2866,16 +2866,33 @@
             }
         }
 
-        // Substack Posts Fetching - Try multiple methods
+        // Substack Posts Fetching.
+        // Primary source is substack_posts.json, cached in the repo by the
+        // daily GitHub Action — third-party RSS proxies rate-limit shared
+        // mobile IPs, which made this block fail to load on phones. The
+        // proxy chain below remains only as a fallback for a missing cache.
         async function fetchSubstackPosts() {
             const substackPosts = document.getElementById('substack-posts');
 
             try {
-                // Try method 1: RSS2JSON API
+                const cached = await fetch('substack_posts.json', { cache: 'no-cache' });
+                if (cached.ok) {
+                    const data = await cached.json();
+                    if (data.posts && data.posts.length > 0) {
+                        substackPosts.innerHTML = data.posts.slice(0, 5).map(formatSubstackPost).join('');
+                        return;
+                    }
+                }
+            } catch (error) {
+                console.warn('Cached Substack feed unavailable, falling back to proxies:', error);
+            }
+
+            try {
+                // Fallback 1: RSS2JSON API
                 let response = await fetch(`https://api.rss2json.com/v1/api.json?rss_url=${encodeURIComponent(RSS_FEED_URL)}&count=5`);
 
                 if (!response.ok) {
-                    // Try method 2: CORS proxy
+                    // Fallback 2: CORS proxy
                     response = await fetch(`https://api.allorigins.win/get?url=${encodeURIComponent(RSS_FEED_URL)}`);
 
                     if (response.ok) {
