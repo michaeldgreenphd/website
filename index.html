@@ -3,7 +3,14 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Michael D. Green, PhD — population health sciences researcher studying healthcare discrimination, diversity in clinical trials, and social determinants of cardiovascular health.">
+    <meta name="theme-color" content="#2D6A4F">
     <title>Michael D. Green, PhD - Population Health Sciences</title>
+
+    <!-- Warm up connections for data fetched on tab switch -->
+    <link rel="preconnect" href="https://pub.orcid.org" crossorigin>
+    <link rel="dns-prefetch" href="https://api.rss2json.com">
+    <link rel="dns-prefetch" href="https://api.allorigins.win">
 
     <style>
         :root {
@@ -19,8 +26,8 @@
             --bg-secondary: #F5F5F5;
             --text-primary: #333333;
             --text-secondary: #666666;
-            --card-shadow: 0 2px 8px rgba(0,0,0,0.08);
-            --hover-shadow: 0 4px 16px rgba(0,0,0,0.12);
+            --card-shadow: 0 1px 3px rgba(0,0,0,0.05), 0 4px 12px rgba(0,0,0,0.06);
+            --hover-shadow: 0 4px 10px rgba(0,0,0,0.07), 0 10px 24px rgba(0,0,0,0.1);
             --border-color: #E0E0E0;
         }
 
@@ -52,8 +59,10 @@
         }
 
         body {
-            font-family: Palatino, 'Palatino Linotype', Tahoma, Geneva, serif;
-            line-height: 1.6;
+            font-family: Palatino, 'Palatino Linotype', 'Book Antiqua', Georgia, serif;
+            line-height: 1.7;
+            -webkit-font-smoothing: antialiased;
+            text-rendering: optimizeLegibility;
             color: var(--text-primary);
             background: linear-gradient(135deg, var(--bg-primary) 0%, var(--bg-secondary) 100%);
             min-height: 100vh;
@@ -106,7 +115,19 @@
         }
 
         h1, h2 {
-            font-family: Palatino, 'Palatino Linotype', Tahoma, Geneva, serif;
+            font-family: Palatino, 'Palatino Linotype', 'Book Antiqua', Georgia, serif;
+            letter-spacing: -0.015em;
+        }
+
+        ::selection {
+            background: rgba(82, 183, 136, 0.3);
+        }
+
+        a:focus-visible,
+        button:focus-visible {
+            outline: 2px solid var(--primary-green);
+            outline-offset: 2px;
+            border-radius: 2px;
         }
 
         /* Link styling */
@@ -469,7 +490,7 @@
         }
 
         .hero-content h1 {
-            font-size: 2.5rem;
+            font-size: clamp(2rem, 1.5rem + 2vw, 2.5rem);
             color: var(--dark-gray);
             margin-bottom: 0.5rem;
         }
@@ -490,7 +511,7 @@
         /* Cards */
         .card {
             background: var(--white);
-            border-radius: 8px;
+            border-radius: 12px;
             padding: 2rem;
             margin-bottom: 2rem;
             box-shadow: var(--card-shadow);
@@ -1340,11 +1361,43 @@
             min-width: 0;
         }
 
+        /* Respect users who prefer less motion */
+        @media (prefers-reduced-motion: reduce) {
+            *,
+            *::before,
+            *::after {
+                animation-duration: 0.01ms !important;
+                animation-iteration-count: 1 !important;
+                transition-duration: 0.01ms !important;
+            }
+
+            html {
+                scroll-behavior: auto;
+            }
+        }
+
         /* Mobile Responsiveness */
         @media (max-width: 768px) {
             nav {
                 flex-direction: column;
                 align-items: flex-start;
+            }
+
+            .container {
+                padding: 2rem 1.25rem;
+            }
+
+            .card {
+                padding: 1.5rem;
+                border-radius: 10px;
+            }
+
+            .theme-toggle {
+                top: auto;
+                bottom: 1.25rem;
+                right: 1.25rem;
+                width: 48px;
+                height: 48px;
             }
 
             .menu-toggle {
@@ -1587,7 +1640,7 @@
                         <ellipse cx="8" cy="60" rx="3" ry="5" fill="#52B788" opacity="0.35" transform="rotate(-75 8 60)"/>
                     </svg>
 
-                    <img src="Fall 2025 Headshot.JPG" alt="Michael D. Green, PhD" class="profile-image">
+                    <img src="Fall 2025 Headshot.JPG" alt="Michael D. Green, PhD" class="profile-image" fetchpriority="high" decoding="async">
                 </div>
                 <div class="card fade-in">
                     <div class="hero-content">
@@ -1621,7 +1674,7 @@
             <div class="card fade-in">
                 <div class="btn-group" style="justify-content: center;">
                     <a href="https://scholar.google.com/citations?user=ea2W0QgAAAAJ&hl=en" target="_blank" class="btn" style="font-size: 1.1rem; padding: 0.9rem 1.8rem;">
-                        <img src="google scholar logo.png" alt="Google Scholar" style="width: 28px; height: 28px; vertical-align: middle; margin-right: 10px;">
+                        <img loading="lazy" decoding="async" src="google scholar logo.png" alt="Google Scholar" style="width: 28px; height: 28px; vertical-align: middle; margin-right: 10px;">
                         View Google Scholar Profile
                     </a>
                 </div>
@@ -2025,6 +2078,18 @@
                         <h2>Media Appearances & Interviews</h2>
 
                 <div class="media-item">
+                    <h4><a href="https://www.youtube.com/watch?v=zC9IspywHr4" target="_blank">Funding Under Pressure: Political Influence, Censorship, and the Future of U.S. Research</a></h4>
+                    <p class="source">Defend Research, June 2026</p>
+                    <p>Co-presenters alongside Jeremy Berg (Former NIH institute director and Editor-in-Chief, Science magazine) in a webinar about scientific censorship and the stress that the U.S. biomedical enterprise is currently facing.</p>
+                </div>
+
+                <div class="media-item">
+                    <h4><a href="https://www.youtube.com/watch?v=L-uqmt-PjSM" target="_blank">A Conversation w Gen Z On AI: Promise, Populism, Anger &amp; Hope. How Do They Wish Older Gens Spoke</a></h4>
+                    <p class="source">Why Should I Trust You?, June 2026</p>
+                    <p>Podcast guest with a panel of Gen-Z members discussing our views on the future of our careers and the world in the context of a lot of rhetoric surrounding the promise of AI.</p>
+                </div>
+
+                <div class="media-item">
                     <h4><a href="https://www.theguardian.com/us-news/2026/mar/28/national-institutes-health-no-kings-protest" target="_blank">… demonstrators gather at NIH headquarters to protest against cuts to medical research.</a></h4>
                     <p class="source">The Guardian, March 2026</p>
                     <p>Coverage of speech I gave in front of NIH. Full speech link <a href="https://www.youtube.com/watch?v=htC3tGSunoE&t=6s" target="_blank">here</a>.</p>
@@ -2171,9 +2236,9 @@
                     <div class="card" id="fun-photography" style="animation: fadeInUp 0.6s ease-out;">
                         <h3>Film Photography</h3>
                 <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.2rem; margin-top: 1.5rem; max-width: 900px; margin-left: auto; margin-right: auto;">
-                    <img src="film 1.png" alt="Mountain valley" style="width: 100%; height: auto; border-radius: 8px; box-shadow: var(--card-shadow); transition: transform 0.3s ease;" onmouseover="this.style.transform='translateY(-8px)'" onmouseout="this.style.transform='translateY(0)'">
-                    <img src="film 2.png" alt="Badlands" style="width: 100%; height: auto; border-radius: 8px; box-shadow: var(--card-shadow); transition: transform 0.3s ease;" onmouseover="this.style.transform='translateY(-8px)'" onmouseout="this.style.transform='translateY(0)'">
-                    <img src="film 3.png" alt="Coastal resort" style="width: 100%; height: auto; border-radius: 8px; box-shadow: var(--card-shadow); transition: transform 0.3s ease;" onmouseover="this.style.transform='translateY(-8px)'" onmouseout="this.style.transform='translateY(0)'">
+                    <img loading="lazy" decoding="async" src="film 1.png" alt="Mountain valley" style="width: 100%; height: auto; border-radius: 8px; box-shadow: var(--card-shadow); transition: transform 0.3s ease;" onmouseover="this.style.transform='translateY(-8px)'" onmouseout="this.style.transform='translateY(0)'">
+                    <img loading="lazy" decoding="async" src="film 2.png" alt="Badlands" style="width: 100%; height: auto; border-radius: 8px; box-shadow: var(--card-shadow); transition: transform 0.3s ease;" onmouseover="this.style.transform='translateY(-8px)'" onmouseout="this.style.transform='translateY(0)'">
+                    <img loading="lazy" decoding="async" src="film 3.png" alt="Coastal resort" style="width: 100%; height: auto; border-radius: 8px; box-shadow: var(--card-shadow); transition: transform 0.3s ease;" onmouseover="this.style.transform='translateY(-8px)'" onmouseout="this.style.transform='translateY(0)'">
                 </div>
                     </div>
 
@@ -2181,7 +2246,7 @@
                     <div class="card" id="fun-chargers" style="animation: fadeInUp 0.6s ease-out 0.1s; animation-fill-mode: backwards;">
                         <h3>Die-Hard Chargers Fan</h3>
                 <div style="text-align: center; margin-top: 1.5rem; max-width: 500px; margin-left: auto; margin-right: auto;">
-                    <img src="chargers sofi.png" alt="At SoFi Stadium" style="width: 100%; height: auto; border-radius: 8px; box-shadow: var(--card-shadow); transition: transform 0.3s ease;" onmouseover="this.style.transform='scale(1.02)'" onmouseout="this.style.transform='scale(1)'">
+                    <img loading="lazy" decoding="async" src="chargers sofi.png" alt="At SoFi Stadium" style="width: 100%; height: auto; border-radius: 8px; box-shadow: var(--card-shadow); transition: transform 0.3s ease;" onmouseover="this.style.transform='scale(1.02)'" onmouseout="this.style.transform='scale(1)'">
                     <p style="margin-top: 1rem; font-style: italic; color: var(--text-secondary);">Here at SoFi Stadium</p>
                 </div>
                     </div>
@@ -2191,7 +2256,7 @@
                         <h3>Running</h3>
                 <div style="display: grid; grid-template-columns: auto 1fr; gap: 2.5rem; align-items: start; margin-top: 1.5rem;">
                     <div style="text-align: center;">
-                        <img src="running.png" alt="Running" style="height: 352px; width: auto; border-radius: 8px; box-shadow: var(--card-shadow); transition: transform 0.3s ease;" onmouseover="this.style.transform='translateY(-5px)'" onmouseout="this.style.transform='translateY(0)'">
+                        <img loading="lazy" decoding="async" src="running.png" alt="Running" style="height: 352px; width: auto; border-radius: 8px; box-shadow: var(--card-shadow); transition: transform 0.3s ease;" onmouseover="this.style.transform='translateY(-5px)'" onmouseout="this.style.transform='translateY(0)'">
                     </div>
                     <div>
                         <p>Here is my most versatile playlist — fully satisfies no one but also rarely dissatisfies everyone.</p>
@@ -2204,8 +2269,8 @@
                     <div class="card" id="fun-travel" style="animation: fadeInUp 0.6s ease-out 0.3s; animation-fill-mode: backwards;">
                         <h3>Travel</h3>
                 <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 2rem; margin-top: 1.5rem; max-width: 900px; margin-left: auto; margin-right: auto;">
-                    <img src="city 1.png" alt="Paris street scene" style="width: 100%; height: auto; border-radius: 8px; box-shadow: var(--card-shadow); transition: transform 0.3s ease;" onmouseover="this.style.transform='translateY(-5px) rotate(-1deg)'" onmouseout="this.style.transform='translateY(0) rotate(0deg)'">
-                    <img src="city 2.png" alt="Tropical coastal walkway" style="width: 100%; height: auto; border-radius: 8px; box-shadow: var(--card-shadow); transition: transform 0.3s ease;" onmouseover="this.style.transform='translateY(-5px) rotate(1deg)'" onmouseout="this.style.transform='translateY(0) rotate(0deg)'">
+                    <img loading="lazy" decoding="async" src="city 1.png" alt="Paris street scene" style="width: 100%; height: auto; border-radius: 8px; box-shadow: var(--card-shadow); transition: transform 0.3s ease;" onmouseover="this.style.transform='translateY(-5px) rotate(-1deg)'" onmouseout="this.style.transform='translateY(0) rotate(0deg)'">
+                    <img loading="lazy" decoding="async" src="city 2.png" alt="Tropical coastal walkway" style="width: 100%; height: auto; border-radius: 8px; box-shadow: var(--card-shadow); transition: transform 0.3s ease;" onmouseover="this.style.transform='translateY(-5px) rotate(1deg)'" onmouseout="this.style.transform='translateY(0) rotate(0deg)'">
                 </div>
                     </div>
 
@@ -2258,7 +2323,7 @@
 
                 <div class="social-grid">
                     <a href="https://www.instagram.com/michaeldgreenphd/" target="_blank" class="social-link instagram">
-                        <div class="social-icon"><img src="instagram logo.png" alt="Instagram" style="width: 40px; height: 40px;"></div>
+                        <div class="social-icon"><img loading="lazy" decoding="async" src="instagram logo.png" alt="Instagram" style="width: 40px; height: 40px;"></div>
                         <div class="social-info">
                             <h3>Instagram</h3>
                             <p>@michaeldgreenphd</p>
@@ -2266,7 +2331,7 @@
                     </a>
 
                     <a href="https://bsky.app/profile/michaeldgreen.phd" target="_blank" class="social-link bluesky">
-                        <div class="social-icon"><img src="bluesky logo.png" alt="Bluesky" style="width: 40px; height: 40px;"></div>
+                        <div class="social-icon"><img loading="lazy" decoding="async" src="bluesky logo.png" alt="Bluesky" style="width: 40px; height: 40px;"></div>
                         <div class="social-info">
                             <h3>Bluesky</h3>
                             <p>michaeldgreen.phd</p>
@@ -2274,7 +2339,7 @@
                     </a>
 
                     <a href="https://www.linkedin.com/in/michaeldgreenphd" target="_blank" class="social-link linkedin">
-                        <div class="social-icon"><img src="linkedin logo.png" alt="LinkedIn" style="width: 40px; height: 40px;"></div>
+                        <div class="social-icon"><img loading="lazy" decoding="async" src="linkedin logo.png" alt="LinkedIn" style="width: 40px; height: 40px;"></div>
                         <div class="social-info">
                             <h3>LinkedIn</h3>
                             <p>michaeldgreenphd</p>
@@ -2323,29 +2388,63 @@
         const navLinks = document.querySelectorAll('.nav-link');
         const sections = document.querySelectorAll('section');
 
+        // Central section switcher. Data loading is triggered here — whenever a
+        // section becomes visible, by any path (nav tap, deep link, back/forward) —
+        // rather than from a click listener on a single nav anchor, which left the
+        // Publications/Media feeds unloaded on mobile when that click never fired.
+        function showSection(sectionId, updateHash = true) {
+            const target = document.getElementById(sectionId);
+            if (!target || target.tagName !== 'SECTION') return;
+
+            navLinks.forEach(l => l.classList.toggle('active', l.getAttribute('data-section') === sectionId));
+            sections.forEach(s => s.classList.toggle('active', s === target));
+
+            // Close mobile menu if open
+            document.querySelector('.nav-links').classList.remove('active');
+
+            if (updateHash && '#' + sectionId !== window.location.hash) {
+                history.replaceState(null, '', '#' + sectionId);
+            }
+
+            loadSectionData(sectionId);
+        }
+
+        // Lazy-load remote data the first time a section is shown. The loaded flag
+        // is cleared on fetch failure so revisiting the tab retries.
+        function loadSectionData(sectionId) {
+            if (sectionId === 'publications') {
+                const publicationsList = document.getElementById('publications-list');
+                if (!publicationsList.dataset.loaded) {
+                    publicationsList.dataset.loaded = 'true';
+                    fetchORCIDPublications();
+                }
+            } else if (sectionId === 'media') {
+                const substackPosts = document.getElementById('substack-posts');
+                if (!substackPosts.dataset.loaded) {
+                    substackPosts.dataset.loaded = 'true';
+                    fetchSubstackPosts();
+                }
+            }
+        }
+
         navLinks.forEach(link => {
             link.addEventListener('click', function(e) {
                 e.preventDefault();
-
-                // Remove active class from all links and sections
-                navLinks.forEach(l => l.classList.remove('active'));
-                sections.forEach(s => s.classList.remove('active'));
-
-                // Add active class to clicked link
-                this.classList.add('active');
-
-                // Show corresponding section
-                const sectionId = this.getAttribute('data-section');
-                document.getElementById(sectionId).classList.add('active');
-
-                // Close mobile menu if open
-                const navLinksContainer = document.querySelector('.nav-links');
-                navLinksContainer.classList.remove('active');
+                showSection(this.getAttribute('data-section'));
 
                 // Scroll to top smoothly
                 window.scrollTo({ top: 0, behavior: 'smooth' });
             });
         });
+
+        // Support deep links (e.g. /#publications) and browser back/forward.
+        // The initial call happens at the end of this script, once everything
+        // (including the fetch helpers below) is defined.
+        function showSectionFromHash() {
+            const sectionId = window.location.hash.replace('#', '');
+            if (sectionId) showSection(sectionId, false);
+        }
+        window.addEventListener('hashchange', showSectionFromHash);
 
         // Mobile menu toggle
         const menuToggle = document.querySelector('.menu-toggle');
@@ -2370,28 +2469,9 @@
         const SUBSTACK_URL = 'www.notbeinggreen.com';
         const RSS_FEED_URL = `https://${SUBSTACK_URL}/feed`;
 
-        // Fetch publications when Publications tab is clicked
-        document.querySelector('[data-section="publications"]').addEventListener('click', function() {
-            const publicationsList = document.getElementById('publications-list');
-
-            // Only fetch if not already loaded
-            if (publicationsList.querySelector('.loading-spinner')) {
-                fetchORCIDPublications();
-            }
-        });
-
-        // Fetch Substack posts when Media tab is clicked
-        document.querySelector('[data-section="media"]').addEventListener('click', function() {
-            const substackPosts = document.getElementById('substack-posts');
-
-            // Only fetch if not already loaded
-            if (substackPosts.querySelector('.loading-spinner')) {
-                fetchSubstackPosts();
-            }
-        });
-
         async function fetchORCIDPublications() {
             const publicationsList = document.getElementById('publications-list');
+            publicationsList.innerHTML = '<div class="loading-spinner"></div>';
 
             try {
                 // Fetch works from ORCID API
@@ -2433,10 +2513,11 @@
 
             } catch (error) {
                 console.error('Error fetching ORCID publications:', error);
+                publicationsList.dataset.loaded = '';
                 publicationsList.innerHTML = `
                     <div class="error-message">
                         <strong>Unable to load publications</strong><br>
-                        There was an error fetching publications from ORCID. Please try again later or visit my
+                        There was an error fetching publications from ORCID. Please reopen this tab to retry, or visit my
                         <a href="https://orcid.org/${ORCID_ID}" target="_blank">ORCID profile</a> directly.
                     </div>
                 `;
@@ -2531,7 +2612,7 @@
 
             try {
                 // Try method 1: RSS2JSON API
-                let response = await fetch(`https://api.rss2json.com/v1/api.json?rss_url=${encodeURIComponent(RSS_FEED_URL)}&count=5&api_key=YOUR_API_KEY`);
+                let response = await fetch(`https://api.rss2json.com/v1/api.json?rss_url=${encodeURIComponent(RSS_FEED_URL)}&count=5`);
 
                 if (!response.ok) {
                     // Try method 2: CORS proxy
@@ -2662,13 +2743,24 @@
             }
         }
 
-        // Page Loader
-        window.addEventListener('load', function() {
+        // Page Loader: hide once the DOM is ready (rather than waiting for every
+        // image to finish downloading), with a brief minimum so the animation
+        // doesn't just flash, and a hard timeout as a safety net.
+        (function() {
             const loader = document.getElementById('page-loader');
-            setTimeout(() => {
-                loader.classList.add('hidden');
-            }, 800); // Show loader for at least 800ms
-        });
+            const hideLoader = () => loader.classList.add('hidden');
+
+            if (document.readyState === 'loading') {
+                document.addEventListener('DOMContentLoaded', () => setTimeout(hideLoader, 400));
+            } else {
+                setTimeout(hideLoader, 400);
+            }
+
+            setTimeout(hideLoader, 2500);
+        })();
+
+        // Show the section for the current URL hash (deep links / reloads)
+        showSectionFromHash();
     </script>
 
     <!-- Sidebar Scroll Animation Script -->
@@ -2752,7 +2844,7 @@
             });
 
             // Listen to scroll events with throttling
-            window.addEventListener('scroll', throttle(updateActiveSection, 100));
+            window.addEventListener('scroll', throttle(updateActiveSection, 100), { passive: true });
 
             // Initial check
             updateActiveSection();
@@ -2790,14 +2882,22 @@
         });
 
         // Scroll Progress Bar
+        const scrollProgressBar = document.querySelector('.scroll-progress-bar');
+        let scrollProgressPending = false;
+
         function updateScrollProgress() {
-            const scrollProgress = document.querySelector('.scroll-progress-bar');
             const windowHeight = document.documentElement.scrollHeight - document.documentElement.clientHeight;
-            const scrolled = (window.scrollY / windowHeight) * 100;
-            scrollProgress.style.width = scrolled + '%';
+            const scrolled = windowHeight > 0 ? (window.scrollY / windowHeight) * 100 : 0;
+            scrollProgressBar.style.width = scrolled + '%';
+            scrollProgressPending = false;
         }
 
-        window.addEventListener('scroll', updateScrollProgress);
+        window.addEventListener('scroll', () => {
+            if (!scrollProgressPending) {
+                scrollProgressPending = true;
+                requestAnimationFrame(updateScrollProgress);
+            }
+        }, { passive: true });
         updateScrollProgress(); // Initialize on load
 
         // Scroll-triggered Fade-in Animations
