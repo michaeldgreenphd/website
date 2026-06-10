@@ -5,6 +5,12 @@ on:
     # Daily at 06:23 UTC (odd minute avoids the top-of-hour cron rush)
     - cron: '23 6 * * *'
   workflow_dispatch: {}  # allows manual runs from the Actions tab
+  push:
+    # Also run when the pipeline itself changes, so fixes are testable
+    # immediately on any branch
+    paths:
+      - '.github/workflows/update-scholar.yml'
+      - 'scripts/fetch_scholar.py'
 
 permissions:
   contents: write  # required to commit the refreshed artifacts
@@ -27,7 +33,7 @@ jobs:
           python-version: '3.12'
 
       - name: Install dependencies
-        run: pip install scholarly matplotlib
+        run: pip install scholarly matplotlib free-proxy
 
       - name: Install DM Sans so the chart matches site typography
         # Best-effort: the script falls back to DejaVu Sans if this fails
