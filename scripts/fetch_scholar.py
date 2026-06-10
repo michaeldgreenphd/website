@@ -21,6 +21,7 @@ Usage:
 """
 
 import json
+import signal
 import sys
 import time
 from datetime import date
@@ -43,8 +44,10 @@ JSON_PATH = REPO_ROOT / "scholar_stats.json"
 CHART_LIGHT_PATH = REPO_ROOT / "citations_over_time.png"
 CHART_DARK_PATH = REPO_ROOT / "citations_over_time_dark.png"
 
-MAX_COAUTHORS = 12  # keep the dashboard list compact
-RETRIES = 3         # Scholar occasionally rate-limits; retry with backoff
+MAX_COAUTHORS = 12   # keep the dashboard list compact
+RETRIES = 3          # Scholar occasionally rate-limits; retry with backoff
+FETCH_TIMEOUT_S = 90 # hard cap per attempt; Scholar tarpits blocked IPs and
+                     # scholarly will otherwise hang until the CI job times out
 
 # Muted, minimalist palettes drawn from the site's design tokens (theme.css):
 # desaturated green-slate bars with the current year highlighted in the
@@ -70,22 +73,59 @@ PALETTES = {
 # --- Data fetching ------------------------------------------------------------
 
 
+class FetchTimeout(Exception):
+    """Raised when a single fetch attempt exceeds FETCH_TIMEOUT_S."""
+
+
+def _alarm_handler(signum, frame):
+    raise FetchTimeout(f"attempt exceeded {FETCH_TIMEOUT_S}s")
+
+
+def _enable_free_proxies():
+    """Route scholarly through rotating free proxies.
+
+    Google Scholar frequently blocks or tarpits CI runner IPs; proxy
+    rotation gives retries a fresh address. Best-effort: on any failure we
+    continue with a direct connection.
+    """
+    try:
+        from scholarly import ProxyGenerator
+
+        pg = ProxyGenerator()
+        if pg.FreeProxies():
+            scholarly.use_proxy(pg)
+            print("Retrying via free proxy rotation", file=sys.stderr)
+    except Exception as err:  # noqa: BLE001
+        print(f"Proxy setup failed ({err}); continuing direct", file=sys.stderr)
+
+
 def fetch_author():
-    """Fetch and hydrate the author record, retrying on transient failures."""
+    """Fetch and hydrate the author record, retrying on transient failures.
+
+    Each attempt (including proxy setup) runs under a hard SIGALRM timeout
+    so a hung connection fails fast and the next attempt gets its turn.
+    """
     last_err = None
+    signal.signal(signal.SIGALRM, _alarm_handler)
+
     for attempt in range(1, RETRIES + 1):
+        signal.alarm(FETCH_TIMEOUT_S)
         try:
+            if attempt > 1:
+                _enable_free_proxies()
             author = scholarly.search_author_id(SCHOLAR_ID)
             return scholarly.fill(
                 author, sections=["basics", "indices", "counts", "coauthors"]
             )
         except Exception as err:  # noqa: BLE001 - scholarly raises broadly
             last_err = err
-            wait = 30 * attempt
             print(f"Fetch attempt {attempt}/{RETRIES} failed: {err}", file=sys.stderr)
             if attempt < RETRIES:
-                print(f"Retrying in {wait}s...", file=sys.stderr)
-                time.sleep(wait)
+                print("Retrying in 10s...", file=sys.stderr)
+                time.sleep(10)
+        finally:
+            signal.alarm(0)
+
     raise SystemExit(f"Unable to fetch Google Scholar profile: {last_err}")
 
 
