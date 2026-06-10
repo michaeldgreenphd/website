@@ -7,6 +7,11 @@
     <meta name="theme-color" content="#2D6A4F">
     <title>Michael D. Green, PhD - Population Health Sciences</title>
 
+    <!-- DM Sans for site-wide typography -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700&display=swap" rel="stylesheet">
+
     <!-- Warm up connections for data fetched on tab switch -->
     <link rel="preconnect" href="https://pub.orcid.org" crossorigin>
     <link rel="dns-prefetch" href="https://api.rss2json.com">
@@ -27,7 +32,7 @@
             --text-primary: #333333;
             --text-secondary: #666666;
             --card-shadow: 0 1px 3px rgba(0,0,0,0.05), 0 4px 12px rgba(0,0,0,0.06);
-            --hover-shadow: 0 4px 10px rgba(0,0,0,0.07), 0 10px 24px rgba(0,0,0,0.1);
+            --hover-shadow: 0 6px 14px rgba(0,0,0,0.08), 0 14px 32px rgba(0,0,0,0.12);
             --border-color: #E0E0E0;
         }
 
@@ -59,7 +64,7 @@
         }
 
         body {
-            font-family: Palatino, 'Palatino Linotype', 'Book Antiqua', Georgia, serif;
+            font-family: 'DM Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
             line-height: 1.7;
             -webkit-font-smoothing: antialiased;
             text-rendering: optimizeLegibility;
@@ -114,9 +119,8 @@
             z-index: 1;
         }
 
-        h1, h2 {
-            font-family: Palatino, 'Palatino Linotype', 'Book Antiqua', Georgia, serif;
-            letter-spacing: -0.015em;
+        h1, h2, h3, h4 {
+            letter-spacing: -0.01em;
         }
 
         ::selection {
@@ -515,27 +519,18 @@
             padding: 2rem;
             margin-bottom: 2rem;
             box-shadow: var(--card-shadow);
-            transition: transform 0.3s, box-shadow 0.3s;
+            border-top: 2px solid var(--primary-green);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
         }
 
         .card:hover {
-            transform: translateY(-2px);
+            transform: translateY(-4px);
             box-shadow: var(--hover-shadow);
         }
 
         /* Hero card - no border for cleaner look */
         .hero .card {
             border: none;
-        }
-
-        /* Major section cards - top border */
-        section > .card:first-child {
-            border-top: 4px solid var(--primary-green);
-        }
-
-        /* Subsection cards - subtle left border */
-        section > .card:not(:first-child) {
-            border-left: 3px solid rgba(45, 106, 79, 0.3);
         }
 
         .card h2 {
@@ -621,7 +616,7 @@
         }
 
         .research-area-card:hover {
-            transform: translateY(-2px);
+            transform: translateY(-4px);
             box-shadow: var(--hover-shadow);
             border-left-width: 6px;
         }
@@ -786,7 +781,6 @@
             margin: 0 0 0.5rem 0;
             font-size: 1rem;
             font-weight: 600;
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
         }
 
         .contact-item p {
@@ -849,7 +843,8 @@
         }
 
         .media-item:hover {
-            box-shadow: var(--card-shadow);
+            transform: translateY(-4px);
+            box-shadow: var(--hover-shadow);
             border-color: var(--primary-green);
         }
 
@@ -1830,7 +1825,7 @@
                 <h2>Curriculum Vitae</h2>
                 <p>Download my complete CV for detailed information about my education, research experience, publications, presentations, and awards.</p>
                 <div class="btn-group">
-                    <a href="Michael Green April 2026 CV.pdf" class="btn" target="_blank">Download Full CV (PDF)</a>
+                    <a href="Michael Green June 2026 CV.pdf" class="btn" target="_blank">Download Full CV (PDF)</a>
                 </div>
             </div>
 
