@@ -716,6 +716,7 @@
             display: inline-flex;
             align-items: center;
             justify-content: center;
+            gap: 0.6rem;
             padding: 0.75rem 1.5rem;
             background: var(--primary-green);
             color: var(--white);
@@ -744,6 +745,27 @@
         .btn-outline:hover {
             background: var(--primary-green);
             color: var(--white);
+        }
+
+        /* Theme-shape button icons (hibiscus, crab) — drawn in currentColor so
+           they follow the button's text color across fill/outline/hover states */
+        .btn-shape {
+            width: 1.5em;
+            height: 1.5em;
+            flex-shrink: 0;
+        }
+
+        .hero .btn {
+            border-radius: 50px;
+            padding: 0.75rem 1.75rem;
+        }
+
+        .btn:hover .shape-hibiscus {
+            animation: bloom 1.8s ease-in-out infinite;
+        }
+
+        .btn:hover .shape-crab {
+            animation: scuttle 1.8s ease-in-out infinite;
         }
 
         .btn-group {
@@ -1647,8 +1669,31 @@
                         </p>
                         <p>I am a United States based population health researcher focused on understanding how unequal treatment in healthcare leads to health inequities, and how to solve them.</p>
                         <div class="btn-group">
-                            <a href="#research" class="btn nav-link" data-section="research">View Research</a>
-                            <a href="#contact" class="btn-outline nav-link" data-section="contact">Get in Touch</a>
+                            <a href="#research" class="btn nav-link" data-section="research">
+                                <svg class="btn-shape shape-hibiscus" viewBox="0 0 50 50" aria-hidden="true" focusable="false">
+                                    <circle cx="25" cy="25" r="4" fill="currentColor"/>
+                                    <ellipse cx="25" cy="12" rx="6" ry="12" fill="currentColor" opacity="0.8"/>
+                                    <ellipse cx="38" cy="18" rx="6" ry="12" fill="currentColor" opacity="0.8" transform="rotate(72 25 25)"/>
+                                    <ellipse cx="35" cy="35" rx="6" ry="12" fill="currentColor" opacity="0.8" transform="rotate(144 25 25)"/>
+                                    <ellipse cx="15" cy="35" rx="6" ry="12" fill="currentColor" opacity="0.8" transform="rotate(216 25 25)"/>
+                                    <ellipse cx="12" cy="18" rx="6" ry="12" fill="currentColor" opacity="0.8" transform="rotate(288 25 25)"/>
+                                </svg>
+                                View Research
+                            </a>
+                            <a href="#contact" class="btn btn-outline nav-link" data-section="contact">
+                                <svg class="btn-shape shape-crab" viewBox="0 0 55 40" aria-hidden="true" focusable="false">
+                                    <ellipse cx="27.5" cy="25" rx="12" ry="9" fill="currentColor"/>
+                                    <path d="M15 25 Q10 22 8 20 L6 18" stroke="currentColor" stroke-width="3" fill="none" stroke-linecap="round"/>
+                                    <ellipse cx="6" cy="16" rx="4" ry="3" fill="currentColor"/>
+                                    <path d="M40 25 Q45 22 47 20 L49 18" stroke="currentColor" stroke-width="3" fill="none" stroke-linecap="round"/>
+                                    <ellipse cx="49" cy="16" rx="4" ry="3" fill="currentColor"/>
+                                    <line x1="18" y1="32" x2="15" y2="38" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+                                    <line x1="23" y1="33" x2="21" y2="39" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+                                    <line x1="32" y1="33" x2="34" y2="39" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+                                    <line x1="37" y1="32" x2="40" y2="38" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+                                </svg>
+                                Get in Touch
+                            </a>
                         </div>
                     </div>
                 </div>
@@ -1692,6 +1737,12 @@
                     <div class="publications-container" id="discrimination-pubs">
                         <div class="publication-item-expandable">
                             <span class="pub-bullet">📄</span>
+                            <a href="https://www.ahajournals.org/doi/10.1161/CIRCOUTCOMES.125.012661" target="_blank" rel="noopener noreferrer">
+                                Association Between Discrimination in Health Care and ASCVD Among Middle-Aged and Older Adults in the United States
+                            </a>
+                        </div>
+                        <div class="publication-item-expandable">
+                            <span class="pub-bullet">📄</span>
                             <a href="https://link.springer.com/article/10.1007/s11606-025-09796-w" target="_blank" rel="noopener noreferrer">
                                 Factors Associated with Perceived Discrimination in Healthcare Among United States Middle-aged and Older Adults
                             </a>
@@ -1728,8 +1779,14 @@
                     </div>
                     <div class="publications-container" id="diversity-pubs">
                         <div class="publication-item-expandable">
+                            <span class="pub-bullet">🌐</span>
+                            <a href="https://www.civicsample.com" target="_blank" rel="noopener noreferrer">
+                                Civic Sample
+                            </a>
+                        </div>
+                        <div class="publication-item-expandable">
                             <span class="pub-bullet">📄</span>
-                            <a href="https://www.medrxiv.org/content/10.1101/2025.07.21.25331865v1" target="_blank" rel="noopener noreferrer">
+                            <a href="https://bmjopenquality.bmj.com/content/15/2/e003801" target="_blank" rel="noopener noreferrer">
                                 Racial and Ethnic Diversity in Clinical Studies Reported to ClinicalTrials.gov, 2009-2024
                             </a>
                         </div>
@@ -1752,6 +1809,12 @@
                         </div>
                     </div>
                     <div class="publications-container" id="sdoh-pubs">
+                        <div class="publication-item-expandable">
+                            <span class="pub-bullet">📄</span>
+                            <a href="https://www.ahajournals.org/doi/10.1161/CIRCOUTCOMES.125.012661" target="_blank" rel="noopener noreferrer">
+                                Association Between Discrimination in Health Care and ASCVD Among Middle-Aged and Older Adults in the United States
+                            </a>
+                        </div>
                         <div class="publication-item-expandable">
                             <span class="pub-bullet">📄</span>
                             <a href="https://www.jacc.org/doi/abs/10.1016/j.jacadv.2025.102103" target="_blank" rel="noopener noreferrer">
