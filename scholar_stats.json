@@ -1,0 +1,90 @@
+{
+  "scholar_id": "ea2W0QgAAAAJ",
+  "profile_url": "https://scholar.google.com/citations?user=ea2W0QgAAAAJ&hl=en",
+  "name": "Michael D. Green, Ph.D.",
+  "affiliation": "Postdoctoral Fellow, Johns Hopkins Bloomberg School of Public Health",
+  "metrics": {
+    "citations": 86,
+    "h_index": 4,
+    "i10_index": 3
+  },
+  "citations_per_year": [
+    {
+      "year": 2021,
+      "citations": 4
+    },
+    {
+      "year": 2022,
+      "citations": 3
+    },
+    {
+      "year": 2023,
+      "citations": 6
+    },
+    {
+      "year": 2024,
+      "citations": 14
+    },
+    {
+      "year": 2025,
+      "citations": 31
+    },
+    {
+      "year": 2026,
+      "citations": 28
+    }
+  ],
+  "coauthors": [
+    {
+      "name": "Matthew E. Dupre",
+      "affiliation": "Professor of Medicine, Duke University",
+      "profile_url": "https://scholar.google.com/citations?user=nHrIIYoAAAAJ&hl=en"
+    },
+    {
+      "name": "Hanzhang Xu, PhD, RN",
+      "affiliation": "Duke University Medical Center",
+      "profile_url": "https://scholar.google.com/citations?user=HufwIMQAAAAJ&hl=en"
+    },
+    {
+      "name": "Emily C. O'Brien",
+      "affiliation": "Associate Professor at Duke University",
+      "profile_url": "https://scholar.google.com/citations?user=O2slgIQAAAAJ&hl=en"
+    },
+    {
+      "name": "Ann Marie Navar",
+      "affiliation": "UT Southwestern Medical Center",
+      "profile_url": "https://scholar.google.com/citations?user=J0sL_7cAAAAJ&hl=en"
+    },
+    {
+      "name": "Heather R. Farmer",
+      "affiliation": "Assistant Professor, University of Delaware",
+      "profile_url": "https://scholar.google.com/citations?user=viD8I5AAAAAJ&hl=en"
+    },
+    {
+      "name": "LáShauntá Glover",
+      "affiliation": "Assistant Professor at Duke University",
+      "profile_url": "https://scholar.google.com/citations?user=bZWka-AAAAAJ&hl=en"
+    },
+    {
+      "name": "Jay B. Lusk",
+      "affiliation": "University of North Carolina- Chapel Hill",
+      "profile_url": "https://scholar.google.com/citations?user=v8fV5BEAAAAJ&hl=en"
+    },
+    {
+      "name": "Maurice Alan Brookhart",
+      "affiliation": "Professor, Department of Population Health Sciences, Duke University",
+      "profile_url": "https://scholar.google.com/citations?user=3mxyA2QAAAAJ&hl=en"
+    },
+    {
+      "name": "Ashleigh Harlow",
+      "affiliation": "PhD Candidate, Duke University School of Nursing",
+      "profile_url": "https://scholar.google.com/citations?user=KAW_mqoAAAAJ&hl=en"
+    },
+    {
+      "name": "Maryam Aziz",
+      "affiliation": "PhD Student, Duke University",
+      "profile_url": "https://scholar.google.com/citations?user=Hz9bOAkAAAAJ&hl=en"
+    }
+  ],
+  "updated": "2026-06-10"
+}
