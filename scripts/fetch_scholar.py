@@ -273,8 +273,50 @@ def render_chart(citations_per_year, palette, out_path, font_name):
 # --- Main ----------------------------------------------------------------------
 
 
+def rerender_from_cache(reason):
+    """Re-render charts from the committed scholar_stats.json.
+
+    Chart styling changes shouldn't have to wait for a day when Google
+    isn't blocking the fetch: if the live fetch fails but the cached data
+    predates CHART_STYLE_VERSION, render from cache and record the new
+    style version. Chronic fetch failures still surface as failures on
+    every other run, because the style fallback only fires once.
+    """
+    if not JSON_PATH.exists():
+        return False
+    try:
+        cached = json.loads(JSON_PATH.read_text(encoding="utf-8"))
+    except (json.JSONDecodeError, OSError):
+        return False
+    if cached.get("chart_style") == CHART_STYLE_VERSION:
+        return False  # charts already current; let the fetch failure surface
+    if not cached.get("citations_per_year"):
+        return False
+
+    print(f"{reason}; re-rendering charts from cached data", file=sys.stderr)
+    font_name = pick_font()
+    render_chart(
+        cached["citations_per_year"], PALETTES["light"], CHART_LIGHT_PATH, font_name
+    )
+    render_chart(
+        cached["citations_per_year"], PALETTES["dark"], CHART_DARK_PATH, font_name
+    )
+    cached["chart_style"] = CHART_STYLE_VERSION
+    JSON_PATH.write_text(
+        json.dumps(cached, indent=2, ensure_ascii=False) + "\n", encoding="utf-8"
+    )
+    print("Charts re-rendered from cache; metrics unchanged.")
+    return True
+
+
 def main():
-    author = fetch_author()
+    try:
+        author = fetch_author()
+    except SystemExit as err:
+        if rerender_from_cache(str(err)):
+            return
+        raise
+
     payload = build_payload(author)
 
     # Refuse to publish obviously broken data (e.g. a blocked/empty response)
