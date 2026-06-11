@@ -52,7 +52,7 @@ FETCH_TIMEOUT_S = 90 # hard cap per attempt; Scholar tarpits blocked IPs and
 # Bump to force a chart re-render on the next run even when the Scholar data
 # itself is unchanged (the version is stored in scholar_stats.json and
 # participates in the changed-data comparison).
-CHART_STYLE_VERSION = 2
+CHART_STYLE_VERSION = 3
 
 # Muted, minimalist palettes drawn from the site's design tokens (theme.css):
 # desaturated green-slate bars with the current year highlighted in the
@@ -239,11 +239,12 @@ def render_chart(citations_per_year, palette, out_path, font_name):
         ax.annotate(
             f"{count:,}",
             xy=(bar.get_x() + bar.get_width() / 2, bar.get_height()),
-            xytext=(0, 9),
+            xytext=(0, 10),
             textcoords="offset points",
             ha="center",
             va="bottom",
-            fontsize=10,
+            fontsize=12,
+            fontweight=600,
             fontfamily=font_name,
             color=palette["subtext"],
         )
@@ -261,7 +262,7 @@ def render_chart(citations_per_year, palette, out_path, font_name):
     ax.tick_params(axis="x", length=0, pad=8)
     ax.set_yticks([])
     # ~15px of clear headroom above the tallest label at typical render sizes
-    ax.set_ylim(0, max(counts) * 1.32 if counts else 1)
+    ax.set_ylim(0, max(counts) * 1.36 if counts else 1)
     ax.margins(x=0.02)
 
     fig.tight_layout(pad=0.5)
@@ -273,8 +274,50 @@ def render_chart(citations_per_year, palette, out_path, font_name):
 # --- Main ----------------------------------------------------------------------
 
 
+def rerender_from_cache(reason):
+    """Re-render charts from the committed scholar_stats.json.
+
+    Chart styling changes shouldn't have to wait for a day when Google
+    isn't blocking the fetch: if the live fetch fails but the cached data
+    predates CHART_STYLE_VERSION, render from cache and record the new
+    style version. Chronic fetch failures still surface as failures on
+    every other run, because the style fallback only fires once.
+    """
+    if not JSON_PATH.exists():
+        return False
+    try:
+        cached = json.loads(JSON_PATH.read_text(encoding="utf-8"))
+    except (json.JSONDecodeError, OSError):
+        return False
+    if cached.get("chart_style") == CHART_STYLE_VERSION:
+        return False  # charts already current; let the fetch failure surface
+    if not cached.get("citations_per_year"):
+        return False
+
+    print(f"{reason}; re-rendering charts from cached data", file=sys.stderr)
+    font_name = pick_font()
+    render_chart(
+        cached["citations_per_year"], PALETTES["light"], CHART_LIGHT_PATH, font_name
+    )
+    render_chart(
+        cached["citations_per_year"], PALETTES["dark"], CHART_DARK_PATH, font_name
+    )
+    cached["chart_style"] = CHART_STYLE_VERSION
+    JSON_PATH.write_text(
+        json.dumps(cached, indent=2, ensure_ascii=False) + "\n", encoding="utf-8"
+    )
+    print("Charts re-rendered from cache; metrics unchanged.")
+    return True
+
+
 def main():
-    author = fetch_author()
+    try:
+        author = fetch_author()
+    except SystemExit as err:
+        if rerender_from_cache(str(err)):
+            return
+        raise
+
     payload = build_payload(author)
 
     # Refuse to publish obviously broken data (e.g. a blocked/empty response)
