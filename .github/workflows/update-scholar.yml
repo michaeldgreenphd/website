@@ -68,6 +68,9 @@ jobs:
             echo "No changes to commit."
           else
             git commit -m "Update site data (Scholar dashboard / Substack posts)"
+            # Rebase onto any commits pushed while this job ran so the push
+            # can't fail as non-fast-forward
+            git pull --rebase origin "${GITHUB_REF_NAME}"
             git push
           fi
 
