@@ -353,11 +353,13 @@
 
         .nav-links {
             display: flex;
+            flex-wrap: wrap;
             list-style: none;
-            gap: 2rem;
+            gap: 1rem 2rem;
         }
 
         .nav-links a {
+            white-space: nowrap;
             text-decoration: none;
             color: var(--dark-gray);
             font-weight: 500;
@@ -2896,7 +2898,7 @@
 
             <div class="card fade-in">
                 <h2>Get in Touch</h2>
-                <p>I'm often interested in connecting with fellow researchers, collaborators, and those whom I feel my values align. Feel free to reach out through the channels below (after reading the <a href="faq.html">FAQ</a>).</p>
+                <p>I enjoy connecting with researchers, collaborators, and those whom I feel my values align (time and due diligence permitting). Feel free to reach out through the channels below (after reading the <a href="faq.html">FAQ</a>).</p>
             </div>
 
             <div class="contact-grid">
@@ -2915,9 +2917,10 @@
                 <h2>Collaboration Interests</h2>
                 <p>I'm particularly interested in collaborations involving:</p>
                 <ul>
+                    <li>AI Algorithm Bias (especially those which surround culture or social issues)</li>
                     <li>Diversity and representation in clinical trials</li>
                     <li>Healthcare discrimination</li>
-                    <li>Quality of healthcare</li>
+                    <li>Culture of healthcare</li>
                 </ul>
             </div>
         </section>
