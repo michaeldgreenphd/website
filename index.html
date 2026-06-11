@@ -560,6 +560,25 @@
             border-left-width: 6px;
         }
 
+        /* Editorial cadence on desktop: sequential cards alternate their
+           green accent edge and stagger horizontally; mobile collapses to a
+           uniform left-accented stack (see the 768px media query) */
+        @media (min-width: 769px) {
+            .research-area-card:nth-of-type(odd) {
+                margin-right: var(--space-12);
+            }
+
+            .research-area-card:nth-of-type(even) {
+                margin-left: var(--space-12);
+                border-left: none;
+                border-right: 4px solid var(--primary-green);
+            }
+
+            .research-area-card:nth-of-type(even):hover {
+                border-right-width: 6px;
+            }
+        }
+
         .research-area-header {
             display: block;
         }
@@ -970,59 +989,68 @@
         .shape-actions {
             margin-top: 2rem;
             display: flex;
-            gap: 2.5rem;
+            gap: var(--space-8);
             flex-wrap: wrap;
         }
 
+        /* The whole container (glyph + label) is one interactive target with
+           synchronized, GPU-accelerated hover/focus states */
         .shape-action {
-            display: flex;
+            display: inline-flex;
             flex-direction: column;
             align-items: center;
-            gap: 0.5rem;
-        }
-
-        .shape-btn {
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-            width: 72px;
-            height: 72px;
-            padding: 6px;
+            gap: var(--space-2);
+            min-width: 44px;
+            min-height: 44px;
+            padding: var(--space-2) var(--space-4);
+            border-radius: var(--radius-md);
+            text-decoration: none;
             color: var(--primary-green);
-            border-radius: 50%;
             cursor: pointer;
             -webkit-tap-highlight-color: transparent;
-            transition: transform 0.25s ease, color 0.25s ease, filter 0.25s ease;
+            transition: color 0.25s ease;
         }
 
-        .shape-btn svg {
+        .shape-glyph {
+            display: block;
+            width: 64px;
+            height: 64px;
+            will-change: transform;
+            transform: translateZ(0);
+            transition: transform 0.25s ease;
+        }
+
+        .shape-glyph svg {
             width: 100%;
             height: 100%;
             display: block;
         }
 
-        .shape-btn:hover {
-            color: var(--light-green);
-            transform: translateY(-4px) scale(1.08);
-            filter: drop-shadow(0 6px 12px rgba(45, 106, 79, 0.35));
+        .shape-action:hover,
+        .shape-action:focus-visible {
+            color: var(--color-primary-strong);
         }
 
-        .shape-btn:hover .shape-hibiscus {
+        .shape-action:hover .shape-glyph,
+        .shape-action:focus-visible .shape-glyph {
+            transform: scale(1.03) translateZ(0);
+        }
+
+        .shape-action:hover .shape-hibiscus {
             animation: bloom 1.8s ease-in-out infinite;
         }
 
-        .shape-btn:hover .shape-crab {
+        .shape-action:hover .shape-crab {
             animation: scuttle 1.8s ease-in-out infinite;
         }
 
-        .shape-btn:focus-visible {
+        .shape-action:focus-visible {
             outline: 2px solid var(--primary-green);
             outline-offset: 4px;
         }
 
-        .shape-btn:active {
-            transform: scale(0.92);
-            filter: none;
+        .shape-action:active .shape-glyph {
+            transform: scale(0.94) translateZ(0);
             transition-duration: 0.1s;
         }
 
@@ -1031,6 +1059,12 @@
             font-weight: 500;
             color: var(--text-secondary);
             letter-spacing: 0.02em;
+            transition: color 0.25s ease;
+        }
+
+        .shape-action:hover .shape-action-label,
+        .shape-action:focus-visible .shape-action-label {
+            color: var(--color-primary-strong);
         }
 
         .btn-group {
@@ -1158,6 +1192,114 @@
 
         .media-item a:hover {
             opacity: 0.7;
+        }
+
+        /* Dual-option media actions: pill buttons sized as >=44px touch
+           targets for in-page playback / excerpts plus explicit external
+           links */
+        .media-actions {
+            display: flex;
+            flex-wrap: wrap;
+            gap: var(--space-2);
+            margin-top: var(--space-3);
+        }
+
+        .media-action-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.45rem;
+            min-height: 44px;
+            padding: 0.5rem 1.1rem;
+            border-radius: 999px;
+            border: 1px solid var(--color-border);
+            background: transparent;
+            color: var(--primary-green);
+            font-family: inherit;
+            font-size: var(--text-sm);
+            font-weight: 500;
+            line-height: 1.3;
+            cursor: pointer;
+            text-decoration: none;
+            -webkit-tap-highlight-color: transparent;
+            transition: background 0.2s ease, border-color 0.2s ease, color 0.2s ease;
+        }
+
+        .media-action-btn:hover {
+            border-color: var(--primary-green);
+            background: var(--color-primary-tint);
+            opacity: 1;
+        }
+
+        .media-action-btn:active {
+            transform: scale(0.97);
+        }
+
+        .media-action-btn svg {
+            width: 15px;
+            height: 15px;
+            flex-shrink: 0;
+        }
+
+        .media-action-btn[aria-expanded="true"] {
+            background: var(--primary-green);
+            border-color: var(--primary-green);
+            color: var(--white);
+        }
+
+        /* Collapsible drawer: animated via grid-template-rows so the open
+           height is always content-driven — long excerpts can never clip or
+           spawn inner scrollbars on small viewports */
+        .media-drawer {
+            display: grid;
+            grid-template-rows: 0fr;
+            transition: grid-template-rows 0.4s ease;
+        }
+
+        .media-drawer.open {
+            grid-template-rows: 1fr;
+        }
+
+        .media-drawer-inner {
+            overflow: hidden;
+            min-height: 0;
+        }
+
+        .media-drawer-inner iframe {
+            display: block;
+            width: 100%;
+            border: 0;
+            border-radius: var(--radius-md);
+            margin-top: var(--space-3);
+        }
+
+        .media-drawer.is-video iframe {
+            aspect-ratio: 16 / 9;
+            height: auto;
+        }
+
+        .media-drawer.is-audio iframe {
+            height: 152px;
+        }
+
+        .media-drawer blockquote {
+            margin: var(--space-3) 0 0;
+            padding: var(--space-4) var(--space-6);
+            border-left: 3px solid var(--light-green);
+            background: var(--color-primary-tint);
+            border-radius: 0 var(--radius-md) var(--radius-md) 0;
+            font-style: italic;
+            font-size: var(--text-lg);
+            line-height: var(--leading-body);
+            color: var(--text-primary);
+            max-width: var(--measure);
+        }
+
+        .media-drawer .excerpt-attribution {
+            display: block;
+            margin-top: var(--space-2);
+            font-style: normal;
+            font-size: var(--text-xs);
+            color: var(--text-secondary);
         }
 
         /* ORCID Styles */
@@ -1961,8 +2103,8 @@
                         </p>
                         <p>I am a United States based population health researcher focused on understanding how unequal treatment in healthcare leads to health inequities, and how to solve them.</p>
                         <div class="shape-actions">
-                            <div class="shape-action">
-                                <a href="#research" class="shape-btn nav-link" data-section="research" aria-label="View Research" title="View Research">
+                            <a href="#research" class="shape-action nav-link" data-section="research">
+                                <span class="shape-glyph">
                                     <svg class="shape-hibiscus" viewBox="0 0 50 50" aria-hidden="true" focusable="false">
                                         <circle cx="25" cy="25" r="4" fill="currentColor"/>
                                         <ellipse cx="25" cy="12" rx="6" ry="12" fill="currentColor" opacity="0.8"/>
@@ -1971,11 +2113,11 @@
                                         <ellipse cx="15" cy="35" rx="6" ry="12" fill="currentColor" opacity="0.8" transform="rotate(216 25 25)"/>
                                         <ellipse cx="12" cy="18" rx="6" ry="12" fill="currentColor" opacity="0.8" transform="rotate(288 25 25)"/>
                                     </svg>
-                                </a>
-                                <span class="shape-action-label" aria-hidden="true">View Research</span>
-                            </div>
-                            <div class="shape-action">
-                                <a href="#contact" class="shape-btn nav-link" data-section="contact" aria-label="Get in Touch" title="Get in Touch">
+                                </span>
+                                <span class="shape-action-label">View Research</span>
+                            </a>
+                            <a href="#contact" class="shape-action nav-link" data-section="contact">
+                                <span class="shape-glyph">
                                     <svg class="shape-crab" viewBox="0 0 55 40" aria-hidden="true" focusable="false">
                                         <ellipse cx="27.5" cy="25" rx="12" ry="9" fill="currentColor"/>
                                         <path d="M15 25 Q10 22 8 20 L6 18" stroke="currentColor" stroke-width="3" fill="none" stroke-linecap="round"/>
@@ -1987,9 +2129,9 @@
                                         <line x1="32" y1="33" x2="34" y2="39" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
                                         <line x1="37" y1="32" x2="40" y2="38" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
                                     </svg>
-                                </a>
-                                <span class="shape-action-label" aria-hidden="true">Get in Touch</span>
-                            </div>
+                                </span>
+                                <span class="shape-action-label">Get in Touch</span>
+                            </a>
                         </div>
                     </div>
                 </div>
@@ -2452,6 +2594,12 @@
                     <h4><a href="https://www.science.org/content/article/study-finds-sharp-decline-black-hispanic-researchers-receiving-nih-funding" target="_blank">Study finds sharp decline in Black, Hispanic researchers receiving NIH funding</a></h4>
                     <p class="source">Science, June 2026</p>
                     <p>Provided comments to a reporter at Science magazine who wanted insight on a new study in JAMA looking at a sharp decline in NIH fellowships awarded to Black and Hispanic scientists.</p>
+                    <div class="media-excerpt" hidden>
+                        <blockquote>
+                            &ldquo;As a Black man myself, there are so few people who look like me in these research spaces.&rdquo;
+                            <span class="excerpt-attribution">&mdash; as quoted in Science</span>
+                        </blockquote>
+                    </div>
                 </div>
 
                 <div class="media-item">
@@ -2875,6 +3023,118 @@
                 tag.dataset.loaded = ''; // retry next time the tab is opened
             }
         }
+
+        // Dual-option media actions (Media Appearances). Items that link to
+        // YouTube/Spotify get a "Play here" drawer (iframe loads only when
+        // opened, unloads on close so audio can't keep playing) plus an
+        // explicit external link; items carrying a .media-excerpt block get
+        // a "Read excerpt" drawer plus a full-article link. Drawers animate
+        // via grid-template-rows so their height is always content-driven.
+        function initMediaActions() {
+            const PLAY_ICON = '<svg viewBox="0 0 16 16" aria-hidden="true" focusable="false"><path d="M4.5 2.8v10.4c0 .6.65.97 1.17.65l8.3-5.2a.77.77 0 0 0 0-1.3l-8.3-5.2a.77.77 0 0 0-1.17.65Z" fill="currentColor"/></svg>';
+            const QUOTE_ICON = '<svg viewBox="0 0 16 16" aria-hidden="true" focusable="false"><path d="M3 9.5C3 6.7 4.8 4.6 7.2 4l.5 1.2c-1.4.5-2.3 1.5-2.5 2.7.2-.1.5-.15.8-.15 1.1 0 1.9.8 1.9 1.95S7 11.7 5.8 11.7C4.2 11.7 3 10.8 3 9.5Zm6.3 0c0-2.8 1.8-4.9 4.2-5.5l.5 1.2c-1.4.5-2.3 1.5-2.5 2.7.2-.1.5-.15.8-.15 1.1 0 1.9.8 1.9 1.95s-.9 1.95-2.1 1.95c-1.6 0-2.8-.9-2.8-2.15Z" fill="currentColor"/></svg>';
+            const EXTERNAL_ICON = '<svg viewBox="0 0 16 16" aria-hidden="true" focusable="false"><path d="M6 3h7v7M13 3 7.5 8.5M11 9.5V12a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V6a1 1 0 0 1 1-1h2.5" stroke="currentColor" stroke-width="1.5" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg>';
+
+            function makeDrawer(kindClass) {
+                const drawer = document.createElement('div');
+                drawer.className = 'media-drawer ' + kindClass;
+                const inner = document.createElement('div');
+                inner.className = 'media-drawer-inner';
+                drawer.appendChild(inner);
+                return drawer;
+            }
+
+            function makeToggle(drawer, icon, label, openLabel) {
+                const button = document.createElement('button');
+                button.type = 'button';
+                button.className = 'media-action-btn';
+                button.setAttribute('aria-expanded', 'false');
+                button.innerHTML = icon + '<span>' + label + '</span>';
+                button.addEventListener('click', () => {
+                    const open = drawer.classList.toggle('open');
+                    button.setAttribute('aria-expanded', String(open));
+                    button.querySelector('span').textContent = open ? openLabel : label;
+                    const iframe = drawer.querySelector('iframe');
+                    if (iframe) {
+                        if (open && !iframe.getAttribute('src')) {
+                            iframe.src = drawer.dataset.embed;
+                        } else if (!open) {
+                            // Stop playback once the collapse animation ends
+                            setTimeout(() => {
+                                if (!drawer.classList.contains('open')) {
+                                    iframe.removeAttribute('src');
+                                }
+                            }, 450);
+                        }
+                    }
+                });
+                return button;
+            }
+
+            function makeExternal(href, label) {
+                const link = document.createElement('a');
+                link.className = 'media-action-btn';
+                link.href = href;
+                link.target = '_blank';
+                link.rel = 'noopener noreferrer';
+                link.innerHTML = '<span>' + label + '</span>' + EXTERNAL_ICON;
+                return link;
+            }
+
+            document.querySelectorAll('#media-appearances .media-item').forEach(item => {
+                const actions = document.createElement('div');
+                actions.className = 'media-actions';
+                const drawers = [];
+
+                // Option A/B: in-page playback + external view
+                let embed = null;
+                for (const link of item.querySelectorAll('a[href]')) {
+                    const yt = link.href.match(/(?:youtube\.com\/watch\?v=|youtu\.be\/)([\w-]{11})/);
+                    if (yt) {
+                        embed = { url: 'https://www.youtube-nocookie.com/embed/' + yt[1], external: link.href, label: 'Watch on YouTube', kind: 'is-video', title: 'YouTube video player' };
+                        break;
+                    }
+                    const sp = link.href.match(/open\.spotify\.com\/episode\/([A-Za-z0-9]+)/);
+                    if (sp) {
+                        embed = { url: 'https://open.spotify.com/embed/episode/' + sp[1], external: link.href, label: 'Listen on Spotify', kind: 'is-audio', title: 'Spotify episode player' };
+                        break;
+                    }
+                }
+                if (embed) {
+                    const drawer = makeDrawer(embed.kind);
+                    drawer.dataset.embed = embed.url;
+                    const iframe = document.createElement('iframe');
+                    iframe.title = embed.title;
+                    iframe.setAttribute('allow', 'autoplay; encrypted-media; picture-in-picture; fullscreen');
+                    drawer.firstChild.appendChild(iframe);
+                    actions.appendChild(makeToggle(drawer, PLAY_ICON, 'Play here', 'Hide player'));
+                    actions.appendChild(makeExternal(embed.external, embed.label));
+                    drawers.push(drawer);
+                }
+
+                // Inline press excerpt + explicit full-article link
+                const excerpt = item.querySelector('.media-excerpt');
+                if (excerpt) {
+                    const drawer = makeDrawer('is-quote');
+                    drawer.firstChild.appendChild(excerpt);
+                    excerpt.hidden = false;
+                    actions.appendChild(makeToggle(drawer, QUOTE_ICON, 'Read excerpt', 'Hide excerpt'));
+                    const titleLink = item.querySelector('h4 a');
+                    const source = item.querySelector('.source');
+                    const outlet = source ? source.textContent.split(',')[0].trim() : 'source';
+                    if (titleLink) {
+                        actions.appendChild(makeExternal(titleLink.href, 'Read full article at ' + outlet));
+                    }
+                    drawers.push(drawer);
+                }
+
+                if (drawers.length) {
+                    item.appendChild(actions);
+                    drawers.forEach(drawer => item.appendChild(drawer));
+                }
+            });
+        }
+        initMediaActions();
 
         function renderWsityLatest(episode) {
             const tag = document.getElementById('wsity-latest');
