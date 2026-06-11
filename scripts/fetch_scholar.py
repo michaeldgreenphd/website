@@ -49,6 +49,11 @@ RETRIES = 4          # attempt 1 is direct; later attempts rotate free proxies
 FETCH_TIMEOUT_S = 90 # hard cap per attempt; Scholar tarpits blocked IPs and
                      # scholarly will otherwise hang until the CI job times out
 
+# Bump to force a chart re-render on the next run even when the Scholar data
+# itself is unchanged (the version is stored in scholar_stats.json and
+# participates in the changed-data comparison).
+CHART_STYLE_VERSION = 2
+
 # Muted, minimalist palettes drawn from the site's design tokens (theme.css):
 # desaturated green-slate bars with the current year highlighted in the
 # brand primary; green-tinted neutral text instead of default blacks/grays.
@@ -170,6 +175,7 @@ def build_payload(author):
     return {
         "scholar_id": SCHOLAR_ID,
         "profile_url": PROFILE_URL,
+        "chart_style": CHART_STYLE_VERSION,
         "name": author.get("name", ""),
         "affiliation": author.get("affiliation", ""),
         "metrics": {
@@ -227,16 +233,17 @@ def render_chart(citations_per_year, palette, out_path, font_name):
     ]
     bars = ax.bar(years, counts, width=0.62, color=colors, zorder=3)
 
-    # Value labels above each bar replace the y-axis entirely
+    # Value labels above each bar replace the y-axis entirely; the generous
+    # offset and headroom (see set_ylim below) keep them from crowding the bars
     for bar, count in zip(bars, counts):
         ax.annotate(
             f"{count:,}",
             xy=(bar.get_x() + bar.get_width() / 2, bar.get_height()),
-            xytext=(0, 5),
+            xytext=(0, 9),
             textcoords="offset points",
             ha="center",
             va="bottom",
-            fontsize=9.5,
+            fontsize=10,
             fontfamily=font_name,
             color=palette["subtext"],
         )
@@ -253,7 +260,8 @@ def render_chart(citations_per_year, palette, out_path, font_name):
     )
     ax.tick_params(axis="x", length=0, pad=8)
     ax.set_yticks([])
-    ax.set_ylim(0, max(counts) * 1.18 if counts else 1)
+    # ~15px of clear headroom above the tallest label at typical render sizes
+    ax.set_ylim(0, max(counts) * 1.32 if counts else 1)
     ax.margins(x=0.02)
 
     fig.tight_layout(pad=0.5)

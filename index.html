@@ -653,6 +653,64 @@
             height: 100%;
         }
 
+        /* Podcast platform icon buttons: monochrome, palette-matched */
+        .podcast-links {
+            display: flex;
+            gap: var(--space-2);
+            margin-top: var(--space-3);
+        }
+
+        .podcast-icon-btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            color: var(--color-text-muted);
+            border: 1px solid var(--color-border);
+            text-decoration: none;
+            -webkit-tap-highlight-color: transparent;
+            transition: color 0.2s ease, border-color 0.2s ease, transform 0.2s ease;
+        }
+
+        .podcast-icon-btn svg {
+            width: 19px;
+            height: 19px;
+        }
+
+        .podcast-icon-btn:hover {
+            color: var(--primary-green);
+            border-color: var(--primary-green);
+            transform: translateY(-2px);
+        }
+
+        .podcast-icon-btn:active {
+            transform: scale(0.92);
+        }
+
+        /* Subtle 'Latest Episode' metadata tag (populated from the show's RSS) */
+        .latest-episode {
+            display: inline-block;
+            margin-top: var(--space-3);
+            padding: var(--space-1) var(--space-3);
+            background: var(--color-primary-tint);
+            border-radius: 999px;
+            font-size: var(--text-xs);
+            line-height: 1.5;
+            color: var(--text-secondary);
+        }
+
+        .latest-episode a {
+            color: var(--primary-green);
+            font-weight: 500;
+            text-decoration: none;
+        }
+
+        .latest-episode a:hover {
+            text-decoration: underline;
+        }
+
         /* Responsive adjustments for research cards */
         @media (max-width: 768px) {
             .research-area-card {
@@ -1070,6 +1128,17 @@
             height: 24px;
         }
 
+        /* ORCID publications: fluid container that can never push past the
+           viewport on mobile — long titles/DOIs wrap, and anything truly
+           unbreakable scrolls horizontally with touch momentum instead of
+           stretching the page */
+        #publications-list {
+            max-width: 100%;
+            min-width: 0;
+            overflow-x: auto;
+            -webkit-overflow-scrolling: touch;
+        }
+
         .publication-item {
             padding: 1.5rem;
             background: linear-gradient(135deg, var(--white) 0%, rgba(46, 125, 50, 0.02) 100%);
@@ -1077,6 +1146,9 @@
             margin-bottom: 1.5rem;
             border-left: 3px solid var(--primary-green);
             transition: all 0.3s;
+            max-width: 100%;
+            min-width: 0;
+            overflow-wrap: break-word;
         }
 
         .publication-item:hover {
@@ -1089,6 +1161,7 @@
             margin-bottom: 0.75rem;
             font-size: 1.1rem;
             line-height: 1.4;
+            overflow-wrap: anywhere;
         }
 
         .publication-item .journal-info {
@@ -1116,6 +1189,7 @@
             text-decoration: underline;
             font-size: 0.9rem;
             font-weight: 500;
+            overflow-wrap: anywhere;
         }
 
         .publication-item .doi-link:hover {
@@ -2513,31 +2587,56 @@
                     <div class="podcast-item" style="margin-bottom: 1.5rem; padding-bottom: 1.5rem; border-bottom: 1px solid var(--medium-gray);">
                         <h4 style="margin-bottom: 0.5rem;"><a href="https://www.whyshoulditrustyou.net/" target="_blank" style="color: var(--primary-green);">Why Should I Trust You</a></h4>
                         <p style="margin: 0; line-height: 1.8;">Explores why so many people don't trust public health and institutions, and whether we can build back from that. The hosts invite diverse perspectives and approach every conversation with compassion and understanding. (Clearly related to my work.)</p>
+                        <p class="latest-episode" id="wsity-latest" hidden></p>
+                        <div class="podcast-links">
+                            <a class="podcast-icon-btn" href="https://podcasts.apple.com/us/podcast/why-should-i-trust-you/id1788335471" target="_blank" rel="noopener noreferrer" aria-label="Listen to Why Should I Trust You on Apple Podcasts" title="Apple Podcasts"><svg viewBox="0 0 24 24" fill="none" aria-hidden="true" focusable="false"><circle cx="12" cy="12" r="9.2" stroke="currentColor" stroke-width="1.5"/><circle cx="12" cy="9.3" r="2" fill="currentColor"/><path d="M12 12.1c-1.15 0-1.8.85-1.62 1.95l.5 3.05a1.13 1.13 0 0 0 2.24 0l.5-3.05c.18-1.1-.47-1.95-1.62-1.95Z" fill="currentColor"/><path d="M8.1 9.3a3.9 3.9 0 0 1 7.8 0" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/></svg></a>
+                            <a class="podcast-icon-btn" href="https://open.spotify.com/show/6ZvjT4Ls8Q54whJXCrdpjD" target="_blank" rel="noopener noreferrer" aria-label="Listen to Why Should I Trust You on Spotify" title="Spotify"><svg viewBox="0 0 24 24" fill="none" aria-hidden="true" focusable="false"><circle cx="12" cy="12" r="9.2" stroke="currentColor" stroke-width="1.5"/><path d="M7.6 9.6c3.1-.9 6.2-.6 8.7 1" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/><path d="M8.1 12.4c2.5-.7 5-.4 7 .9" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/><path d="M8.6 15.1c1.9-.5 3.8-.3 5.4.7" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/></svg></a>
+                        </div>
                     </div>
 
                     <div class="podcast-item" style="margin-bottom: 1.5rem; padding-bottom: 1.5rem; border-bottom: 1px solid var(--medium-gray);">
                         <h4 style="margin-bottom: 0.5rem;"><a href="https://www.nytimes.com/column/hard-fork" target="_blank" style="color: var(--primary-green);">Hard Fork</a></h4>
                         <p style="margin: 0; line-height: 1.8;">Each week, journalists Kevin Roose and Casey Newton explore and make sense of the rapidly changing world of tech.</p>
+                        <div class="podcast-links">
+                            <a class="podcast-icon-btn" href="https://podcasts.apple.com/us/podcast/hard-fork/id1528594034" target="_blank" rel="noopener noreferrer" aria-label="Listen to Hard Fork on Apple Podcasts" title="Apple Podcasts"><svg viewBox="0 0 24 24" fill="none" aria-hidden="true" focusable="false"><circle cx="12" cy="12" r="9.2" stroke="currentColor" stroke-width="1.5"/><circle cx="12" cy="9.3" r="2" fill="currentColor"/><path d="M12 12.1c-1.15 0-1.8.85-1.62 1.95l.5 3.05a1.13 1.13 0 0 0 2.24 0l.5-3.05c.18-1.1-.47-1.95-1.62-1.95Z" fill="currentColor"/><path d="M8.1 9.3a3.9 3.9 0 0 1 7.8 0" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/></svg></a>
+                            <a class="podcast-icon-btn" href="https://open.spotify.com/show/44fllCS2FTFr2x2kjP9xeT" target="_blank" rel="noopener noreferrer" aria-label="Listen to Hard Fork on Spotify" title="Spotify"><svg viewBox="0 0 24 24" fill="none" aria-hidden="true" focusable="false"><circle cx="12" cy="12" r="9.2" stroke="currentColor" stroke-width="1.5"/><path d="M7.6 9.6c3.1-.9 6.2-.6 8.7 1" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/><path d="M8.1 12.4c2.5-.7 5-.4 7 .9" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/><path d="M8.6 15.1c1.9-.5 3.8-.3 5.4.7" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/></svg></a>
+                        </div>
                     </div>
 
                     <div class="podcast-item" style="margin-bottom: 1.5rem; padding-bottom: 1.5rem; border-bottom: 1px solid var(--medium-gray);">
                         <h4 style="margin-bottom: 0.5rem;"><a href="https://hopswithpop.substack.com/" target="_blank" style="color: var(--primary-green);">Hops with Pop</a></h4>
                         <p style="margin: 0; line-height: 1.8;">A podcast and Substack blog by Daniel Popper, The Athletic's Chargers beat writer.</p>
+                        <div class="podcast-links">
+                            <a class="podcast-icon-btn" href="https://podcasts.apple.com/us/podcast/hops-with-pop/id1780728642" target="_blank" rel="noopener noreferrer" aria-label="Listen to Hops with Pop on Apple Podcasts" title="Apple Podcasts"><svg viewBox="0 0 24 24" fill="none" aria-hidden="true" focusable="false"><circle cx="12" cy="12" r="9.2" stroke="currentColor" stroke-width="1.5"/><circle cx="12" cy="9.3" r="2" fill="currentColor"/><path d="M12 12.1c-1.15 0-1.8.85-1.62 1.95l.5 3.05a1.13 1.13 0 0 0 2.24 0l.5-3.05c.18-1.1-.47-1.95-1.62-1.95Z" fill="currentColor"/><path d="M8.1 9.3a3.9 3.9 0 0 1 7.8 0" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/></svg></a>
+                            <a class="podcast-icon-btn" href="https://open.spotify.com/show/4IdtkWpDNrmEUHwVQFySgL" target="_blank" rel="noopener noreferrer" aria-label="Listen to Hops with Pop on Spotify" title="Spotify"><svg viewBox="0 0 24 24" fill="none" aria-hidden="true" focusable="false"><circle cx="12" cy="12" r="9.2" stroke="currentColor" stroke-width="1.5"/><path d="M7.6 9.6c3.1-.9 6.2-.6 8.7 1" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/><path d="M8.1 12.4c2.5-.7 5-.4 7 .9" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/><path d="M8.6 15.1c1.9-.5 3.8-.3 5.4.7" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/></svg></a>
+                        </div>
                     </div>
 
                     <div class="podcast-item" style="margin-bottom: 1.5rem; padding-bottom: 1.5rem; border-bottom: 1px solid var(--medium-gray);">
                         <h4 style="margin-bottom: 0.5rem;"><a href="https://kemidoll.com/podcast/" target="_blank" style="color: var(--primary-green);">Your Unapologetic Career Podcast</a></h4>
                         <p style="margin: 0; line-height: 1.8;">By Kemi Doll, a career coach for women of color in academic medicine. I don't identify as such, but appreciate her insights and candor.</p>
+                        <div class="podcast-links">
+                            <a class="podcast-icon-btn" href="https://podcasts.apple.com/us/podcast/your-unapologetic-career-podcast/id1565219435" target="_blank" rel="noopener noreferrer" aria-label="Listen to Your Unapologetic Career Podcast on Apple Podcasts" title="Apple Podcasts"><svg viewBox="0 0 24 24" fill="none" aria-hidden="true" focusable="false"><circle cx="12" cy="12" r="9.2" stroke="currentColor" stroke-width="1.5"/><circle cx="12" cy="9.3" r="2" fill="currentColor"/><path d="M12 12.1c-1.15 0-1.8.85-1.62 1.95l.5 3.05a1.13 1.13 0 0 0 2.24 0l.5-3.05c.18-1.1-.47-1.95-1.62-1.95Z" fill="currentColor"/><path d="M8.1 9.3a3.9 3.9 0 0 1 7.8 0" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/></svg></a>
+                            <a class="podcast-icon-btn" href="https://open.spotify.com/show/3nVSsEuuRjKlJ57saDniOP" target="_blank" rel="noopener noreferrer" aria-label="Listen to Your Unapologetic Career Podcast on Spotify" title="Spotify"><svg viewBox="0 0 24 24" fill="none" aria-hidden="true" focusable="false"><circle cx="12" cy="12" r="9.2" stroke="currentColor" stroke-width="1.5"/><path d="M7.6 9.6c3.1-.9 6.2-.6 8.7 1" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/><path d="M8.1 12.4c2.5-.7 5-.4 7 .9" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/><path d="M8.6 15.1c1.9-.5 3.8-.3 5.4.7" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/></svg></a>
+                        </div>
                     </div>
 
                     <div class="podcast-item" style="margin-bottom: 1.5rem; padding-bottom: 1.5rem; border-bottom: 1px solid var(--medium-gray);">
                         <h4 style="margin-bottom: 0.5rem;"><a href="https://kffhealthnews.org/news/tag/what-the-health/" target="_blank" style="color: var(--primary-green);">What the Health</a></h4>
                         <p style="margin: 0; line-height: 1.8;">A healthcare policy podcast from the Kaiser Family Foundation.</p>
+                        <div class="podcast-links">
+                            <a class="podcast-icon-btn" href="https://podcasts.apple.com/us/podcast/what-the-health-from-kff-health-news/id1253607372" target="_blank" rel="noopener noreferrer" aria-label="Listen to What the Health on Apple Podcasts" title="Apple Podcasts"><svg viewBox="0 0 24 24" fill="none" aria-hidden="true" focusable="false"><circle cx="12" cy="12" r="9.2" stroke="currentColor" stroke-width="1.5"/><circle cx="12" cy="9.3" r="2" fill="currentColor"/><path d="M12 12.1c-1.15 0-1.8.85-1.62 1.95l.5 3.05a1.13 1.13 0 0 0 2.24 0l.5-3.05c.18-1.1-.47-1.95-1.62-1.95Z" fill="currentColor"/><path d="M8.1 9.3a3.9 3.9 0 0 1 7.8 0" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/></svg></a>
+                            <a class="podcast-icon-btn" href="https://open.spotify.com/show/32EdsB662C3oyIrqLMmBXI" target="_blank" rel="noopener noreferrer" aria-label="Listen to What the Health on Spotify" title="Spotify"><svg viewBox="0 0 24 24" fill="none" aria-hidden="true" focusable="false"><circle cx="12" cy="12" r="9.2" stroke="currentColor" stroke-width="1.5"/><path d="M7.6 9.6c3.1-.9 6.2-.6 8.7 1" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/><path d="M8.1 12.4c2.5-.7 5-.4 7 .9" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/><path d="M8.6 15.1c1.9-.5 3.8-.3 5.4.7" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/></svg></a>
+                        </div>
                     </div>
 
                     <div class="podcast-item" style="margin-bottom: 0;">
                         <h4 style="margin-bottom: 0.5rem;"><a href="https://podcasts.voxmedia.com/show/on-with-kara-swisher" target="_blank" style="color: var(--primary-green);">On with Kara Swisher</a></h4>
                         <p style="margin: 0; line-height: 1.8;">The podcast of tech/media journalist Kara Swisher, my favorite interviewer.</p>
+                        <div class="podcast-links">
+                            <a class="podcast-icon-btn" href="https://podcasts.apple.com/us/podcast/on-with-kara-swisher/id1643307527" target="_blank" rel="noopener noreferrer" aria-label="Listen to On with Kara Swisher on Apple Podcasts" title="Apple Podcasts"><svg viewBox="0 0 24 24" fill="none" aria-hidden="true" focusable="false"><circle cx="12" cy="12" r="9.2" stroke="currentColor" stroke-width="1.5"/><circle cx="12" cy="9.3" r="2" fill="currentColor"/><path d="M12 12.1c-1.15 0-1.8.85-1.62 1.95l.5 3.05a1.13 1.13 0 0 0 2.24 0l.5-3.05c.18-1.1-.47-1.95-1.62-1.95Z" fill="currentColor"/><path d="M8.1 9.3a3.9 3.9 0 0 1 7.8 0" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/></svg></a>
+                            <a class="podcast-icon-btn" href="https://open.spotify.com/show/42ntT7XnfdbbYetUQu0vu5" target="_blank" rel="noopener noreferrer" aria-label="Listen to On with Kara Swisher on Spotify" title="Spotify"><svg viewBox="0 0 24 24" fill="none" aria-hidden="true" focusable="false"><circle cx="12" cy="12" r="9.2" stroke="currentColor" stroke-width="1.5"/><path d="M7.6 9.6c3.1-.9 6.2-.6 8.7 1" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/><path d="M8.1 12.4c2.5-.7 5-.4 7 .9" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/><path d="M8.6 15.1c1.9-.5 3.8-.3 5.4.7" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/></svg></a>
+                        </div>
                     </div>
                 </div>
                     </div>
@@ -2660,7 +2759,65 @@
                     dashboard.dataset.loaded = 'true';
                     fetchScholarStats();
                 }
+            } else if (sectionId === 'forfun') {
+                const wsityTag = document.getElementById('wsity-latest');
+                if (wsityTag && !wsityTag.dataset.loaded) {
+                    wsityTag.dataset.loaded = 'true';
+                    fetchWsityLatest();
+                }
             }
+        }
+
+        // Latest episode of 'Why Should I Trust You?' (For Fun tab).
+        // Fetched via an open RSS-to-JSON proxy and cached in localStorage for
+        // six hours; the tag simply stays hidden if anything fails.
+        const WSITY_FEED_URL = 'https://feeds.buzzsprout.com/2433134.rss';
+
+        async function fetchWsityLatest() {
+            const tag = document.getElementById('wsity-latest');
+            const CACHE_KEY = 'wsity-latest-episode';
+            const CACHE_TTL = 6 * 60 * 60 * 1000; // 6 hours
+
+            try {
+                const cached = JSON.parse(localStorage.getItem(CACHE_KEY) || 'null');
+                if (cached && cached.episode && Date.now() - cached.at < CACHE_TTL) {
+                    renderWsityLatest(cached.episode);
+                    return;
+                }
+            } catch (error) { /* stale or unparseable cache: fall through to fetch */ }
+
+            try {
+                const response = await fetch(`https://api.rss2json.com/v1/api.json?rss_url=${encodeURIComponent(WSITY_FEED_URL)}&count=1`);
+                if (!response.ok) {
+                    throw new Error(`feed proxy returned ${response.status}`);
+                }
+                const data = await response.json();
+                const item = data.status === 'ok' && data.items && data.items[0];
+                if (!item || !item.title) {
+                    throw new Error('no episodes in feed');
+                }
+                const episode = { title: item.title, link: item.link, pubDate: item.pubDate };
+                try {
+                    localStorage.setItem(CACHE_KEY, JSON.stringify({ at: Date.now(), episode }));
+                } catch (error) { /* private browsing: skip caching */ }
+                renderWsityLatest(episode);
+            } catch (error) {
+                console.warn('WSITY latest episode unavailable:', error);
+                tag.dataset.loaded = ''; // retry next time the tab is opened
+            }
+        }
+
+        function renderWsityLatest(episode) {
+            const tag = document.getElementById('wsity-latest');
+            const when = episode.pubDate ? new Date(episode.pubDate.replace(' ', 'T')) : null;
+            const dateStr = when && !isNaN(when)
+                ? when.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' })
+                : '';
+            const title = episode.link
+                ? `<a href="${escapeHtml(episode.link)}" target="_blank" rel="noopener noreferrer">${escapeHtml(episode.title)}</a>`
+                : escapeHtml(episode.title);
+            tag.innerHTML = `Latest episode: ${title}${dateStr ? ` &middot; ${dateStr}` : ''}`;
+            tag.hidden = false;
         }
 
         navLinks.forEach(link => {
