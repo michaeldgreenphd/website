@@ -7,6 +7,7 @@
     <meta name="theme-color" content="#2D6A4F">
     <title>Michael D. Green, PhD - Population Health Sciences</title>
 
+    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%2050%2050'%3E%3Ccircle%20cx='25'%20cy='25'%20r='5'%20fill='%232D6A4F'/%3E%3Cellipse%20cx='25'%20cy='12'%20rx='7'%20ry='12'%20fill='%232D6A4F'%20opacity='.8'/%3E%3Cellipse%20cx='38'%20cy='18'%20rx='7'%20ry='12'%20fill='%232D6A4F'%20opacity='.8'%20transform='rotate(72%2025%2025)'/%3E%3Cellipse%20cx='35'%20cy='35'%20rx='7'%20ry='12'%20fill='%232D6A4F'%20opacity='.8'%20transform='rotate(144%2025%2025)'/%3E%3Cellipse%20cx='15'%20cy='35'%20rx='7'%20ry='12'%20fill='%232D6A4F'%20opacity='.8'%20transform='rotate(216%2025%2025)'/%3E%3Cellipse%20cx='12'%20cy='18'%20rx='7'%20ry='12'%20fill='%232D6A4F'%20opacity='.8'%20transform='rotate(288%2025%2025)'/%3E%3C/svg%3E">
     <!-- Site typography: DM Sans (UI/body) + Fraunces (display headings) -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -675,8 +676,7 @@
         }
 
         /* Running: photo and playlist share one vertically-centered row with
-           identical heights; the photo renders at native resolution (320px)
-           so it stays crisp */
+           identical 352px heights (Spotify's standard player size) */
         .running-grid {
             display: grid;
             grid-template-columns: auto minmax(0, 1fr);
@@ -685,8 +685,12 @@
             margin-top: var(--space-6);
         }
 
+        /* 352px matches Spotify's standard player height — anything less
+           makes the embed fall back to its compact layout and look tiny.
+           The photo scales to the same height with width:auto, preserving
+           its aspect ratio. */
         .running-photo {
-            height: 320px;
+            height: 352px;
             width: auto;
             border-radius: var(--radius-md);
             box-shadow: var(--shadow-md);
@@ -700,7 +704,7 @@
         .running-playlist {
             display: block;
             width: 100%;
-            height: 320px;
+            height: 352px;
             border: 0;
             border-radius: var(--radius-lg);
         }
