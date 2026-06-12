@@ -2,8 +2,13 @@ name: Update Site Data (Scholar + Substack)
 
 on:
   schedule:
-    # Daily at 06:23 UTC (odd minute avoids the top-of-hour cron rush)
-    - cron: '23 6 * * *'
+    # 06:05 UTC = 1:05am EST (2:05am during daylight saving — GitHub cron
+    # has no timezone support, so the local time shifts with DST)
+    - cron: '5 6 * * *'
+    # Afternoon catch-up: if the overnight Scholar fetch was blocked, this
+    # second attempt keeps the dashboard from going a full day stale. The
+    # script is idempotent, so this commits nothing when data is unchanged.
+    - cron: '35 17 * * *'
   workflow_dispatch: {}  # allows manual runs from the Actions tab
   push:
     # Also run when the pipeline itself changes, so fixes are testable
