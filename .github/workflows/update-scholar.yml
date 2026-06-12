@@ -39,9 +39,11 @@ jobs:
           python-version: '3.12'
 
       - name: Install dependencies
-        # httpx is pinned <0.28 because scholarly's proxy support passes the
-        # removed `proxies=` kwarg to httpx.Client on newer versions
-        run: pip install scholarly matplotlib free-proxy "httpx<0.28"
+        # Pinned: httpx<0.28 (scholarly passes the removed proxies= kwarg on
+        # newer versions) and free-proxy==1.0.6 (newer releases changed
+        # get_proxy_list()'s signature, which broke scholarly's proxy
+        # rotation in the 2026-06-12 run)
+        run: pip install scholarly==1.7.11 matplotlib "free-proxy==1.0.6" "httpx<0.28"
 
       - name: Install DM Sans so the chart matches site typography
         # Best-effort: the script falls back to DejaVu Sans if this fails
