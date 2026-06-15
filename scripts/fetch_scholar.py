@@ -22,6 +22,7 @@ Usage:
 
 import json
 import multiprocessing
+import os
 import sys
 import time
 from datetime import date
@@ -48,6 +49,17 @@ MAX_COAUTHORS = 12   # keep the dashboard list compact
 RETRIES = 4          # attempt 1 is direct; later attempts rotate free proxies
 FETCH_TIMEOUT_S = 90 # hard cap per attempt; Scholar tarpits blocked IPs and
                      # scholarly will otherwise hang until the CI job times out
+
+# Optional: a ScraperAPI key (free tier is plenty for one daily fetch) makes
+# the fetch reliable through Google's datacenter-IP block. Set it as the
+# SCRAPERAPI_KEY repository secret to enable; without it the script falls back
+# to direct + free-proxy rotation. See docs/SCHOLAR_PIPELINE.md.
+SCRAPERAPI_KEY = os.environ.get("SCRAPERAPI_KEY", "").strip()
+
+
+class ScholarFetchBlocked(Exception):
+    """Every fetch attempt was blocked/timed out — the expected transient
+    case (Google rate-limiting CI IPs), distinct from an unexpected bug."""
 
 # Bump to force a chart re-render on the next run even when the Scholar data
 # itself is unchanged (the version is stored in scholar_stats.json and
@@ -96,11 +108,33 @@ def _enable_free_proxies():
         print(f"Proxy setup failed ({err}); continuing direct", file=sys.stderr)
 
 
-def _fetch_worker(queue, use_proxy):
+def _configure_proxy(attempt):
+    """Configure scholarly's transport for this attempt.
+
+    With SCRAPERAPI_KEY set, route every attempt through ScraperAPI, which
+    reliably gets past Google's datacenter-IP block. Without a key, attempt 1
+    goes direct and later attempts rotate free proxies (best-effort).
+    """
+    if SCRAPERAPI_KEY:
+        try:
+            from scholarly import ProxyGenerator
+
+            pg = ProxyGenerator()
+            if pg.ScraperAPI(SCRAPERAPI_KEY):
+                scholarly.use_proxy(pg)
+                print("Using ScraperAPI proxy", file=sys.stderr)
+                return
+            print("ScraperAPI rejected the key; falling back", file=sys.stderr)
+        except Exception as err:  # noqa: BLE001
+            print(f"ScraperAPI setup failed ({err}); falling back", file=sys.stderr)
+    if attempt > 1:
+        _enable_free_proxies()
+
+
+def _fetch_worker(queue, attempt):
     """Child-process body: fetch the author record and report via queue."""
     try:
-        if use_proxy:
-            _enable_free_proxies()
+        _configure_proxy(attempt)
         author = scholarly.search_author_id(SCHOLAR_ID)
         author = scholarly.fill(
             author, sections=["basics", "indices", "counts", "coauthors"]
@@ -125,7 +159,7 @@ def fetch_author():
     for attempt in range(1, RETRIES + 1):
         queue = multiprocessing.Queue()
         proc = multiprocessing.Process(
-            target=_fetch_worker, args=(queue, attempt > 1), daemon=True
+            target=_fetch_worker, args=(queue, attempt), daemon=True
         )
         proc.start()
         proc.join(FETCH_TIMEOUT_S)
@@ -149,7 +183,7 @@ def fetch_author():
             print("Retrying in 10s...", file=sys.stderr)
             time.sleep(10)
 
-    raise SystemExit(f"Unable to fetch Google Scholar profile: {last_err}")
+    raise ScholarFetchBlocked(f"all {RETRIES} attempts failed: {last_err}")
 
 
 def build_payload(author):
@@ -313,10 +347,19 @@ def rerender_from_cache(reason):
 def main():
     try:
         author = fetch_author()
-    except SystemExit as err:
-        if rerender_from_cache(str(err)):
-            return
-        raise
+    except ScholarFetchBlocked as err:
+        # Google blocked every attempt — the expected transient case, not a
+        # bug. Keep the committed last-good data (the dashboard surfaces its
+        # "Data as of" date and the twice-daily schedule self-heals), refresh
+        # charts from cache if the styling changed, and exit 0 so a routine
+        # block doesn't show up as a failed workflow run. A genuine bug raises
+        # some other exception and still fails loudly.
+        rerender_from_cache(str(err))
+        print(
+            f"::warning::Google Scholar fetch skipped ({err}); "
+            "kept the last cached metrics."
+        )
+        return
 
     payload = build_payload(author)
 

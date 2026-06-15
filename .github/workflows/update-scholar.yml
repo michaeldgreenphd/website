@@ -64,6 +64,11 @@ jobs:
       - name: Fetch Scholar data and render charts
         id: scholar
         continue-on-error: true
+        env:
+          # Optional: set the SCRAPERAPI_KEY repository secret to fetch
+          # reliably through Google's block. Empty when unset, which the
+          # script handles by falling back to direct + free-proxy rotation.
+          SCRAPERAPI_KEY: ${{ secrets.SCRAPERAPI_KEY }}
         run: python scripts/fetch_scholar.py
 
       - name: Commit and push if changed
@@ -81,6 +86,10 @@ jobs:
             git push
           fi
 
+      # Only genuine errors reach here: a routine Google block now exits the
+      # scholar script cleanly (logging a ::warning::), so this step fires
+      # only when a fetcher crashed unexpectedly — e.g. a dependency API
+      # change — which is what we actually want to be alerted about.
       - name: Surface fetch failures
         if: steps.scholar.outcome == 'failure' || steps.substack.outcome == 'failure'
         run: |
