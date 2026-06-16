@@ -212,17 +212,6 @@
             }
         }
 
-        @keyframes growElement {
-            0%, 100% {
-                transform: translateX(-50%) scale(0.9);
-                opacity: 0.6;
-            }
-            50% {
-                transform: translateX(-50%) scale(1.1);
-                opacity: 1;
-            }
-        }
-
         @keyframes bloom {
             0%, 100% {
                 transform: scale(0.9) rotate(-5deg);
@@ -466,8 +455,7 @@
         }
 
         .card:hover {
-            transform: translateY(-4px);
-            box-shadow: var(--hover-shadow);
+            box-shadow: var(--shadow-md);
         }
 
         /* Hero card - no border for cleaner look */
@@ -558,7 +546,7 @@
         }
 
         .research-area-card:hover {
-            transform: translateY(-4px);
+            transform: translateY(-2px);
             box-shadow: var(--hover-shadow);
             border-left-width: 6px;
         }
@@ -698,7 +686,7 @@
         }
 
         .running-photo:hover {
-            transform: translateY(-5px);
+            transform: translateY(-3px);
         }
 
         .running-playlist {
@@ -1170,7 +1158,7 @@
         }
 
         .media-item:hover {
-            transform: translateY(-4px);
+            transform: translateY(-2px);
             box-shadow: var(--hover-shadow);
             border-color: var(--primary-green);
         }
@@ -1571,7 +1559,7 @@
         }
 
         .social-link:hover {
-            transform: translateY(-4px);
+            transform: translateY(-2px);
             box-shadow: var(--shadow-md);
         }
 
@@ -1620,7 +1608,7 @@
         /* Section visibility */
         section {
             display: none;
-            animation: fadeIn 0.3s ease-in;
+            animation: fadeIn 0.25s var(--ease-out-soft);
         }
 
         section.active {
@@ -1628,14 +1616,8 @@
         }
 
         @keyframes fadeIn {
-            from {
-                opacity: 0;
-                transform: translateY(10px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
+            from { opacity: 0; }
+            to   { opacity: 1; }
         }
 
         /* Subtle medical accent */
@@ -1650,59 +1632,24 @@
             z-index: -1;
         }
 
-        /* Scroll Progress Bar */
-        .scroll-progress-bar {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 0%;
-            height: 3px;
-            background: linear-gradient(90deg, var(--primary-green) 0%, var(--light-green) 100%);
-            z-index: 9999;
-            transition: width 0.1s ease-out;
-            box-shadow: 0 0 10px rgba(46, 125, 50, 0.5);
-        }
-
-        /* Fade-in Animations */
-        .fade-in {
-            opacity: 0;
-            transform: translateY(30px);
-            transition: opacity 0.6s ease-out, transform 0.6s ease-out;
-        }
-
-        .fade-in.visible {
-            opacity: 1;
-            transform: translateY(0);
-        }
-
-        .fade-in-left {
-            opacity: 0;
-            transform: translateX(-30px);
-            transition: opacity 0.6s ease-out, transform 0.6s ease-out;
-        }
-
-        .fade-in-left.visible {
-            opacity: 1;
-            transform: translateX(0);
-        }
-
+        /* On-scroll reveal: one quiet, uniform rise — no directional fly-ins,
+           no staggered cascade. Subtle enough to read as settling into place
+           rather than a performance. */
+        .fade-in,
+        .fade-in-left,
         .fade-in-right {
             opacity: 0;
-            transform: translateX(30px);
-            transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+            transform: translateY(8px);
+            transition: opacity 0.45s var(--ease-out-soft),
+                        transform 0.45s var(--ease-out-soft);
         }
 
+        .fade-in.visible,
+        .fade-in-left.visible,
         .fade-in-right.visible {
             opacity: 1;
-            transform: translateX(0);
+            transform: none;
         }
-
-        /* Stagger delay for multiple elements */
-        .fade-in:nth-child(1) { transition-delay: 0.1s; }
-        .fade-in:nth-child(2) { transition-delay: 0.2s; }
-        .fade-in:nth-child(3) { transition-delay: 0.3s; }
-        .fade-in:nth-child(4) { transition-delay: 0.4s; }
-        .fade-in:nth-child(5) { transition-delay: 0.5s; }
 
         /* Mobile Menu Toggle */
         .menu-toggle {
@@ -2033,9 +1980,6 @@
             </svg>
         </span>
     </button>
-
-    <!-- Scroll Progress Indicator -->
-    <div class="scroll-progress-bar"></div>
 
     <!-- Subtle medical accent -->
     <div class="medical-accent"></div>
@@ -2597,6 +2541,12 @@
                         <h2>Media Appearances & Interviews</h2>
 
                 <div class="media-item">
+                    <h4><a href="https://www.scientificamerican.com/article/why-u-s-science-funding-needs-reform/" target="_blank">How to Fix Science</a></h4>
+                    <p class="source">Scientific American, June 2026</p>
+                    <p>Featured in a story in Scientific American about my experience navigating unprecedented changes in the federal funding landscape. Spoke mainly about my confusion, emotions, and why I still remain hopeful about the future!</p>
+                </div>
+
+                <div class="media-item">
                     <h4><a href="https://www.science.org/content/article/study-finds-sharp-decline-black-hispanic-researchers-receiving-nih-funding" target="_blank">Study finds sharp decline in Black, Hispanic researchers receiving NIH funding</a></h4>
                     <p class="source">Science, June 2026</p>
                     <p>Provided comments to a reporter at Science magazine who wanted insight on a new study in JAMA looking at a sharp decline in NIH fellowships awarded to Black and Hispanic scientists.</p>
@@ -2764,17 +2714,17 @@
 
                 <div class="section-content">
                     <!-- Film Photography -->
-                    <div class="card" id="fun-photography" style="animation: fadeInUp 0.6s ease-out;">
+                    <div class="card" id="fun-photography">
                         <h3>Film Photography</h3>
                 <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.2rem; margin-top: 1.5rem; max-width: 900px; margin-left: auto; margin-right: auto;">
-                    <img loading="lazy" decoding="async" src="images/film 1.png" alt="Mountain valley" style="width: 100%; height: auto; border-radius: 8px; box-shadow: var(--card-shadow); transition: transform 0.3s ease;" onmouseover="this.style.transform='translateY(-8px)'" onmouseout="this.style.transform='translateY(0)'">
-                    <img loading="lazy" decoding="async" src="images/film 2.png" alt="Badlands" style="width: 100%; height: auto; border-radius: 8px; box-shadow: var(--card-shadow); transition: transform 0.3s ease;" onmouseover="this.style.transform='translateY(-8px)'" onmouseout="this.style.transform='translateY(0)'">
-                    <img loading="lazy" decoding="async" src="images/film 3.png" alt="Coastal resort" style="width: 100%; height: auto; border-radius: 8px; box-shadow: var(--card-shadow); transition: transform 0.3s ease;" onmouseover="this.style.transform='translateY(-8px)'" onmouseout="this.style.transform='translateY(0)'">
+                    <img loading="lazy" decoding="async" src="images/film 1.png" alt="Mountain valley" style="width: 100%; height: auto; border-radius: 8px; box-shadow: var(--card-shadow); transition: transform 0.3s ease;" onmouseover="this.style.transform='translateY(-3px)'" onmouseout="this.style.transform='translateY(0)'">
+                    <img loading="lazy" decoding="async" src="images/film 2.png" alt="Badlands" style="width: 100%; height: auto; border-radius: 8px; box-shadow: var(--card-shadow); transition: transform 0.3s ease;" onmouseover="this.style.transform='translateY(-3px)'" onmouseout="this.style.transform='translateY(0)'">
+                    <img loading="lazy" decoding="async" src="images/film 3.png" alt="Coastal resort" style="width: 100%; height: auto; border-radius: 8px; box-shadow: var(--card-shadow); transition: transform 0.3s ease;" onmouseover="this.style.transform='translateY(-3px)'" onmouseout="this.style.transform='translateY(0)'">
                 </div>
                     </div>
 
                     <!-- LA Chargers Fan -->
-                    <div class="card" id="fun-chargers" style="animation: fadeInUp 0.6s ease-out 0.1s; animation-fill-mode: backwards;">
+                    <div class="card" id="fun-chargers">
                         <h3>Die-Hard Chargers Fan</h3>
                 <figure class="chargers-figure">
                     <img loading="lazy" decoding="async" src="images/chargers sofi.png" alt="At SoFi Stadium">
@@ -2783,7 +2733,7 @@
                     </div>
 
                     <!-- Running -->
-                    <div class="card" id="fun-running" style="animation: fadeInUp 0.6s ease-out 0.2s; animation-fill-mode: backwards;">
+                    <div class="card" id="fun-running">
                         <h3>Running</h3>
                 <p style="margin-top: 1.5rem;">Here is my most versatile playlist — fully satisfies no one but also rarely dissatisfies everyone.</p>
                 <div class="running-grid">
@@ -2793,11 +2743,11 @@
                     </div>
 
                     <!-- Travel / City Scenes -->
-                    <div class="card" id="fun-travel" style="animation: fadeInUp 0.6s ease-out 0.3s; animation-fill-mode: backwards;">
+                    <div class="card" id="fun-travel">
                         <h3>Travel</h3>
                 <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 2rem; margin-top: 1.5rem; max-width: 900px; margin-left: auto; margin-right: auto;">
-                    <img loading="lazy" decoding="async" src="images/city 1.png" alt="Paris street scene" style="width: 100%; height: auto; border-radius: 8px; box-shadow: var(--card-shadow); transition: transform 0.3s ease;" onmouseover="this.style.transform='translateY(-5px) rotate(-1deg)'" onmouseout="this.style.transform='translateY(0) rotate(0deg)'">
-                    <img loading="lazy" decoding="async" src="images/city 2.png" alt="Tropical coastal walkway" style="width: 100%; height: auto; border-radius: 8px; box-shadow: var(--card-shadow); transition: transform 0.3s ease;" onmouseover="this.style.transform='translateY(-5px) rotate(1deg)'" onmouseout="this.style.transform='translateY(0) rotate(0deg)'">
+                    <img loading="lazy" decoding="async" src="images/city 1.png" alt="Paris street scene" style="width: 100%; height: auto; border-radius: 8px; box-shadow: var(--card-shadow); transition: transform 0.3s ease;" onmouseover="this.style.transform='translateY(-3px) rotate(-0.8deg)'" onmouseout="this.style.transform='translateY(0) rotate(0deg)'">
+                    <img loading="lazy" decoding="async" src="images/city 2.png" alt="Tropical coastal walkway" style="width: 100%; height: auto; border-radius: 8px; box-shadow: var(--card-shadow); transition: transform 0.3s ease;" onmouseover="this.style.transform='translateY(-3px) rotate(0.8deg)'" onmouseout="this.style.transform='translateY(0) rotate(0deg)'">
                 </div>
                     </div>
 
@@ -3675,25 +3625,6 @@
                 }
             });
         });
-
-        // Scroll Progress Bar
-        const scrollProgressBar = document.querySelector('.scroll-progress-bar');
-        let scrollProgressPending = false;
-
-        function updateScrollProgress() {
-            const windowHeight = document.documentElement.scrollHeight - document.documentElement.clientHeight;
-            const scrolled = windowHeight > 0 ? (window.scrollY / windowHeight) * 100 : 0;
-            scrollProgressBar.style.width = scrolled + '%';
-            scrollProgressPending = false;
-        }
-
-        window.addEventListener('scroll', () => {
-            if (!scrollProgressPending) {
-                scrollProgressPending = true;
-                requestAnimationFrame(updateScrollProgress);
-            }
-        }, { passive: true });
-        updateScrollProgress(); // Initialize on load
 
         // Scroll-triggered Fade-in Animations
         function initScrollAnimations() {
