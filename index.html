@@ -1703,10 +1703,13 @@
                     <img src="images/Fall 2025 Headshot.JPG" alt="Michael D. Green, PhD" class="profile-image" fetchpriority="high" decoding="async">
                 </div>
                 <div class="hero-content fade-in">
-                    <p class="eyebrow">Population Health Sciences</p>
-                    <h1>Michael D. Green, <span class="hero-degree">PhD</span></h1>
-                    <p class="hero-lede">Studying how unequal treatment in health care produces health inequities — and how to undo them.</p>
-                    <p class="hero-meta">Postdoctoral Fellow · Johns Hopkins Bloomberg School of Public Health</p>
+                    <h1>Michael D. Green, PhD</h1>
+                    <p class="subtitle">Population Health Researcher</p>
+                    <p class="affiliation">
+                        Postdoctoral Fellow<br>
+                        Johns Hopkins Bloomberg School of Public Health
+                    </p>
+                    <p>I am a United States based population health researcher focused on understanding how unequal treatment in healthcare leads to health inequities, and how to solve them.</p>
                     <div class="shape-actions">
                         <a href="#research" class="shape-action nav-link" data-section="research">
                             <span class="shape-glyph">
@@ -1742,7 +1745,6 @@
             </div>
 
             <div class="card fade-in">
-                <p class="eyebrow">Background</p>
                 <h2>About My Research</h2>
                 <p>My name is Michael D. Green, and I am a population health sciences researcher, who completed a Ph.D. in Population Health Sciences at the Duke University School of Medicine in 2025. I was born in Maryland, but moved 7 times before the age of 18. I am a member of the Dartmouth College class of 2021, where I graduated with Honors in Anthropology and a minor in Environmental Sciences. I additionally was a 4-year varsity athlete on the Heavyweight Rowing team, which I joined without any prior experience during the winter of my Freshman year.</p>
 
@@ -1755,10 +1757,9 @@
         <!-- Research Section -->
         <section id="research">
             <div class="card fade-in">
-                <p class="eyebrow">Research</p>
-                <p class="hero-lede" style="max-width: 34ch;">Understanding and eliminating healthcare inequities through rigorous methodology.</p>
+                <p style="font-size: 1.1rem; line-height: 1.8; margin-bottom: 2rem;">My research focuses on understanding and eliminating healthcare inequities through rigorous methodological approaches.</p>
 
-                <h2 style="margin: var(--space-10) 0 1.5rem;">Research Areas</h2>
+                <h2 style="margin-bottom: 1.5rem;">Research Areas</h2>
 
                 <!-- Healthcare Discrimination Card -->
                 <div class="research-area-card fade-in-left" data-topic="discrimination">
@@ -1887,7 +1888,6 @@
                  which a daily GitHub Action refreshes (scripts/fetch_scholar.py).
                  Stays hidden until the data file exists and loads. -->
             <div class="card fade-in" id="scholar-dashboard" hidden>
-                <p class="eyebrow">By the Numbers</p>
                 <h2>Citation Metrics</h2>
                 <p class="scholar-meta">Source: <a href="https://scholar.google.com/citations?user=ea2W0QgAAAAJ&amp;hl=en" target="_blank" rel="noopener noreferrer">Google Scholar</a><span id="scholar-updated"></span></p>
                 <div class="scholar-grid">
@@ -1908,8 +1908,7 @@
         <!-- Publications Section with ORCID Integration -->
         <section id="publications">
             <div class="card fade-in">
-                <p class="eyebrow">Publications</p>
-                <h2>Peer-reviewed work</h2>
+                <h2>Publications</h2>
                 <p>All published manuscripts are available on <a href="published-manuscripts.html" style="color: var(--primary-green); font-weight: 600; text-decoration: underline;">this page linked here</a>. (Last Update 6/2026)</p>
 
                 <p style="margin-top: 1.5rem;">All publications are also automatically fetched from my ORCID profile. ORCID provides a persistent digital identifier that distinguishes me from other researchers and ensures proper attribution of my work. ORCID includes full manuscripts and published abstracts. My publications link only contains full manuscripts.</p>
@@ -1931,8 +1930,7 @@
             </div>
 
             <div class="card fade-in">
-                <p class="eyebrow">Complete Record</p>
-                <h2>All works, from ORCID</h2>
+                <h2>Published Works</h2>
                 <div id="publications-list">
                     <div class="loading-spinner"></div>
                 </div>
@@ -1942,8 +1940,7 @@
         <!-- CV Section -->
         <section id="cv">
             <div class="card fade-in">
-                <p class="eyebrow">Curriculum Vitae</p>
-                <h2>Positions, training &amp; service</h2>
+                <h2>Curriculum Vitae</h2>
                 <p>Download my complete CV for detailed information about my education, research experience, publications, presentations, and awards.</p>
                 <div class="btn-group">
                     <a href="cv/Michael Green June 2026 CV.pdf" class="btn" target="_blank">Download Full CV (PDF)</a>
@@ -2159,8 +2156,7 @@
         <!-- Media Section -->
         <section id="media">
             <div class="card fade-in">
-                <p class="eyebrow">Media &amp; Writing</p>
-                <h2>Translating research</h2>
+                <h2>Media</h2>
                 <p>I'm committed to translating research findings into accessible formats such as blogs, short-form videos, and podcasts.</p>
             </div>
 
@@ -2358,7 +2354,6 @@
         <!-- For Fun Section -->
         <section id="forfun">
             <div class="card fade-in">
-                <p class="eyebrow">Off the Clock</p>
                 <h2>For Fun</h2>
                 <p>Outside of research, I stay active and creative through a mix of running, hiking, occasional film photography, and travel (a city with a subway or a mountain town).</p>
             </div>
@@ -2482,7 +2477,6 @@
         <!-- Contact Section -->
         <section id="contact">
             <div class="card fade-in">
-                <p class="eyebrow">Contact</p>
                 <h2>Connect With Me</h2>
                 <p>Follow my work and connect with me on social media for updates on research, health equity discussions, and insights from population health sciences.</p>
 
@@ -2811,56 +2805,48 @@
         const SUBSTACK_URL = 'www.notbeinggreen.com';
         const RSS_FEED_URL = `https://${SUBSTACK_URL}/feed`;
 
+        // ORCID publications. Primary source is orcid_works.json, cached in the
+        // repo by the daily GitHub Action (scripts/fetch_orcid.py) — a live
+        // per-visitor call to ORCID's API is the kind of third-party fetch that
+        // fails on shared/mobile networks, the same reason the Substack and
+        // Scholar feeds are cached. Falls back to the live ORCID API when the
+        // cache is missing (e.g. before the workflow has run once).
         async function fetchORCIDPublications() {
             const publicationsList = document.getElementById('publications-list');
             publicationsList.innerHTML = '<div class="loading-spinner"></div>';
 
+            // 1) Committed cache — fast and reliable
             try {
-                // Fetch works from ORCID API
-                const response = await fetch(`${ORCID_API_BASE}/${ORCID_ID}/works`, {
-                    headers: {
-                        'Accept': 'application/json'
+                const cached = await fetch('orcid_works.json', { cache: 'no-cache' });
+                if (cached.ok) {
+                    const data = await cached.json();
+                    if (data.works && data.works.length > 0) {
+                        renderPublications(data.works, publicationsList);
+                        return;
                     }
-                });
+                }
+            } catch (error) {
+                console.warn('Cached ORCID works unavailable, trying live API:', error);
+            }
 
+            // 2) Live ORCID API fallback
+            try {
+                const response = await fetch(`${ORCID_API_BASE}/${ORCID_ID}/works`, {
+                    headers: { 'Accept': 'application/json' }
+                });
                 if (!response.ok) {
                     throw new Error('Failed to fetch publications');
                 }
-
                 const data = await response.json();
-                const works = data.group || [];
-
-                if (works.length === 0) {
-                    publicationsList.innerHTML = '<p>No publications found.</p>';
-                    return;
-                }
-
-                // Display count
-                let html = `<div class="publications-count">Total Publications: ${works.length}</div>`;
-
-                // Sort by year (newest first)
-                works.sort((a, b) => {
-                    const yearA = getPublicationYear(a);
-                    const yearB = getPublicationYear(b);
-                    return yearB - yearA;
-                });
-
-                // Display each publication
-                works.forEach(workGroup => {
-                    const work = workGroup['work-summary'][0]; // Get first work summary
-                    html += formatPublication(work);
-                });
-
-                publicationsList.innerHTML = html;
-
+                renderPublications(normalizeOrcidGroup(data.group || []), publicationsList);
             } catch (error) {
                 console.error('Error fetching ORCID publications:', error);
-                publicationsList.dataset.loaded = '';
+                publicationsList.dataset.loaded = ''; // retry next time the tab is opened
                 publicationsList.innerHTML = `
                     <div class="error-message">
                         <strong>Unable to load publications</strong><br>
                         There was an error fetching publications from ORCID. Please reopen this tab to retry, or visit my
-                        <a href="https://orcid.org/${ORCID_ID}" target="_blank">ORCID profile</a> directly.
+                        <a href="https://orcid.org/${ORCID_ID}" target="_blank" rel="noopener noreferrer">ORCID profile</a> directly.
                     </div>
                 `;
             }
@@ -2915,58 +2901,72 @@
             `).join('');
         }
 
-        function formatPublication(work) {
-            const title = work.title?.title?.value || 'Untitled';
-            const year = getPublicationYear(work);
-            const journalTitle = work['journal-title']?.value || '';
-            const type = work.type || '';
-
-            // Get DOI or external ID
-            let doi = '';
-            let doiUrl = '';
-            if (work['external-ids'] && work['external-ids']['external-id']) {
-                const externalIds = work['external-ids']['external-id'];
-                const doiId = externalIds.find(id => id['external-id-type'] === 'doi');
-                if (doiId) {
-                    doi = doiId['external-id-value'];
-                    doiUrl = doiId['external-id-url']?.value || `https://doi.org/${doi}`;
-                }
+        // Render a list of normalized publications, newest first already.
+        function renderPublications(works, container) {
+            if (!works || works.length === 0) {
+                container.innerHTML = '<p>No publications found.</p>';
+                return;
             }
+            let html = `<div class="publications-count">Total Publications: ${works.length}</div>`;
+            works.forEach(work => { html += formatPublication(work); });
+            container.innerHTML = html;
+        }
+
+        // Reduce an ORCID /works "group" array to the normalized shape
+        // {title, year, journal, type, url}, sorted newest first. Mirrors
+        // scripts/fetch_orcid.py so the cached and live paths render identically.
+        function normalizeOrcidGroup(group) {
+            return (group || []).map(entry => {
+                const work = (entry['work-summary'] && entry['work-summary'][0]) || entry;
+                let url = '';
+                const ids = work['external-ids'] && work['external-ids']['external-id'];
+                if (Array.isArray(ids)) {
+                    const doi = ids.find(id => id['external-id-type'] === 'doi');
+                    if (doi) {
+                        url = doi['external-id-url']?.value
+                            || (doi['external-id-value'] ? `https://doi.org/${doi['external-id-value']}` : '');
+                    }
+                }
+                if (!url) url = work.url?.value || '';
+                return {
+                    title: work.title?.title?.value || 'Untitled',
+                    year: work['publication-date']?.year?.value || '',
+                    journal: work['journal-title']?.value || '',
+                    type: work.type || '',
+                    url: url
+                };
+            }).sort((a, b) => (parseInt(b.year, 10) || 0) - (parseInt(a.year, 10) || 0));
+        }
+
+        // Render one normalized publication. Every interpolated field is escaped
+        // (year and type included), so nothing from the feed reaches the DOM raw.
+        function formatPublication(work) {
+            const title = work.title || 'Untitled';
+            const year = work.year || '';
+            const journal = work.journal || '';
+            const type = work.type || '';
+            const url = work.url || '';
 
             let html = `
                 <div class="publication-item">
-                    ${year ? `<div class="pub-year">${year}</div>` : ''}
+                    ${year ? `<div class="pub-year">${escapeHtml(String(year))}</div>` : ''}
                     <h4>${escapeHtml(title)}</h4>
             `;
 
-            if (journalTitle) {
-                html += `<div class="journal-info">${escapeHtml(journalTitle)}</div>`;
+            if (journal) {
+                html += `<div class="journal-info">${escapeHtml(journal)}</div>`;
             }
 
             if (type) {
-                html += `<div class="pub-type">Type: ${formatType(type)}</div>`;
+                html += `<div class="pub-type">Type: ${escapeHtml(formatType(type))}</div>`;
             }
 
-            if (doiUrl) {
-                html += `<a href="${escapeHtml(doiUrl)}" target="_blank" class="doi-link">View Publication →</a>`;
+            if (url) {
+                html += `<a href="${escapeHtml(url)}" target="_blank" rel="noopener noreferrer" class="doi-link">View Publication →</a>`;
             }
 
             html += `</div>`;
             return html;
-        }
-
-        function getPublicationYear(workGroup) {
-            let work;
-            if (workGroup['work-summary']) {
-                work = workGroup['work-summary'][0];
-            } else {
-                work = workGroup;
-            }
-
-            if (work['publication-date']) {
-                return work['publication-date'].year?.value || '';
-            }
-            return '';
         }
 
         function formatType(type) {

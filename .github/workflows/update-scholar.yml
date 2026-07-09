@@ -1,4 +1,4 @@
-name: Update Site Data (Scholar + Substack)
+name: Update Site Data (Scholar + Substack + ORCID)
 
 on:
   schedule:
@@ -17,6 +17,7 @@ on:
       - '.github/workflows/update-scholar.yml'
       - 'scripts/fetch_scholar.py'
       - 'scripts/fetch_substack.py'
+      - 'scripts/fetch_orcid.py'
 
 permissions:
   contents: write  # required to commit the refreshed artifacts
@@ -71,11 +72,16 @@ jobs:
           SCRAPERAPI_KEY: ${{ secrets.SCRAPERAPI_KEY }}
         run: python scripts/fetch_scholar.py
 
+      - name: Fetch ORCID publications
+        id: orcid
+        continue-on-error: true
+        run: python scripts/fetch_orcid.py
+
       - name: Commit and push if changed
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add scholar_stats.json citations_over_time.png citations_over_time_dark.png substack_posts.json 2>/dev/null || true
+          git add scholar_stats.json citations_over_time.png citations_over_time_dark.png substack_posts.json orcid_works.json 2>/dev/null || true
           if git diff --cached --quiet; then
             echo "No changes to commit."
           else
@@ -91,7 +97,7 @@ jobs:
       # only when a fetcher crashed unexpectedly — e.g. a dependency API
       # change — which is what we actually want to be alerted about.
       - name: Surface fetch failures
-        if: steps.scholar.outcome == 'failure' || steps.substack.outcome == 'failure'
+        if: steps.scholar.outcome == 'failure' || steps.substack.outcome == 'failure' || steps.orcid.outcome == 'failure'
         run: |
-          echo "::error::Fetch outcomes — scholar: ${{ steps.scholar.outcome }}, substack: ${{ steps.substack.outcome }}"
+          echo "::error::Fetch outcomes — scholar: ${{ steps.scholar.outcome }}, substack: ${{ steps.substack.outcome }}, orcid: ${{ steps.orcid.outcome }}"
           exit 1
