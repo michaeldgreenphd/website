@@ -11,7 +11,7 @@
     <!-- Site typography: DM Sans (UI/body) + Fraunces (display headings) -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700&family=Fraunces:opsz,wght@9..144,600;9..144,700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700&family=Fraunces:opsz,wght@9..144,500;9..144,600;9..144,700&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
 
     <!-- Global design tokens & base styles -->
     <link rel="stylesheet" href="theme.css">
@@ -25,191 +25,239 @@
         }
 
         body {
-            background: linear-gradient(135deg, var(--white) 0%, var(--light-gray) 100%);
             min-height: 100vh;
-            transition: background 0.3s ease, color 0.3s ease;
         }
 
-        /* Header */
+        a {
+            color: var(--color-primary);
+            text-decoration: underline;
+            text-decoration-thickness: 1px;
+            text-underline-offset: 0.15em;
+            text-decoration-color: color-mix(in srgb, var(--color-primary) 32%, transparent);
+            transition: color 0.2s var(--ease-out-soft), text-decoration-color 0.2s var(--ease-out-soft);
+        }
+
+        a:hover {
+            text-decoration-color: currentColor;
+        }
+
+        /* Header / masthead */
         header {
-            background: var(--white);
-            border-bottom: 3px solid var(--primary-green);
-            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
-            padding: 2rem 0;
+            border-bottom: 1px solid var(--color-border);
+            background: color-mix(in srgb, var(--color-bg) 82%, transparent);
         }
 
         .header-content {
-            max-width: 1200px;
+            max-width: 1140px;
             margin: 0 auto;
-            padding: 0 2rem;
+            padding: var(--space-12) var(--space-8) var(--space-8);
+        }
+
+        .header-eyebrow {
+            font-family: var(--font-mono);
+            font-size: var(--eyebrow-size);
+            font-weight: 500;
+            letter-spacing: var(--eyebrow-tracking);
+            text-transform: uppercase;
+            color: var(--color-primary);
+            margin-bottom: var(--space-4);
         }
 
         .header-content h1 {
-            color: var(--primary-green);
             font-size: var(--text-4xl);
-            margin-bottom: var(--space-2);
+            letter-spacing: -0.03em;
+            margin-bottom: var(--space-3);
         }
 
         .header-content p {
-            color: var(--text-secondary);
-            font-size: 1.1rem;
+            font-family: var(--font-mono);
+            font-size: 0.78rem;
+            letter-spacing: 0.03em;
+            text-transform: uppercase;
+            color: var(--color-text-muted);
         }
 
         .back-link {
             display: inline-block;
-            margin-top: 1rem;
-            color: var(--primary-green);
+            margin-top: var(--space-6);
+            font-family: var(--font-mono);
+            font-size: 0.76rem;
+            letter-spacing: 0.04em;
+            text-transform: uppercase;
+            color: var(--color-primary);
             text-decoration: none;
-            font-weight: 500;
-            transition: opacity 0.3s;
         }
 
         .back-link:hover {
-            opacity: 0.7;
+            text-decoration: underline;
         }
 
         .intro-text {
-            background: var(--white);
-            border-radius: 8px;
-            padding: 2rem;
-            margin-bottom: 3rem;
-            box-shadow: var(--card-shadow);
-            border-left: 4px solid var(--primary-green);
+            margin-bottom: var(--space-12);
+            max-width: 60ch;
         }
 
         .intro-text p {
-            line-height: 1.8;
+            line-height: var(--leading-body);
+            color: var(--color-text-secondary);
         }
 
-        /* Year Headers */
+        .intro-text p:first-child strong {
+            color: var(--color-text);
+        }
+
+        /* Year dividers */
         .year-header {
-            font-size: var(--text-3xl);
-            color: var(--primary-green);
-            margin: 3rem 0 2rem 0;
-            padding-bottom: 0.5rem;
-            border-bottom: 2px solid var(--primary-green);
+            display: flex;
+            align-items: baseline;
+            gap: var(--space-4);
+            font-family: var(--font-serif);
+            font-weight: 600;
+            font-size: var(--text-2xl);
+            color: var(--color-text);
+            margin: var(--space-16) 0 var(--space-2);
+            padding-bottom: var(--space-3);
+            border-bottom: 1px solid var(--color-border);
         }
 
-        /* Manuscript Items */
+        .year-header span {
+            font-family: var(--font-mono) !important;
+            font-size: 0.72rem !important;
+            font-weight: 500 !important;
+            letter-spacing: 0.1em !important;
+            text-transform: uppercase !important;
+            color: var(--color-text-muted) !important;
+            margin-left: 0 !important;
+        }
+
+        /* Manuscript entries → hairline-separated, mono index */
         .manuscript-item {
-            background: var(--white);
-            border-radius: 8px;
-            padding: 2rem;
-            margin-bottom: 2rem;
-            box-shadow: var(--card-shadow);
-            border-left: 4px solid var(--primary-green);
-            transition: transform 0.3s, box-shadow 0.3s;
+            padding: var(--space-8) 0;
+            border-top: 1px solid var(--color-border);
+            background: transparent;
+            border-radius: 0;
+            box-shadow: none;
         }
 
-        .manuscript-item:hover {
-            transform: translateY(-2px);
-            box-shadow: var(--hover-shadow);
+        .year-header + .manuscript-item {
+            border-top: none;
+            padding-top: var(--space-6);
         }
 
         .manuscript-number {
             display: inline-block;
-            background: var(--primary-green);
-            color: white;
-            padding: 0.25rem 0.75rem;
-            border-radius: 4px;
-            font-weight: 600;
-            margin-bottom: 1rem;
-            font-size: 0.9rem;
+            font-family: var(--font-mono);
+            font-size: 0.72rem;
+            font-weight: 500;
+            letter-spacing: 0.06em;
+            color: var(--color-text-muted);
+            background: transparent;
+            padding: 0;
+            margin-bottom: var(--space-3);
         }
 
         .manuscript-item h3 {
-            color: var(--primary-green);
+            color: var(--color-text);
             margin-bottom: var(--space-4);
             font-size: var(--text-xl);
             line-height: var(--leading-snug);
         }
 
         .manuscript-item h3 a {
-            color: var(--primary-green);
+            color: var(--color-text);
             text-decoration: none;
-            transition: opacity 0.3s;
         }
 
         .manuscript-item h3 a:hover {
-            opacity: 0.7;
+            color: var(--color-primary);
             text-decoration: underline;
         }
 
         .objective {
-            background: var(--objective-bg);
-            padding: 1rem;
-            border-radius: 4px;
-            margin-bottom: 1rem;
+            background: var(--color-primary-tint);
+            padding: var(--space-4);
+            border-radius: var(--radius-sm);
+            margin-bottom: var(--space-4);
+            color: var(--color-text-secondary);
+            max-width: var(--measure);
         }
 
         .objective strong {
-            color: var(--primary-green);
+            display: inline;
+            color: var(--color-primary);
+            font-family: var(--font-mono);
+            font-size: 0.72rem;
+            font-weight: 600;
+            letter-spacing: 0.06em;
+            text-transform: uppercase;
         }
 
         .coauthors {
-            color: var(--text-secondary);
-            font-size: 0.95rem;
+            color: var(--color-text-muted);
+            font-size: 0.9rem;
             line-height: 1.7;
-            margin-top: 1rem;
+            margin-top: var(--space-4);
+            max-width: var(--measure);
         }
 
         .coauthors strong {
-            color: var(--dark-gray);
+            color: var(--color-text);
+            font-weight: 600;
         }
 
         .pdf-note {
-            background: #fff3cd;
-            border-left: 4px solid #ffc107;
-            padding: 1rem;
-            margin-top: 1rem;
-            border-radius: 4px;
-            font-size: 0.9rem;
-            color: #856404;
+            border-left: 3px solid var(--color-primary);
+            background: var(--color-primary-tint);
+            padding: var(--space-4);
+            margin-top: var(--space-4);
+            border-radius: var(--radius-sm);
+            font-size: 0.88rem;
+            color: var(--color-text-secondary);
         }
 
         /* Footer */
         footer {
-            background: var(--dark-gray);
-            color: var(--white);
             text-align: center;
-            padding: 2rem;
-            margin-top: 4rem;
+            padding: var(--space-16) var(--space-8) var(--space-10);
+            margin-top: var(--space-16);
+            border-top: 1px solid var(--color-border);
         }
 
-        /* Dark Mode Toggle */
+        footer p {
+            margin: 0;
+            font-family: var(--font-mono);
+            font-size: 0.74rem;
+            letter-spacing: 0.04em;
+            color: var(--color-text-muted);
+        }
+
+        /* Theme toggle — quiet, matches index */
         .theme-toggle {
             position: fixed;
-            top: 80px;
-            right: 2rem;
+            top: 1.5rem;
+            right: 1.5rem;
             z-index: 1001;
-            background: var(--white);
-            border: 2px solid var(--primary-green);
-            width: 56px;
-            height: 56px;
+            background: var(--color-surface);
+            border: 1px solid var(--color-border);
+            width: 44px;
+            height: 44px;
             border-radius: 50%;
             cursor: pointer;
-            box-shadow: var(--card-shadow);
+            box-shadow: var(--shadow-sm);
             display: flex;
             align-items: center;
             justify-content: center;
-            transition: all 0.3s ease;
             padding: 0;
+            transition: border-color 0.2s;
         }
 
         .theme-toggle:hover {
-            transform: scale(1.1);
-            box-shadow: var(--hover-shadow);
-            border-width: 3px;
+            border-color: var(--color-primary);
         }
 
         .theme-toggle svg {
-            width: 28px;
-            height: 28px;
-            transition: transform 0.5s ease;
-        }
-
-        .theme-toggle:hover svg {
-            transform: rotate(20deg);
+            width: 22px;
+            height: 22px;
         }
 
         .toggle-icon {
@@ -219,8 +267,6 @@
             width: 100%;
             height: 100%;
         }
-
-        /* Fluid type scale handles mobile heading sizes via theme.css */
     </style>
 </head>
 <body>
@@ -250,9 +296,10 @@
     <!-- Header -->
     <header>
         <div class="header-content">
+            <p class="header-eyebrow">Publications</p>
             <h1>Published Manuscripts</h1>
-            <p>Michael D. Green, PhD - Population Health Sciences</p>
-            <a href="index.html" class="back-link">← Back to Main Site</a>
+            <p>Michael D. Green, PhD · Population Health Sciences</p>
+            <a href="index.html" class="back-link">← Back to main site</a>
         </div>
     </header>
 
