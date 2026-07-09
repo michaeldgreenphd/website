@@ -41,6 +41,42 @@
             position: relative;
         }
 
+        /* Heritage background pattern (Jamaica: palm, hibiscus, crab; pine, white oak) —
+           a personal motif kept as a whisper-soft fixed texture behind the page */
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-image:
+                url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="80" height="80" viewBox="0 0 80 80"><path d="M40 10 L45 25 L40 22 L35 25 Z M40 22 L47 38 L40 33 L33 38 Z M40 33 L50 50 L40 43 L30 50 Z" fill="%231E5B40" opacity="0.035"/><rect x="37" y="50" width="6" height="12" fill="%231E5B40" opacity="0.035"/></svg>'),
+                url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="100" height="100" viewBox="0 0 100 100"><path d="M50 70 Q48 50 50 30" stroke="%231E5B40" stroke-width="3" fill="none" opacity="0.03"/><ellipse cx="50" cy="25" rx="15" ry="8" fill="%231E5B40" opacity="0.03" transform="rotate(-30 50 25)"/><ellipse cx="50" cy="25" rx="15" ry="8" fill="%231E5B40" opacity="0.03" transform="rotate(30 50 25)"/><ellipse cx="50" cy="25" rx="15" ry="8" fill="%231E5B40" opacity="0.03"/></svg>'),
+                url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="60" height="60" viewBox="0 0 60 60"><circle cx="30" cy="30" r="3" fill="%231E5B40" opacity="0.025"/><ellipse cx="30" cy="20" rx="6" ry="10" fill="%231E5B40" opacity="0.025"/><ellipse cx="40" cy="30" rx="10" ry="6" fill="%231E5B40" opacity="0.025" transform="rotate(72 30 30)"/><ellipse cx="35" cy="42" rx="10" ry="6" fill="%231E5B40" opacity="0.025" transform="rotate(144 30 30)"/><ellipse cx="25" cy="42" rx="10" ry="6" fill="%231E5B40" opacity="0.025" transform="rotate(216 30 30)"/><ellipse cx="20" cy="30" rx="10" ry="6" fill="%231E5B40" opacity="0.025" transform="rotate(288 30 30)"/></svg>'),
+                url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="70" height="70" viewBox="0 0 70 70"><path d="M35 20 Q30 25 30 35 Q30 30 35 35 Q40 30 40 35 Q40 25 35 20 Z" fill="%231E5B40" opacity="0.03"/></svg>'),
+                url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="50" height="50" viewBox="0 0 50 50"><ellipse cx="25" cy="25" rx="8" ry="6" fill="%231E5B40" opacity="0.025"/><path d="M17 25 L12 20 M33 25 L38 20" stroke="%231E5B40" stroke-width="2" opacity="0.025"/><circle cx="22" cy="23" r="1.5" fill="%231E5B40" opacity="0.03"/><circle cx="28" cy="23" r="1.5" fill="%231E5B40" opacity="0.03"/></svg>');
+            background-size: 80px 80px, 100px 100px, 60px 60px, 70px 70px, 50px 50px;
+            background-position: 0 0, 100px 80px, 50px 150px, 150px 50px, 200px 180px;
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        [data-theme="dark"] body::before {
+            background-image:
+                url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="80" height="80" viewBox="0 0 80 80"><path d="M40 10 L45 25 L40 22 L35 25 Z M40 22 L47 38 L40 33 L33 38 Z M40 33 L50 50 L40 43 L30 50 Z" fill="%234FB784" opacity="0.05"/><rect x="37" y="50" width="6" height="12" fill="%234FB784" opacity="0.05"/></svg>'),
+                url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="100" height="100" viewBox="0 0 100 100"><path d="M50 70 Q48 50 50 30" stroke="%234FB784" stroke-width="3" fill="none" opacity="0.04"/><ellipse cx="50" cy="25" rx="15" ry="8" fill="%234FB784" opacity="0.04" transform="rotate(-30 50 25)"/><ellipse cx="50" cy="25" rx="15" ry="8" fill="%234FB784" opacity="0.04" transform="rotate(30 50 25)"/><ellipse cx="50" cy="25" rx="15" ry="8" fill="%234FB784" opacity="0.04"/></svg>'),
+                url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="60" height="60" viewBox="0 0 60 60"><circle cx="30" cy="30" r="3" fill="%234FB784" opacity="0.03"/><ellipse cx="30" cy="20" rx="6" ry="10" fill="%234FB784" opacity="0.03"/><ellipse cx="40" cy="30" rx="10" ry="6" fill="%234FB784" opacity="0.03" transform="rotate(72 30 30)"/><ellipse cx="35" cy="42" rx="10" ry="6" fill="%234FB784" opacity="0.03" transform="rotate(144 30 30)"/><ellipse cx="25" cy="42" rx="10" ry="6" fill="%234FB784" opacity="0.03" transform="rotate(216 30 30)"/><ellipse cx="20" cy="30" rx="10" ry="6" fill="%234FB784" opacity="0.03" transform="rotate(288 30 30)"/></svg>'),
+                url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="70" height="70" viewBox="0 0 70 70"><path d="M35 20 Q30 25 30 35 Q30 30 35 35 Q40 30 40 35 Q40 25 35 20 Z" fill="%234FB784" opacity="0.04"/></svg>'),
+                url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="50" height="50" viewBox="0 0 50 50"><ellipse cx="25" cy="25" rx="8" ry="6" fill="%234FB784" opacity="0.03"/><path d="M17 25 L12 20 M33 25 L38 20" stroke="%234FB784" stroke-width="2" opacity="0.03"/><circle cx="22" cy="23" r="1.5" fill="%234FB784" opacity="0.04"/><circle cx="28" cy="23" r="1.5" fill="%234FB784" opacity="0.04"/></svg>');
+        }
+
+        /* Content sits above the fixed background texture */
+        .container {
+            position: relative;
+            z-index: 1;
+        }
+
         /* Give in-page anchor targets clearance under the sticky header */
         section,
         [id] {
@@ -212,8 +248,23 @@
 
         .profile-image-container {
             width: 300px;
-            height: 366px;
+            height: 300px;
             position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+
+        /* Continuous hand-drawn vine that frames the portrait — a personal touch */
+        .profile-vine-border {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 2;
         }
 
         .profile-image {
@@ -221,9 +272,14 @@
             height: 100%;
             object-fit: cover;
             object-position: top;
-            border-radius: var(--radius-md);
-            border: 1px solid var(--color-border);
-            box-shadow: var(--shadow-md);
+            border-radius: 8px;
+            box-shadow: 0 6px 20px rgba(30, 91, 64, 0.28);
+            border: 4px solid transparent;
+            background:
+                linear-gradient(var(--color-surface), var(--color-surface)) padding-box,
+                linear-gradient(135deg, var(--color-primary), var(--color-primary-soft)) border-box;
+            position: relative;
+            z-index: 1;
         }
 
         .hero-content h1 {
@@ -257,10 +313,86 @@
             margin-bottom: var(--space-8);
         }
 
-        .hero-links {
+        /* Custom shape buttons (hibiscus + crab) — the SVG glyph is the control */
+        .shape-actions {
+            margin-top: var(--space-8);
             display: flex;
-            gap: var(--space-3);
+            gap: var(--space-8);
             flex-wrap: wrap;
+        }
+
+        .shape-action {
+            display: inline-flex;
+            flex-direction: column;
+            align-items: center;
+            gap: var(--space-2);
+            min-width: 44px;
+            min-height: 44px;
+            padding: var(--space-2) var(--space-4);
+            border-radius: var(--radius-md);
+            text-decoration: none;
+            color: var(--color-primary);
+            cursor: pointer;
+            -webkit-tap-highlight-color: transparent;
+            transition: color 0.25s ease;
+        }
+
+        .shape-glyph {
+            display: block;
+            width: 64px;
+            height: 64px;
+            will-change: transform;
+            transform: translateZ(0);
+            transition: transform 0.25s ease;
+        }
+
+        .shape-glyph svg {
+            width: 100%;
+            height: 100%;
+            display: block;
+        }
+
+        .shape-action:hover,
+        .shape-action:focus-visible {
+            color: var(--color-primary-strong);
+        }
+
+        .shape-action:hover .shape-glyph,
+        .shape-action:focus-visible .shape-glyph {
+            transform: scale(1.03) translateZ(0);
+        }
+
+        .shape-action:hover .shape-hibiscus {
+            animation: bloom 1.8s ease-in-out infinite;
+        }
+
+        .shape-action:hover .shape-crab {
+            animation: scuttle 1.8s ease-in-out infinite;
+        }
+
+        .shape-action:focus-visible {
+            outline: 2px solid var(--color-primary);
+            outline-offset: 4px;
+        }
+
+        .shape-action:active .shape-glyph {
+            transform: scale(0.94) translateZ(0);
+            transition-duration: 0.1s;
+        }
+
+        .shape-action-label {
+            font-family: var(--font-mono);
+            font-size: 0.72rem;
+            font-weight: 500;
+            letter-spacing: 0.06em;
+            text-transform: uppercase;
+            color: var(--color-text-secondary);
+            transition: color 0.25s ease;
+        }
+
+        .shape-action:hover .shape-action-label,
+        .shape-action:focus-visible .shape-action-label {
+            color: var(--color-primary-strong);
         }
 
         /* Retained for any residual use; hero no longer relies on these */
@@ -1110,6 +1242,17 @@
             50% { opacity: 1; transform: scale(1); }
         }
 
+        /* Playful hover motion for the custom shape buttons */
+        @keyframes bloom {
+            0%, 100% { transform: scale(0.9) rotate(-5deg); opacity: 0.6; }
+            50% { transform: scale(1.1) rotate(5deg); opacity: 1; }
+        }
+
+        @keyframes scuttle {
+            0%, 100% { transform: translateX(-3px) scale(0.95); opacity: 0.6; }
+            50% { transform: translateX(3px) scale(1.05); opacity: 1; }
+        }
+
         .error-message {
             padding: var(--space-6);
             background: var(--color-primary-tint);
@@ -1407,9 +1550,10 @@
 
             .profile-image-container {
                 width: 100%;
-                max-width: 260px;
+                max-width: 300px;
                 height: auto;
-                aspect-ratio: 5 / 6;
+                aspect-ratio: 1 / 1;
+                padding: 16px;
             }
 
             .hero-content h1 {
@@ -1523,6 +1667,40 @@
         <section id="home" class="active">
             <div class="hero">
                 <div class="profile-image-container">
+                    <!-- Continuous vine border wrapping around entire frame -->
+                    <svg class="profile-vine-border" viewBox="0 0 300 300" xmlns="http://www.w3.org/2000/svg">
+                        <!-- Main vine wrapping around perimeter -->
+                        <path d="M 15 5 Q 30 8, 45 10 T 75 12 T 105 14 T 135 15 T 165 15 T 195 14 T 225 12 T 255 10 Q 270 8, 285 5
+                                 M 295 15 Q 292 30, 290 45 T 288 75 T 286 105 T 285 135 T 285 165 T 286 195 T 288 225 T 290 255 Q 292 270, 295 285
+                                 M 285 295 Q 270 292, 255 290 T 225 288 T 195 286 T 165 285 T 135 285 T 105 286 T 75 288 T 45 290 Q 30 292, 15 295
+                                 M 5 285 Q 8 270, 10 255 T 12 225 T 14 195 T 15 165 T 15 135 T 14 105 T 12 75 T 10 45 Q 8 30, 5 15"
+                              fill="none" stroke="#2D6A4F" stroke-width="1.5" opacity="0.4" stroke-linecap="round"/>
+
+                        <!-- Subtle leaves along the vine - top -->
+                        <ellipse cx="60" cy="8" rx="3" ry="5" fill="#52B788" opacity="0.35" transform="rotate(-15 60 8)"/>
+                        <ellipse cx="120" cy="12" rx="3" ry="5" fill="#52B788" opacity="0.35" transform="rotate(10 120 12)"/>
+                        <ellipse cx="180" cy="12" rx="3" ry="5" fill="#52B788" opacity="0.35" transform="rotate(-20 180 12)"/>
+                        <ellipse cx="240" cy="8" rx="3" ry="5" fill="#52B788" opacity="0.35" transform="rotate(15 240 8)"/>
+
+                        <!-- Subtle leaves along the vine - right -->
+                        <ellipse cx="292" cy="60" rx="3" ry="5" fill="#52B788" opacity="0.35" transform="rotate(75 292 60)"/>
+                        <ellipse cx="288" cy="120" rx="3" ry="5" fill="#52B788" opacity="0.35" transform="rotate(80 288 120)"/>
+                        <ellipse cx="288" cy="180" rx="3" ry="5" fill="#52B788" opacity="0.35" transform="rotate(100 288 180)"/>
+                        <ellipse cx="292" cy="240" rx="3" ry="5" fill="#52B788" opacity="0.35" transform="rotate(75 292 240)"/>
+
+                        <!-- Subtle leaves along the vine - bottom -->
+                        <ellipse cx="240" cy="292" rx="3" ry="5" fill="#52B788" opacity="0.35" transform="rotate(165 240 292)"/>
+                        <ellipse cx="180" cy="288" rx="3" ry="5" fill="#52B788" opacity="0.35" transform="rotate(170 180 288)"/>
+                        <ellipse cx="120" cy="288" rx="3" ry="5" fill="#52B788" opacity="0.35" transform="rotate(-170 120 288)"/>
+                        <ellipse cx="60" cy="292" rx="3" ry="5" fill="#52B788" opacity="0.35" transform="rotate(-165 60 292)"/>
+
+                        <!-- Subtle leaves along the vine - left -->
+                        <ellipse cx="8" cy="240" rx="3" ry="5" fill="#52B788" opacity="0.35" transform="rotate(-105 8 240)"/>
+                        <ellipse cx="12" cy="180" rx="3" ry="5" fill="#52B788" opacity="0.35" transform="rotate(-80 12 180)"/>
+                        <ellipse cx="12" cy="120" rx="3" ry="5" fill="#52B788" opacity="0.35" transform="rotate(-100 12 120)"/>
+                        <ellipse cx="8" cy="60" rx="3" ry="5" fill="#52B788" opacity="0.35" transform="rotate(-75 8 60)"/>
+                    </svg>
+
                     <img src="images/Fall 2025 Headshot.JPG" alt="Michael D. Green, PhD" class="profile-image" fetchpriority="high" decoding="async">
                 </div>
                 <div class="hero-content fade-in">
@@ -1530,9 +1708,36 @@
                     <h1>Michael D. Green, <span class="hero-degree">PhD</span></h1>
                     <p class="hero-lede">Studying how unequal treatment in health care produces health inequities — and how to undo them.</p>
                     <p class="hero-meta">Postdoctoral Fellow · Johns Hopkins Bloomberg School of Public Health</p>
-                    <div class="hero-links">
-                        <a href="#research" class="btn nav-link" data-section="research">Read the research</a>
-                        <a href="#contact" class="btn-outline nav-link" data-section="contact">Get in touch</a>
+                    <div class="shape-actions">
+                        <a href="#research" class="shape-action nav-link" data-section="research">
+                            <span class="shape-glyph">
+                                <svg class="shape-hibiscus" viewBox="0 0 50 50" aria-hidden="true" focusable="false">
+                                    <circle cx="25" cy="25" r="4" fill="currentColor"/>
+                                    <ellipse cx="25" cy="12" rx="6" ry="12" fill="currentColor" opacity="0.8"/>
+                                    <ellipse cx="38" cy="18" rx="6" ry="12" fill="currentColor" opacity="0.8" transform="rotate(72 25 25)"/>
+                                    <ellipse cx="35" cy="35" rx="6" ry="12" fill="currentColor" opacity="0.8" transform="rotate(144 25 25)"/>
+                                    <ellipse cx="15" cy="35" rx="6" ry="12" fill="currentColor" opacity="0.8" transform="rotate(216 25 25)"/>
+                                    <ellipse cx="12" cy="18" rx="6" ry="12" fill="currentColor" opacity="0.8" transform="rotate(288 25 25)"/>
+                                </svg>
+                            </span>
+                            <span class="shape-action-label">View Research</span>
+                        </a>
+                        <a href="#contact" class="shape-action nav-link" data-section="contact">
+                            <span class="shape-glyph">
+                                <svg class="shape-crab" viewBox="0 0 55 40" aria-hidden="true" focusable="false">
+                                    <ellipse cx="27.5" cy="25" rx="12" ry="9" fill="currentColor"/>
+                                    <path d="M15 25 Q10 22 8 20 L6 18" stroke="currentColor" stroke-width="3" fill="none" stroke-linecap="round"/>
+                                    <ellipse cx="6" cy="16" rx="4" ry="3" fill="currentColor"/>
+                                    <path d="M40 25 Q45 22 47 20 L49 18" stroke="currentColor" stroke-width="3" fill="none" stroke-linecap="round"/>
+                                    <ellipse cx="49" cy="16" rx="4" ry="3" fill="currentColor"/>
+                                    <line x1="18" y1="32" x2="15" y2="38" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+                                    <line x1="23" y1="33" x2="21" y2="39" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+                                    <line x1="32" y1="33" x2="34" y2="39" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+                                    <line x1="37" y1="32" x2="40" y2="38" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+                                </svg>
+                            </span>
+                            <span class="shape-action-label">Get in Touch</span>
+                        </a>
                     </div>
                 </div>
             </div>
