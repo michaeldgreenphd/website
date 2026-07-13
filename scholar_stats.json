@@ -5,7 +5,7 @@
   "name": "Michael D. Green, Ph.D.",
   "affiliation": "Postdoctoral Fellow, Johns Hopkins Bloomberg School of Public Health",
   "metrics": {
-    "citations": 89,
+    "citations": 90,
     "h_index": 4,
     "i10_index": 3
   },
@@ -32,7 +32,7 @@
     },
     {
       "year": 2026,
-      "citations": 31
+      "citations": 32
     }
   ],
   "coauthors": [
@@ -52,6 +52,11 @@
       "profile_url": "https://scholar.google.com/citations?user=O2slgIQAAAAJ&hl=en"
     },
     {
+      "name": "LáShauntá Glover",
+      "affiliation": "Assistant Professor at Duke University",
+      "profile_url": "https://scholar.google.com/citations?user=bZWka-AAAAAJ&hl=en"
+    },
+    {
       "name": "Ann Marie Navar",
       "affiliation": "UT Southwestern Medical Center",
       "profile_url": "https://scholar.google.com/citations?user=J0sL_7cAAAAJ&hl=en"
@@ -60,11 +65,6 @@
       "name": "Heather R. Farmer",
       "affiliation": "Assistant Professor, University of Delaware",
       "profile_url": "https://scholar.google.com/citations?user=viD8I5AAAAAJ&hl=en"
-    },
-    {
-      "name": "LáShauntá Glover",
-      "affiliation": "Assistant Professor at Duke University",
-      "profile_url": "https://scholar.google.com/citations?user=bZWka-AAAAAJ&hl=en"
     },
     {
       "name": "Jay B. Lusk",
@@ -87,5 +87,5 @@
       "profile_url": "https://scholar.google.com/citations?user=Hz9bOAkAAAAJ&hl=en"
     }
   ],
-  "updated": "2026-07-03"
+  "updated": "2026-07-13"
 }
