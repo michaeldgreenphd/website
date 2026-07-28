@@ -7,7 +7,19 @@
     <meta name="theme-color" content="#1E5B40">
     <title>Michael D. Green, PhD</title>
 
-    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%2050%2050'%3E%3Ccircle%20cx='25'%20cy='25'%20r='5'%20fill='%232D6A4F'/%3E%3Cellipse%20cx='25'%20cy='12'%20rx='7'%20ry='12'%20fill='%232D6A4F'%20opacity='.8'/%3E%3Cellipse%20cx='38'%20cy='18'%20rx='7'%20ry='12'%20fill='%232D6A4F'%20opacity='.8'%20transform='rotate(72%2025%2025)'/%3E%3Cellipse%20cx='35'%20cy='35'%20rx='7'%20ry='12'%20fill='%232D6A4F'%20opacity='.8'%20transform='rotate(144%2025%2025)'/%3E%3Cellipse%20cx='15'%20cy='35'%20rx='7'%20ry='12'%20fill='%232D6A4F'%20opacity='.8'%20transform='rotate(216%2025%2025)'/%3E%3Cellipse%20cx='12'%20cy='18'%20rx='7'%20ry='12'%20fill='%232D6A4F'%20opacity='.8'%20transform='rotate(288%2025%2025)'/%3E%3C/svg%3E">
+    <!-- Browser-tab icon: square-cropped headshot -->
+    <link rel="icon" type="image/png" href="images/headshot-icon.png">
+    <link rel="apple-touch-icon" href="images/headshot-icon.png">
+
+    <!-- Link previews (iMessage, Slack, social cards): headshot + title -->
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="Michael D. Green, PhD">
+    <meta property="og:description" content="Population health researcher studying healthcare discrimination, diversity in clinical trials, and social determinants of cardiovascular health.">
+    <meta property="og:url" content="https://www.michaeldgreen.phd/">
+    <meta property="og:image" content="https://www.michaeldgreen.phd/images/headshot-icon.png">
+    <meta name="twitter:card" content="summary">
+    <meta name="twitter:title" content="Michael D. Green, PhD">
+    <meta name="twitter:image" content="https://www.michaeldgreen.phd/images/headshot-icon.png">
 
     <!-- Site typography: Fraunces (display) + DM Sans (reading) + IBM Plex Mono (labels) -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -138,12 +150,29 @@
             max-width: 34rem;
         }
 
-        .headshot {
+        .headshot-frame {
+            position: relative;
             flex-shrink: 0;
             width: clamp(96px, 16vw, 136px);
+        }
+
+        .headshot {
+            display: block;
+            width: 100%;
             height: auto;
             border-radius: 6px;
             border: 1px solid var(--line);
+        }
+
+        /* Continuous vine border wrapping the headshot — heritage motif
+           carried over from the tabbed site, recolored through the ink token */
+        .vine-border {
+            position: absolute;
+            inset: -8%;
+            width: 116%;
+            height: 116%;
+            color: var(--ink);
+            pointer-events: none;
         }
 
         .id-links {
@@ -466,6 +495,18 @@
             .photo-strip { gap: 0.5rem; }
         }
 
+        /* ----- Entrance animations (sections rise gently into view) ------- */
+        .will-reveal {
+            opacity: 0;
+            transform: translateY(14px);
+            transition: opacity 0.55s cubic-bezier(0.22, 0.61, 0.36, 1),
+                        transform 0.55s cubic-bezier(0.22, 0.61, 0.36, 1);
+        }
+        .will-reveal.is-visible {
+            opacity: 1;
+            transform: none;
+        }
+
         @media (prefers-reduced-motion: reduce) {
             html { scroll-behavior: auto; }
             *, *::before, *::after { transition-duration: 0.01ms !important; }
@@ -495,26 +536,52 @@
                 <p class="role">Population health researcher · Postdoctoral Fellow, Johns&nbsp;Hopkins Bloomberg School of Public Health</p>
                 <p class="lede">I am a United States based population health researcher focused on understanding how unequal treatment in healthcare leads to health inequities, and how to solve them.</p>
                 <p class="id-links">
-                    <a href="mailto:michaeldgreenphd@gmail.com">michaeldgreenphd@gmail.com</a><span class="sep"> · </span>
-                    <a href="https://orcid.org/0000-0002-4982-8154" target="_blank" rel="noopener noreferrer">ORCID</a><span class="sep"> · </span>
-                    <a href="https://scholar.google.com/citations?user=ea2W0QgAAAAJ&amp;hl=en" target="_blank" rel="noopener noreferrer">Google Scholar</a><span class="sep"> · </span>
-                    <a href="https://bsky.app/profile/michaeldgreen.phd" target="_blank" rel="noopener noreferrer">Bluesky</a><span class="sep"> · </span>
+                    <a href="https://www.notbeinggreen.com" target="_blank" rel="noopener noreferrer">Not&nbsp;Being&nbsp;Green</a><span class="sep"> · </span>
                     <a href="https://www.linkedin.com/in/michaeldgreenphd" target="_blank" rel="noopener noreferrer">LinkedIn</a><span class="sep"> · </span>
-                    <a href="https://www.notbeinggreen.com" target="_blank" rel="noopener noreferrer">Substack</a><span class="sep"> · </span>
-                    <a href="cv/Michael%20Green%20June%202026%20CV.pdf" target="_blank">CV&nbsp;(PDF)</a>
+                    <a href="https://www.instagram.com/michaeldgreenphd/" target="_blank" rel="noopener noreferrer">Instagram</a><span class="sep"> · </span>
+                    <a href="https://bsky.app/profile/michaeldgreen.phd" target="_blank" rel="noopener noreferrer">Bluesky</a><span class="sep"> · </span>
+                    <a href="https://www.threads.com/@michaeldgreenphd" target="_blank" rel="noopener noreferrer">Threads</a><span class="sep"> · </span>
+                    <a href="https://orcid.org/0000-0002-4982-8154" target="_blank" rel="noopener noreferrer">ORCID</a><span class="sep"> · </span>
+                    <a href="https://scholar.google.com/citations?user=ea2W0QgAAAAJ&amp;hl=en" target="_blank" rel="noopener noreferrer">Google&nbsp;Scholar</a><span class="sep"> · </span>
+                    <a href="cv/Michael%20Green%20June%202026%20CV.pdf" target="_blank">CV</a>
                 </p>
             </div>
-            <img src="images/Fall%202025%20Headshot.JPG" alt="Michael D. Green, PhD" class="headshot" fetchpriority="high" decoding="async">
+            <div class="headshot-frame">
+                <svg class="vine-border" viewBox="0 0 300 300" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+                    <path d="M 15 5 Q 30 8, 45 10 T 75 12 T 105 14 T 135 15 T 165 15 T 195 14 T 225 12 T 255 10 Q 270 8, 285 5
+                             M 295 15 Q 292 30, 290 45 T 288 75 T 286 105 T 285 135 T 285 165 T 286 195 T 288 225 T 290 255 Q 292 270, 295 285
+                             M 285 295 Q 270 292, 255 290 T 225 288 T 195 286 T 165 285 T 135 285 T 105 286 T 75 288 T 45 290 Q 30 292, 15 295
+                             M 5 285 Q 8 270, 10 255 T 12 225 T 14 195 T 15 165 T 15 135 T 14 105 T 12 75 T 10 45 Q 8 30, 5 15"
+                          fill="none" stroke="currentColor" stroke-width="1.5" opacity="0.4" stroke-linecap="round"/>
+                    <ellipse cx="60" cy="8" rx="3" ry="5" fill="currentColor" opacity="0.35" transform="rotate(-15 60 8)"/>
+                    <ellipse cx="120" cy="12" rx="3" ry="5" fill="currentColor" opacity="0.35" transform="rotate(10 120 12)"/>
+                    <ellipse cx="180" cy="12" rx="3" ry="5" fill="currentColor" opacity="0.35" transform="rotate(-20 180 12)"/>
+                    <ellipse cx="240" cy="8" rx="3" ry="5" fill="currentColor" opacity="0.35" transform="rotate(15 240 8)"/>
+                    <ellipse cx="292" cy="60" rx="3" ry="5" fill="currentColor" opacity="0.35" transform="rotate(75 292 60)"/>
+                    <ellipse cx="288" cy="120" rx="3" ry="5" fill="currentColor" opacity="0.35" transform="rotate(80 288 120)"/>
+                    <ellipse cx="288" cy="180" rx="3" ry="5" fill="currentColor" opacity="0.35" transform="rotate(100 288 180)"/>
+                    <ellipse cx="292" cy="240" rx="3" ry="5" fill="currentColor" opacity="0.35" transform="rotate(75 292 240)"/>
+                    <ellipse cx="240" cy="292" rx="3" ry="5" fill="currentColor" opacity="0.35" transform="rotate(165 240 292)"/>
+                    <ellipse cx="180" cy="288" rx="3" ry="5" fill="currentColor" opacity="0.35" transform="rotate(170 180 288)"/>
+                    <ellipse cx="120" cy="288" rx="3" ry="5" fill="currentColor" opacity="0.35" transform="rotate(-170 120 288)"/>
+                    <ellipse cx="60" cy="292" rx="3" ry="5" fill="currentColor" opacity="0.35" transform="rotate(-165 60 292)"/>
+                    <ellipse cx="8" cy="240" rx="3" ry="5" fill="currentColor" opacity="0.35" transform="rotate(-105 8 240)"/>
+                    <ellipse cx="12" cy="180" rx="3" ry="5" fill="currentColor" opacity="0.35" transform="rotate(-80 12 180)"/>
+                    <ellipse cx="12" cy="120" rx="3" ry="5" fill="currentColor" opacity="0.35" transform="rotate(-100 12 120)"/>
+                    <ellipse cx="8" cy="60" rx="3" ry="5" fill="currentColor" opacity="0.35" transform="rotate(-75 8 60)"/>
+                </svg>
+                <img src="images/Fall%202025%20Headshot.JPG" alt="Michael D. Green, PhD" class="headshot" fetchpriority="high" decoding="async">
+            </div>
         </header>
 
         <nav class="index" aria-label="Page sections">
             <a href="#about">about</a><span class="sep">·</span>
             <a href="#research">research</a><span class="sep">·</span>
-            <a href="#publications">publications</a><span class="sep">·</span>
             <a href="#cv">cv</a><span class="sep">·</span>
             <a href="#media">media</a><span class="sep">·</span>
             <a href="#fun">for fun</a><span class="sep">·</span>
-            <a href="#contact">contact</a>
+            <a href="#contact">contact</a><span class="sep">·</span>
+            <a href="#publications">publications</a>
         </nav>
 
         <main>
@@ -587,68 +654,6 @@
                 </ul>
             </section>
 
-            <!-- ============================== Publications ================= -->
-            <section id="publications">
-                <div class="section-head">
-                    <h2>Publications</h2>
-                    <a class="to-top" href="#top">↑ top</a>
-                </div>
-                <p class="fine">Synced automatically from <a href="https://orcid.org/0000-0002-4982-8154" target="_blank" rel="noopener noreferrer">ORCID</a> (updated July 2026). PDFs of all published manuscripts are collected <a href="published-manuscripts.html">on this page</a>.</p>
-
-                <div class="year-label">2026</div>
-                <ul class="pubs">
-                    <li><a href="https://doi.org/10.35844/001c.161890" target="_blank" rel="noopener noreferrer">Building Trust Through Dialogue: Community Town Hall Meetings as a Participatory Dissemination Method in Project ENTRUST</a> — <span class="journal">Journal of Participatory Research Methods</span></li>
-                    <li><a href="https://doi.org/10.1161/CIRCOUTCOMES.125.012661" target="_blank" rel="noopener noreferrer">Association Between Discrimination in Health Care and ASCVD Among Middle-Aged and Older Adults in the United States</a> — <span class="journal">Circulation: Population Health and Outcomes</span></li>
-                    <li><a href="https://doi.org/10.1093/jamiaopen/ooag081" target="_blank" rel="noopener noreferrer">Strategies for mitigating artificial intelligence bias in healthcare: a systematic review</a> — <span class="journal">JAMIA Open</span></li>
-                    <li><a href="https://doi.org/10.1161/ATVBAHA.125.324125" target="_blank" rel="noopener noreferrer">Plasma Proteins Associated With Psychosocial Factors and Heart Disease: The Jackson Heart Study</a> — <span class="journal">Arteriosclerosis, Thrombosis, and Vascular Biology</span></li>
-                    <li><a href="https://doi.org/10.1136/bmjoq-2025-003801" target="_blank" rel="noopener noreferrer">Racial and ethnic diversity in clinical studies reported to ClinicalTrials.gov, 2009–2024</a> — <span class="journal">BMJ Open Quality</span></li>
-                    <li><a href="https://doi.org/10.1007/s11606-025-09796-w" target="_blank" rel="noopener noreferrer">Factors Associated with Perceived Discrimination in Healthcare Among United States Middle-aged and Older Adults</a> — <span class="journal">Journal of General Internal Medicine</span></li>
-                </ul>
-
-                <div class="year-label">2025</div>
-                <ul class="pubs">
-                    <li><a href="https://doi.org/10.1016/j.jacadv.2025.102103" target="_blank" rel="noopener noreferrer">Cardiovascular Multimorbidity in Older Adults in the United States by Race and Sex</a> — <span class="journal">JACC: Advances</span></li>
-                    <li><a href="https://doi.org/10.1136/bmj.r2133" target="_blank" rel="noopener noreferrer">Trump's war on diversity in medical education could shorten Americans' lives</a> — <span class="journal">BMJ</span></li>
-                    <li><a href="https://doi.org/10.1101/2025.09.02.25334565" target="_blank" rel="noopener noreferrer">Quantifying Social Determinants of Health for Disease Prediction: A Multi-Level Approach Using Healthy People 2030 and All of Us Data</a><span class="tag">preprint</span></li>
-                    <li><a href="https://doi.org/10.1007/s40615-025-02602-7" target="_blank" rel="noopener noreferrer">Development and Initial Validation of a Measure of Parental Racial/Ethnic Discrimination in Pediatric Healthcare</a> — <span class="journal">Journal of Racial and Ethnic Health Disparities</span></li>
-                    <li><a href="https://doi.org/10.1177/23733799251360069" target="_blank" rel="noopener noreferrer">Mixed Methods Analysis of Inclusive Pedagogy in a Population Health Sciences Graduate Curriculum</a> — <span class="journal">Pedagogy in Health Promotion</span></li>
-                    <li><a href="https://doi.org/10.1101/2025.07.21.25331865" target="_blank" rel="noopener noreferrer">Racial and Ethnic Diversity in Clinical Studies Reported to ClinicalTrials.gov, 2009–2024</a><span class="tag">preprint</span></li>
-                    <li><a href="https://doi.org/10.21203/rs.3.rs-6507515/v1" target="_blank" rel="noopener noreferrer">Factors Associated with Perceived Discrimination in Healthcare Among Middle-Aged and Older Adults</a><span class="tag">preprint</span></li>
-                    <li><a href="https://doi.org/10.1101/2025.04.14.25325800" target="_blank" rel="noopener noreferrer">Association between Discrimination in Healthcare and Doctor Visits Over Time</a><span class="tag">preprint</span></li>
-                    <li><a href="https://doi.org/10.1161/cir.151.suppl_1.p3161" target="_blank" rel="noopener noreferrer">Discrimination in Healthcare is Associated with Increased Stroke Risk among Older Adults in the United States</a> — <span class="journal">Circulation</span><span class="tag">poster</span></li>
-                    <li><a href="https://doi.org/10.1371/journal.pone.0318419" target="_blank" rel="noopener noreferrer">Racial and ethnic disparities in longitudinal trajectories of cardiovascular risk factors in U.S. middle-aged and older adults</a> — <span class="journal">PLOS ONE</span></li>
-                </ul>
-
-                <div class="year-label">2024</div>
-                <ul class="pubs">
-                    <li><a href="https://doi.org/10.1093/geroni/igae098.3299" target="_blank" rel="noopener noreferrer">Racial/Ethnic Disparities in Trajectories of Cardiovascular Risk Factors in US Adults</a> — <span class="journal">Innovation in Aging</span><span class="tag">abstract</span></li>
-                    <li><a href="https://doi.org/10.1093/geroni/igae098.3300" target="_blank" rel="noopener noreferrer">Racial/Ethnic Disparities in Trajectories of Hospitalizations Among Patients With Heart Failure</a> — <span class="journal">Innovation in Aging</span><span class="tag">abstract</span></li>
-                    <li><a href="https://doi.org/10.1093/geroni/igae098.3301" target="_blank" rel="noopener noreferrer">Socioeconomic Disadvantage and Early and Recurrent Admissions in Patients With Heart Failure</a> — <span class="journal">Innovation in Aging</span><span class="tag">abstract</span></li>
-                    <li><a href="https://doi.org/10.1101/2024.12.18.24319227" target="_blank" rel="noopener noreferrer">Measurement of perceived healthcare discrimination and its implications on population health research: A systematic review protocol</a><span class="tag">preprint</span></li>
-                    <li><a href="https://doi.org/10.1371/journal.pmen.0000208" target="_blank" rel="noopener noreferrer">Navigating family life with Hypoplastic Left Heart Syndrome: A qualitative study</a> — <span class="journal">PLOS Mental Health</span></li>
-                    <li><a href="https://doi.org/10.1161/CIRCOUTCOMES.124.011141" target="_blank" rel="noopener noreferrer">Association Between Socioeconomic Disadvantage and Risks of Early and Recurrent Admissions Among Patients With Newly Diagnosed Heart Failure</a> — <span class="journal">Circulation: Cardiovascular Quality and Outcomes</span></li>
-                    <li><a href="https://doi.org/10.1037/sah0000524" target="_blank" rel="noopener noreferrer">Everyday discrimination and age-related trajectories of blood pressure among Black and White middle-aged and older adults</a> — <span class="journal">Stigma and Health</span></li>
-                    <li><a href="https://doi.org/10.1161/circ.149.suppl_1.48" target="_blank" rel="noopener noreferrer">Racial and Ethnic Disparities in Cardiovascular Multimorbidity Progression Among Older United States Adults</a> — <span class="journal">Circulation</span><span class="tag">abstract</span></li>
-                    <li><a href="https://doi.org/10.1161/circ.149.suppl_1.p304" target="_blank" rel="noopener noreferrer">Sex Differences for the Progression of Cardiovascular Multimorbidity in Older Adults in the United States</a> — <span class="journal">Circulation</span><span class="tag">abstract</span></li>
-                </ul>
-
-                <div class="year-label">2023</div>
-                <ul class="pubs">
-                    <li><a href="https://doi.org/10.1002/alz.073122" target="_blank" rel="noopener noreferrer">Multi-Trajectories of Blood Pressure and Cognitive Function in U.S. Adult Population</a> — <span class="journal">Alzheimer's &amp; Dementia</span><span class="tag">abstract</span></li>
-                    <li><a href="https://doi.org/10.1001/jamanetworkopen.2023.44707" target="_blank" rel="noopener noreferrer">Racial and Ethnic Discrimination and Hypertension by Educational Attainment Among a Cohort of US Women</a> — <span class="journal">JAMA Network Open</span></li>
-                    <li><a href="https://doi.org/10.1016/j.ahj.2023.01.001" target="_blank" rel="noopener noreferrer">Public reporting of black participation in anti-hypertensive drug clinical trials</a> — <span class="journal">American Heart Journal</span></li>
-                </ul>
-
-                <div class="year-label">2022</div>
-                <ul class="pubs">
-                    <li><a href="https://doi.org/10.1161/circ.145.suppl_1.p230" target="_blank" rel="noopener noreferrer">Chronically Uncertain: How Families Of Children With Hypoplastic Left Heart Syndrome Manage The Condition</a> — <span class="journal">Circulation</span><span class="tag">abstract</span></li>
-                </ul>
-
-                <div class="year-label">2021</div>
-                <ul class="pubs">
-                    <li><a href="https://doi.org/10.1016/j.athoracsur.2020.06.059" target="_blank" rel="noopener noreferrer">Cardiac Biomarkers Associated With Hospital Length of Stay After Pediatric Congenital Heart Surgery</a> — <span class="journal">Annals of Thoracic Surgery</span></li>
-                </ul>
-            </section>
 
             <!-- ============================== CV =========================== -->
             <section id="cv">
@@ -866,6 +871,68 @@
                 </ul>
                 <p class="fine" style="margin-top: 1rem;">I'm particularly interested in collaborations involving AI algorithm bias (especially surrounding culture or social issues), diversity and representation in clinical trials, healthcare discrimination, and the culture of healthcare.</p>
             </section>
+            <!-- ============================== Publications ================= -->
+            <section id="publications">
+                <div class="section-head">
+                    <h2>Publications</h2>
+                    <a class="to-top" href="#top">↑ top</a>
+                </div>
+                <p class="fine">Synced automatically from <a href="https://orcid.org/0000-0002-4982-8154" target="_blank" rel="noopener noreferrer">ORCID</a> (updated July 2026). PDFs of all published manuscripts are collected <a href="published-manuscripts.html">on this page</a>.</p>
+
+                <div class="year-label">2026</div>
+                <ul class="pubs">
+                    <li><a href="https://doi.org/10.35844/001c.161890" target="_blank" rel="noopener noreferrer">Building Trust Through Dialogue: Community Town Hall Meetings as a Participatory Dissemination Method in Project ENTRUST</a> — <span class="journal">Journal of Participatory Research Methods</span></li>
+                    <li><a href="https://doi.org/10.1161/CIRCOUTCOMES.125.012661" target="_blank" rel="noopener noreferrer">Association Between Discrimination in Health Care and ASCVD Among Middle-Aged and Older Adults in the United States</a> — <span class="journal">Circulation: Population Health and Outcomes</span></li>
+                    <li><a href="https://doi.org/10.1093/jamiaopen/ooag081" target="_blank" rel="noopener noreferrer">Strategies for mitigating artificial intelligence bias in healthcare: a systematic review</a> — <span class="journal">JAMIA Open</span></li>
+                    <li><a href="https://doi.org/10.1161/ATVBAHA.125.324125" target="_blank" rel="noopener noreferrer">Plasma Proteins Associated With Psychosocial Factors and Heart Disease: The Jackson Heart Study</a> — <span class="journal">Arteriosclerosis, Thrombosis, and Vascular Biology</span></li>
+                    <li><a href="https://doi.org/10.1136/bmjoq-2025-003801" target="_blank" rel="noopener noreferrer">Racial and ethnic diversity in clinical studies reported to ClinicalTrials.gov, 2009–2024</a> — <span class="journal">BMJ Open Quality</span></li>
+                    <li><a href="https://doi.org/10.1007/s11606-025-09796-w" target="_blank" rel="noopener noreferrer">Factors Associated with Perceived Discrimination in Healthcare Among United States Middle-aged and Older Adults</a> — <span class="journal">Journal of General Internal Medicine</span></li>
+                </ul>
+
+                <div class="year-label">2025</div>
+                <ul class="pubs">
+                    <li><a href="https://doi.org/10.1016/j.jacadv.2025.102103" target="_blank" rel="noopener noreferrer">Cardiovascular Multimorbidity in Older Adults in the United States by Race and Sex</a> — <span class="journal">JACC: Advances</span></li>
+                    <li><a href="https://doi.org/10.1136/bmj.r2133" target="_blank" rel="noopener noreferrer">Trump's war on diversity in medical education could shorten Americans' lives</a> — <span class="journal">BMJ</span></li>
+                    <li><a href="https://doi.org/10.1101/2025.09.02.25334565" target="_blank" rel="noopener noreferrer">Quantifying Social Determinants of Health for Disease Prediction: A Multi-Level Approach Using Healthy People 2030 and All of Us Data</a><span class="tag">preprint</span></li>
+                    <li><a href="https://doi.org/10.1007/s40615-025-02602-7" target="_blank" rel="noopener noreferrer">Development and Initial Validation of a Measure of Parental Racial/Ethnic Discrimination in Pediatric Healthcare</a> — <span class="journal">Journal of Racial and Ethnic Health Disparities</span></li>
+                    <li><a href="https://doi.org/10.1177/23733799251360069" target="_blank" rel="noopener noreferrer">Mixed Methods Analysis of Inclusive Pedagogy in a Population Health Sciences Graduate Curriculum</a> — <span class="journal">Pedagogy in Health Promotion</span></li>
+                    <li><a href="https://doi.org/10.1101/2025.07.21.25331865" target="_blank" rel="noopener noreferrer">Racial and Ethnic Diversity in Clinical Studies Reported to ClinicalTrials.gov, 2009–2024</a><span class="tag">preprint</span></li>
+                    <li><a href="https://doi.org/10.21203/rs.3.rs-6507515/v1" target="_blank" rel="noopener noreferrer">Factors Associated with Perceived Discrimination in Healthcare Among Middle-Aged and Older Adults</a><span class="tag">preprint</span></li>
+                    <li><a href="https://doi.org/10.1101/2025.04.14.25325800" target="_blank" rel="noopener noreferrer">Association between Discrimination in Healthcare and Doctor Visits Over Time</a><span class="tag">preprint</span></li>
+                    <li><a href="https://doi.org/10.1161/cir.151.suppl_1.p3161" target="_blank" rel="noopener noreferrer">Discrimination in Healthcare is Associated with Increased Stroke Risk among Older Adults in the United States</a> — <span class="journal">Circulation</span><span class="tag">poster</span></li>
+                    <li><a href="https://doi.org/10.1371/journal.pone.0318419" target="_blank" rel="noopener noreferrer">Racial and ethnic disparities in longitudinal trajectories of cardiovascular risk factors in U.S. middle-aged and older adults</a> — <span class="journal">PLOS ONE</span></li>
+                </ul>
+
+                <div class="year-label">2024</div>
+                <ul class="pubs">
+                    <li><a href="https://doi.org/10.1093/geroni/igae098.3299" target="_blank" rel="noopener noreferrer">Racial/Ethnic Disparities in Trajectories of Cardiovascular Risk Factors in US Adults</a> — <span class="journal">Innovation in Aging</span><span class="tag">abstract</span></li>
+                    <li><a href="https://doi.org/10.1093/geroni/igae098.3300" target="_blank" rel="noopener noreferrer">Racial/Ethnic Disparities in Trajectories of Hospitalizations Among Patients With Heart Failure</a> — <span class="journal">Innovation in Aging</span><span class="tag">abstract</span></li>
+                    <li><a href="https://doi.org/10.1093/geroni/igae098.3301" target="_blank" rel="noopener noreferrer">Socioeconomic Disadvantage and Early and Recurrent Admissions in Patients With Heart Failure</a> — <span class="journal">Innovation in Aging</span><span class="tag">abstract</span></li>
+                    <li><a href="https://doi.org/10.1101/2024.12.18.24319227" target="_blank" rel="noopener noreferrer">Measurement of perceived healthcare discrimination and its implications on population health research: A systematic review protocol</a><span class="tag">preprint</span></li>
+                    <li><a href="https://doi.org/10.1371/journal.pmen.0000208" target="_blank" rel="noopener noreferrer">Navigating family life with Hypoplastic Left Heart Syndrome: A qualitative study</a> — <span class="journal">PLOS Mental Health</span></li>
+                    <li><a href="https://doi.org/10.1161/CIRCOUTCOMES.124.011141" target="_blank" rel="noopener noreferrer">Association Between Socioeconomic Disadvantage and Risks of Early and Recurrent Admissions Among Patients With Newly Diagnosed Heart Failure</a> — <span class="journal">Circulation: Cardiovascular Quality and Outcomes</span></li>
+                    <li><a href="https://doi.org/10.1037/sah0000524" target="_blank" rel="noopener noreferrer">Everyday discrimination and age-related trajectories of blood pressure among Black and White middle-aged and older adults</a> — <span class="journal">Stigma and Health</span></li>
+                    <li><a href="https://doi.org/10.1161/circ.149.suppl_1.48" target="_blank" rel="noopener noreferrer">Racial and Ethnic Disparities in Cardiovascular Multimorbidity Progression Among Older United States Adults</a> — <span class="journal">Circulation</span><span class="tag">abstract</span></li>
+                    <li><a href="https://doi.org/10.1161/circ.149.suppl_1.p304" target="_blank" rel="noopener noreferrer">Sex Differences for the Progression of Cardiovascular Multimorbidity in Older Adults in the United States</a> — <span class="journal">Circulation</span><span class="tag">abstract</span></li>
+                </ul>
+
+                <div class="year-label">2023</div>
+                <ul class="pubs">
+                    <li><a href="https://doi.org/10.1002/alz.073122" target="_blank" rel="noopener noreferrer">Multi-Trajectories of Blood Pressure and Cognitive Function in U.S. Adult Population</a> — <span class="journal">Alzheimer's &amp; Dementia</span><span class="tag">abstract</span></li>
+                    <li><a href="https://doi.org/10.1001/jamanetworkopen.2023.44707" target="_blank" rel="noopener noreferrer">Racial and Ethnic Discrimination and Hypertension by Educational Attainment Among a Cohort of US Women</a> — <span class="journal">JAMA Network Open</span></li>
+                    <li><a href="https://doi.org/10.1016/j.ahj.2023.01.001" target="_blank" rel="noopener noreferrer">Public reporting of black participation in anti-hypertensive drug clinical trials</a> — <span class="journal">American Heart Journal</span></li>
+                </ul>
+
+                <div class="year-label">2022</div>
+                <ul class="pubs">
+                    <li><a href="https://doi.org/10.1161/circ.145.suppl_1.p230" target="_blank" rel="noopener noreferrer">Chronically Uncertain: How Families Of Children With Hypoplastic Left Heart Syndrome Manage The Condition</a> — <span class="journal">Circulation</span><span class="tag">abstract</span></li>
+                </ul>
+
+                <div class="year-label">2021</div>
+                <ul class="pubs">
+                    <li><a href="https://doi.org/10.1016/j.athoracsur.2020.06.059" target="_blank" rel="noopener noreferrer">Cardiac Biomarkers Associated With Hospital Length of Stay After Pediatric Congenital Heart Surgery</a> — <span class="journal">Annals of Thoracic Surgery</span></li>
+                </ul>
+            </section>
         </main>
 
         <footer>
@@ -892,6 +959,28 @@
                 root.dataset.theme = isDark() ? 'light' : 'dark';
                 btn.setAttribute('aria-pressed', String(isDark()));
                 try { localStorage.setItem('theme', root.dataset.theme); } catch (e) { /* ignore */ }
+            });
+        })();
+    </script>
+
+    <script data-keep-in-artifact>
+        // Entrance reveal: sections fade/rise in as they scroll into view.
+        // Applied via JS so content stays visible without JS or with
+        // reduced-motion preferences.
+        (function () {
+            if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+            if (!('IntersectionObserver' in window)) return;
+            const io = new IntersectionObserver(function (entries) {
+                entries.forEach(function (e) {
+                    if (e.isIntersecting) {
+                        e.target.classList.add('is-visible');
+                        io.unobserve(e.target);
+                    }
+                });
+            }, { rootMargin: '0px 0px -8% 0px' });
+            document.querySelectorAll('main section').forEach(function (s) {
+                s.classList.add('will-reveal');
+                io.observe(s);
             });
         })();
     </script>
