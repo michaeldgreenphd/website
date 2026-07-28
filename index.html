@@ -458,6 +458,16 @@
         .running-grid .embed-frame,
         .running-grid .embed-placeholder { flex: 1 1 16rem; min-width: 0; }
 
+        /* The Spotify player paints its own rounded card and may not fill
+           the iframe (compact layout on phones) — keep the frame itself
+           invisible so unfilled space never shows as an empty box */
+        .running-grid .embed-frame {
+            background: transparent;
+            border: none;
+            border-radius: 12px;
+            height: 352px;
+        }
+
         ul.rows .fine { margin-top: 0.3rem; }
 
         /* ----- Photo strip ------------------------------------------------ */
@@ -517,6 +527,8 @@
         @media (max-width: 560px) {
             /* enough top clearance that the fixed theme toggle never overlaps the headshot */
             .page { padding-top: 4rem; }
+            /* Spotify renders its compact card on narrow screens */
+            .running-grid .embed-frame { height: 152px; }
             .masthead { gap: 1.1rem; }
             .headshot { width: 88px; }
             .index { font-size: 0.68rem; letter-spacing: 0.05em; }
