@@ -6,7 +6,7 @@ A clean, professional website with a medical/health sciences aesthetic built wit
 
 - **Responsive Design**: Works seamlessly on desktop, tablet, and mobile devices
 - **Medical Aesthetic**: Clean, professional design with your signature green color (#2E7D32)
-- **Tab Navigation**: Six main sections (Home, Research, Publications, CV, Media & Outreach, Contact)
+- **Flat Single-Page Layout**: All sections (About, Research, For Fun, CV, Media, Contact, Publications) flow down one page with a sticky anchor index — no tabs. The previous tabbed version is preserved at `tabbed-site.html`.
 - **ORCID Integration**: Automatic publication fetching from your ORCID profile (0000-0002-4982-8154)
 - **Substack Integration**: Automatic blog post fetching from Not Being Green (notbeinggreen.com)
 - **Smooth Animations**: Subtle transitions and hover effects
@@ -131,7 +131,8 @@ If you need to update the Substack URL:
 
 ```
 website/
-├── index.html                  # Main website (single-page application)
+├── index.html                  # Main website (flat single page, no tabs)
+├── tabbed-site.html            # Previous tabbed version (kept for reference)
 ├── published-manuscripts.html  # Full manuscript list
 ├── faq.html                    # Contact FAQ
 ├── theme.css                   # Global design tokens & base styles

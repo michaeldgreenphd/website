@@ -1,0 +1,3308 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Michael D. Green, PhD — population health sciences researcher studying healthcare discrimination, diversity in clinical trials, and social determinants of cardiovascular health.">
+    <meta name="theme-color" content="#2D6A4F">
+    <title>Michael D. Green, PhD - Population Health Sciences</title>
+
+    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%2050%2050'%3E%3Ccircle%20cx='25'%20cy='25'%20r='5'%20fill='%232D6A4F'/%3E%3Cellipse%20cx='25'%20cy='12'%20rx='7'%20ry='12'%20fill='%232D6A4F'%20opacity='.8'/%3E%3Cellipse%20cx='38'%20cy='18'%20rx='7'%20ry='12'%20fill='%232D6A4F'%20opacity='.8'%20transform='rotate(72%2025%2025)'/%3E%3Cellipse%20cx='35'%20cy='35'%20rx='7'%20ry='12'%20fill='%232D6A4F'%20opacity='.8'%20transform='rotate(144%2025%2025)'/%3E%3Cellipse%20cx='15'%20cy='35'%20rx='7'%20ry='12'%20fill='%232D6A4F'%20opacity='.8'%20transform='rotate(216%2025%2025)'/%3E%3Cellipse%20cx='12'%20cy='18'%20rx='7'%20ry='12'%20fill='%232D6A4F'%20opacity='.8'%20transform='rotate(288%2025%2025)'/%3E%3C/svg%3E">
+    <!-- Site typography: DM Sans (UI/body) + Fraunces (display headings) -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700&family=Fraunces:opsz,wght@9..144,500;9..144,600;9..144,700&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+
+    <!-- Global design tokens & base styles -->
+    <link rel="stylesheet" href="theme.css">
+
+    <!-- Warm up connections for data fetched on tab switch -->
+    <link rel="preconnect" href="https://pub.orcid.org" crossorigin>
+    <link rel="dns-prefetch" href="https://api.rss2json.com">
+    <link rel="dns-prefetch" href="https://api.allorigins.win">
+
+    <style>
+        /* Color, type, spacing, radius, and shadow tokens live in theme.css.
+           This stylesheet holds page components only.
+
+           Design language — "field notes": editorial, quiet, hairline-ruled.
+           Fraunces sets display, DM Sans reads, IBM Plex Mono carries the
+           label/data layer (eyebrows, dates, metrics, nav). Green is an ink
+           accent used sparingly; structure is space + hairlines, not boxes. */
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            min-height: 100vh;
+            position: relative;
+        }
+
+        /* Heritage background pattern (Jamaica: palm, hibiscus, crab; pine, white oak) —
+           a personal motif kept as a whisper-soft fixed texture behind the page */
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-image:
+                url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="80" height="80" viewBox="0 0 80 80"><path d="M40 10 L45 25 L40 22 L35 25 Z M40 22 L47 38 L40 33 L33 38 Z M40 33 L50 50 L40 43 L30 50 Z" fill="%231E5B40" opacity="0.035"/><rect x="37" y="50" width="6" height="12" fill="%231E5B40" opacity="0.035"/></svg>'),
+                url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="100" height="100" viewBox="0 0 100 100"><path d="M50 70 Q48 50 50 30" stroke="%231E5B40" stroke-width="3" fill="none" opacity="0.03"/><ellipse cx="50" cy="25" rx="15" ry="8" fill="%231E5B40" opacity="0.03" transform="rotate(-30 50 25)"/><ellipse cx="50" cy="25" rx="15" ry="8" fill="%231E5B40" opacity="0.03" transform="rotate(30 50 25)"/><ellipse cx="50" cy="25" rx="15" ry="8" fill="%231E5B40" opacity="0.03"/></svg>'),
+                url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="60" height="60" viewBox="0 0 60 60"><circle cx="30" cy="30" r="3" fill="%231E5B40" opacity="0.025"/><ellipse cx="30" cy="20" rx="6" ry="10" fill="%231E5B40" opacity="0.025"/><ellipse cx="40" cy="30" rx="10" ry="6" fill="%231E5B40" opacity="0.025" transform="rotate(72 30 30)"/><ellipse cx="35" cy="42" rx="10" ry="6" fill="%231E5B40" opacity="0.025" transform="rotate(144 30 30)"/><ellipse cx="25" cy="42" rx="10" ry="6" fill="%231E5B40" opacity="0.025" transform="rotate(216 30 30)"/><ellipse cx="20" cy="30" rx="10" ry="6" fill="%231E5B40" opacity="0.025" transform="rotate(288 30 30)"/></svg>'),
+                url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="70" height="70" viewBox="0 0 70 70"><path d="M35 20 Q30 25 30 35 Q30 30 35 35 Q40 30 40 35 Q40 25 35 20 Z" fill="%231E5B40" opacity="0.03"/></svg>'),
+                url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="50" height="50" viewBox="0 0 50 50"><ellipse cx="25" cy="25" rx="8" ry="6" fill="%231E5B40" opacity="0.025"/><path d="M17 25 L12 20 M33 25 L38 20" stroke="%231E5B40" stroke-width="2" opacity="0.025"/><circle cx="22" cy="23" r="1.5" fill="%231E5B40" opacity="0.03"/><circle cx="28" cy="23" r="1.5" fill="%231E5B40" opacity="0.03"/></svg>');
+            background-size: 80px 80px, 100px 100px, 60px 60px, 70px 70px, 50px 50px;
+            background-position: 0 0, 100px 80px, 50px 150px, 150px 50px, 200px 180px;
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        [data-theme="dark"] body::before {
+            background-image:
+                url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="80" height="80" viewBox="0 0 80 80"><path d="M40 10 L45 25 L40 22 L35 25 Z M40 22 L47 38 L40 33 L33 38 Z M40 33 L50 50 L40 43 L30 50 Z" fill="%234FB784" opacity="0.05"/><rect x="37" y="50" width="6" height="12" fill="%234FB784" opacity="0.05"/></svg>'),
+                url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="100" height="100" viewBox="0 0 100 100"><path d="M50 70 Q48 50 50 30" stroke="%234FB784" stroke-width="3" fill="none" opacity="0.04"/><ellipse cx="50" cy="25" rx="15" ry="8" fill="%234FB784" opacity="0.04" transform="rotate(-30 50 25)"/><ellipse cx="50" cy="25" rx="15" ry="8" fill="%234FB784" opacity="0.04" transform="rotate(30 50 25)"/><ellipse cx="50" cy="25" rx="15" ry="8" fill="%234FB784" opacity="0.04"/></svg>'),
+                url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="60" height="60" viewBox="0 0 60 60"><circle cx="30" cy="30" r="3" fill="%234FB784" opacity="0.03"/><ellipse cx="30" cy="20" rx="6" ry="10" fill="%234FB784" opacity="0.03"/><ellipse cx="40" cy="30" rx="10" ry="6" fill="%234FB784" opacity="0.03" transform="rotate(72 30 30)"/><ellipse cx="35" cy="42" rx="10" ry="6" fill="%234FB784" opacity="0.03" transform="rotate(144 30 30)"/><ellipse cx="25" cy="42" rx="10" ry="6" fill="%234FB784" opacity="0.03" transform="rotate(216 30 30)"/><ellipse cx="20" cy="30" rx="10" ry="6" fill="%234FB784" opacity="0.03" transform="rotate(288 30 30)"/></svg>'),
+                url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="70" height="70" viewBox="0 0 70 70"><path d="M35 20 Q30 25 30 35 Q30 30 35 35 Q40 30 40 35 Q40 25 35 20 Z" fill="%234FB784" opacity="0.04"/></svg>'),
+                url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="50" height="50" viewBox="0 0 50 50"><ellipse cx="25" cy="25" rx="8" ry="6" fill="%234FB784" opacity="0.03"/><path d="M17 25 L12 20 M33 25 L38 20" stroke="%234FB784" stroke-width="2" opacity="0.03"/><circle cx="22" cy="23" r="1.5" fill="%234FB784" opacity="0.04"/><circle cx="28" cy="23" r="1.5" fill="%234FB784" opacity="0.04"/></svg>');
+        }
+
+        /* Content sits above the fixed background texture */
+        .container {
+            position: relative;
+            z-index: 1;
+        }
+
+        /* Give in-page anchor targets clearance under the sticky header */
+        section,
+        [id] {
+            scroll-margin-top: 100px;
+        }
+
+        /* ---- Links -------------------------------------------------------- */
+        a {
+            color: var(--color-primary);
+            text-decoration: underline;
+            text-decoration-thickness: 1px;
+            text-underline-offset: 0.15em;
+            text-decoration-color: color-mix(in srgb, var(--color-primary) 32%, transparent);
+            transition: color 0.2s var(--ease-out-soft),
+                        text-decoration-color 0.2s var(--ease-out-soft);
+        }
+
+        a:hover {
+            text-decoration-color: currentColor;
+        }
+
+        .nav-link,
+        .btn,
+        .btn-outline,
+        .social-link,
+        .orcid-badge,
+        .logo,
+        .substack-badge {
+            text-decoration: none;
+        }
+
+        /* ---- Header / masthead -------------------------------------------- */
+        header {
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            background: color-mix(in srgb, var(--color-bg) 82%, transparent);
+            -webkit-backdrop-filter: blur(12px) saturate(1.1);
+            backdrop-filter: blur(12px) saturate(1.1);
+            border-bottom: 1px solid var(--color-border);
+        }
+
+        nav {
+            max-width: 1140px;
+            margin: 0 auto;
+            padding: var(--space-4) var(--space-8);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: var(--space-6);
+            flex-wrap: wrap;
+        }
+
+        .logo {
+            font-family: var(--font-serif);
+            font-size: 1.3rem;
+            font-weight: 600;
+            letter-spacing: -0.02em;
+            color: var(--color-text);
+            transition: color 0.2s;
+        }
+
+        .logo:hover {
+            color: var(--color-primary);
+        }
+
+        .nav-links {
+            display: flex;
+            flex-wrap: wrap;
+            list-style: none;
+            gap: var(--space-1) var(--space-6);
+        }
+
+        .nav-links a {
+            position: relative;
+            white-space: nowrap;
+            font-family: var(--font-mono);
+            font-size: 0.76rem;
+            font-weight: 500;
+            letter-spacing: 0.07em;
+            text-transform: uppercase;
+            color: var(--color-text-secondary);
+            padding: var(--space-2) 0;
+            transition: color 0.2s var(--ease-out-soft);
+        }
+
+        .nav-links a:hover {
+            color: var(--color-primary);
+        }
+
+        .nav-links a.active {
+            color: var(--color-text);
+        }
+
+        .nav-links a.active::after {
+            content: '';
+            position: absolute;
+            left: 0;
+            right: 0;
+            bottom: -1px;
+            height: 2px;
+            background: var(--color-primary);
+        }
+
+        /* ---- Theme toggle ------------------------------------------------- */
+        .theme-toggle {
+            position: fixed;
+            top: 84px;
+            right: 1.5rem;
+            z-index: 1001;
+            width: 44px;
+            height: 44px;
+            border-radius: 50%;
+            background: var(--color-surface);
+            border: 1px solid var(--color-border);
+            box-shadow: var(--shadow-sm);
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 0;
+            transition: border-color 0.2s, transform 0.2s;
+        }
+
+        .theme-toggle:hover {
+            border-color: var(--color-primary);
+        }
+
+        .theme-toggle svg {
+            width: 22px;
+            height: 22px;
+        }
+
+        .toggle-icon {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 100%;
+            height: 100%;
+        }
+
+        /* ---- Fade-in on scroll: one quiet rise ---------------------------- */
+        .fade-in,
+        .fade-in-left,
+        .fade-in-right {
+            opacity: 0;
+            transform: translateY(8px);
+            transition: opacity 0.5s var(--ease-out-soft),
+                        transform 0.5s var(--ease-out-soft);
+        }
+
+        .fade-in.visible,
+        .fade-in-left.visible,
+        .fade-in-right.visible {
+            opacity: 1;
+            transform: none;
+        }
+
+        /* ---- Hero --------------------------------------------------------- */
+        .hero {
+            display: grid;
+            grid-template-columns: 300px 1fr;
+            gap: var(--space-12);
+            align-items: center;
+            padding: var(--space-8) 0 var(--space-16);
+            margin-bottom: var(--space-12);
+            border-bottom: 1px solid var(--color-border);
+        }
+
+        .profile-image-container {
+            width: 300px;
+            height: 300px;
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+
+        /* Continuous hand-drawn vine that frames the portrait — a personal touch */
+        .profile-vine-border {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 2;
+        }
+
+        .profile-image {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            object-position: top;
+            border-radius: 8px;
+            box-shadow: 0 6px 20px rgba(30, 91, 64, 0.28);
+            border: 4px solid transparent;
+            background:
+                linear-gradient(var(--color-surface), var(--color-surface)) padding-box,
+                linear-gradient(135deg, var(--color-primary), var(--color-primary-soft)) border-box;
+            position: relative;
+            z-index: 1;
+        }
+
+        .hero-content h1 {
+            font-size: var(--text-4xl);
+            letter-spacing: -0.032em;
+            margin-bottom: var(--space-4);
+        }
+
+        .hero-degree {
+            color: var(--color-text-secondary);
+            font-weight: 500;
+        }
+
+        .hero-lede {
+            font-family: var(--font-serif);
+            font-weight: 500;
+            font-size: var(--text-xl);
+            line-height: 1.4;
+            letter-spacing: -0.01em;
+            color: var(--color-text);
+            max-width: 42ch;
+            margin-bottom: var(--space-6);
+        }
+
+        .hero-meta {
+            font-family: var(--font-mono);
+            font-size: 0.75rem;
+            letter-spacing: 0.04em;
+            text-transform: uppercase;
+            color: var(--color-text-muted);
+            margin-bottom: var(--space-8);
+        }
+
+        /* Custom shape buttons (hibiscus + crab) — the SVG glyph is the control */
+        .shape-actions {
+            margin-top: var(--space-8);
+            display: flex;
+            gap: var(--space-8);
+            flex-wrap: wrap;
+        }
+
+        .shape-action {
+            display: inline-flex;
+            flex-direction: column;
+            align-items: center;
+            gap: var(--space-2);
+            min-width: 44px;
+            min-height: 44px;
+            padding: var(--space-2) var(--space-4);
+            border-radius: var(--radius-md);
+            text-decoration: none;
+            color: var(--color-primary);
+            cursor: pointer;
+            -webkit-tap-highlight-color: transparent;
+            transition: color 0.25s ease;
+        }
+
+        .shape-glyph {
+            display: block;
+            width: 64px;
+            height: 64px;
+            will-change: transform;
+            transform: translateZ(0);
+            transition: transform 0.25s ease;
+        }
+
+        .shape-glyph svg {
+            width: 100%;
+            height: 100%;
+            display: block;
+        }
+
+        .shape-action:hover,
+        .shape-action:focus-visible {
+            color: var(--color-primary-strong);
+        }
+
+        .shape-action:hover .shape-glyph,
+        .shape-action:focus-visible .shape-glyph {
+            transform: scale(1.03) translateZ(0);
+        }
+
+        .shape-action:hover .shape-hibiscus {
+            animation: bloom 1.8s ease-in-out infinite;
+        }
+
+        .shape-action:hover .shape-crab {
+            animation: scuttle 1.8s ease-in-out infinite;
+        }
+
+        .shape-action:focus-visible {
+            outline: 2px solid var(--color-primary);
+            outline-offset: 4px;
+        }
+
+        .shape-action:active .shape-glyph {
+            transform: scale(0.94) translateZ(0);
+            transition-duration: 0.1s;
+        }
+
+        .shape-action-label {
+            font-family: var(--font-mono);
+            font-size: 0.72rem;
+            font-weight: 500;
+            letter-spacing: 0.06em;
+            text-transform: uppercase;
+            color: var(--color-text-secondary);
+            transition: color 0.25s ease;
+        }
+
+        .shape-action:hover .shape-action-label,
+        .shape-action:focus-visible .shape-action-label {
+            color: var(--color-primary-strong);
+        }
+
+        /* Retained for any residual use; hero no longer relies on these */
+        .subtitle {
+            color: var(--color-primary);
+            font-size: var(--text-xl);
+            font-weight: 500;
+            margin-bottom: var(--space-4);
+        }
+
+        .affiliation {
+            color: var(--color-text-secondary);
+            margin-bottom: var(--space-6);
+        }
+
+        /* ---- Buttons ------------------------------------------------------ */
+        .btn,
+        .btn-outline {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+            padding: 0.7rem 1.35rem;
+            font-family: var(--font-mono);
+            font-size: 0.78rem;
+            font-weight: 500;
+            letter-spacing: 0.05em;
+            text-transform: uppercase;
+            border-radius: var(--radius-sm);
+            cursor: pointer;
+            line-height: 1.4;
+            transition: background 0.2s, color 0.2s, border-color 0.2s;
+        }
+
+        .btn {
+            background: var(--color-primary);
+            color: #fff;
+            border: 1px solid var(--color-primary);
+        }
+
+        .btn:hover {
+            background: var(--color-primary-strong);
+            border-color: var(--color-primary-strong);
+            color: #fff;
+        }
+
+        [data-theme="dark"] .btn,
+        [data-theme="dark"] .btn:hover {
+            color: #0F1E18;
+        }
+
+        .btn-outline {
+            background: transparent;
+            color: var(--color-primary);
+            border: 1px solid var(--color-border);
+        }
+
+        .btn-outline:hover {
+            border-color: var(--color-primary);
+            background: var(--color-primary-tint);
+            color: var(--color-primary);
+        }
+
+        .btn-group {
+            margin-top: var(--space-8);
+            display: flex;
+            gap: var(--space-3);
+            flex-wrap: wrap;
+        }
+
+        /* ---- Cards → flat editorial blocks -------------------------------- */
+        .card {
+            background: transparent;
+            padding: 0;
+            margin: 0 0 var(--space-12);
+        }
+
+        .card h2 {
+            font-size: var(--text-2xl);
+            margin-bottom: var(--space-6);
+        }
+
+        .card h3 {
+            font-size: var(--text-xl);
+            margin: var(--space-8) 0 var(--space-4);
+        }
+
+        .card h3:first-of-type {
+            margin-top: var(--space-6);
+        }
+
+        .card p {
+            margin-bottom: var(--space-4);
+        }
+
+        .card ul {
+            margin-left: 1.25rem;
+            margin-bottom: var(--space-4);
+        }
+
+        .card ul li {
+            margin-bottom: var(--space-2);
+        }
+
+        /* Blocks stacked inside a sidebar layout read as a flowing document,
+           separated by hairlines rather than nested boxes */
+        .section-content .card {
+            margin-bottom: 0;
+            padding: var(--space-10) 0;
+            border-top: 1px solid var(--color-border);
+        }
+
+        .section-content .card:first-child {
+            padding-top: 0;
+            border-top: none;
+        }
+
+        /* ---- Research areas ----------------------------------------------- */
+        .research-area-card {
+            padding: var(--space-8) 0;
+            border-top: 1px solid var(--color-border);
+        }
+
+        .research-area-content h3 {
+            font-size: var(--text-xl);
+            color: var(--color-text);
+            margin: 0 0 var(--space-3);
+        }
+
+        .research-area-description {
+            color: var(--color-text-secondary);
+            max-width: var(--measure);
+            margin-bottom: var(--space-4);
+        }
+
+        .view-publications-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.4rem;
+            font-family: var(--font-mono);
+            font-size: 0.76rem;
+            font-weight: 500;
+            letter-spacing: 0.05em;
+            text-transform: uppercase;
+            color: var(--color-primary);
+            text-decoration: none;
+            cursor: pointer;
+            transition: gap 0.2s, color 0.2s;
+        }
+
+        .view-publications-btn:hover {
+            gap: 0.7rem;
+            color: var(--color-primary-strong);
+        }
+
+        .view-publications-btn.expanded::after {
+            content: ' ↑';
+        }
+
+        .publications-container {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.4s ease-out, margin-top 0.4s ease-out;
+        }
+
+        .publications-container.expanded {
+            max-height: 2000px;
+            margin-top: var(--space-6);
+            padding-top: var(--space-4);
+            border-top: 1px solid var(--color-border);
+        }
+
+        .publication-item-expandable {
+            padding: var(--space-3) 0;
+            border-bottom: 1px solid var(--color-border);
+        }
+
+        .publication-item-expandable:last-child {
+            border-bottom: none;
+        }
+
+        .publication-item-expandable a {
+            display: inline-flex;
+            gap: var(--space-2);
+            color: var(--color-text);
+            text-decoration: none;
+            font-weight: 500;
+            line-height: 1.5;
+        }
+
+        .publication-item-expandable a:hover {
+            color: var(--color-primary);
+        }
+
+        .pub-bullet {
+            display: inline-flex;
+            width: 1em;
+            height: 1em;
+            margin-top: 0.2em;
+            color: var(--color-primary);
+            flex-shrink: 0;
+        }
+
+        .pub-bullet svg {
+            width: 100%;
+            height: 100%;
+        }
+
+        /* ---- Google Scholar dashboard ------------------------------------- */
+        .scholar-meta {
+            font-family: var(--font-mono);
+            font-size: 0.76rem;
+            letter-spacing: 0.02em;
+            color: var(--color-text-muted);
+        }
+
+        .scholar-grid {
+            display: grid;
+            grid-template-columns: minmax(0, 2fr) minmax(0, 1fr);
+            grid-template-areas:
+                "metrics metrics"
+                "chart   coauthors";
+            gap: var(--space-8);
+            margin-top: var(--space-6);
+        }
+
+        .scholar-metrics {
+            grid-area: metrics;
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: var(--space-4);
+        }
+
+        .metric-block {
+            padding: var(--space-6) var(--space-4);
+            text-align: left;
+            background: var(--color-surface);
+            border: 1px solid var(--color-border);
+            border-radius: var(--radius-md);
+        }
+
+        .metric-value {
+            display: block;
+            font-family: var(--font-mono);
+            font-size: clamp(1.8rem, 1.4rem + 1.5vw, 2.35rem);
+            font-weight: 600;
+            line-height: 1.05;
+            letter-spacing: -0.01em;
+            color: var(--color-text);
+            font-variant-numeric: tabular-nums;
+        }
+
+        .metric-label {
+            display: block;
+            margin-top: var(--space-2);
+            font-family: var(--font-mono);
+            font-size: 0.7rem;
+            font-weight: 500;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+            color: var(--color-text-secondary);
+        }
+
+        .scholar-chart {
+            grid-area: chart;
+            margin: 0;
+            min-width: 0;
+        }
+
+        .scholar-chart img {
+            width: 100%;
+            height: auto;
+            display: block;
+        }
+
+        .scholar-chart .chart-dark {
+            display: none;
+        }
+
+        [data-theme="dark"] .scholar-chart .chart-light {
+            display: none;
+        }
+
+        [data-theme="dark"] .scholar-chart .chart-dark {
+            display: block;
+        }
+
+        .scholar-chart figcaption {
+            margin-top: var(--space-3);
+            font-family: var(--font-mono);
+            font-size: 0.72rem;
+            letter-spacing: 0.04em;
+            text-transform: uppercase;
+            color: var(--color-text-muted);
+        }
+
+        .scholar-coauthors {
+            grid-area: coauthors;
+            min-width: 0;
+        }
+
+        .scholar-coauthors h3 {
+            margin: 0 0 var(--space-3);
+            font-family: var(--font-mono);
+            font-size: 0.7rem;
+            font-weight: 500;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+            color: var(--color-text-secondary);
+        }
+
+        .coauthor-note {
+            display: block;
+            margin-top: 0.2rem;
+            font-size: 0.68rem;
+            font-weight: 400;
+            letter-spacing: 0.02em;
+            text-transform: none;
+            color: var(--color-text-muted);
+        }
+
+        .scholar-coauthors ul {
+            list-style: none;
+            margin: 0;
+            padding: 0 var(--space-2) 0 0;
+            max-height: 360px;
+            overflow-y: auto;
+            scrollbar-width: thin;
+            scrollbar-color: var(--color-border) transparent;
+        }
+
+        .scholar-coauthors ul::-webkit-scrollbar {
+            width: 6px;
+        }
+
+        .scholar-coauthors ul::-webkit-scrollbar-thumb {
+            background: var(--color-border);
+            border-radius: 3px;
+        }
+
+        .scholar-coauthors li {
+            padding: var(--space-2) 0;
+            border-bottom: 1px solid var(--color-border);
+            font-size: var(--text-sm);
+            line-height: 1.4;
+        }
+
+        .scholar-coauthors li:last-child {
+            border-bottom: none;
+        }
+
+        .scholar-coauthors a {
+            color: var(--color-text);
+            font-weight: 500;
+            text-decoration: none;
+        }
+
+        .scholar-coauthors a:hover {
+            color: var(--color-primary);
+        }
+
+        .coauthor-affiliation {
+            display: block;
+            font-size: 0.72rem;
+            color: var(--color-text-muted);
+        }
+
+        /* ---- Contact ------------------------------------------------------ */
+        .contact-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+            gap: var(--space-6);
+            margin-top: var(--space-8);
+        }
+
+        .contact-item {
+            padding: var(--space-6);
+            background: var(--color-surface);
+            border: 1px solid var(--color-border);
+            border-radius: var(--radius-md);
+            transition: border-color 0.2s;
+        }
+
+        .contact-item:hover {
+            border-color: var(--color-primary);
+        }
+
+        .contact-item h3 {
+            font-family: var(--font-mono);
+            font-size: 0.7rem;
+            font-weight: 500;
+            letter-spacing: 0.14em;
+            text-transform: uppercase;
+            color: var(--color-primary);
+            margin: 0 0 var(--space-2);
+        }
+
+        .contact-item p {
+            margin: 0;
+            color: var(--color-text);
+        }
+
+        .contact-item a {
+            color: var(--color-text);
+            text-decoration: underline;
+            text-decoration-color: var(--color-border);
+            font-weight: 500;
+        }
+
+        .contact-item a:hover {
+            color: var(--color-primary);
+            text-decoration-color: var(--color-primary);
+        }
+
+        /* ---- CV timeline -------------------------------------------------- */
+        .timeline-item {
+            position: relative;
+            margin: 0;
+            padding: 0 0 var(--space-8) var(--space-6);
+            border-left: 1px solid var(--color-border);
+            background: transparent;
+            border-radius: 0;
+        }
+
+        .timeline-item:last-child {
+            padding-bottom: var(--space-2);
+        }
+
+        .timeline-item::before {
+            content: '';
+            position: absolute;
+            left: -4px;
+            top: 0.45rem;
+            width: 7px;
+            height: 7px;
+            border-radius: 50%;
+            background: var(--color-primary);
+        }
+
+        .timeline-item h4 {
+            color: var(--color-text);
+            font-size: var(--text-lg);
+            margin-bottom: var(--space-1);
+        }
+
+        .timeline-item .institution {
+            font-weight: 600;
+            color: var(--color-text);
+            margin-bottom: var(--space-1);
+        }
+
+        .timeline-item .period {
+            font-family: var(--font-mono);
+            font-size: 0.72rem;
+            letter-spacing: 0.05em;
+            text-transform: uppercase;
+            color: var(--color-text-muted);
+            margin-bottom: var(--space-3);
+        }
+
+        .timeline-item p {
+            margin: 0 0 var(--space-2);
+            line-height: 1.6;
+        }
+
+        /* ---- Media -------------------------------------------------------- */
+        .media-item {
+            padding: var(--space-6) 0;
+            border-top: 1px solid var(--color-border);
+            background: transparent;
+            border-radius: 0;
+        }
+
+        .media-item:first-of-type {
+            border-top: none;
+            padding-top: 0;
+        }
+
+        .media-item h4 {
+            color: var(--color-text);
+            font-size: var(--text-lg);
+            margin-bottom: var(--space-2);
+        }
+
+        .media-item h4 a {
+            color: var(--color-text);
+            text-decoration: none;
+        }
+
+        .media-item h4 a:hover {
+            color: var(--color-primary);
+            text-decoration: underline;
+        }
+
+        .media-item .source {
+            font-family: var(--font-mono);
+            font-size: 0.72rem;
+            letter-spacing: 0.05em;
+            text-transform: uppercase;
+            color: var(--color-text-muted);
+            margin-bottom: var(--space-3);
+        }
+
+        .media-item p {
+            margin: 0;
+            color: var(--color-text-secondary);
+        }
+
+        .media-item a {
+            color: var(--color-primary);
+        }
+
+        .media-actions {
+            display: flex;
+            flex-wrap: wrap;
+            gap: var(--space-2);
+            margin-top: var(--space-4);
+        }
+
+        .media-action-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.45rem;
+            min-height: 40px;
+            padding: 0.45rem 1rem;
+            border-radius: var(--radius-sm);
+            border: 1px solid var(--color-border);
+            background: transparent;
+            color: var(--color-primary);
+            font-family: var(--font-mono);
+            font-size: 0.72rem;
+            font-weight: 500;
+            letter-spacing: 0.04em;
+            text-transform: uppercase;
+            line-height: 1.3;
+            cursor: pointer;
+            text-decoration: none;
+            transition: background 0.2s, border-color 0.2s, color 0.2s;
+        }
+
+        .media-action-btn:hover {
+            border-color: var(--color-primary);
+            background: var(--color-primary-tint);
+        }
+
+        .media-action-btn svg {
+            width: 14px;
+            height: 14px;
+            flex-shrink: 0;
+        }
+
+        .media-action-btn[aria-expanded="true"] {
+            background: var(--color-primary);
+            border-color: var(--color-primary);
+            color: #fff;
+        }
+
+        [data-theme="dark"] .media-action-btn[aria-expanded="true"] {
+            color: #0F1E18;
+        }
+
+        .media-drawer {
+            display: grid;
+            grid-template-rows: 0fr;
+            transition: grid-template-rows 0.4s ease;
+        }
+
+        .media-drawer.open {
+            grid-template-rows: 1fr;
+        }
+
+        .media-drawer-inner {
+            overflow: hidden;
+            min-height: 0;
+        }
+
+        .media-drawer-inner iframe {
+            display: block;
+            width: 100%;
+            border: 0;
+            border-radius: var(--radius-md);
+            margin-top: var(--space-3);
+        }
+
+        .media-drawer.is-video iframe {
+            aspect-ratio: 16 / 9;
+            height: auto;
+        }
+
+        .media-drawer.is-audio iframe {
+            height: 152px;
+        }
+
+        .media-drawer blockquote {
+            margin: var(--space-3) 0 0;
+            padding: var(--space-2) 0 var(--space-2) var(--space-6);
+            border-left: 2px solid var(--color-primary);
+            font-family: var(--font-serif);
+            font-style: italic;
+            font-size: var(--text-lg);
+            line-height: var(--leading-body);
+            color: var(--color-text);
+            max-width: var(--measure);
+        }
+
+        .media-drawer .excerpt-attribution {
+            display: block;
+            margin-top: var(--space-2);
+            font-family: var(--font-mono);
+            font-style: normal;
+            font-size: 0.72rem;
+            letter-spacing: 0.03em;
+            text-transform: uppercase;
+            color: var(--color-text-muted);
+        }
+
+        /* ---- Running / Chargers / podcasts -------------------------------- */
+        .running-grid {
+            display: grid;
+            grid-template-columns: auto minmax(0, 1fr);
+            gap: var(--space-8);
+            align-items: center;
+            margin-top: var(--space-6);
+        }
+
+        .running-photo {
+            height: 352px;
+            width: auto;
+            border-radius: var(--radius-md);
+            box-shadow: var(--shadow-md);
+        }
+
+        .running-playlist {
+            display: block;
+            width: 100%;
+            height: 352px;
+            border: 0;
+            border-radius: var(--radius-md);
+        }
+
+        .chargers-figure {
+            max-width: 320px;
+            margin: var(--space-6) 0 0;
+        }
+
+        .chargers-figure img {
+            width: 100%;
+            height: auto;
+            border-radius: var(--radius-md);
+            box-shadow: var(--shadow-md);
+        }
+
+        .chargers-figure figcaption {
+            margin-top: var(--space-3);
+            font-family: var(--font-mono);
+            font-size: 0.72rem;
+            letter-spacing: 0.05em;
+            text-transform: uppercase;
+            color: var(--color-text-muted);
+        }
+
+        .podcast-links {
+            display: flex;
+            gap: var(--space-2);
+            margin-top: var(--space-3);
+        }
+
+        .podcast-icon-btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            color: var(--color-text-muted);
+            border: 1px solid var(--color-border);
+            text-decoration: none;
+            transition: color 0.2s ease, border-color 0.2s ease;
+        }
+
+        .podcast-icon-btn svg {
+            width: 19px;
+            height: 19px;
+        }
+
+        .podcast-icon-btn:hover {
+            color: var(--color-primary);
+            border-color: var(--color-primary);
+        }
+
+        .latest-episode {
+            display: inline-block;
+            margin-top: var(--space-3);
+            font-family: var(--font-mono);
+            font-size: 0.72rem;
+            letter-spacing: 0.02em;
+            line-height: 1.5;
+            color: var(--color-text-muted);
+        }
+
+        .latest-episode a {
+            color: var(--color-primary);
+            font-weight: 500;
+            text-decoration: none;
+        }
+
+        .latest-episode a:hover {
+            text-decoration: underline;
+        }
+
+        /* ---- ORCID -------------------------------------------------------- */
+        .orcid-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.65rem 1.1rem;
+            background: var(--color-surface);
+            border: 1px solid var(--color-border);
+            border-radius: var(--radius-sm);
+            font-family: var(--font-mono);
+            font-size: 0.76rem;
+            letter-spacing: 0.03em;
+            color: var(--color-text);
+            transition: border-color 0.2s;
+        }
+
+        .orcid-badge:hover {
+            border-color: #A6CE39;
+        }
+
+        .orcid-icon {
+            width: 20px;
+            height: 20px;
+        }
+
+        /* ---- ORCID publications (JS-rendered) ----------------------------- */
+        #publications-list {
+            max-width: 100%;
+            min-width: 0;
+            overflow-x: auto;
+            -webkit-overflow-scrolling: touch;
+        }
+
+        .publication-item {
+            padding: var(--space-6) 0;
+            border-top: 1px solid var(--color-border);
+            max-width: 100%;
+            min-width: 0;
+            overflow-wrap: break-word;
+        }
+
+        .publication-item:first-of-type {
+            border-top: none;
+            padding-top: 0;
+        }
+
+        .publication-item h4 {
+            color: var(--color-text);
+            margin: var(--space-2) 0;
+            font-size: var(--text-lg);
+            line-height: 1.4;
+            overflow-wrap: anywhere;
+        }
+
+        .publication-item .journal-info {
+            color: var(--color-text-secondary);
+            font-style: italic;
+            margin-bottom: var(--space-2);
+            font-size: 0.95rem;
+        }
+
+        .publication-item .pub-year {
+            display: inline-block;
+            font-family: var(--font-mono);
+            font-size: 0.72rem;
+            font-weight: 500;
+            letter-spacing: 0.06em;
+            color: var(--color-primary);
+            background: transparent;
+            border: 1px solid var(--color-border);
+            border-radius: 999px;
+            padding: 0.15rem 0.65rem;
+            margin-bottom: 0;
+        }
+
+        .publication-item .doi-link {
+            display: inline-block;
+            margin-top: var(--space-3);
+            color: var(--color-primary);
+            font-family: var(--font-mono);
+            font-size: 0.74rem;
+            letter-spacing: 0.03em;
+            text-transform: uppercase;
+            text-decoration: none;
+            overflow-wrap: anywhere;
+        }
+
+        .publication-item .doi-link:hover {
+            text-decoration: underline;
+        }
+
+        .publication-item .pub-type {
+            color: var(--color-text-muted);
+            font-size: 0.85rem;
+            margin-top: var(--space-2);
+        }
+
+        .publications-count {
+            display: inline-block;
+            font-family: var(--font-mono);
+            font-size: 0.74rem;
+            font-weight: 500;
+            letter-spacing: 0.06em;
+            text-transform: uppercase;
+            color: var(--color-primary);
+            border: 1px solid var(--color-border);
+            border-radius: 999px;
+            padding: 0.3rem 0.85rem;
+            margin-bottom: var(--space-6);
+        }
+
+        /* ---- Loading + error --------------------------------------------- */
+        .loading-spinner {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+            padding: var(--space-12);
+        }
+
+        .loading-spinner::before,
+        .loading-spinner::after {
+            content: '';
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: var(--color-primary);
+            animation: pulse 1s ease-in-out infinite;
+        }
+
+        .loading-spinner::after {
+            animation-delay: 0.3s;
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 0.25; transform: scale(0.8); }
+            50% { opacity: 1; transform: scale(1); }
+        }
+
+        /* Playful hover motion for the custom shape buttons */
+        @keyframes bloom {
+            0%, 100% { transform: scale(0.9) rotate(-5deg); opacity: 0.6; }
+            50% { transform: scale(1.1) rotate(5deg); opacity: 1; }
+        }
+
+        @keyframes scuttle {
+            0%, 100% { transform: translateX(-3px) scale(0.95); opacity: 0.6; }
+            50% { transform: translateX(3px) scale(1.05); opacity: 1; }
+        }
+
+        .error-message {
+            padding: var(--space-6);
+            background: var(--color-primary-tint);
+            border-left: 3px solid var(--color-primary);
+            border-radius: var(--radius-sm);
+            color: var(--color-text);
+        }
+
+        /* ---- Substack ----------------------------------------------------- */
+        .substack-post {
+            padding: var(--space-6) 0;
+            border-top: 1px solid var(--color-border);
+            background: transparent;
+            border-radius: 0;
+        }
+
+        .substack-post:first-of-type {
+            border-top: none;
+            padding-top: 0;
+        }
+
+        .substack-post h4 {
+            font-family: var(--font-serif);
+            font-weight: 600;
+            font-size: var(--text-lg);
+            line-height: var(--leading-snug);
+            margin-bottom: var(--space-2);
+            color: var(--color-text);
+        }
+
+        .substack-post h4 a {
+            color: var(--color-text);
+            text-decoration: none;
+        }
+
+        .substack-post h4 a:hover {
+            color: var(--color-primary);
+            text-decoration: underline;
+        }
+
+        .substack-post .post-date {
+            font-family: var(--font-mono);
+            font-size: 0.72rem;
+            letter-spacing: 0.05em;
+            text-transform: uppercase;
+            color: var(--color-text-muted);
+            margin-bottom: var(--space-3);
+        }
+
+        .substack-post .post-excerpt {
+            color: var(--color-text-secondary);
+            font-size: var(--text-base);
+            line-height: var(--leading-body);
+            max-width: var(--measure);
+            margin-bottom: var(--space-3);
+        }
+
+        .substack-post .read-more {
+            font-family: var(--font-mono);
+            font-size: 0.74rem;
+            letter-spacing: 0.03em;
+            text-transform: uppercase;
+            color: var(--color-primary);
+            text-decoration: none;
+        }
+
+        .substack-post .read-more:hover {
+            text-decoration: underline;
+        }
+
+        .substack-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.7rem 1.35rem;
+            background: #FF6719;
+            color: #fff;
+            border: 1px solid #FF6719;
+            border-radius: var(--radius-sm);
+            font-family: var(--font-mono);
+            font-size: 0.78rem;
+            font-weight: 500;
+            letter-spacing: 0.05em;
+            text-transform: uppercase;
+            transition: background 0.2s, color 0.2s;
+        }
+
+        .substack-badge:hover {
+            background: transparent;
+            color: #FF6719;
+        }
+
+        /* ---- Social ------------------------------------------------------- */
+        .social-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: var(--space-4);
+            margin-top: var(--space-8);
+        }
+
+        .social-link {
+            display: flex;
+            align-items: center;
+            gap: var(--space-4);
+            padding: var(--space-6);
+            background: var(--color-surface);
+            border: 1px solid var(--color-border);
+            border-radius: var(--radius-md);
+            color: var(--color-text);
+            transition: border-color 0.2s;
+        }
+
+        .social-link:hover {
+            border-color: var(--color-primary);
+        }
+
+        .social-icon {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 34px;
+            height: 34px;
+            color: var(--color-primary);
+            flex-shrink: 0;
+        }
+
+        .social-icon svg {
+            width: 26px;
+            height: 26px;
+        }
+
+        .social-info h3 {
+            margin: 0 0 0.15rem 0;
+            color: var(--color-text);
+            font-size: var(--text-base);
+        }
+
+        .social-info p {
+            margin: 0;
+            font-family: var(--font-mono);
+            font-size: 0.74rem;
+            color: var(--color-text-muted);
+        }
+
+        /* ---- Sidebar index (CV / Media / For Fun) ------------------------- */
+        .section-with-sidebar {
+            display: grid;
+            grid-template-columns: 200px 1fr;
+            gap: var(--space-12);
+            align-items: start;
+        }
+
+        .section-sidebar {
+            position: sticky;
+            top: 110px;
+        }
+
+        .section-sidebar h3 {
+            font-family: var(--font-mono);
+            font-size: 0.7rem;
+            letter-spacing: 0.14em;
+            text-transform: uppercase;
+            color: var(--color-text-muted);
+            margin-bottom: var(--space-4);
+            font-weight: 500;
+        }
+
+        .sidebar-nav {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        .sidebar-nav a {
+            display: block;
+            padding: 0.35rem 0 0.35rem 0.9rem;
+            border-left: 2px solid var(--color-border);
+            color: var(--color-text-secondary);
+            text-decoration: none;
+            font-size: 0.85rem;
+            transition: color 0.2s ease, border-color 0.2s ease;
+        }
+
+        .sidebar-nav a:hover {
+            color: var(--color-primary);
+            border-left-color: var(--color-primary);
+        }
+
+        .sidebar-nav a.active {
+            color: var(--color-text);
+            border-left-color: var(--color-primary);
+            font-weight: 500;
+        }
+
+        .section-content {
+            min-width: 0;
+        }
+
+        /* ---- Footer ------------------------------------------------------- */
+        footer {
+            text-align: center;
+            padding: var(--space-16) var(--space-8) var(--space-10);
+            margin-top: var(--space-16);
+            border-top: 1px solid var(--color-border);
+        }
+
+        footer p {
+            margin: 0;
+            font-family: var(--font-mono);
+            font-size: 0.74rem;
+            letter-spacing: 0.04em;
+            color: var(--color-text-muted);
+        }
+
+        /* ---- Section visibility ------------------------------------------ */
+        section {
+            display: none;
+            animation: fadeIn 0.25s var(--ease-out-soft);
+        }
+
+        section.active {
+            display: block;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to   { opacity: 1; }
+        }
+
+        /* ---- Mobile menu toggle ------------------------------------------ */
+        .menu-toggle {
+            display: none;
+            background: none;
+            border: none;
+            font-size: 1.4rem;
+            color: var(--color-primary);
+            cursor: pointer;
+        }
+
+        /* ---- Mobile responsiveness --------------------------------------- */
+        @media (max-width: 768px) {
+            nav {
+                flex-direction: column;
+                align-items: flex-start;
+                padding: var(--space-3) var(--space-4);
+            }
+
+            .theme-toggle {
+                top: auto;
+                bottom: 1.25rem;
+                right: 1.25rem;
+                width: 46px;
+                height: 46px;
+            }
+
+            .menu-toggle {
+                display: block;
+                position: absolute;
+                top: 1rem;
+                right: 1.25rem;
+            }
+
+            .nav-links {
+                flex-direction: column;
+                gap: 0;
+                width: 100%;
+                max-height: 0;
+                overflow: hidden;
+                transition: max-height 0.3s ease;
+            }
+
+            .nav-links.active {
+                max-height: 520px;
+                margin-top: var(--space-3);
+            }
+
+            .nav-links li {
+                width: 100%;
+            }
+
+            .nav-links a {
+                display: block;
+                padding: 0.85rem 0;
+            }
+
+            .nav-links a.active::after {
+                display: none;
+            }
+
+            .hero {
+                grid-template-columns: 1fr;
+                gap: var(--space-8);
+                padding-bottom: var(--space-10);
+            }
+
+            .profile-image-container {
+                width: 100%;
+                max-width: 300px;
+                height: auto;
+                aspect-ratio: 1 / 1;
+                padding: 16px;
+            }
+
+            .hero-content h1 {
+                font-size: var(--text-3xl);
+            }
+
+            .btn-group {
+                flex-wrap: wrap;
+            }
+
+            .scholar-grid {
+                grid-template-columns: 1fr;
+                grid-template-areas:
+                    "metrics"
+                    "chart"
+                    "coauthors";
+                gap: var(--space-6);
+            }
+
+            .scholar-metrics {
+                gap: var(--space-2);
+            }
+
+            .metric-block {
+                padding: var(--space-4) var(--space-3);
+            }
+
+            .contact-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .section-with-sidebar {
+                grid-template-columns: 1fr;
+                gap: 0;
+            }
+
+            .section-sidebar {
+                display: none;
+            }
+
+            #forfun .card div[style*="grid-template-columns: 1fr 1fr"],
+            #forfun .card div[style*="grid-template-columns: repeat(3, 1fr)"],
+            #forfun .card div[style*="grid-template-columns: auto 1fr"] {
+                grid-template-columns: 1fr !important;
+            }
+
+            .running-grid {
+                grid-template-columns: 1fr;
+                justify-items: start;
+            }
+
+            #fun-running img {
+                height: auto !important;
+                max-width: 100%;
+                margin-bottom: var(--space-6);
+            }
+
+            #forfun .nav-links.active {
+                max-height: 600px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Theme Toggle Button -->
+    <button class="theme-toggle" id="theme-toggle" aria-label="Toggle dark mode">
+        <span class="toggle-icon">
+            <!-- Moon icon for light mode (click to go dark) -->
+            <svg class="moon-icon" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z" fill="none" stroke="#2D6A4F" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                <circle cx="18" cy="7" r="1.5" fill="#52B788"/>
+                <circle cx="14" cy="5" r="1" fill="#52B788"/>
+                <circle cx="20" cy="11" r="1" fill="#52B788"/>
+            </svg>
+            <!-- Sun icon for dark mode (click to go light) -->
+            <svg class="sun-icon" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" style="display: none;">
+                <circle cx="12" cy="12" r="5" fill="#52B788"/>
+                <line x1="12" y1="1" x2="12" y2="3" stroke="#2D6A4F" stroke-width="2" stroke-linecap="round"/>
+                <line x1="12" y1="21" x2="12" y2="23" stroke="#2D6A4F" stroke-width="2" stroke-linecap="round"/>
+                <line x1="4.22" y1="4.22" x2="5.64" y2="5.64" stroke="#2D6A4F" stroke-width="2" stroke-linecap="round"/>
+                <line x1="18.36" y1="18.36" x2="19.78" y2="19.78" stroke="#2D6A4F" stroke-width="2" stroke-linecap="round"/>
+                <line x1="1" y1="12" x2="3" y2="12" stroke="#2D6A4F" stroke-width="2" stroke-linecap="round"/>
+                <line x1="21" y1="12" x2="23" y2="12" stroke="#2D6A4F" stroke-width="2" stroke-linecap="round"/>
+                <line x1="4.22" y1="19.78" x2="5.64" y2="18.36" stroke="#2D6A4F" stroke-width="2" stroke-linecap="round"/>
+                <line x1="18.36" y1="5.64" x2="19.78" y2="4.22" stroke="#2D6A4F" stroke-width="2" stroke-linecap="round"/>
+            </svg>
+        </span>
+    </button>
+
+    <!-- Navigation -->
+    <header>
+        <nav>
+            <a href="#home" class="logo">Michael D. Green, PhD</a>
+            <button class="menu-toggle" aria-label="Toggle menu">☰</button>
+            <ul class="nav-links">
+                <li><a href="#home" class="nav-link active" data-section="home">Home</a></li>
+                <li><a href="#research" class="nav-link" data-section="research">Research</a></li>
+                <li><a href="#publications" class="nav-link" data-section="publications">Publications</a></li>
+                <li><a href="#cv" class="nav-link" data-section="cv">CV</a></li>
+                <li><a href="#media" class="nav-link" data-section="media">Media</a></li>
+                <li><a href="#forfun" class="nav-link" data-section="forfun">For Fun</a></li>
+                <li><a href="#contact" class="nav-link" data-section="contact">Contact</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <!-- Main Content -->
+    <div class="container">
+        <!-- Home Section -->
+        <section id="home" class="active">
+            <div class="hero">
+                <div class="profile-image-container">
+                    <!-- Continuous vine border wrapping around entire frame -->
+                    <svg class="profile-vine-border" viewBox="0 0 300 300" xmlns="http://www.w3.org/2000/svg">
+                        <!-- Main vine wrapping around perimeter -->
+                        <path d="M 15 5 Q 30 8, 45 10 T 75 12 T 105 14 T 135 15 T 165 15 T 195 14 T 225 12 T 255 10 Q 270 8, 285 5
+                                 M 295 15 Q 292 30, 290 45 T 288 75 T 286 105 T 285 135 T 285 165 T 286 195 T 288 225 T 290 255 Q 292 270, 295 285
+                                 M 285 295 Q 270 292, 255 290 T 225 288 T 195 286 T 165 285 T 135 285 T 105 286 T 75 288 T 45 290 Q 30 292, 15 295
+                                 M 5 285 Q 8 270, 10 255 T 12 225 T 14 195 T 15 165 T 15 135 T 14 105 T 12 75 T 10 45 Q 8 30, 5 15"
+                              fill="none" stroke="#2D6A4F" stroke-width="1.5" opacity="0.4" stroke-linecap="round"/>
+
+                        <!-- Subtle leaves along the vine - top -->
+                        <ellipse cx="60" cy="8" rx="3" ry="5" fill="#52B788" opacity="0.35" transform="rotate(-15 60 8)"/>
+                        <ellipse cx="120" cy="12" rx="3" ry="5" fill="#52B788" opacity="0.35" transform="rotate(10 120 12)"/>
+                        <ellipse cx="180" cy="12" rx="3" ry="5" fill="#52B788" opacity="0.35" transform="rotate(-20 180 12)"/>
+                        <ellipse cx="240" cy="8" rx="3" ry="5" fill="#52B788" opacity="0.35" transform="rotate(15 240 8)"/>
+
+                        <!-- Subtle leaves along the vine - right -->
+                        <ellipse cx="292" cy="60" rx="3" ry="5" fill="#52B788" opacity="0.35" transform="rotate(75 292 60)"/>
+                        <ellipse cx="288" cy="120" rx="3" ry="5" fill="#52B788" opacity="0.35" transform="rotate(80 288 120)"/>
+                        <ellipse cx="288" cy="180" rx="3" ry="5" fill="#52B788" opacity="0.35" transform="rotate(100 288 180)"/>
+                        <ellipse cx="292" cy="240" rx="3" ry="5" fill="#52B788" opacity="0.35" transform="rotate(75 292 240)"/>
+
+                        <!-- Subtle leaves along the vine - bottom -->
+                        <ellipse cx="240" cy="292" rx="3" ry="5" fill="#52B788" opacity="0.35" transform="rotate(165 240 292)"/>
+                        <ellipse cx="180" cy="288" rx="3" ry="5" fill="#52B788" opacity="0.35" transform="rotate(170 180 288)"/>
+                        <ellipse cx="120" cy="288" rx="3" ry="5" fill="#52B788" opacity="0.35" transform="rotate(-170 120 288)"/>
+                        <ellipse cx="60" cy="292" rx="3" ry="5" fill="#52B788" opacity="0.35" transform="rotate(-165 60 292)"/>
+
+                        <!-- Subtle leaves along the vine - left -->
+                        <ellipse cx="8" cy="240" rx="3" ry="5" fill="#52B788" opacity="0.35" transform="rotate(-105 8 240)"/>
+                        <ellipse cx="12" cy="180" rx="3" ry="5" fill="#52B788" opacity="0.35" transform="rotate(-80 12 180)"/>
+                        <ellipse cx="12" cy="120" rx="3" ry="5" fill="#52B788" opacity="0.35" transform="rotate(-100 12 120)"/>
+                        <ellipse cx="8" cy="60" rx="3" ry="5" fill="#52B788" opacity="0.35" transform="rotate(-75 8 60)"/>
+                    </svg>
+
+                    <img src="images/Fall 2025 Headshot.JPG" alt="Michael D. Green, PhD" class="profile-image" fetchpriority="high" decoding="async">
+                </div>
+                <div class="hero-content fade-in">
+                    <h1>Michael D. Green, PhD</h1>
+                    <p class="subtitle">Population Health Researcher</p>
+                    <p class="affiliation">
+                        Postdoctoral Fellow<br>
+                        Johns Hopkins Bloomberg School of Public Health
+                    </p>
+                    <p>I am a United States based population health researcher focused on understanding how unequal treatment in healthcare leads to health inequities, and how to solve them.</p>
+                    <div class="shape-actions">
+                        <a href="#research" class="shape-action nav-link" data-section="research">
+                            <span class="shape-glyph">
+                                <svg class="shape-hibiscus" viewBox="0 0 50 50" aria-hidden="true" focusable="false">
+                                    <circle cx="25" cy="25" r="4" fill="currentColor"/>
+                                    <ellipse cx="25" cy="12" rx="6" ry="12" fill="currentColor" opacity="0.8"/>
+                                    <ellipse cx="38" cy="18" rx="6" ry="12" fill="currentColor" opacity="0.8" transform="rotate(72 25 25)"/>
+                                    <ellipse cx="35" cy="35" rx="6" ry="12" fill="currentColor" opacity="0.8" transform="rotate(144 25 25)"/>
+                                    <ellipse cx="15" cy="35" rx="6" ry="12" fill="currentColor" opacity="0.8" transform="rotate(216 25 25)"/>
+                                    <ellipse cx="12" cy="18" rx="6" ry="12" fill="currentColor" opacity="0.8" transform="rotate(288 25 25)"/>
+                                </svg>
+                            </span>
+                            <span class="shape-action-label">View Research</span>
+                        </a>
+                        <a href="#contact" class="shape-action nav-link" data-section="contact">
+                            <span class="shape-glyph">
+                                <svg class="shape-crab" viewBox="0 0 55 40" aria-hidden="true" focusable="false">
+                                    <ellipse cx="27.5" cy="25" rx="12" ry="9" fill="currentColor"/>
+                                    <path d="M15 25 Q10 22 8 20 L6 18" stroke="currentColor" stroke-width="3" fill="none" stroke-linecap="round"/>
+                                    <ellipse cx="6" cy="16" rx="4" ry="3" fill="currentColor"/>
+                                    <path d="M40 25 Q45 22 47 20 L49 18" stroke="currentColor" stroke-width="3" fill="none" stroke-linecap="round"/>
+                                    <ellipse cx="49" cy="16" rx="4" ry="3" fill="currentColor"/>
+                                    <line x1="18" y1="32" x2="15" y2="38" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+                                    <line x1="23" y1="33" x2="21" y2="39" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+                                    <line x1="32" y1="33" x2="34" y2="39" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+                                    <line x1="37" y1="32" x2="40" y2="38" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+                                </svg>
+                            </span>
+                            <span class="shape-action-label">Get in Touch</span>
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card fade-in">
+                <h2>About My Research</h2>
+                <p>My name is Michael D. Green, and I am a population health sciences researcher, who completed a Ph.D. in Population Health Sciences at the Duke University School of Medicine in 2025. I was born in Maryland, but moved 7 times before the age of 18. I am a member of the Dartmouth College class of 2021, where I graduated with Honors in Anthropology and a minor in Environmental Sciences. I additionally was a 4-year varsity athlete on the Heavyweight Rowing team, which I joined without any prior experience during the winter of my Freshman year.</p>
+
+                <p>Growing up, many of my family members and loved ones suffered through numerous health ailments. Ever since I was young I was always focused on the "why" questions regarding these ailments. As I matured through my academic career those why questions became more complex. Why is there so much socio-economic disparity in the world? Why are there so many disparities in health outcomes?</p>
+
+                <p>Currently, I believe that I need to use the information I gained on "why" issues occur in order to apply them to questions on "how" we can disrupt these issues. I focus on methodology for fixing many of the problems that I spent so much of my early life pondering. I hope that I am able to illuminate, and eventually solve, population health issues that are consequences of social determinants of health.</p>
+            </div>
+        </section>
+
+        <!-- Research Section -->
+        <section id="research">
+            <div class="card fade-in">
+                <p style="font-size: 1.1rem; line-height: 1.8; margin-bottom: 2rem;">My research focuses on understanding and eliminating healthcare inequities through rigorous methodological approaches.</p>
+
+                <h2 style="margin-bottom: 1.5rem;">Research Areas</h2>
+
+                <!-- Healthcare Discrimination Card -->
+                <div class="research-area-card fade-in-left" data-topic="discrimination">
+                    <div class="research-area-header">
+                        <div class="research-area-content">
+                            <h3>Healthcare Discrimination</h3>
+                            <p class="research-area-description">Family members feeling mistreated and consequently forgoing care is the main reason I became interested in healthcare research. After hearing their stories and seeing the deterioration of their condition, I decided to focus both on experiences of discrimination that individuals identify (perceived discrimination) and the manifestation of differences in human condition and treatment (health disparities).</p>
+                            <a href="#" class="view-publications-btn" data-target="discrimination-pubs">View Projects →</a>
+                        </div>
+                    </div>
+                    <div class="publications-container" id="discrimination-pubs">
+                        <div class="publication-item-expandable">
+                            <span class="pub-bullet" aria-hidden="true"><svg viewBox="0 0 20 20" focusable="false"><path d="M10 1 L13.5 6.5 L11.8 6 L15 11 L12.8 10.4 L16 15.5 L4 15.5 L7.2 10.4 L5 11 L8.2 6 L6.5 6.5 Z" fill="currentColor"/><rect x="9" y="15.5" width="2" height="3" fill="currentColor" opacity="0.7"/></svg></span>
+                            <a href="https://www.ahajournals.org/doi/10.1161/CIRCOUTCOMES.125.012661" target="_blank" rel="noopener noreferrer">
+                                Association Between Discrimination in Health Care and ASCVD Among Middle-Aged and Older Adults in the United States
+                            </a>
+                        </div>
+                        <div class="publication-item-expandable">
+                            <span class="pub-bullet" aria-hidden="true"><svg viewBox="0 0 20 20" focusable="false"><path d="M10 1 L13.5 6.5 L11.8 6 L15 11 L12.8 10.4 L16 15.5 L4 15.5 L7.2 10.4 L5 11 L8.2 6 L6.5 6.5 Z" fill="currentColor"/><rect x="9" y="15.5" width="2" height="3" fill="currentColor" opacity="0.7"/></svg></span>
+                            <a href="https://link.springer.com/article/10.1007/s11606-025-09796-w" target="_blank" rel="noopener noreferrer">
+                                Factors Associated with Perceived Discrimination in Healthcare Among United States Middle-aged and Older Adults
+                            </a>
+                        </div>
+                        <div class="publication-item-expandable">
+                            <span class="pub-bullet" aria-hidden="true"><svg viewBox="0 0 20 20" focusable="false"><path d="M10 1 L13.5 6.5 L11.8 6 L15 11 L12.8 10.4 L16 15.5 L4 15.5 L7.2 10.4 L5 11 L8.2 6 L6.5 6.5 Z" fill="currentColor"/><rect x="9" y="15.5" width="2" height="3" fill="currentColor" opacity="0.7"/></svg></span>
+                            <a href="https://link.springer.com/article/10.1007/s40615-025-02602-7" target="_blank" rel="noopener noreferrer">
+                                Development and Initial Validation of a Measure of Parental Racial/Ethnic Discrimination in Pediatric Healthcare
+                            </a>
+                        </div>
+                        <div class="publication-item-expandable">
+                            <span class="pub-bullet" aria-hidden="true"><svg viewBox="0 0 20 20" focusable="false"><path d="M10 1 L13.5 6.5 L11.8 6 L15 11 L12.8 10.4 L16 15.5 L4 15.5 L7.2 10.4 L5 11 L8.2 6 L6.5 6.5 Z" fill="currentColor"/><rect x="9" y="15.5" width="2" height="3" fill="currentColor" opacity="0.7"/></svg></span>
+                            <a href="https://www.medrxiv.org/content/10.1101/2025.04.14.25325800v1" target="_blank" rel="noopener noreferrer">
+                                Impact of Discrimination in Healthcare on Patterns of Doctor Visits Over Time
+                            </a>
+                        </div>
+                        <div class="publication-item-expandable">
+                            <span class="pub-bullet" aria-hidden="true"><svg viewBox="0 0 20 20" focusable="false"><path d="M10 1 L13.5 6.5 L11.8 6 L15 11 L12.8 10.4 L16 15.5 L4 15.5 L7.2 10.4 L5 11 L8.2 6 L6.5 6.5 Z" fill="currentColor"/><rect x="9" y="15.5" width="2" height="3" fill="currentColor" opacity="0.7"/></svg></span>
+                            <a href="https://www.medrxiv.org/content/10.1101/2024.12.18.24319227v1" target="_blank" rel="noopener noreferrer">
+                                Measurement of perceived healthcare discrimination and its implications on population health research: A systematic review protocol
+                            </a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Diversity in Clinical Trials Card -->
+                <div class="research-area-card fade-in" data-topic="diversity">
+                    <div class="research-area-header">
+                        <div class="research-area-content">
+                            <h3>Diversity and Representation in Clinical Trials</h3>
+                            <p class="research-area-description">There are a lot of claims about the state (and importance) of diversity in clinical research. I believe it is a moral imperative to strive to achieve generalizability for research. In order to achieve it, you also must consistently assess it.</p>
+                            <a href="#" class="view-publications-btn" data-target="diversity-pubs">View Projects →</a>
+                        </div>
+                    </div>
+                    <div class="publications-container" id="diversity-pubs">
+                        <div class="publication-item-expandable">
+                            <span class="pub-bullet" aria-hidden="true"><svg viewBox="0 0 50 50" focusable="false"><circle cx="25" cy="25" r="5" fill="currentColor"/><ellipse cx="25" cy="12" rx="7" ry="12" fill="currentColor" opacity="0.75"/><ellipse cx="38" cy="18" rx="7" ry="12" fill="currentColor" opacity="0.75" transform="rotate(72 25 25)"/><ellipse cx="35" cy="35" rx="7" ry="12" fill="currentColor" opacity="0.75" transform="rotate(144 25 25)"/><ellipse cx="15" cy="35" rx="7" ry="12" fill="currentColor" opacity="0.75" transform="rotate(216 25 25)"/><ellipse cx="12" cy="18" rx="7" ry="12" fill="currentColor" opacity="0.75" transform="rotate(288 25 25)"/></svg></span>
+                            <a href="https://www.civicsample.com" target="_blank" rel="noopener noreferrer">
+                                Civic Sample
+                            </a>
+                        </div>
+                        <div class="publication-item-expandable">
+                            <span class="pub-bullet" aria-hidden="true"><svg viewBox="0 0 20 20" focusable="false"><path d="M10 1 L13.5 6.5 L11.8 6 L15 11 L12.8 10.4 L16 15.5 L4 15.5 L7.2 10.4 L5 11 L8.2 6 L6.5 6.5 Z" fill="currentColor"/><rect x="9" y="15.5" width="2" height="3" fill="currentColor" opacity="0.7"/></svg></span>
+                            <a href="https://bmjopenquality.bmj.com/content/15/2/e003801" target="_blank" rel="noopener noreferrer">
+                                Racial and Ethnic Diversity in Clinical Studies Reported to ClinicalTrials.gov, 2009-2024
+                            </a>
+                        </div>
+                        <div class="publication-item-expandable">
+                            <span class="pub-bullet" aria-hidden="true"><svg viewBox="0 0 20 20" focusable="false"><path d="M10 1 L13.5 6.5 L11.8 6 L15 11 L12.8 10.4 L16 15.5 L4 15.5 L7.2 10.4 L5 11 L8.2 6 L6.5 6.5 Z" fill="currentColor"/><rect x="9" y="15.5" width="2" height="3" fill="currentColor" opacity="0.7"/></svg></span>
+                            <a href="https://www.sciencedirect.com/science/article/abs/pii/S0002870323000017" target="_blank" rel="noopener noreferrer">
+                                Public reporting of black participation in anti-hypertensive drug clinical trials
+                            </a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Social Determinants of Health Card -->
+                <div class="research-area-card fade-in-right" data-topic="sdoh">
+                    <div class="research-area-header">
+                        <div class="research-area-content">
+                            <h3>Social Determinants of Health and Cardiovascular Disease</h3>
+                            <p class="research-area-description">Social factors shape our lived experience and this lived experience shapes our healthcare experience. My undergraduate training in medical anthropology drove me to care deeply about lived experience and my training in population health sciences drove me to develop a research agenda that focuses on social determinants (or drivers) of health.</p>
+                            <a href="#" class="view-publications-btn" data-target="sdoh-pubs">View Projects →</a>
+                        </div>
+                    </div>
+                    <div class="publications-container" id="sdoh-pubs">
+                        <div class="publication-item-expandable">
+                            <span class="pub-bullet" aria-hidden="true"><svg viewBox="0 0 20 20" focusable="false"><path d="M10 1 L13.5 6.5 L11.8 6 L15 11 L12.8 10.4 L16 15.5 L4 15.5 L7.2 10.4 L5 11 L8.2 6 L6.5 6.5 Z" fill="currentColor"/><rect x="9" y="15.5" width="2" height="3" fill="currentColor" opacity="0.7"/></svg></span>
+                            <a href="https://www.ahajournals.org/doi/10.1161/CIRCOUTCOMES.125.012661" target="_blank" rel="noopener noreferrer">
+                                Association Between Discrimination in Health Care and ASCVD Among Middle-Aged and Older Adults in the United States
+                            </a>
+                        </div>
+                        <div class="publication-item-expandable">
+                            <span class="pub-bullet" aria-hidden="true"><svg viewBox="0 0 20 20" focusable="false"><path d="M10 1 L13.5 6.5 L11.8 6 L15 11 L12.8 10.4 L16 15.5 L4 15.5 L7.2 10.4 L5 11 L8.2 6 L6.5 6.5 Z" fill="currentColor"/><rect x="9" y="15.5" width="2" height="3" fill="currentColor" opacity="0.7"/></svg></span>
+                            <a href="https://www.jacc.org/doi/abs/10.1016/j.jacadv.2025.102103" target="_blank" rel="noopener noreferrer">
+                                Cardiovascular Multimorbidity in Older Adults in the United States by Race and Sex
+                            </a>
+                        </div>
+                        <div class="publication-item-expandable">
+                            <span class="pub-bullet" aria-hidden="true"><svg viewBox="0 0 20 20" focusable="false"><path d="M10 1 L13.5 6.5 L11.8 6 L15 11 L12.8 10.4 L16 15.5 L4 15.5 L7.2 10.4 L5 11 L8.2 6 L6.5 6.5 Z" fill="currentColor"/><rect x="9" y="15.5" width="2" height="3" fill="currentColor" opacity="0.7"/></svg></span>
+                            <a href="https://www.ahajournals.org/doi/10.1161/CIRCOUTCOMES.124.011141" target="_blank" rel="noopener noreferrer">
+                                Association Between Socioeconomic Disadvantage and Risks of Early and Recurrent Admissions Among Patients With Newly Diagnosed Heart Failure
+                            </a>
+                        </div>
+                        <div class="publication-item-expandable">
+                            <span class="pub-bullet" aria-hidden="true"><svg viewBox="0 0 20 20" focusable="false"><path d="M10 1 L13.5 6.5 L11.8 6 L15 11 L12.8 10.4 L16 15.5 L4 15.5 L7.2 10.4 L5 11 L8.2 6 L6.5 6.5 Z" fill="currentColor"/><rect x="9" y="15.5" width="2" height="3" fill="currentColor" opacity="0.7"/></svg></span>
+                            <a href="https://journals.plos.org/plosone/article?id=10.1371/journal.pone.0318419" target="_blank" rel="noopener noreferrer">
+                                Racial and ethnic disparities in longitudinal trajectories of cardiovascular risk factors in U.S. middle-aged and older adults
+                            </a>
+                        </div>
+                        <div class="publication-item-expandable">
+                            <span class="pub-bullet" aria-hidden="true"><svg viewBox="0 0 20 20" focusable="false"><path d="M10 1 L13.5 6.5 L11.8 6 L15 11 L12.8 10.4 L16 15.5 L4 15.5 L7.2 10.4 L5 11 L8.2 6 L6.5 6.5 Z" fill="currentColor"/><rect x="9" y="15.5" width="2" height="3" fill="currentColor" opacity="0.7"/></svg></span>
+                            <a href="https://psycnet.apa.org/record/2024-73766-001" target="_blank" rel="noopener noreferrer">
+                                Everyday discrimination and age-related trajectories of blood pressure among Black and White middle-aged and older adults
+                            </a>
+                        </div>
+                        <div class="publication-item-expandable">
+                            <span class="pub-bullet" aria-hidden="true"><svg viewBox="0 0 20 20" focusable="false"><path d="M10 1 L13.5 6.5 L11.8 6 L15 11 L12.8 10.4 L16 15.5 L4 15.5 L7.2 10.4 L5 11 L8.2 6 L6.5 6.5 Z" fill="currentColor"/><rect x="9" y="15.5" width="2" height="3" fill="currentColor" opacity="0.7"/></svg></span>
+                            <a href="https://journals.plos.org/mentalhealth/article?id=10.1371/journal.pmen.0000208" target="_blank" rel="noopener noreferrer">
+                                Navigating family life with Hypoplastic Left Heart Syndrome: A qualitative study
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- Google Scholar Dashboard: populated from scholar_stats.json,
+                 which a daily GitHub Action refreshes (scripts/fetch_scholar.py).
+                 Stays hidden until the data file exists and loads. -->
+            <div class="card fade-in" id="scholar-dashboard" hidden>
+                <h2>Citation Metrics</h2>
+                <p class="scholar-meta">Source: <a href="https://scholar.google.com/citations?user=ea2W0QgAAAAJ&amp;hl=en" target="_blank" rel="noopener noreferrer">Google Scholar</a><span id="scholar-updated"></span></p>
+                <div class="scholar-grid">
+                    <div class="scholar-metrics" id="scholar-metrics"></div>
+                    <figure class="scholar-chart">
+                        <img src="citations_over_time.png" alt="Bar chart of citations per year" class="chart-light" loading="lazy" decoding="async">
+                        <img src="citations_over_time_dark.png" alt="" class="chart-dark" loading="lazy" decoding="async" aria-hidden="true">
+                        <figcaption>Citations per year</figcaption>
+                    </figure>
+                    <aside class="scholar-coauthors">
+                        <h3>Frequent Co-Authors <span class="coauthor-note">(profiles from Google Scholar only)</span></h3>
+                        <ul id="scholar-coauthors-list"></ul>
+                    </aside>
+                </div>
+            </div>
+        </section>
+
+        <!-- Publications Section with ORCID Integration -->
+        <section id="publications">
+            <div class="card fade-in">
+                <h2>Publications</h2>
+                <p>All published manuscripts are available on <a href="published-manuscripts.html" style="color: var(--primary-green); font-weight: 600; text-decoration: underline;">this page linked here</a>. (Last Update 6/2026)</p>
+
+                <p style="margin-top: 1.5rem;">All publications are also automatically fetched from my ORCID profile. ORCID provides a persistent digital identifier that distinguishes me from other researchers and ensures proper attribution of my work. ORCID includes full manuscripts and published abstracts. My publications link only contains full manuscripts.</p>
+
+                <div class="btn-group">
+                    <a href="published-manuscripts.html" class="btn">
+                        View All Published Manuscripts
+                    </a>
+                    <a href="https://orcid.org/0000-0002-4982-8154" target="_blank" class="orcid-badge">
+                        <svg class="orcid-icon" viewBox="0 0 256 256">
+                            <path fill="#A6CE39" d="M256,128c0,70.7-57.3,128-128,128C57.3,256,0,198.7,0,128C0,57.3,57.3,0,128,0C198.7,0,256,57.3,256,128z"/>
+                            <path fill="#FFF" d="M86.3,186.2H70.9V79.1h15.4v48.4V186.2z"/>
+                            <path fill="#FFF" d="M108.9,79.1h41.6c39.6,0,57,28.3,57,53.6c0,27.5-21.5,53.6-56.8,53.6h-41.8V79.1z M124.3,172.4h24.5c34.9,0,42.9-26.5,42.9-39.7c0-21.5-13.7-39.7-43.7-39.7h-23.7V172.4z"/>
+                            <path fill="#FFF" d="M88.7,56.8c0,5.5-4.5,10.1-10.1,10.1c-5.6,0-10.1-4.6-10.1-10.1c0-5.6,4.5-10.1,10.1-10.1C84.2,46.7,88.7,51.3,88.7,56.8z"/>
+                        </svg>
+                        ORCID: 0000-0002-4982-8154
+                    </a>
+                </div>
+            </div>
+
+            <div class="card fade-in">
+                <h2>Published Works</h2>
+                <div id="publications-list">
+                    <div class="loading-spinner"></div>
+                </div>
+            </div>
+        </section>
+
+        <!-- CV Section -->
+        <section id="cv">
+            <div class="card fade-in">
+                <h2>Curriculum Vitae</h2>
+                <p>Download my complete CV for detailed information about my education, research experience, publications, presentations, and awards.</p>
+                <div class="btn-group">
+                    <a href="cv/Michael Green June 2026 CV.pdf" class="btn" target="_blank">Download Full CV (PDF)</a>
+                </div>
+            </div>
+
+            <div class="section-with-sidebar">
+                <aside class="section-sidebar">
+                    <ul class="sidebar-nav">
+                        <li><a href="#cv-positions">Academic Positions</a></li>
+                        <li><a href="#cv-expertise">Research Expertise</a></li>
+                        <li><a href="#cv-education">Education</a></li>
+                        <li><a href="#cv-awards">Honors & Awards</a></li>
+                        <li><a href="#cv-service">Service</a></li>
+                    </ul>
+                </aside>
+
+                <div class="section-content">
+                    <div class="card" id="cv-positions">
+                        <h2>Academic Positions</h2>
+
+                <div class="timeline-item">
+                    <h4>Postdoctoral Fellow</h4>
+                    <p class="institution">Department of Health, Behavior and Society<br>Johns Hopkins Bloomberg School of Public Health</p>
+                    <p class="period">2026 - Present</p>
+                    <p><strong>Advisor: Roland J. Thorpe Jr.</strong></p>
+                    <p>Supported by NIA K00 Award. Fellowship focused on research and training in cognitive health and Alzheimer's disease/related dementias (AD/ADRD)</p>
+                </div>
+                    </div>
+
+                    <div class="card" id="cv-expertise">
+                        <h2>Research Expertise</h2>
+                <h3>Methods</h3>
+                <ul>
+                    <li>Longitudinal data analysis</li>
+                    <li>Group-based trajectory modeling</li>
+                    <li>Multi-trajectory modeling</li>
+                </ul>
+
+                <h3>Research Areas</h3>
+                <ul>
+                    <li>Healthcare discrimination</li>
+                    <li>Diversity and representation in clinical trials</li>
+                    <li>Social determinants of health</li>
+                    <li>Cardiovascular epidemiology</li>
+                    <li>Aging</li>
+                </ul>
+                    </div>
+
+                    <div class="card" id="cv-education">
+                        <h2>Education</h2>
+
+                <div class="timeline-item">
+                    <h4>PhD, Population Health Sciences</h4>
+                    <p class="institution">Duke University School of Medicine</p>
+                    <p class="period">2025</p>
+                    <p>Dissertation: "Getting to the Heart of Discrimination in Healthcare"</p>
+                    <p style="margin-top: 0.75rem;"><strong>Dissertation Committee:</strong></p>
+                    <ul style="margin-left: 1.5rem; margin-top: 0.5rem;">
+                        <li>Chair: Matthew E. Dupre</li>
+                        <li>Emily C. O'Brien</li>
+                        <li>Ann Marie Navar</li>
+                        <li>M. Alan Brookhart</li>
+                        <li>Roland J. Thorpe Jr.</li>
+                    </ul>
+                </div>
+
+                <div class="timeline-item">
+                    <h4>BA, Anthropology with Honors</h4>
+                    <p class="institution">Dartmouth College</p>
+                    <p class="period">2021</p>
+                    <p>Minor in Environmental Sciences</p>
+                    <p style="margin-top: 0.75rem;"><strong>Thesis Advisor:</strong> Elizabeth Carpenter-Song</p>
+                </div>
+                    </div>
+
+                    <div class="card" id="cv-awards">
+                        <h2>Honors & Awards</h2>
+
+                <div class="timeline-item">
+                    <h4>Token Grant - AI for Science</h4>
+                    <p class="institution">Anthropic</p>
+                    <p class="period">May 2026</p>
+                    <p>Issued a token grant for API credits from Anthropic's AI for Science Program. Project will enhance <a href="https://www.civicsample.com" target="_blank" rel="noopener noreferrer" style="color: var(--primary-green);">Civic Sample</a>, a project I am co-leading with Maryam Aziz. From Anthropic website: "will provide free API credits to support researchers working on high-impact scientific projects, with a particular focus on biology and life sciences applications."</p>
+                </div>
+
+                <div class="timeline-item">
+                    <h4>Person-in-Training Award, Health Sciences Section</h4>
+                    <p class="institution">Gerontological Society of America</p>
+                    <p class="period">November 2025</p>
+                    <p>The Person-in-Training Award is given to a student of the Health Sciences section for the best student paper at the Society's Annual Scientific Meeting. The award is designed to encourage research and to foster interest among students in the Health Sciences section and to encourage participation in the Society's Annual Scientific Meeting.</p>
+                </div>
+
+                <div class="timeline-item">
+                    <h4>F99/K00 Predoctoral to Postdoctoral Fellowship</h4>
+                    <p class="institution">National Institute on Aging (NIA), NIH</p>
+                    <p class="period">2024-2029</p>
+                    <p>Awarded competitive NIH fellowship intended to support the transition of talented graduate students into successful research postdoctoral appointments.</p>
+                </div>
+
+                <div class="timeline-item">
+                    <h4>Class of 1950 Award for Community Service</h4>
+                    <p class="institution">Dartmouth College, Department of Athletics</p>
+                    <p class="period">June 2021</p>
+                    <p>This award goes "to the varsity student-athlete who has demonstrated the most extraordinary commitment to community service, as nominated by varsity head coaches and captains, and selected by the Director of Athletics, Dean of the College, and Director of the Center for Social Impact."</p>
+                </div>
+
+                <div class="timeline-item">
+                    <h4>Legacy Award</h4>
+                    <p class="institution">Dartmouth College, Division of Student Affairs and Dean of College</p>
+                    <p class="period">June 2021</p>
+                    <p>Legacy Awards recognize students whose efforts and accomplishments reflect one or more of the values that guide the Division of Student Affairs at Dartmouth. Given to 14 students annually.</p>
+                </div>
+
+                <div class="timeline-item">
+                    <h4>Global Health Certificate</h4>
+                    <p class="institution">Dartmouth College, The John Sloan Dickey Center for International Understanding</p>
+                    <p class="period">January 2021</p>
+                    <p>From center website: "provides students with a framework to demonstrate the knowledge and skills they have acquired to address complex global health challenges in a changing world. The Certificate combines coursework from across the curriculum with a field experience in global health."</p>
+                </div>
+                    </div>
+
+                    <div class="card" id="cv-service">
+                        <h2>Service</h2>
+
+                <div class="timeline-item">
+                    <h4>Early Career Committee Member, Council on Quality of Care and Outcomes Research (QCOR)</h4>
+                    <p class="institution">American Heart Association (AHA)</p>
+                    <p class="period">July 2025 – Present</p>
+                    <p>Member of the American Heart Association's QCOR Council Early Career Committee which "provide input regarding the Council's efforts to serve the needs of early career professionals"</p>
+                </div>
+
+                <div class="timeline-item">
+                    <h4>Student Representative, Board of Directors</h4>
+                    <p class="institution"><a href="https://iaphs.org" target="_blank" style="color: var(--primary-green);">Interdisciplinary Association for Population Health Sciences (IAPHS)</a></p>
+                    <p class="period">November 2023 – November 2025</p>
+                    <p>Elected to serve 3-year term on the board of directors for IAPHS. Additionally, will chair the student committee during this term.</p>
+                </div>
+
+                <div class="timeline-item">
+                    <h4>Founding Member, Population Health Sciences Graduate Student Association (PHSGSA)</h4>
+                    <p class="institution">Department of Population Health Science, Duke University School of Medicine</p>
+                    <p class="period">August 2023 – December 2025</p>
+                    <p>Co-wrote initial charter, led submission of organization application, led first two elections, and co-led activities for the department-sponsored graduate student association for the department.</p>
+                </div>
+
+                <div class="timeline-item">
+                    <h4>Diversity, Equity, and Inclusion Committee Member</h4>
+                    <p class="institution">Department of Population Health Science, Educational Programs Group, Duke University School of Medicine</p>
+                    <p class="period">July 2022 – November 2024</p>
+                </div>
+
+                <div class="timeline-item">
+                    <h4>Student Journal Club Organizer</h4>
+                    <p class="institution">Department of Population Health Science, Duke University School of Medicine</p>
+                    <p class="period">August 2023 – November 2024</p>
+                    <p>Orchestrated the first Ph.D. student led journal club at the Department of Population Health Sciences at the Duke University School of Medicine. Which took place during the Fall Semester 2023 and 2024. 5 students and 2 faculty members presented.</p>
+                </div>
+
+                <div class="timeline-item">
+                    <h4>Committee Member, Gordon G. Hammes Teach Faculty Award Selection Committee</h4>
+                    <p class="institution">Duke University School of Medicine</p>
+                    <p class="period">January 2024 – May 2024</p>
+                    <p>Appointed to Duke School of Medicine Ph.D. student committee overseeing that oversees the selection process for the annual award which "recognize a faculty member for continuing excellence in teaching and mentoring, and for exemplary commitment to the education of graduate students within Basic Science Departments and Graduate Training Programs of the School of Medicine."</p>
+                </div>
+
+                <div class="timeline-item">
+                    <h4>Generation Now Committee Member</h4>
+                    <p class="institution"><a href="https://www.amostbeautifulthingincfund.org/" target="_blank" style="color: var(--primary-green);">A Most Beautiful Thing Inclusion Fund</a>, Seattle, WA</p>
+                    <p class="period">April 2022 – April 2023</p>
+                    <p>The A Most Beautiful Thing Inclusion Fund aims to build a diverse, inclusive, and equitable sport in rowing. The AMBTIF is housed as its own fund, under the umbrella of the George Pocock Rowing Foundation.</p>
+                </div>
+
+                <div class="timeline-item">
+                    <h4>Erg and Student Services Data Analyst</h4>
+                    <p class="institution">George Pocock Rowing Foundation, Seattle, WA</p>
+                    <p class="period">November 2020 – November 2021</p>
+                    <p><em>AmeriCorps VISTA: Up2Us Sports Inc</em><br>
+                    Supervisor: Kayla Cloud</p>
+                </div>
+
+                <div class="timeline-item">
+                    <h4>Council Member</h4>
+                    <p class="institution"><a href="https://www.dartmouth.edu/~library/col/" target="_blank" style="color: var(--primary-green);">Council on the Library</a>, Dartmouth College</p>
+                    <p class="period">September 2020 – June 2021</p>
+                    <p>One of two undergraduate students appointed for academic year on council of faculty, students, and staff to provide feedback on Library operations and activities to the Dean of the Libraries and their leadership team</p>
+                </div>
+
+                <div class="timeline-item">
+                    <h4>Dean Search Committee Member</h4>
+                    <p class="institution">Dartmouth College</p>
+                    <p class="period">June 2019 – November 2019</p>
+                    <p>Black and First Generation Low-Income Assistant Dean position for the Office of Pluralism and Leadership at Dartmouth College.</p>
+                </div>
+
+                <div class="timeline-item">
+                    <h4>Executive Board Member</h4>
+                    <p class="institution">Men of Color Alliance, Dartmouth College</p>
+                    <p class="period">October 2017 – June 2021</p>
+                </div>
+
+                <div class="timeline-item">
+                    <h4>Executive Board Member</h4>
+                    <p class="institution">Globemed Dartmouth</p>
+                    <p class="period">September 2017 – September 2020</p>
+                    <p>"Global Health university" team member and financial chair</p>
+                </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Media Section -->
+        <section id="media">
+            <div class="card fade-in">
+                <h2>Media</h2>
+                <p>I'm committed to translating research findings into accessible formats such as blogs, short-form videos, and podcasts.</p>
+            </div>
+
+            <div class="section-with-sidebar">
+                <aside class="section-sidebar">
+                    <ul class="sidebar-nav">
+                        <li><a href="#media-communication">Not Being Green</a></li>
+                        <li><a href="#media-appearances">Media Appearances</a></li>
+                    </ul>
+                </aside>
+
+                <div class="section-content">
+                    <div class="card" id="media-communication">
+                        <h2>Not Being Green</h2>
+                <p>I write about health equity, population health research, and the intersection of science and policy on my Substack, <strong>Not Being Green</strong>.</p>
+                <div class="btn-group">
+                    <a href="https://www.notbeinggreen.com" class="substack-badge" target="_blank">
+                        Visit Not Being Green
+                    </a>
+                    <button id="subscribe-btn" class="btn" onclick="showSubscribeForm()">
+                        Subscribe to Newsletter
+                    </button>
+                </div>
+
+                <!-- Substack Subscribe Embed -->
+                <div id="subscribe-form" style="display: none; margin-top: 2rem; padding: 2rem; background: rgba(46, 125, 50, 0.05); border-radius: 8px; border: 2px solid var(--primary-green);">
+                    <h3 style="color: var(--primary-green); margin-top: 0;">Subscribe to Not Being Green</h3>
+                    <p>Get the latest posts delivered right to your inbox</p>
+                    <iframe src="https://www.notbeinggreen.com/embed" width="100%" height="320" style="border:1px solid #EEE; background:white; border-radius: 4px;" frameborder="0" scrolling="no"></iframe>
+                </div>
+
+                <h3>Recent Posts</h3>
+                <div id="substack-posts">
+                    <div class="loading-spinner"></div>
+                </div>
+                    </div>
+
+                    <div class="card" id="media-appearances">
+                        <h2>Media Appearances & Interviews</h2>
+
+                <div class="media-item">
+                    <h4><a href="https://www.scientificamerican.com/article/why-u-s-science-funding-needs-reform/" target="_blank">How to Fix Science</a></h4>
+                    <p class="source">Scientific American, June 2026</p>
+                    <p>Featured in a story in Scientific American about my experience navigating unprecedented changes in the federal funding landscape. Spoke mainly about my confusion, emotions, and why I still remain hopeful about the future!</p>
+                </div>
+
+                <div class="media-item">
+                    <h4><a href="https://www.science.org/content/article/study-finds-sharp-decline-black-hispanic-researchers-receiving-nih-funding" target="_blank">Study finds sharp decline in Black, Hispanic researchers receiving NIH funding</a></h4>
+                    <p class="source">Science, June 2026</p>
+                    <p>Provided comments to a reporter at Science magazine who wanted insight on a new study in JAMA looking at a sharp decline in NIH fellowships awarded to Black and Hispanic scientists.</p>
+                    <div class="media-excerpt" hidden>
+                        <blockquote>
+                            &ldquo;As a Black man myself, there are so few people who look like me in these research spaces.&rdquo;
+                            <span class="excerpt-attribution">&mdash; as quoted in Science</span>
+                        </blockquote>
+                    </div>
+                </div>
+
+                <div class="media-item">
+                    <h4><a href="https://www.youtube.com/watch?v=zC9IspywHr4" target="_blank">Funding Under Pressure: Political Influence, Censorship, and the Future of U.S. Research</a></h4>
+                    <p class="source">Defend Research, June 2026</p>
+                    <p>Co-presenters alongside Jeremy Berg (Former NIH institute director and Editor-in-Chief, Science magazine) in a webinar about scientific censorship and the stress that the U.S. biomedical enterprise is currently facing.</p>
+                </div>
+
+                <div class="media-item">
+                    <h4><a href="https://www.youtube.com/watch?v=L-uqmt-PjSM" target="_blank">A Conversation w Gen Z On AI: Promise, Populism, Anger &amp; Hope. How Do They Wish Older Gens Spoke</a></h4>
+                    <p class="source">Why Should I Trust You?, June 2026</p>
+                    <p>Podcast guest with a panel of Gen-Z members discussing our views on the future of our careers and the world in the context of a lot of rhetoric surrounding the promise of AI.</p>
+                </div>
+
+                <div class="media-item">
+                    <h4><a href="https://www.theguardian.com/us-news/2026/mar/28/national-institutes-health-no-kings-protest" target="_blank">… demonstrators gather at NIH headquarters to protest against cuts to medical research.</a></h4>
+                    <p class="source">The Guardian, March 2026</p>
+                    <p>Coverage of speech I gave in front of NIH. Full speech link <a href="https://www.youtube.com/watch?v=htC3tGSunoE&t=6s" target="_blank">here</a>.</p>
+                </div>
+
+                <div class="media-item">
+                    <h4><a href="https://www.importantcontext.news/p/rewrite-all-of-your-woke-science" target="_blank">"Rewrite All of Your Woke Science": Early-Career Researcher Says NIH's Anti-DEI Agenda is Undermining Agency's Mission</a></h4>
+                    <p class="source">Important Context, March 2026</p>
+                    <p>Provided comments for an investigative journalism story written by Walker Bragman of the Accountability Journalism Institute.</p>
+                </div>
+
+                <div class="media-item">
+                    <h4><a href="https://open.substack.com/pub/insidemedicine/p/speaking-out-after-confronting-nih-6ac?utm_campaign=post-expanded-share&amp;utm_medium=web" target="_blank">Speaking Out: After confronting NIH Director Jay Bhattacharya, Dr. Michael Green tells his story.</a></h4>
+                    <p class="source">Inside Medicine - Jeremy Faust – Podcast, March 2026</p>
+                    <p>Interviewed by Dr. Jeremy Faust for his Substack interview series on conducting research while scientific freedom and the infrastructure that supports our work is currently under pressure.</p>
+                </div>
+
+                <div class="media-item">
+                    <h4><a href="https://youtu.be/ljcTI_qFKss" target="_blank">WSITY: Dr. Jay Bhattacharya on His Vision For NIH, His New Gig at CDC, Funding & DEI</a></h4>
+                    <p class="source">Why Should I Trust You?, February 2026</p>
+                    <p>Given the opportunity to ask a pre-recorded question to the National Institutes of Health (and Acting CDC at the time) Director about the new process of "renegotiation" for grants that are deemed "DEI-activities".</p>
+                </div>
+
+                <div class="media-item">
+                    <h4><a href="https://www.aamchealthjustice.org/news/rethinking-race-reconstruct-research-practices-introducing-population-conscious-analysis" target="_blank">Rethinking 'Race' to Reconstruct Research Practices: Introducing Population-Conscious Analysis</a></h4>
+                    <p class="source">AAMC Center for Health Justice, October 2025</p>
+                    <p>Moderated a talk which "introduce a novel method, population-conscious analysis, which resolves the inappropriate use of race/ethnicity while also systematically assessing this critical factor, shifting the focus from describing health differences between social groups to understanding the mechanisms that produce those differences."</p>
+                </div>
+
+                <div class="media-item">
+                    <h4>Dismantling the Health Workforce Pathway</h4>
+                    <p class="source">Social Mission Alliance, September 2025</p>
+                    <p>Panelist on a webinar which was "A conversation highlighting the impacts of federal policies on the future of the health workforce in the United States, its potential impacts on health care access for our most vulnerable, and what we can do now to prevent it. We will focus on the various funding sources that have been impacted (financial aid caps, grant access to trainees) and how they've historically helped health workers that serve the country's most vulnerable populations."</p>
+                </div>
+
+                <div class="media-item">
+                    <h4><a href="https://www.milbank.org/stories-from-the-field-the-impact-of-federal-funding-cuts-on-population-health-researchers/" target="_blank">Stories from the Field: The Impact of Federal Funding Cuts on Population Health Researchers</a></h4>
+                    <p class="source">Milbank Memorial Fund: The Milbank Quarterly, June 2025</p>
+                    <p>Contributed to a series of testimonials on the impact of federal funding cuts.</p>
+                </div>
+
+                <div class="media-item">
+                    <h4><a href="https://iaphs.org/nih-grants-were-a-huge-part-of-my-training-how-will-we-bridge-the-gap-now/" target="_blank">NIH Grants Were a Huge Part of My Training. How Will We Bridge the Gap Now?</a></h4>
+                    <p class="source">Interdisciplinary Association for Population Health Sciences, June 2025</p>
+                    <p>Blog post I wrote detailing my concern about the cancellation of NIH award opportunities that have the specific target of increasing sociodemographic representation in biomedical research.</p>
+                </div>
+
+                <div class="media-item">
+                    <h4><a href="https://iaphs.org/tools-for-success/online-events/careers-in-population-health-sciences-beyond-academia/" target="_blank">Careers in Population Health Sciences Beyond Academia</a></h4>
+                    <p class="source">Interdisciplinary Association for Population Health Sciences, April 2025</p>
+                    <p>Panel I moderated surrounding non-academic job career paths for population health sciences trainees.</p>
+                </div>
+
+                <div class="media-item">
+                    <h4><a href="https://iaphs.org/tools-for-success/online-events/iaphs-webinar-academic-careers-exploring-institutional-differences-and-charting-your-path-with-advice-from-leading-scholars/" target="_blank">Academic Careers: Exploring Institutional Differences And Charting Your Path With Advice From Leading Scholars</a></h4>
+                    <p class="source">Interdisciplinary Association for Population Health Sciences, July 2024</p>
+                    <p>Panel I moderated surrounding academic job market search strategies.</p>
+                </div>
+
+                <div class="media-item">
+                    <h4><a href="https://iaphs.org/the-value-of-iaphs-membership/" target="_blank">Value of IAPHS Membership</a></h4>
+                    <p class="source">Interdisciplinary Association for Population Health Sciences, March 2024</p>
+                    <p>Blog post I was featured in.</p>
+                </div>
+
+                <div class="media-item">
+                    <h4><a href="https://iaphs.org/tools-for-success/online-events/abstract-writing-workshop-for-students/" target="_blank">Abstract Writing Workshop For Students</a></h4>
+                    <p class="source">Interdisciplinary Association for Population Health Sciences, February 2024</p>
+                    <p>A workshop for students in which we discuss tips, review samples, and share helpful strategies for writing a clear and concise conference abstract.</p>
+                </div>
+
+                <div class="media-item">
+                    <h4><a href="https://www.youtube.com/watch?v=ISaPa9QfFsI" target="_blank">Black Men Pursuing PhDs Interview Series: Ep. 1</a></h4>
+                    <p class="source">Black Male Professors and Researchers Collective, August 2023</p>
+                    <p>Video Interview discussing research background and decision-making when applying to graduate school.</p>
+                </div>
+
+                <div class="media-item">
+                    <h4><a href="https://thephmillennial.com/michael-green/" target="_blank">Advancing Heart Health Equity with Michael Green</a></h4>
+                    <p class="source">The Public Health Millennial, April 2023</p>
+                    <p>Interview for Emerging Changemakers Zone portion of the blog "The Public Health Millennial".</p>
+                </div>
+
+                <div class="media-item">
+                    <h4><a href="https://dartmouthsports.com/news/2021/6/11/mens-heavyweight-rowing-heavyweight-rower-michael-green-named-a-2021-dartmouth-legacy-award-winner.aspx" target="_blank">Heavyweight Rower Michael Green Named a 2021 Dartmouth Legacy Award Winner</a></h4>
+                    <p class="source">Dartmouth Sports, June 2021</p>
+                    <p>Green honored for his work as a mentor in several organizations.</p>
+                </div>
+
+                <div class="media-item">
+                    <h4><a href="https://www.row2k.com/features/5407/Michael-D--Green--I-Want-Other-Children-to-Learn-the-Lessons-and-Experience-the-Rush-of-Rowing/" target="_blank">Michael D. Green: I Want Other Children to Learn the Lessons and Experience the Rush of Rowing</a></h4>
+                    <p class="source">Row2k, December 2020</p>
+                    <p>Feature interview about rowing and mentorship.</p>
+                </div>
+
+                <div class="media-item">
+                    <h4><a href="https://open.spotify.com/episode/48S8JGR4xouUoxWHoHHoQ0?si=iwJswzYfQ_iUqi07pDLP9g" target="_blank">Michael D. Green: Subjectivity and Unpacking Inequities in Rowing</a></h4>
+                    <p class="source">Rowing in Color, November 2020</p>
+                    <p>A podcast that amplifies the voices of color in rowing.</p>
+                </div>
+
+                <div class="media-item">
+                    <h4><a href="https://usrowing.org/sports/2019/10/1/webinars.aspx" target="_blank">Black Rowers and Coaches Roundtable - Sponsored by Rowing in Color</a></h4>
+                    <p class="source">United States Rowing, June 2020</p>
+                    <p>Roundtable discussion on diversity and inclusion in rowing.</p>
+                </div>
+
+                <div class="media-item">
+                    <h4><a href="https://dartmouthsports.com/news/2020/3/18/hrow-intern-experience-more-than-expected-at-the-cdc-200318.aspx" target="_blank">Intern Experience More Than Expected at the CDC</a></h4>
+                    <p class="source">Dartmouth Sports, March 2020</p>
+                    <p>Reflection on 10-week internship at the Centers for Disease Control and Prevention.</p>
+                </div>
+
+                <div class="media-item">
+                    <h4><a href="https://www.vnews.com/Dartmouth-rower-Michael-Green-recalls-10-week-internship-with-Centers-for-Disease-Control-and-Prevention-in-Atlanta-33536222" target="_blank">Big Green rower had front-row seat to the crisis response at CDC</a></h4>
+                    <p class="source">Valley News, March 2020</p>
+                    <p>Coverage of internship experience at CDC during early COVID-19 response.</p>
+                </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- For Fun Section -->
+        <section id="forfun">
+            <div class="card fade-in">
+                <h2>For Fun</h2>
+                <p>Outside of research, I stay active and creative through a mix of running, hiking, occasional film photography, and travel (a city with a subway or a mountain town).</p>
+            </div>
+
+            <div class="section-with-sidebar">
+                <aside class="section-sidebar">
+                    <ul class="sidebar-nav">
+                        <li><a href="#fun-photography">Film Photography</a></li>
+                        <li><a href="#fun-chargers">Chargers Fan</a></li>
+                        <li><a href="#fun-running">Running</a></li>
+                        <li><a href="#fun-travel">Travel</a></li>
+                        <li><a href="#fun-podcasts">Podcasts</a></li>
+                    </ul>
+                </aside>
+
+                <div class="section-content">
+                    <!-- Film Photography -->
+                    <div class="card" id="fun-photography">
+                        <h3>Film Photography</h3>
+                <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.2rem; margin-top: 1.5rem; max-width: 900px; margin-left: auto; margin-right: auto;">
+                    <img loading="lazy" decoding="async" src="images/film 1.png" alt="Mountain valley" style="width: 100%; height: auto; border-radius: 8px; box-shadow: var(--card-shadow); transition: transform 0.3s ease;" onmouseover="this.style.transform='translateY(-3px)'" onmouseout="this.style.transform='translateY(0)'">
+                    <img loading="lazy" decoding="async" src="images/film 2.png" alt="Badlands" style="width: 100%; height: auto; border-radius: 8px; box-shadow: var(--card-shadow); transition: transform 0.3s ease;" onmouseover="this.style.transform='translateY(-3px)'" onmouseout="this.style.transform='translateY(0)'">
+                    <img loading="lazy" decoding="async" src="images/film 3.png" alt="Coastal resort" style="width: 100%; height: auto; border-radius: 8px; box-shadow: var(--card-shadow); transition: transform 0.3s ease;" onmouseover="this.style.transform='translateY(-3px)'" onmouseout="this.style.transform='translateY(0)'">
+                </div>
+                    </div>
+
+                    <!-- LA Chargers Fan -->
+                    <div class="card" id="fun-chargers">
+                        <h3>Die-Hard Chargers Fan</h3>
+                <figure class="chargers-figure">
+                    <img loading="lazy" decoding="async" src="images/chargers sofi.png" alt="At SoFi Stadium">
+                    <figcaption>Here at SoFi Stadium</figcaption>
+                </figure>
+                    </div>
+
+                    <!-- Running -->
+                    <div class="card" id="fun-running">
+                        <h3>Running</h3>
+                <p style="margin-top: 1.5rem;">Here is my most versatile playlist — fully satisfies no one but also rarely dissatisfies everyone.</p>
+                <div class="running-grid">
+                    <img loading="lazy" decoding="async" src="images/running.png" alt="Running" class="running-photo">
+                    <iframe class="running-playlist" title="Spotify playlist: Michael's running mix" src="https://open.spotify.com/embed/playlist/5tfvES2hactUtgckmQfwhm?utm_source=generator" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe>
+                </div>
+                    </div>
+
+                    <!-- Travel / City Scenes -->
+                    <div class="card" id="fun-travel">
+                        <h3>Travel</h3>
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 2rem; margin-top: 1.5rem; max-width: 900px; margin-left: auto; margin-right: auto;">
+                    <img loading="lazy" decoding="async" src="images/city 1.png" alt="Paris street scene" style="width: 100%; height: auto; border-radius: 8px; box-shadow: var(--card-shadow); transition: transform 0.3s ease;" onmouseover="this.style.transform='translateY(-3px) rotate(-0.8deg)'" onmouseout="this.style.transform='translateY(0) rotate(0deg)'">
+                    <img loading="lazy" decoding="async" src="images/city 2.png" alt="Tropical coastal walkway" style="width: 100%; height: auto; border-radius: 8px; box-shadow: var(--card-shadow); transition: transform 0.3s ease;" onmouseover="this.style.transform='translateY(-3px) rotate(0.8deg)'" onmouseout="this.style.transform='translateY(0) rotate(0deg)'">
+                </div>
+                    </div>
+
+                    <!-- Podcasts -->
+                    <div class="card" id="fun-podcasts">
+                        <h3>Podcasts I Enjoy</h3>
+                <p>Some podcasts I regularly listen to:</p>
+
+                <div class="podcast-list" style="margin-top: 1.5rem;">
+                    <div class="podcast-item" style="margin-bottom: 1.5rem; padding-bottom: 1.5rem; border-bottom: 1px solid var(--medium-gray);">
+                        <h4 style="margin-bottom: 0.5rem;"><a href="https://www.whyshoulditrustyou.net/" target="_blank" style="color: var(--primary-green);">Why Should I Trust You</a></h4>
+                        <p style="margin: 0; line-height: 1.8;">Explores why so many people don't trust public health and institutions, and whether we can build back from that. The hosts invite diverse perspectives and approach every conversation with compassion and understanding. (Clearly related to my work.)</p>
+                        <p class="latest-episode" id="wsity-latest" hidden></p>
+                        <div class="podcast-links">
+                            <a class="podcast-icon-btn" href="https://podcasts.apple.com/us/podcast/why-should-i-trust-you/id1788335471" target="_blank" rel="noopener noreferrer" aria-label="Listen to Why Should I Trust You on Apple Podcasts" title="Apple Podcasts"><svg viewBox="0 0 24 24" fill="none" aria-hidden="true" focusable="false"><circle cx="12" cy="12" r="9.2" stroke="currentColor" stroke-width="1.5"/><circle cx="12" cy="9.3" r="2" fill="currentColor"/><path d="M12 12.1c-1.15 0-1.8.85-1.62 1.95l.5 3.05a1.13 1.13 0 0 0 2.24 0l.5-3.05c.18-1.1-.47-1.95-1.62-1.95Z" fill="currentColor"/><path d="M8.1 9.3a3.9 3.9 0 0 1 7.8 0" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/></svg></a>
+                            <a class="podcast-icon-btn" href="https://open.spotify.com/show/6ZvjT4Ls8Q54whJXCrdpjD" target="_blank" rel="noopener noreferrer" aria-label="Listen to Why Should I Trust You on Spotify" title="Spotify"><svg viewBox="0 0 24 24" fill="none" aria-hidden="true" focusable="false"><circle cx="12" cy="12" r="9.2" stroke="currentColor" stroke-width="1.5"/><path d="M7.6 9.6c3.1-.9 6.2-.6 8.7 1" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/><path d="M8.1 12.4c2.5-.7 5-.4 7 .9" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/><path d="M8.6 15.1c1.9-.5 3.8-.3 5.4.7" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/></svg></a>
+                        </div>
+                    </div>
+
+                    <div class="podcast-item" style="margin-bottom: 1.5rem; padding-bottom: 1.5rem; border-bottom: 1px solid var(--medium-gray);">
+                        <h4 style="margin-bottom: 0.5rem;"><a href="https://www.nytimes.com/column/hard-fork" target="_blank" style="color: var(--primary-green);">Hard Fork</a></h4>
+                        <p style="margin: 0; line-height: 1.8;">Each week, journalists Kevin Roose and Casey Newton explore and make sense of the rapidly changing world of tech.</p>
+                        <div class="podcast-links">
+                            <a class="podcast-icon-btn" href="https://podcasts.apple.com/us/podcast/hard-fork/id1528594034" target="_blank" rel="noopener noreferrer" aria-label="Listen to Hard Fork on Apple Podcasts" title="Apple Podcasts"><svg viewBox="0 0 24 24" fill="none" aria-hidden="true" focusable="false"><circle cx="12" cy="12" r="9.2" stroke="currentColor" stroke-width="1.5"/><circle cx="12" cy="9.3" r="2" fill="currentColor"/><path d="M12 12.1c-1.15 0-1.8.85-1.62 1.95l.5 3.05a1.13 1.13 0 0 0 2.24 0l.5-3.05c.18-1.1-.47-1.95-1.62-1.95Z" fill="currentColor"/><path d="M8.1 9.3a3.9 3.9 0 0 1 7.8 0" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/></svg></a>
+                            <a class="podcast-icon-btn" href="https://open.spotify.com/show/44fllCS2FTFr2x2kjP9xeT" target="_blank" rel="noopener noreferrer" aria-label="Listen to Hard Fork on Spotify" title="Spotify"><svg viewBox="0 0 24 24" fill="none" aria-hidden="true" focusable="false"><circle cx="12" cy="12" r="9.2" stroke="currentColor" stroke-width="1.5"/><path d="M7.6 9.6c3.1-.9 6.2-.6 8.7 1" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/><path d="M8.1 12.4c2.5-.7 5-.4 7 .9" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/><path d="M8.6 15.1c1.9-.5 3.8-.3 5.4.7" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/></svg></a>
+                        </div>
+                    </div>
+
+                    <div class="podcast-item" style="margin-bottom: 1.5rem; padding-bottom: 1.5rem; border-bottom: 1px solid var(--medium-gray);">
+                        <h4 style="margin-bottom: 0.5rem;"><a href="https://hopswithpop.substack.com/" target="_blank" style="color: var(--primary-green);">Hops with Pop</a></h4>
+                        <p style="margin: 0; line-height: 1.8;">A podcast and Substack blog by Daniel Popper, The Athletic's Chargers beat writer.</p>
+                        <div class="podcast-links">
+                            <a class="podcast-icon-btn" href="https://podcasts.apple.com/us/podcast/hops-with-pop/id1780728642" target="_blank" rel="noopener noreferrer" aria-label="Listen to Hops with Pop on Apple Podcasts" title="Apple Podcasts"><svg viewBox="0 0 24 24" fill="none" aria-hidden="true" focusable="false"><circle cx="12" cy="12" r="9.2" stroke="currentColor" stroke-width="1.5"/><circle cx="12" cy="9.3" r="2" fill="currentColor"/><path d="M12 12.1c-1.15 0-1.8.85-1.62 1.95l.5 3.05a1.13 1.13 0 0 0 2.24 0l.5-3.05c.18-1.1-.47-1.95-1.62-1.95Z" fill="currentColor"/><path d="M8.1 9.3a3.9 3.9 0 0 1 7.8 0" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/></svg></a>
+                            <a class="podcast-icon-btn" href="https://open.spotify.com/show/4IdtkWpDNrmEUHwVQFySgL" target="_blank" rel="noopener noreferrer" aria-label="Listen to Hops with Pop on Spotify" title="Spotify"><svg viewBox="0 0 24 24" fill="none" aria-hidden="true" focusable="false"><circle cx="12" cy="12" r="9.2" stroke="currentColor" stroke-width="1.5"/><path d="M7.6 9.6c3.1-.9 6.2-.6 8.7 1" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/><path d="M8.1 12.4c2.5-.7 5-.4 7 .9" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/><path d="M8.6 15.1c1.9-.5 3.8-.3 5.4.7" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/></svg></a>
+                        </div>
+                    </div>
+
+                    <div class="podcast-item" style="margin-bottom: 1.5rem; padding-bottom: 1.5rem; border-bottom: 1px solid var(--medium-gray);">
+                        <h4 style="margin-bottom: 0.5rem;"><a href="https://kemidoll.com/podcast/" target="_blank" style="color: var(--primary-green);">Your Unapologetic Career Podcast</a></h4>
+                        <p style="margin: 0; line-height: 1.8;">By Kemi Doll, a career coach for women of color in academic medicine. I don't identify as such, but appreciate her insights and candor.</p>
+                        <div class="podcast-links">
+                            <a class="podcast-icon-btn" href="https://podcasts.apple.com/us/podcast/your-unapologetic-career-podcast/id1565219435" target="_blank" rel="noopener noreferrer" aria-label="Listen to Your Unapologetic Career Podcast on Apple Podcasts" title="Apple Podcasts"><svg viewBox="0 0 24 24" fill="none" aria-hidden="true" focusable="false"><circle cx="12" cy="12" r="9.2" stroke="currentColor" stroke-width="1.5"/><circle cx="12" cy="9.3" r="2" fill="currentColor"/><path d="M12 12.1c-1.15 0-1.8.85-1.62 1.95l.5 3.05a1.13 1.13 0 0 0 2.24 0l.5-3.05c.18-1.1-.47-1.95-1.62-1.95Z" fill="currentColor"/><path d="M8.1 9.3a3.9 3.9 0 0 1 7.8 0" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/></svg></a>
+                            <a class="podcast-icon-btn" href="https://open.spotify.com/show/3nVSsEuuRjKlJ57saDniOP" target="_blank" rel="noopener noreferrer" aria-label="Listen to Your Unapologetic Career Podcast on Spotify" title="Spotify"><svg viewBox="0 0 24 24" fill="none" aria-hidden="true" focusable="false"><circle cx="12" cy="12" r="9.2" stroke="currentColor" stroke-width="1.5"/><path d="M7.6 9.6c3.1-.9 6.2-.6 8.7 1" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/><path d="M8.1 12.4c2.5-.7 5-.4 7 .9" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/><path d="M8.6 15.1c1.9-.5 3.8-.3 5.4.7" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/></svg></a>
+                        </div>
+                    </div>
+
+                    <div class="podcast-item" style="margin-bottom: 1.5rem; padding-bottom: 1.5rem; border-bottom: 1px solid var(--medium-gray);">
+                        <h4 style="margin-bottom: 0.5rem;"><a href="https://kffhealthnews.org/news/tag/what-the-health/" target="_blank" style="color: var(--primary-green);">What the Health</a></h4>
+                        <p style="margin: 0; line-height: 1.8;">A healthcare policy podcast from the Kaiser Family Foundation.</p>
+                        <div class="podcast-links">
+                            <a class="podcast-icon-btn" href="https://podcasts.apple.com/us/podcast/what-the-health-from-kff-health-news/id1253607372" target="_blank" rel="noopener noreferrer" aria-label="Listen to What the Health on Apple Podcasts" title="Apple Podcasts"><svg viewBox="0 0 24 24" fill="none" aria-hidden="true" focusable="false"><circle cx="12" cy="12" r="9.2" stroke="currentColor" stroke-width="1.5"/><circle cx="12" cy="9.3" r="2" fill="currentColor"/><path d="M12 12.1c-1.15 0-1.8.85-1.62 1.95l.5 3.05a1.13 1.13 0 0 0 2.24 0l.5-3.05c.18-1.1-.47-1.95-1.62-1.95Z" fill="currentColor"/><path d="M8.1 9.3a3.9 3.9 0 0 1 7.8 0" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/></svg></a>
+                            <a class="podcast-icon-btn" href="https://open.spotify.com/show/32EdsB662C3oyIrqLMmBXI" target="_blank" rel="noopener noreferrer" aria-label="Listen to What the Health on Spotify" title="Spotify"><svg viewBox="0 0 24 24" fill="none" aria-hidden="true" focusable="false"><circle cx="12" cy="12" r="9.2" stroke="currentColor" stroke-width="1.5"/><path d="M7.6 9.6c3.1-.9 6.2-.6 8.7 1" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/><path d="M8.1 12.4c2.5-.7 5-.4 7 .9" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/><path d="M8.6 15.1c1.9-.5 3.8-.3 5.4.7" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/></svg></a>
+                        </div>
+                    </div>
+
+                    <div class="podcast-item" style="margin-bottom: 0;">
+                        <h4 style="margin-bottom: 0.5rem;"><a href="https://podcasts.voxmedia.com/show/on-with-kara-swisher" target="_blank" style="color: var(--primary-green);">On with Kara Swisher</a></h4>
+                        <p style="margin: 0; line-height: 1.8;">The podcast of tech/media journalist Kara Swisher, my favorite interviewer.</p>
+                        <div class="podcast-links">
+                            <a class="podcast-icon-btn" href="https://podcasts.apple.com/us/podcast/on-with-kara-swisher/id1643307527" target="_blank" rel="noopener noreferrer" aria-label="Listen to On with Kara Swisher on Apple Podcasts" title="Apple Podcasts"><svg viewBox="0 0 24 24" fill="none" aria-hidden="true" focusable="false"><circle cx="12" cy="12" r="9.2" stroke="currentColor" stroke-width="1.5"/><circle cx="12" cy="9.3" r="2" fill="currentColor"/><path d="M12 12.1c-1.15 0-1.8.85-1.62 1.95l.5 3.05a1.13 1.13 0 0 0 2.24 0l.5-3.05c.18-1.1-.47-1.95-1.62-1.95Z" fill="currentColor"/><path d="M8.1 9.3a3.9 3.9 0 0 1 7.8 0" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/></svg></a>
+                            <a class="podcast-icon-btn" href="https://open.spotify.com/show/42ntT7XnfdbbYetUQu0vu5" target="_blank" rel="noopener noreferrer" aria-label="Listen to On with Kara Swisher on Spotify" title="Spotify"><svg viewBox="0 0 24 24" fill="none" aria-hidden="true" focusable="false"><circle cx="12" cy="12" r="9.2" stroke="currentColor" stroke-width="1.5"/><path d="M7.6 9.6c3.1-.9 6.2-.6 8.7 1" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/><path d="M8.1 12.4c2.5-.7 5-.4 7 .9" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/><path d="M8.6 15.1c1.9-.5 3.8-.3 5.4.7" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/></svg></a>
+                        </div>
+                    </div>
+                </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Contact Section -->
+        <section id="contact">
+            <div class="card fade-in">
+                <h2>Connect With Me</h2>
+                <p>Follow my work and connect with me on social media for updates on research, health equity discussions, and insights from population health sciences.</p>
+
+                <div class="social-grid">
+                    <a href="https://www.instagram.com/michaeldgreenphd/" target="_blank" class="social-link instagram">
+                        <div class="social-icon"><svg viewBox="0 0 24 24" fill="none" aria-hidden="true" focusable="false"><rect x="3" y="3" width="18" height="18" rx="5" stroke="currentColor" stroke-width="1.8"/><circle cx="12" cy="12" r="4.2" stroke="currentColor" stroke-width="1.8"/><circle cx="17.2" cy="6.8" r="1.3" fill="currentColor"/></svg></div>
+                        <div class="social-info">
+                            <h3>Instagram</h3>
+                            <p>@michaeldgreenphd</p>
+                        </div>
+                    </a>
+
+                    <a href="https://bsky.app/profile/michaeldgreen.phd" target="_blank" class="social-link bluesky">
+                        <div class="social-icon"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true" focusable="false"><path d="M12 10.8C10.9 8.2 8.3 5 5.9 3.9 3.9 3 3 3.6 3 5.4c0 1.7.7 5.2 1.6 6.4.9 1.2 2.6 1.7 4.2 1.5-2.7.5-3.8 2-2.6 3.9 1.1 1.7 3.3 2.3 4.7.4.4-.6.8-1.4 1.1-2.3.3.9.7 1.7 1.1 2.3 1.4 1.9 3.6 1.3 4.7-.4 1.2-1.9.1-3.4-2.6-3.9 1.6.2 3.3-.3 4.2-1.5.9-1.2 1.6-4.7 1.6-6.4 0-1.8-.9-2.4-2.9-1.5C15.7 5 13.1 8.2 12 10.8Z"/></svg></div>
+                        <div class="social-info">
+                            <h3>Bluesky</h3>
+                            <p>michaeldgreen.phd</p>
+                        </div>
+                    </a>
+
+                    <a href="https://www.linkedin.com/in/michaeldgreenphd" target="_blank" class="social-link linkedin">
+                        <div class="social-icon"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true" focusable="false"><path d="M4.98 3.5a2.49 2.49 0 1 1 0 4.98 2.49 2.49 0 0 1 0-4.98ZM3 9.5h4v11H3v-11Zm6.5 0h3.8v1.6h.05c.53-1 1.83-2.05 3.77-2.05 4.03 0 4.78 2.65 4.78 6.1v5.35h-4v-4.74c0-1.13-.02-2.59-1.58-2.59-1.58 0-1.82 1.23-1.82 2.5v4.83h-4v-11Z"/></svg></div>
+                        <div class="social-info">
+                            <h3>LinkedIn</h3>
+                            <p>michaeldgreenphd</p>
+                        </div>
+                    </a>
+                </div>
+            </div>
+
+            <div class="card fade-in">
+                <h2>Get in Touch</h2>
+                <p>I enjoy connecting with researchers, collaborators, and those whom I feel my values align (time and due diligence permitting). Feel free to reach out through the channels below (after reading the <a href="faq.html">FAQ</a>).</p>
+            </div>
+
+            <div class="contact-grid">
+                <div class="contact-item">
+                    <h3>Email</h3>
+                    <p><a href="mailto:michaeldgreenphd@gmail.com">michaeldgreenphd@gmail.com</a></p>
+                </div>
+
+                <div class="contact-item">
+                    <h3>Signal</h3>
+                    <p><a href="https://signal.me/#eu/YjTa02U92-L4SyH71bITZnxgJJETr9EqLhZTi6O9PEu6eGJwF1xHb42H0h4S6rEr" target="_blank">@michaeldgreenphd.03</a></p>
+                </div>
+            </div>
+
+            <div class="card fade-in">
+                <h2>Collaboration Interests</h2>
+                <p>I'm particularly interested in collaborations involving:</p>
+                <ul>
+                    <li>AI Algorithm Bias (especially those which surround culture or social issues)</li>
+                    <li>Diversity and representation in clinical trials</li>
+                    <li>Healthcare discrimination</li>
+                    <li>Culture of healthcare</li>
+                </ul>
+            </div>
+        </section>
+    </div>
+
+    <!-- Footer -->
+    <footer>
+        <p>&copy; 2026 Michael D. Green, PhD. All rights reserved.</p>
+    </footer>
+
+    <!-- Navigation Script -->
+    <script>
+        // Section navigation
+        const navLinks = document.querySelectorAll('.nav-link');
+        const sections = document.querySelectorAll('section');
+
+        // Central section switcher. Data loading is triggered here — whenever a
+        // section becomes visible, by any path (nav tap, deep link, back/forward) —
+        // rather than from a click listener on a single nav anchor, which left the
+        // Publications/Media feeds unloaded on mobile when that click never fired.
+        function showSection(sectionId, updateHash = true) {
+            const target = document.getElementById(sectionId);
+            if (!target || target.tagName !== 'SECTION') return;
+
+            navLinks.forEach(l => l.classList.toggle('active', l.getAttribute('data-section') === sectionId));
+            sections.forEach(s => s.classList.toggle('active', s === target));
+
+            // Close mobile menu if open
+            document.querySelector('.nav-links').classList.remove('active');
+
+            if (updateHash && '#' + sectionId !== window.location.hash) {
+                history.replaceState(null, '', '#' + sectionId);
+            }
+
+            loadSectionData(sectionId);
+        }
+
+        // Lazy-load remote data the first time a section is shown. The loaded flag
+        // is cleared on fetch failure so revisiting the tab retries.
+        function loadSectionData(sectionId) {
+            if (sectionId === 'publications') {
+                const publicationsList = document.getElementById('publications-list');
+                if (!publicationsList.dataset.loaded) {
+                    publicationsList.dataset.loaded = 'true';
+                    fetchORCIDPublications();
+                }
+            } else if (sectionId === 'media') {
+                const substackPosts = document.getElementById('substack-posts');
+                if (!substackPosts.dataset.loaded) {
+                    substackPosts.dataset.loaded = 'true';
+                    fetchSubstackPosts();
+                }
+            } else if (sectionId === 'research') {
+                const dashboard = document.getElementById('scholar-dashboard');
+                if (!dashboard.dataset.loaded) {
+                    dashboard.dataset.loaded = 'true';
+                    fetchScholarStats();
+                }
+            } else if (sectionId === 'forfun') {
+                const wsityTag = document.getElementById('wsity-latest');
+                if (wsityTag && !wsityTag.dataset.loaded) {
+                    wsityTag.dataset.loaded = 'true';
+                    fetchWsityLatest();
+                }
+            }
+        }
+
+        // Latest episode of 'Why Should I Trust You?' (For Fun tab).
+        // Fetched via an open RSS-to-JSON proxy and cached in localStorage for
+        // six hours; the tag simply stays hidden if anything fails.
+        const WSITY_FEED_URL = 'https://feeds.buzzsprout.com/2433134.rss';
+
+        async function fetchWsityLatest() {
+            const tag = document.getElementById('wsity-latest');
+            const CACHE_KEY = 'wsity-latest-episode';
+            const CACHE_TTL = 6 * 60 * 60 * 1000; // 6 hours
+
+            try {
+                const cached = JSON.parse(localStorage.getItem(CACHE_KEY) || 'null');
+                if (cached && cached.episode && Date.now() - cached.at < CACHE_TTL) {
+                    renderWsityLatest(cached.episode);
+                    return;
+                }
+            } catch (error) { /* stale or unparseable cache: fall through to fetch */ }
+
+            try {
+                const response = await fetch(`https://api.rss2json.com/v1/api.json?rss_url=${encodeURIComponent(WSITY_FEED_URL)}&count=1`);
+                if (!response.ok) {
+                    throw new Error(`feed proxy returned ${response.status}`);
+                }
+                const data = await response.json();
+                const item = data.status === 'ok' && data.items && data.items[0];
+                if (!item || !item.title) {
+                    throw new Error('no episodes in feed');
+                }
+                const episode = { title: item.title, link: item.link, pubDate: item.pubDate };
+                try {
+                    localStorage.setItem(CACHE_KEY, JSON.stringify({ at: Date.now(), episode }));
+                } catch (error) { /* private browsing: skip caching */ }
+                renderWsityLatest(episode);
+            } catch (error) {
+                console.warn('WSITY latest episode unavailable:', error);
+                tag.dataset.loaded = ''; // retry next time the tab is opened
+            }
+        }
+
+        // Dual-option media actions (Media Appearances). Items that link to
+        // YouTube/Spotify get a "Play here" drawer (iframe loads only when
+        // opened, unloads on close so audio can't keep playing) plus an
+        // explicit external link; items carrying a .media-excerpt block get
+        // a "Read excerpt" drawer plus a full-article link. Drawers animate
+        // via grid-template-rows so their height is always content-driven.
+        function initMediaActions() {
+            const PLAY_ICON = '<svg viewBox="0 0 16 16" aria-hidden="true" focusable="false"><path d="M4.5 2.8v10.4c0 .6.65.97 1.17.65l8.3-5.2a.77.77 0 0 0 0-1.3l-8.3-5.2a.77.77 0 0 0-1.17.65Z" fill="currentColor"/></svg>';
+            const QUOTE_ICON = '<svg viewBox="0 0 16 16" aria-hidden="true" focusable="false"><path d="M3 9.5C3 6.7 4.8 4.6 7.2 4l.5 1.2c-1.4.5-2.3 1.5-2.5 2.7.2-.1.5-.15.8-.15 1.1 0 1.9.8 1.9 1.95S7 11.7 5.8 11.7C4.2 11.7 3 10.8 3 9.5Zm6.3 0c0-2.8 1.8-4.9 4.2-5.5l.5 1.2c-1.4.5-2.3 1.5-2.5 2.7.2-.1.5-.15.8-.15 1.1 0 1.9.8 1.9 1.95s-.9 1.95-2.1 1.95c-1.6 0-2.8-.9-2.8-2.15Z" fill="currentColor"/></svg>';
+            const EXTERNAL_ICON = '<svg viewBox="0 0 16 16" aria-hidden="true" focusable="false"><path d="M6 3h7v7M13 3 7.5 8.5M11 9.5V12a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V6a1 1 0 0 1 1-1h2.5" stroke="currentColor" stroke-width="1.5" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg>';
+
+            function makeDrawer(kindClass) {
+                const drawer = document.createElement('div');
+                drawer.className = 'media-drawer ' + kindClass;
+                const inner = document.createElement('div');
+                inner.className = 'media-drawer-inner';
+                drawer.appendChild(inner);
+                return drawer;
+            }
+
+            function makeToggle(drawer, icon, label, openLabel) {
+                const button = document.createElement('button');
+                button.type = 'button';
+                button.className = 'media-action-btn';
+                button.setAttribute('aria-expanded', 'false');
+                button.innerHTML = icon + '<span>' + label + '</span>';
+                button.addEventListener('click', () => {
+                    const open = drawer.classList.toggle('open');
+                    button.setAttribute('aria-expanded', String(open));
+                    button.querySelector('span').textContent = open ? openLabel : label;
+                    const iframe = drawer.querySelector('iframe');
+                    if (iframe) {
+                        if (open && !iframe.getAttribute('src')) {
+                            iframe.src = drawer.dataset.embed;
+                        } else if (!open) {
+                            // Stop playback once the collapse animation ends
+                            setTimeout(() => {
+                                if (!drawer.classList.contains('open')) {
+                                    iframe.removeAttribute('src');
+                                }
+                            }, 450);
+                        }
+                    }
+                });
+                return button;
+            }
+
+            function makeExternal(href, label) {
+                const link = document.createElement('a');
+                link.className = 'media-action-btn';
+                link.href = href;
+                link.target = '_blank';
+                link.rel = 'noopener noreferrer';
+                link.innerHTML = '<span>' + label + '</span>' + EXTERNAL_ICON;
+                return link;
+            }
+
+            document.querySelectorAll('#media-appearances .media-item').forEach(item => {
+                const actions = document.createElement('div');
+                actions.className = 'media-actions';
+                const drawers = [];
+
+                // Option A/B: in-page playback + external view
+                let embed = null;
+                for (const link of item.querySelectorAll('a[href]')) {
+                    const yt = link.href.match(/(?:youtube\.com\/watch\?v=|youtu\.be\/)([\w-]{11})/);
+                    if (yt) {
+                        embed = { url: 'https://www.youtube-nocookie.com/embed/' + yt[1], external: link.href, label: 'Watch on YouTube', kind: 'is-video', title: 'YouTube video player' };
+                        break;
+                    }
+                    const sp = link.href.match(/open\.spotify\.com\/episode\/([A-Za-z0-9]+)/);
+                    if (sp) {
+                        embed = { url: 'https://open.spotify.com/embed/episode/' + sp[1], external: link.href, label: 'Listen on Spotify', kind: 'is-audio', title: 'Spotify episode player' };
+                        break;
+                    }
+                }
+                if (embed) {
+                    const drawer = makeDrawer(embed.kind);
+                    drawer.dataset.embed = embed.url;
+                    const iframe = document.createElement('iframe');
+                    iframe.title = embed.title;
+                    iframe.setAttribute('allow', 'autoplay; encrypted-media; picture-in-picture; fullscreen');
+                    drawer.firstChild.appendChild(iframe);
+                    actions.appendChild(makeToggle(drawer, PLAY_ICON, 'Play here', 'Hide player'));
+                    actions.appendChild(makeExternal(embed.external, embed.label));
+                    drawers.push(drawer);
+                }
+
+                // Inline press excerpt + explicit full-article link
+                const excerpt = item.querySelector('.media-excerpt');
+                if (excerpt) {
+                    const drawer = makeDrawer('is-quote');
+                    drawer.firstChild.appendChild(excerpt);
+                    excerpt.hidden = false;
+                    actions.appendChild(makeToggle(drawer, QUOTE_ICON, 'Read excerpt', 'Hide excerpt'));
+                    const titleLink = item.querySelector('h4 a');
+                    const source = item.querySelector('.source');
+                    const outlet = source ? source.textContent.split(',')[0].trim() : 'source';
+                    if (titleLink) {
+                        actions.appendChild(makeExternal(titleLink.href, 'Read full article at ' + outlet));
+                    }
+                    drawers.push(drawer);
+                }
+
+                if (drawers.length) {
+                    item.appendChild(actions);
+                    drawers.forEach(drawer => item.appendChild(drawer));
+                }
+            });
+        }
+        initMediaActions();
+
+        function renderWsityLatest(episode) {
+            const tag = document.getElementById('wsity-latest');
+            const when = episode.pubDate ? new Date(episode.pubDate.replace(' ', 'T')) : null;
+            const dateStr = when && !isNaN(when)
+                ? when.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' })
+                : '';
+            const title = episode.link
+                ? `<a href="${escapeHtml(episode.link)}" target="_blank" rel="noopener noreferrer">${escapeHtml(episode.title)}</a>`
+                : escapeHtml(episode.title);
+            tag.innerHTML = `Latest episode: ${title}${dateStr ? ` &middot; ${dateStr}` : ''}`;
+            tag.hidden = false;
+        }
+
+        navLinks.forEach(link => {
+            link.addEventListener('click', function(e) {
+                e.preventDefault();
+                showSection(this.getAttribute('data-section'));
+
+                // Scroll to top smoothly
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+            });
+        });
+
+        // Support deep links (e.g. /#publications) and browser back/forward.
+        // The initial call happens at the end of this script, once everything
+        // (including the fetch helpers below) is defined.
+        function showSectionFromHash() {
+            const sectionId = window.location.hash.replace('#', '');
+            if (sectionId) showSection(sectionId, false);
+        }
+        window.addEventListener('hashchange', showSectionFromHash);
+
+        // Mobile menu toggle
+        const menuToggle = document.querySelector('.menu-toggle');
+        const navLinksContainer = document.querySelector('.nav-links');
+
+        menuToggle.addEventListener('click', function() {
+            navLinksContainer.classList.toggle('active');
+        });
+
+        // Close mobile menu when clicking outside
+        document.addEventListener('click', function(e) {
+            if (!e.target.closest('nav')) {
+                navLinksContainer.classList.remove('active');
+            }
+        });
+
+        // ORCID Publications Integration
+        const ORCID_ID = '0000-0002-4982-8154';
+        const ORCID_API_BASE = 'https://pub.orcid.org/v3.0';
+
+        // Substack Integration
+        const SUBSTACK_URL = 'www.notbeinggreen.com';
+        const RSS_FEED_URL = `https://${SUBSTACK_URL}/feed`;
+
+        // ORCID publications. Primary source is orcid_works.json, cached in the
+        // repo by the daily GitHub Action (scripts/fetch_orcid.py) — a live
+        // per-visitor call to ORCID's API is the kind of third-party fetch that
+        // fails on shared/mobile networks, the same reason the Substack and
+        // Scholar feeds are cached. Falls back to the live ORCID API when the
+        // cache is missing (e.g. before the workflow has run once).
+        async function fetchORCIDPublications() {
+            const publicationsList = document.getElementById('publications-list');
+            publicationsList.innerHTML = '<div class="loading-spinner"></div>';
+
+            // 1) Committed cache — fast and reliable
+            try {
+                const cached = await fetch('orcid_works.json', { cache: 'no-cache' });
+                if (cached.ok) {
+                    const data = await cached.json();
+                    if (data.works && data.works.length > 0) {
+                        renderPublications(data.works, publicationsList);
+                        return;
+                    }
+                }
+            } catch (error) {
+                console.warn('Cached ORCID works unavailable, trying live API:', error);
+            }
+
+            // 2) Live ORCID API fallback
+            try {
+                const response = await fetch(`${ORCID_API_BASE}/${ORCID_ID}/works`, {
+                    headers: { 'Accept': 'application/json' }
+                });
+                if (!response.ok) {
+                    throw new Error('Failed to fetch publications');
+                }
+                const data = await response.json();
+                renderPublications(normalizeOrcidGroup(data.group || []), publicationsList);
+            } catch (error) {
+                console.error('Error fetching ORCID publications:', error);
+                publicationsList.dataset.loaded = ''; // retry next time the tab is opened
+                publicationsList.innerHTML = `
+                    <div class="error-message">
+                        <strong>Unable to load publications</strong><br>
+                        There was an error fetching publications from ORCID. Please reopen this tab to retry, or visit my
+                        <a href="https://orcid.org/${ORCID_ID}" target="_blank" rel="noopener noreferrer">ORCID profile</a> directly.
+                    </div>
+                `;
+            }
+        }
+
+        // Google Scholar Dashboard: reads scholar_stats.json, which is kept
+        // fresh by a daily GitHub Action (scripts/fetch_scholar.py). The card
+        // stays hidden if the file doesn't exist yet or fails to load.
+        async function fetchScholarStats() {
+            const dashboard = document.getElementById('scholar-dashboard');
+
+            try {
+                const response = await fetch('scholar_stats.json', { cache: 'no-cache' });
+                if (!response.ok) {
+                    throw new Error(`scholar_stats.json returned ${response.status}`);
+                }
+                renderScholarDashboard(await response.json());
+                dashboard.hidden = false;
+            } catch (error) {
+                console.warn('Scholar dashboard unavailable:', error);
+                dashboard.dataset.loaded = ''; // retry next time the tab is opened
+            }
+        }
+
+        function renderScholarDashboard(data) {
+            const metrics = data.metrics || {};
+            const stats = [
+                { label: 'Citations', value: metrics.citations },
+                { label: 'h-index', value: metrics.h_index },
+                { label: 'i10-index', value: metrics.i10_index }
+            ];
+
+            document.getElementById('scholar-metrics').innerHTML = stats.map(stat => `
+                <div class="metric-block">
+                    <span class="metric-value">${Number(stat.value || 0).toLocaleString()}</span>
+                    <span class="metric-label">${stat.label}</span>
+                </div>
+            `).join('');
+
+            if (data.updated) {
+                document.getElementById('scholar-updated').textContent = ` · Data as of ${data.updated}`;
+            }
+
+            const coauthors = (data.coauthors || []).slice(0, 12);
+            document.getElementById('scholar-coauthors-list').innerHTML = coauthors.map(coauthor => `
+                <li>
+                    ${coauthor.profile_url
+                        ? `<a href="${escapeHtml(coauthor.profile_url)}" target="_blank" rel="noopener noreferrer">${escapeHtml(coauthor.name)}</a>`
+                        : escapeHtml(coauthor.name)}
+                    ${coauthor.affiliation ? `<span class="coauthor-affiliation">${escapeHtml(coauthor.affiliation)}</span>` : ''}
+                </li>
+            `).join('');
+        }
+
+        // Render a list of normalized publications, newest first already.
+        function renderPublications(works, container) {
+            if (!works || works.length === 0) {
+                container.innerHTML = '<p>No publications found.</p>';
+                return;
+            }
+            let html = `<div class="publications-count">Total Publications: ${works.length}</div>`;
+            works.forEach(work => { html += formatPublication(work); });
+            container.innerHTML = html;
+        }
+
+        // Reduce an ORCID /works "group" array to the normalized shape
+        // {title, year, journal, type, url}, sorted newest first. Mirrors
+        // scripts/fetch_orcid.py so the cached and live paths render identically.
+        function normalizeOrcidGroup(group) {
+            return (group || []).map(entry => {
+                const work = (entry['work-summary'] && entry['work-summary'][0]) || entry;
+                let url = '';
+                const ids = work['external-ids'] && work['external-ids']['external-id'];
+                if (Array.isArray(ids)) {
+                    const doi = ids.find(id => id['external-id-type'] === 'doi');
+                    if (doi) {
+                        url = doi['external-id-url']?.value
+                            || (doi['external-id-value'] ? `https://doi.org/${doi['external-id-value']}` : '');
+                    }
+                }
+                if (!url) url = work.url?.value || '';
+                return {
+                    title: work.title?.title?.value || 'Untitled',
+                    year: work['publication-date']?.year?.value || '',
+                    journal: work['journal-title']?.value || '',
+                    type: work.type || '',
+                    url: url
+                };
+            }).sort((a, b) => (parseInt(b.year, 10) || 0) - (parseInt(a.year, 10) || 0));
+        }
+
+        // Render one normalized publication. Every interpolated field is escaped
+        // (year and type included), so nothing from the feed reaches the DOM raw.
+        function formatPublication(work) {
+            const title = work.title || 'Untitled';
+            const year = work.year || '';
+            const journal = work.journal || '';
+            const type = work.type || '';
+            const url = work.url || '';
+
+            let html = `
+                <div class="publication-item">
+                    ${year ? `<div class="pub-year">${escapeHtml(String(year))}</div>` : ''}
+                    <h4>${escapeHtml(title)}</h4>
+            `;
+
+            if (journal) {
+                html += `<div class="journal-info">${escapeHtml(journal)}</div>`;
+            }
+
+            if (type) {
+                html += `<div class="pub-type">Type: ${escapeHtml(formatType(type))}</div>`;
+            }
+
+            if (url) {
+                html += `<a href="${escapeHtml(url)}" target="_blank" rel="noopener noreferrer" class="doi-link">View Publication →</a>`;
+            }
+
+            html += `</div>`;
+            return html;
+        }
+
+        function formatType(type) {
+            // Convert type string to readable format
+            return type.toLowerCase()
+                .split('-')
+                .map(word => word.charAt(0).toUpperCase() + word.slice(1))
+                .join(' ');
+        }
+
+        function escapeHtml(text) {
+            const div = document.createElement('div');
+            div.textContent = text;
+            return div.innerHTML;
+        }
+
+        // Subscribe form toggle
+        function showSubscribeForm() {
+            const form = document.getElementById('subscribe-form');
+            const btn = document.getElementById('subscribe-btn');
+            if (form.style.display === 'none') {
+                form.style.display = 'block';
+                btn.textContent = 'Hide Subscribe Form';
+                form.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+            } else {
+                form.style.display = 'none';
+                btn.textContent = 'Subscribe to Newsletter';
+            }
+        }
+
+        // Substack Posts Fetching.
+        // Primary source is substack_posts.json, cached in the repo by the
+        // daily GitHub Action — third-party RSS proxies rate-limit shared
+        // mobile IPs, which made this block fail to load on phones. The
+        // proxy chain below remains only as a fallback for a missing cache.
+        async function fetchSubstackPosts() {
+            const substackPosts = document.getElementById('substack-posts');
+
+            try {
+                const cached = await fetch('substack_posts.json', { cache: 'no-cache' });
+                if (cached.ok) {
+                    const data = await cached.json();
+                    if (data.posts && data.posts.length > 0) {
+                        substackPosts.innerHTML = data.posts.slice(0, 5).map(formatSubstackPost).join('');
+                        return;
+                    }
+                }
+            } catch (error) {
+                console.warn('Cached Substack feed unavailable, falling back to proxies:', error);
+            }
+
+            try {
+                // Fallback 1: RSS2JSON API
+                let response = await fetch(`https://api.rss2json.com/v1/api.json?rss_url=${encodeURIComponent(RSS_FEED_URL)}&count=5`);
+
+                if (!response.ok) {
+                    // Fallback 2: CORS proxy
+                    response = await fetch(`https://api.allorigins.win/get?url=${encodeURIComponent(RSS_FEED_URL)}`);
+
+                    if (response.ok) {
+                        const proxyData = await response.json();
+                        const parser = new DOMParser();
+                        const xmlDoc = parser.parseFromString(proxyData.contents, "text/xml");
+                        displayPostsFromXML(xmlDoc, substackPosts);
+                        return;
+                    }
+                }
+
+                const data = await response.json();
+
+                if (data.status === 'ok' && data.items && data.items.length > 0) {
+                    // Display posts from RSS2JSON
+                    let html = '';
+                    data.items.slice(0, 5).forEach(post => {
+                        html += formatSubstackPost(post);
+                    });
+                    substackPosts.innerHTML = html;
+                } else {
+                    // Fallback: Show embedded iframe or direct link
+                    showFallbackPosts(substackPosts);
+                }
+
+            } catch (error) {
+                console.error('Error fetching Substack posts:', error);
+                showFallbackPosts(substackPosts);
+            }
+        }
+
+        function showFallbackPosts(container) {
+            container.innerHTML = `
+                <div style="padding: 2rem; background: rgba(46, 125, 50, 0.05); border-radius: 8px; text-align: center;">
+                    <p style="margin: 0; color: var(--dark-gray);">Click the <strong>"Visit Not Being Green"</strong> button above to read the latest posts.</p>
+                </div>
+            `;
+        }
+
+        function displayPostsFromXML(xmlDoc, container) {
+            const items = xmlDoc.querySelectorAll('item');
+            if (items.length === 0) {
+                showFallbackPosts(container);
+                return;
+            }
+
+            let html = '';
+            Array.from(items).slice(0, 5).forEach(item => {
+                const title = item.querySelector('title')?.textContent || 'Untitled';
+                const link = item.querySelector('link')?.textContent || '#';
+                const pubDate = item.querySelector('pubDate')?.textContent || '';
+                const description = item.querySelector('description')?.textContent || '';
+
+                const post = {
+                    title: title,
+                    link: link,
+                    pubDate: pubDate ? new Date(pubDate).toISOString() : '',
+                    description: description
+                };
+
+                html += formatSubstackPost(post);
+            });
+
+            container.innerHTML = html;
+        }
+
+        function formatSubstackPost(post) {
+            const title = post.title || 'Untitled';
+            const link = post.link || post.guid || '#';
+            const pubDate = post.pubDate ? new Date(post.pubDate).toLocaleDateString('en-US', {
+                year: 'numeric',
+                month: 'long',
+                day: 'numeric'
+            }) : '';
+
+            // Get excerpt from description (remove HTML tags and limit length)
+            let excerpt = post.description || post.content || '';
+            const tempDiv = document.createElement('div');
+            tempDiv.innerHTML = excerpt;
+            excerpt = tempDiv.textContent || tempDiv.innerText || '';
+
+            // Limit excerpt to 200 characters
+            if (excerpt.length > 200) {
+                excerpt = excerpt.substring(0, 200) + '...';
+            }
+
+            return `
+                <div class="substack-post">
+                    <h4><a href="${escapeHtml(link)}" target="_blank">${escapeHtml(title)}</a></h4>
+                    ${pubDate ? `<div class="post-date">${pubDate}</div>` : ''}
+                    ${excerpt ? `<p class="post-excerpt">${escapeHtml(excerpt)}</p>` : ''}
+                    <a href="${escapeHtml(link)}" target="_blank" class="read-more">Read full post →</a>
+                </div>
+            `;
+        }
+
+        // Dark Mode Toggle
+        const themeToggle = document.getElementById('theme-toggle');
+        const moonIcon = themeToggle.querySelector('.moon-icon');
+        const sunIcon = themeToggle.querySelector('.sun-icon');
+
+        // Check for saved theme preference or default to light mode
+        const currentTheme = localStorage.getItem('theme') || 'light';
+        document.documentElement.setAttribute('data-theme', currentTheme);
+        updateToggleIcon(currentTheme);
+
+        themeToggle.addEventListener('click', function() {
+            let theme = document.documentElement.getAttribute('data-theme');
+            let newTheme = theme === 'dark' ? 'light' : 'dark';
+
+            document.documentElement.setAttribute('data-theme', newTheme);
+            localStorage.setItem('theme', newTheme);
+            updateToggleIcon(newTheme);
+        });
+
+        function updateToggleIcon(theme) {
+            // Show moon icon in light mode (to indicate "click to go dark")
+            // Show sun icon in dark mode (to indicate "click to go light")
+            if (theme === 'dark') {
+                moonIcon.style.display = 'none';
+                sunIcon.style.display = 'block';
+            } else {
+                moonIcon.style.display = 'block';
+                sunIcon.style.display = 'none';
+            }
+        }
+
+        // Show the section for the current URL hash (deep links / reloads)
+        showSectionFromHash();
+    </script>
+
+    <!-- Sidebar Scroll Animation Script -->
+    <script>
+        // Scroll-based sidebar navigation
+        function initSidebarNavigation() {
+            const sidebarNavs = document.querySelectorAll('.sidebar-nav');
+
+            if (sidebarNavs.length === 0) return;
+
+            // Throttle function to improve performance
+            function throttle(func, wait) {
+                let timeout;
+                return function executedFunction(...args) {
+                    const later = () => {
+                        clearTimeout(timeout);
+                        func(...args);
+                    };
+                    clearTimeout(timeout);
+                    timeout = setTimeout(later, wait);
+                };
+            }
+
+            // Update active state based on scroll position
+            function updateActiveSection() {
+                sidebarNavs.forEach(nav => {
+                    const links = nav.querySelectorAll('a');
+                    let currentActive = null;
+                    let maxVisibility = 0;
+
+                    links.forEach(link => {
+                        const targetId = link.getAttribute('href').substring(1);
+                        const targetSection = document.getElementById(targetId);
+
+                        if (targetSection) {
+                            const rect = targetSection.getBoundingClientRect();
+                            const viewportHeight = window.innerHeight;
+
+                            // Calculate how much of the section is visible
+                            const visibleTop = Math.max(0, rect.top);
+                            const visibleBottom = Math.min(viewportHeight, rect.bottom);
+                            const visibleHeight = Math.max(0, visibleBottom - visibleTop);
+                            const visibilityRatio = visibleHeight / viewportHeight;
+
+                            // Consider section active if it's the most visible and meets threshold
+                            if (visibilityRatio > maxVisibility && rect.top < viewportHeight * 0.5) {
+                                maxVisibility = visibilityRatio;
+                                currentActive = link;
+                            }
+                        }
+                    });
+
+                    // Update active class
+                    links.forEach(link => {
+                        if (link === currentActive) {
+                            if (!link.classList.contains('active')) {
+                                link.classList.add('active');
+                            }
+                        } else {
+                            link.classList.remove('active');
+                        }
+                    });
+                });
+            }
+
+            // Smooth scroll to section when clicking sidebar links
+            document.querySelectorAll('.sidebar-nav a').forEach(link => {
+                link.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    const targetId = link.getAttribute('href').substring(1);
+                    const targetSection = document.getElementById(targetId);
+
+                    if (targetSection) {
+                        const offsetTop = targetSection.offsetTop - 100; // Account for fixed header
+                        window.scrollTo({
+                            top: offsetTop,
+                            behavior: 'smooth'
+                        });
+                    }
+                });
+            });
+
+            // Listen to scroll events with throttling
+            window.addEventListener('scroll', throttle(updateActiveSection, 100), { passive: true });
+
+            // Initial check
+            updateActiveSection();
+        }
+
+        // Initialize when DOM is ready
+        if (document.readyState === 'loading') {
+            document.addEventListener('DOMContentLoaded', initSidebarNavigation);
+        } else {
+            initSidebarNavigation();
+        }
+
+        // Research Publications Expand/Collapse Functionality
+        document.querySelectorAll('.view-publications-btn').forEach(button => {
+            button.addEventListener('click', function(e) {
+                e.preventDefault();
+                e.stopPropagation();
+
+                const targetId = this.getAttribute('data-target');
+                const container = document.getElementById(targetId);
+                const isExpanded = container.classList.contains('expanded');
+
+                // Toggle expansion
+                container.classList.toggle('expanded');
+                this.classList.toggle('expanded');
+
+                // Update button text
+                const currentText = this.textContent.trim();
+                if (isExpanded) {
+                    this.textContent = 'View Projects →';
+                } else {
+                    this.textContent = 'Hide Projects';
+                }
+            });
+        });
+
+        // Scroll-triggered Fade-in Animations
+        function initScrollAnimations() {
+            const observerOptions = {
+                root: null,
+                threshold: 0.1,
+                rootMargin: '0px 0px -50px 0px'
+            };
+
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('visible');
+                        // Optionally unobserve after animation to improve performance
+                        // observer.unobserve(entry.target);
+                    }
+                });
+            }, observerOptions);
+
+            // Observe all elements with fade-in classes
+            document.querySelectorAll('.fade-in, .fade-in-left, .fade-in-right').forEach(el => {
+                observer.observe(el);
+            });
+        }
+
+        // Initialize animations when DOM is ready
+        if (document.readyState === 'loading') {
+            document.addEventListener('DOMContentLoaded', initScrollAnimations);
+        } else {
+            initScrollAnimations();
+        }
+    </script>
+</body>
+</html>
