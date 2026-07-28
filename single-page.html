@@ -301,6 +301,34 @@
             flex-shrink: 0;
         }
 
+        /* Collapsed-by-default publication list (native disclosure) */
+        details.pubs-fold { margin-top: 1.2rem; }
+        details.pubs-fold > summary {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.55rem;
+            cursor: pointer;
+            list-style: none;
+            font-family: var(--mono);
+            font-size: 0.76rem;
+            font-weight: 500;
+            letter-spacing: 0.08em;
+            color: var(--ink);
+            border: 1px solid var(--line);
+            border-radius: 6px;
+            padding: 0.5rem 0.9rem;
+            user-select: none;
+        }
+        details.pubs-fold > summary::-webkit-details-marker { display: none; }
+        details.pubs-fold > summary::before {
+            content: "▸";
+            font-size: 0.7rem;
+            transition: transform 0.2s ease;
+        }
+        details.pubs-fold[open] > summary::before { transform: rotate(90deg); }
+        details.pubs-fold > summary:hover { border-color: var(--ink); }
+        details.pubs-fold > summary:focus-visible { outline: 2px solid var(--ink); outline-offset: 2px; }
+
         ul.pubs { list-style: none; }
         ul.pubs li {
             max-width: 42rem;
@@ -340,7 +368,7 @@
 
         /* ----- Scholar chart (theme-aware image swap) --------------------- */
         .scholar-chart {
-            max-width: 42rem;
+            max-width: 21rem;
             margin: 1.2rem 0 0.4rem;
         }
         .scholar-chart img {
@@ -613,14 +641,11 @@
 
                 <p class="fine">Frequent co-authors:
                     <a href="https://scholar.google.com/citations?user=nHrIIYoAAAAJ&amp;hl=en" target="_blank" rel="noopener noreferrer">Matthew E. Dupre</a>,
-                    <a href="https://scholar.google.com/citations?user=HufwIMQAAAAJ&amp;hl=en" target="_blank" rel="noopener noreferrer">Hanzhang Xu</a>,
                     <a href="https://scholar.google.com/citations?user=O2slgIQAAAAJ&amp;hl=en" target="_blank" rel="noopener noreferrer">Emily C. O'Brien</a>,
                     <a href="https://scholar.google.com/citations?user=J0sL_7cAAAAJ&amp;hl=en" target="_blank" rel="noopener noreferrer">Ann Marie Navar</a>,
-                    <a href="https://scholar.google.com/citations?user=viD8I5AAAAAJ&amp;hl=en" target="_blank" rel="noopener noreferrer">Heather R. Farmer</a>,
                     <a href="https://scholar.google.com/citations?user=bZWka-AAAAAJ&amp;hl=en" target="_blank" rel="noopener noreferrer">LáShauntá Glover</a>,
                     <a href="https://scholar.google.com/citations?user=v8fV5BEAAAAJ&amp;hl=en" target="_blank" rel="noopener noreferrer">Jay B. Lusk</a>,
-                    <a href="https://scholar.google.com/citations?user=3mxyA2QAAAAJ&amp;hl=en" target="_blank" rel="noopener noreferrer">Maurice Alan Brookhart</a>,
-                    <a href="https://scholar.google.com/citations?user=KAW_mqoAAAAJ&amp;hl=en" target="_blank" rel="noopener noreferrer">Ashleigh Harlow</a>, and
+                    <a href="https://scholar.google.com/citations?user=3mxyA2QAAAAJ&amp;hl=en" target="_blank" rel="noopener noreferrer">Maurice Alan Brookhart</a>, and
                     <a href="https://scholar.google.com/citations?user=Hz9bOAkAAAAJ&amp;hl=en" target="_blank" rel="noopener noreferrer">Maryam Aziz</a>
                     <span class="meta">(profiles from Google Scholar only)</span></p>
 
@@ -683,7 +708,7 @@
                 <p class="fine"><strong>Methods</strong> — longitudinal data analysis, group-based trajectory modeling, multi-trajectory modeling.</p>
                 <p class="fine"><strong>Areas</strong> — healthcare discrimination, diversity and representation in clinical trials, social determinants of health, cardiovascular epidemiology, aging.</p>
 
-                <h3>Honors &amp; Awards</h3>
+                <h3>Select Service and Awards</h3>
                 <ul class="rows">
                     <li>Token Grant, AI for Science <span class="meta">Anthropic · May 2026</span>
                         <p class="fine">Issued a token grant for API credits from Anthropic's AI for Science Program. Project will enhance <a href="https://www.civicsample.com" target="_blank" rel="noopener noreferrer">Civic Sample</a>, a project I am co-leading with Maryam Aziz. From Anthropic website: "will provide free API credits to support researchers working on high-impact scientific projects, with a particular focus on biology and life sciences applications."</p></li>
@@ -697,30 +722,16 @@
                         <p class="fine">Legacy Awards recognize students whose efforts and accomplishments reflect one or more of the values that guide the Division of Student Affairs at Dartmouth. Given to 14 students annually.</p></li>
                     <li>Global Health Certificate <span class="meta">The John Sloan Dickey Center, Dartmouth College · January 2021</span>
                         <p class="fine">From center website: "provides students with a framework to demonstrate the knowledge and skills they have acquired to address complex global health challenges in a changing world. The Certificate combines coursework from across the curriculum with a field experience in global health."</p></li>
-                </ul>
-
-                <h3>Service</h3>
-                <ul class="rows">
                     <li>Early Career Committee Member, Council on Quality of Care and Outcomes Research (QCOR) <span class="meta">American Heart Association · July 2025 – present</span>
                         <p class="fine">Member of the American Heart Association's QCOR Council Early Career Committee which "provide input regarding the Council's efforts to serve the needs of early career professionals."</p></li>
                     <li>Student Representative, Board of Directors <span class="meta"><a href="https://iaphs.org" target="_blank" rel="noopener noreferrer">IAPHS</a> · November 2023 – November 2025</span>
                         <p class="fine">Elected to serve 3-year term on the board of directors for the Interdisciplinary Association for Population Health Sciences. Additionally, will chair the student committee during this term.</p></li>
-                    <li>Founding Member, Population Health Sciences Graduate Student Association <span class="meta">Duke University School of Medicine · August 2023 – December 2025</span>
-                        <p class="fine">Co-wrote initial charter, led submission of organization application, led first two elections, and co-led activities for the department-sponsored graduate student association for the department.</p></li>
-                    <li>Diversity, Equity, and Inclusion Committee Member <span class="meta">Duke University School of Medicine, Educational Programs Group · July 2022 – November 2024</span></li>
-                    <li>Student Journal Club Organizer <span class="meta">Duke University School of Medicine · August 2023 – November 2024</span>
-                        <p class="fine">Orchestrated the first Ph.D. student led journal club at the Department of Population Health Sciences at the Duke University School of Medicine. Which took place during the Fall Semester 2023 and 2024. 5 students and 2 faculty members presented.</p></li>
-                    <li>Committee Member, Gordon G. Hammes Teach Faculty Award Selection Committee <span class="meta">Duke University School of Medicine · January 2024 – May 2024</span>
-                        <p class="fine">Appointed to Duke School of Medicine Ph.D. student committee overseeing the selection process for the annual award which "recognize a faculty member for continuing excellence in teaching and mentoring, and for exemplary commitment to the education of graduate students within Basic Science Departments and Graduate Training Programs of the School of Medicine."</p></li>
-                    <li>Generation Now Committee Member <span class="meta"><a href="https://www.amostbeautifulthingincfund.org/" target="_blank" rel="noopener noreferrer">A Most Beautiful Thing Inclusion Fund</a>, Seattle, WA · April 2022 – April 2023</span>
-                        <p class="fine">The A Most Beautiful Thing Inclusion Fund aims to build a diverse, inclusive, and equitable sport in rowing. The AMBTIF is housed as its own fund, under the umbrella of the George Pocock Rowing Foundation.</p></li>
                     <li>Erg and Student Services Data Analyst <span class="meta">George Pocock Rowing Foundation, Seattle, WA · November 2020 – November 2021</span>
                         <p class="fine">AmeriCorps VISTA: Up2Us Sports Inc. Supervisor: Kayla Cloud.</p></li>
                     <li>Council Member <span class="meta"><a href="https://www.dartmouth.edu/~library/col/" target="_blank" rel="noopener noreferrer">Council on the Library</a>, Dartmouth College · September 2020 – June 2021</span>
                         <p class="fine">One of two undergraduate students appointed for academic year on council of faculty, students, and staff to provide feedback on Library operations and activities to the Dean of the Libraries and their leadership team.</p></li>
                     <li>Dean Search Committee Member <span class="meta">Dartmouth College · June 2019 – November 2019</span>
                         <p class="fine">Black and First Generation Low-Income Assistant Dean position for the Office of Pluralism and Leadership at Dartmouth College.</p></li>
-                    <li>Executive Board Member <span class="meta">Men of Color Alliance, Dartmouth College · October 2017 – June 2021</span></li>
                     <li>Executive Board Member <span class="meta">Globemed Dartmouth · September 2017 – September 2020</span>
                         <p class="fine">"Global Health university" team member and financial chair.</p></li>
                 </ul>
@@ -752,38 +763,28 @@
                         <p class="fine">An overview of historical data from the F99/K00 award at the National Institute of Health, from an awardee.</p></li>
                 </ul>
 
-                <h3>Appearances &amp; Interviews</h3>
+                <h3>Select Media Appearances</h3>
                 <ul class="rows">
                     <li><a href="https://www.scientificamerican.com/article/why-u-s-science-funding-needs-reform/" target="_blank" rel="noopener noreferrer">How to Fix Science</a> <span class="meta">Scientific American · June 2026</span>
                         <p class="fine">Featured in a story in Scientific American about my experience navigating unprecedented changes in the federal funding landscape. Spoke mainly about my confusion, emotions, and why I still remain hopeful about the future!</p></li>
                     <li><a href="https://www.science.org/content/article/study-finds-sharp-decline-black-hispanic-researchers-receiving-nih-funding" target="_blank" rel="noopener noreferrer">Study finds sharp decline in Black, Hispanic researchers receiving NIH funding</a> <span class="meta">Science · June 2026</span>
                         <p class="fine">Provided comments to a reporter at Science magazine who wanted insight on a new study in JAMA looking at a sharp decline in NIH fellowships awarded to Black and Hispanic scientists.</p></li>
-                    <li><a href="https://www.youtube.com/watch?v=zC9IspywHr4" target="_blank" rel="noopener noreferrer">Funding Under Pressure: Political Influence, Censorship, and the Future of U.S. Research</a> <span class="meta">Defend Research · June 2026</span>
-                        <p class="fine">Co-presenters alongside Jeremy Berg (Former NIH institute director and Editor-in-Chief, Science magazine) in a webinar about scientific censorship and the stress that the U.S. biomedical enterprise is currently facing.</p></li>
                     <li><a href="https://www.youtube.com/watch?v=L-uqmt-PjSM" target="_blank" rel="noopener noreferrer">A Conversation w Gen Z On AI: Promise, Populism, Anger &amp; Hope. How Do They Wish Older Gens Spoke</a> <span class="meta">Why Should I Trust You? · June 2026</span>
                         <p class="fine">Podcast guest with a panel of Gen-Z members discussing our views on the future of our careers and the world in the context of a lot of rhetoric surrounding the promise of AI.</p></li>
                     <li><a href="https://www.theguardian.com/us-news/2026/mar/28/national-institutes-health-no-kings-protest" target="_blank" rel="noopener noreferrer">Demonstrators gather at NIH headquarters to protest against cuts to medical research</a> <span class="meta">The Guardian · March 2026</span>
                         <p class="fine">Coverage of speech I gave in front of NIH. Full speech link <a href="https://www.youtube.com/watch?v=htC3tGSunoE&amp;t=6s" target="_blank" rel="noopener noreferrer">here</a>.</p></li>
-                    <li><a href="https://www.importantcontext.news/p/rewrite-all-of-your-woke-science" target="_blank" rel="noopener noreferrer">"Rewrite All of Your Woke Science": Early-Career Researcher Says NIH's Anti-DEI Agenda is Undermining Agency's Mission</a> <span class="meta">Important Context · March 2026</span>
-                        <p class="fine">Provided comments for an investigative journalism story written by Walker Bragman of the Accountability Journalism Institute.</p></li>
                     <li><a href="https://open.substack.com/pub/insidemedicine/p/speaking-out-after-confronting-nih-6ac?utm_campaign=post-expanded-share&amp;utm_medium=web" target="_blank" rel="noopener noreferrer">Speaking Out: After confronting NIH Director Jay Bhattacharya, Dr. Michael Green tells his story</a> <span class="meta">Inside Medicine (Jeremy Faust) · March 2026</span>
                         <p class="fine">Interviewed by Dr. Jeremy Faust for his Substack interview series on conducting research while scientific freedom and the infrastructure that supports our work is currently under pressure.</p></li>
                     <li><a href="https://youtu.be/ljcTI_qFKss" target="_blank" rel="noopener noreferrer">WSITY: Dr. Jay Bhattacharya on His Vision For NIH, His New Gig at CDC, Funding &amp; DEI</a> <span class="meta">Why Should I Trust You? · February 2026</span>
                         <p class="fine">Given the opportunity to ask a pre-recorded question to the National Institutes of Health (and Acting CDC at the time) Director about the new process of "renegotiation" for grants that are deemed "DEI-activities".</p></li>
                     <li><a href="https://www.aamchealthjustice.org/news/rethinking-race-reconstruct-research-practices-introducing-population-conscious-analysis" target="_blank" rel="noopener noreferrer">Rethinking 'Race' to Reconstruct Research Practices: Introducing Population-Conscious Analysis</a> <span class="meta">AAMC Center for Health Justice · October 2025</span>
                         <p class="fine">Moderated a talk which "introduce a novel method, population-conscious analysis, which resolves the inappropriate use of race/ethnicity while also systematically assessing this critical factor, shifting the focus from describing health differences between social groups to understanding the mechanisms that produce those differences."</p></li>
-                    <li>Dismantling the Health Workforce Pathway <span class="meta">Social Mission Alliance · September 2025</span>
-                        <p class="fine">Panelist on a webinar which was "A conversation highlighting the impacts of federal policies on the future of the health workforce in the United States, its potential impacts on health care access for our most vulnerable, and what we can do now to prevent it. We will focus on the various funding sources that have been impacted (financial aid caps, grant access to trainees) and how they've historically helped health workers that serve the country's most vulnerable populations."</p></li>
                     <li><a href="https://www.milbank.org/stories-from-the-field-the-impact-of-federal-funding-cuts-on-population-health-researchers/" target="_blank" rel="noopener noreferrer">Stories from the Field: The Impact of Federal Funding Cuts on Population Health Researchers</a> <span class="meta">The Milbank Quarterly · June 2025</span>
                         <p class="fine">Contributed to a series of testimonials on the impact of federal funding cuts.</p></li>
                     <li><a href="https://iaphs.org/nih-grants-were-a-huge-part-of-my-training-how-will-we-bridge-the-gap-now/" target="_blank" rel="noopener noreferrer">NIH Grants Were a Huge Part of My Training. How Will We Bridge the Gap Now?</a> <span class="meta">IAPHS · June 2025</span>
                         <p class="fine">Blog post I wrote detailing my concern about the cancellation of NIH award opportunities that have the specific target of increasing sociodemographic representation in biomedical research.</p></li>
                     <li><a href="https://iaphs.org/tools-for-success/online-events/careers-in-population-health-sciences-beyond-academia/" target="_blank" rel="noopener noreferrer">Careers in Population Health Sciences Beyond Academia</a> <span class="meta">IAPHS · April 2025</span>
                         <p class="fine">Panel I moderated surrounding non-academic job career paths for population health sciences trainees.</p></li>
-                    <li><a href="https://iaphs.org/tools-for-success/online-events/iaphs-webinar-academic-careers-exploring-institutional-differences-and-charting-your-path-with-advice-from-leading-scholars/" target="_blank" rel="noopener noreferrer">Academic Careers: Exploring Institutional Differences and Charting Your Path With Advice From Leading Scholars</a> <span class="meta">IAPHS · July 2024</span>
-                        <p class="fine">Panel I moderated surrounding academic job market search strategies.</p></li>
-                    <li><a href="https://iaphs.org/the-value-of-iaphs-membership/" target="_blank" rel="noopener noreferrer">Value of IAPHS Membership</a> <span class="meta">IAPHS · March 2024</span>
-                        <p class="fine">Blog post I was featured in.</p></li>
                     <li><a href="https://iaphs.org/tools-for-success/online-events/abstract-writing-workshop-for-students/" target="_blank" rel="noopener noreferrer">Abstract Writing Workshop For Students</a> <span class="meta">IAPHS · February 2024</span>
                         <p class="fine">A workshop for students in which we discuss tips, review samples, and share helpful strategies for writing a clear and concise conference abstract.</p></li>
                     <li><a href="https://www.youtube.com/watch?v=ISaPa9QfFsI" target="_blank" rel="noopener noreferrer">Black Men Pursuing PhDs Interview Series: Ep. 1</a> <span class="meta">Black Male Professors and Researchers Collective · August 2023</span>
@@ -800,8 +801,6 @@
                         <p class="fine">Roundtable discussion on diversity and inclusion in rowing.</p></li>
                     <li><a href="https://dartmouthsports.com/news/2020/3/18/hrow-intern-experience-more-than-expected-at-the-cdc-200318.aspx" target="_blank" rel="noopener noreferrer">Intern Experience More Than Expected at the CDC</a> <span class="meta">Dartmouth Sports · March 2020</span>
                         <p class="fine">Reflection on 10-week internship at the Centers for Disease Control and Prevention.</p></li>
-                    <li><a href="https://www.vnews.com/Dartmouth-rower-Michael-Green-recalls-10-week-internship-with-Centers-for-Disease-Control-and-Prevention-in-Atlanta-33536222" target="_blank" rel="noopener noreferrer">Big Green rower had front-row seat to the crisis response at CDC</a> <span class="meta">Valley News · March 2020</span>
-                        <p class="fine">Coverage of internship experience at CDC during early COVID-19 response.</p></li>
                 </ul>
             </section>
 
@@ -877,7 +876,10 @@
                     <h2>Publications</h2>
                     <a class="to-top" href="#top">↑ top</a>
                 </div>
-                <p class="fine">Synced automatically from <a href="https://orcid.org/0000-0002-4982-8154" target="_blank" rel="noopener noreferrer">ORCID</a> (updated July 2026). PDFs of all published manuscripts are collected <a href="published-manuscripts.html">on this page</a>.</p>
+                <p class="fine">Synced automatically from <a href="https://orcid.org/0000-0002-4982-8154" target="_blank" rel="noopener noreferrer">ORCID</a> (updated July 2026). Conference abstracts and posters are omitted here — the complete record is on ORCID. PDFs of all published manuscripts are collected <a href="published-manuscripts.html">on this page</a>.</p>
+
+                <details class="pubs-fold">
+                    <summary>show all 22 publications</summary>
 
                 <div class="year-label">2026</div>
                 <ul class="pubs">
@@ -899,39 +901,28 @@
                     <li><a href="https://doi.org/10.1101/2025.07.21.25331865" target="_blank" rel="noopener noreferrer">Racial and Ethnic Diversity in Clinical Studies Reported to ClinicalTrials.gov, 2009–2024</a><span class="tag">preprint</span></li>
                     <li><a href="https://doi.org/10.21203/rs.3.rs-6507515/v1" target="_blank" rel="noopener noreferrer">Factors Associated with Perceived Discrimination in Healthcare Among Middle-Aged and Older Adults</a><span class="tag">preprint</span></li>
                     <li><a href="https://doi.org/10.1101/2025.04.14.25325800" target="_blank" rel="noopener noreferrer">Association between Discrimination in Healthcare and Doctor Visits Over Time</a><span class="tag">preprint</span></li>
-                    <li><a href="https://doi.org/10.1161/cir.151.suppl_1.p3161" target="_blank" rel="noopener noreferrer">Discrimination in Healthcare is Associated with Increased Stroke Risk among Older Adults in the United States</a> — <span class="journal">Circulation</span><span class="tag">poster</span></li>
                     <li><a href="https://doi.org/10.1371/journal.pone.0318419" target="_blank" rel="noopener noreferrer">Racial and ethnic disparities in longitudinal trajectories of cardiovascular risk factors in U.S. middle-aged and older adults</a> — <span class="journal">PLOS ONE</span></li>
                 </ul>
 
                 <div class="year-label">2024</div>
                 <ul class="pubs">
-                    <li><a href="https://doi.org/10.1093/geroni/igae098.3299" target="_blank" rel="noopener noreferrer">Racial/Ethnic Disparities in Trajectories of Cardiovascular Risk Factors in US Adults</a> — <span class="journal">Innovation in Aging</span><span class="tag">abstract</span></li>
-                    <li><a href="https://doi.org/10.1093/geroni/igae098.3300" target="_blank" rel="noopener noreferrer">Racial/Ethnic Disparities in Trajectories of Hospitalizations Among Patients With Heart Failure</a> — <span class="journal">Innovation in Aging</span><span class="tag">abstract</span></li>
-                    <li><a href="https://doi.org/10.1093/geroni/igae098.3301" target="_blank" rel="noopener noreferrer">Socioeconomic Disadvantage and Early and Recurrent Admissions in Patients With Heart Failure</a> — <span class="journal">Innovation in Aging</span><span class="tag">abstract</span></li>
                     <li><a href="https://doi.org/10.1101/2024.12.18.24319227" target="_blank" rel="noopener noreferrer">Measurement of perceived healthcare discrimination and its implications on population health research: A systematic review protocol</a><span class="tag">preprint</span></li>
                     <li><a href="https://doi.org/10.1371/journal.pmen.0000208" target="_blank" rel="noopener noreferrer">Navigating family life with Hypoplastic Left Heart Syndrome: A qualitative study</a> — <span class="journal">PLOS Mental Health</span></li>
                     <li><a href="https://doi.org/10.1161/CIRCOUTCOMES.124.011141" target="_blank" rel="noopener noreferrer">Association Between Socioeconomic Disadvantage and Risks of Early and Recurrent Admissions Among Patients With Newly Diagnosed Heart Failure</a> — <span class="journal">Circulation: Cardiovascular Quality and Outcomes</span></li>
                     <li><a href="https://doi.org/10.1037/sah0000524" target="_blank" rel="noopener noreferrer">Everyday discrimination and age-related trajectories of blood pressure among Black and White middle-aged and older adults</a> — <span class="journal">Stigma and Health</span></li>
-                    <li><a href="https://doi.org/10.1161/circ.149.suppl_1.48" target="_blank" rel="noopener noreferrer">Racial and Ethnic Disparities in Cardiovascular Multimorbidity Progression Among Older United States Adults</a> — <span class="journal">Circulation</span><span class="tag">abstract</span></li>
-                    <li><a href="https://doi.org/10.1161/circ.149.suppl_1.p304" target="_blank" rel="noopener noreferrer">Sex Differences for the Progression of Cardiovascular Multimorbidity in Older Adults in the United States</a> — <span class="journal">Circulation</span><span class="tag">abstract</span></li>
                 </ul>
 
                 <div class="year-label">2023</div>
                 <ul class="pubs">
-                    <li><a href="https://doi.org/10.1002/alz.073122" target="_blank" rel="noopener noreferrer">Multi-Trajectories of Blood Pressure and Cognitive Function in U.S. Adult Population</a> — <span class="journal">Alzheimer's &amp; Dementia</span><span class="tag">abstract</span></li>
                     <li><a href="https://doi.org/10.1001/jamanetworkopen.2023.44707" target="_blank" rel="noopener noreferrer">Racial and Ethnic Discrimination and Hypertension by Educational Attainment Among a Cohort of US Women</a> — <span class="journal">JAMA Network Open</span></li>
                     <li><a href="https://doi.org/10.1016/j.ahj.2023.01.001" target="_blank" rel="noopener noreferrer">Public reporting of black participation in anti-hypertensive drug clinical trials</a> — <span class="journal">American Heart Journal</span></li>
-                </ul>
-
-                <div class="year-label">2022</div>
-                <ul class="pubs">
-                    <li><a href="https://doi.org/10.1161/circ.145.suppl_1.p230" target="_blank" rel="noopener noreferrer">Chronically Uncertain: How Families Of Children With Hypoplastic Left Heart Syndrome Manage The Condition</a> — <span class="journal">Circulation</span><span class="tag">abstract</span></li>
                 </ul>
 
                 <div class="year-label">2021</div>
                 <ul class="pubs">
                     <li><a href="https://doi.org/10.1016/j.athoracsur.2020.06.059" target="_blank" rel="noopener noreferrer">Cardiac Biomarkers Associated With Hospital Length of Stay After Pediatric Congenital Heart Surgery</a> — <span class="journal">Annals of Thoracic Surgery</span></li>
                 </ul>
+                </details>
             </section>
         </main>
 
