@@ -1,8 +1,15 @@
 {
-  "updated": "2026-07-09",
+  "updated": "2026-08-07",
   "source": "https://orcid.org/0000-0002-4982-8154",
-  "count": 30,
+  "count": 31,
   "works": [
+    {
+      "title": "Practical considerations for social determinant-based disease prediction in the All of Us research program",
+      "year": "2026",
+      "journal": "Communications Health",
+      "type": "journal-article",
+      "url": "https://doi.org/10.1038/s44528-026-00018-1"
+    },
     {
       "title": "Building Trust Through Dialogue: Community Town Hall Meetings as a Participatory Dissemination Method in Project ENTRUST",
       "year": "2026",
