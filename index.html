@@ -535,18 +535,6 @@
             .photo-strip { gap: 0.5rem; }
         }
 
-        /* ----- Entrance animations (sections rise gently into view) ------- */
-        .will-reveal {
-            opacity: 0;
-            transform: translateY(14px);
-            transition: opacity 0.55s cubic-bezier(0.22, 0.61, 0.36, 1),
-                        transform 0.55s cubic-bezier(0.22, 0.61, 0.36, 1);
-        }
-        .will-reveal.is-visible {
-            opacity: 1;
-            transform: none;
-        }
-
         @media (prefers-reduced-motion: reduce) {
             html { scroll-behavior: auto; }
             *, *::before, *::after { transition-duration: 0.01ms !important; }
@@ -1037,28 +1025,6 @@
                     }
                 })
                 .catch(function () { /* keep static snapshot */ });
-        })();
-    </script>
-
-    <script data-keep-in-artifact>
-        // Entrance reveal: sections fade/rise in as they scroll into view.
-        // Applied via JS so content stays visible without JS or with
-        // reduced-motion preferences.
-        (function () {
-            if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
-            if (!('IntersectionObserver' in window)) return;
-            const io = new IntersectionObserver(function (entries) {
-                entries.forEach(function (e) {
-                    if (e.isIntersecting) {
-                        e.target.classList.add('is-visible');
-                        io.unobserve(e.target);
-                    }
-                });
-            }, { rootMargin: '0px 0px -8% 0px' });
-            document.querySelectorAll('main section').forEach(function (s) {
-                s.classList.add('will-reveal');
-                io.observe(s);
-            });
         })();
     </script>
 </body>
