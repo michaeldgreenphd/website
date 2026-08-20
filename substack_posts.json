@@ -1,7 +1,13 @@
 {
-  "updated": "2026-06-10",
+  "updated": "2026-08-20",
   "source": "https://www.notbeinggreen.com/feed",
   "posts": [
+    {
+      "title": "Curing all diseases does not mean all people will get care",
+      "link": "https://www.notbeinggreen.com/p/curing-all-diseases-does-not-mean",
+      "pubDate": "Thu, 20 Aug 2026 12:24:53 GMT",
+      "description": "People are using AI for medical advice, but are AI companies ready to accept our messy healthcare reality?"
+    },
     {
       "title": "Politics have made the future more uncertain than ever for young scientists",
       "link": "https://www.notbeinggreen.com/p/politics-have-made-the-future-more",
@@ -25,12 +31,6 @@
       "link": "https://www.notbeinggreen.com/p/the-future-of-science-is-built-on",
       "pubDate": "Tue, 03 Mar 2026 13:09:59 GMT",
       "description": "I asked NIH Director Jay Bhattacharya to be more transparent about what makes a grant a \"DEI activity.\" Instead of answering, he decided to criticize my science without reading it."
-    },
-    {
-      "title": "The Promise and Reality of Investing in Early Career Scientists",
-      "link": "https://www.notbeinggreen.com/p/the-promise-and-reality-of-investing",
-      "pubDate": "Tue, 17 Feb 2026 12:37:39 GMT",
-      "description": "An overview of historical data from the F99/K00 award at the National Institute of Health, from an awardee"
     }
   ]
 }
