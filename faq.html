@@ -151,6 +151,14 @@
             color: var(--color-text-muted);
         }
     </style>
+    <link rel="canonical" href="https://www.michaeldgreen.phd/faq.html">
+    <!-- Stamp any saved theme choice before first paint; otherwise the OS preference applies -->
+    <script>
+        try {
+            var t = localStorage.getItem('theme');
+            if (t === 'dark' || t === 'light') document.documentElement.dataset.theme = t;
+        } catch (e) { /* storage unavailable */ }
+    </script>
 </head>
 <body>
     <!-- Header -->
@@ -211,9 +219,5 @@
     <footer>
         <p>&copy; 2026 Michael D. Green, PhD. All rights reserved.</p>
     </footer>
-<script>
-        // Respect the dark/light preference saved on the main site
-        document.documentElement.setAttribute('data-theme', localStorage.getItem('theme') || 'light');
-    </script>
 </body>
 </html>

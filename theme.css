@@ -28,7 +28,7 @@
     --color-surface: #FDFDFB;        /* true objects (photos, chart, tiles) */
     --color-text: #16211C;           /* primary copy — deep green-black */
     --color-text-secondary: #566159; /* supporting copy, metadata */
-    --color-text-muted: #7E8B83;     /* captions, fine print */
+    --color-text-muted: #5F6C64;     /* captions, fine print (AA on --color-bg) */
     --color-border: #DBE2DC;         /* hairlines, dividers */
 
     /* ----- Typography ---------------------------------------------------- */
@@ -99,6 +99,39 @@
 }
 
 /* ----- Dark theme: same token names, inverted values ----------------------- */
+/* ----- OS dark preference applies unless the toggle chose light --------- */
+@media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+        --color-primary: #4FB784;
+        --color-primary-strong: #74C9A1;
+        --color-primary-soft: #6FD3A4;
+        --color-primary-tint: rgba(79, 183, 132, 0.12);
+        --color-accent: #7FB4DC;
+
+        --color-bg: #0F1E18;
+        --color-bg-elevated: #14261D;
+        --color-surface: #16271F;
+        --color-text: #EDF2EE;
+        --color-text-secondary: #B4C3B9;
+        --color-text-muted: #869187;
+        --color-border: #294034;
+
+        --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.3), 0 2px 8px rgba(0, 0, 0, 0.32);
+        --shadow-md: 0 2px 6px rgba(0, 0, 0, 0.34), 0 10px 24px rgba(0, 0, 0, 0.4);
+        --shadow-lg: 0 6px 16px rgba(0, 0, 0, 0.4), 0 18px 40px rgba(0, 0, 0, 0.46);
+
+        /* Legacy aliases that swap in dark mode */
+        --primary-green: var(--color-primary);
+        --light-green: var(--color-primary-soft);
+        --light-gray: var(--color-bg);
+        --medium-gray: var(--color-border);
+        --dark-gray: var(--color-text);
+        --white: var(--color-surface);
+        --bg-primary: var(--color-bg);
+        --bg-secondary: var(--color-bg);
+    }
+}
+
 [data-theme="dark"] {
     --color-primary: #4FB784;
     --color-primary-strong: #74C9A1;

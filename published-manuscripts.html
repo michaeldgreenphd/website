@@ -268,6 +268,14 @@
             height: 100%;
         }
     </style>
+    <link rel="canonical" href="https://www.michaeldgreen.phd/published-manuscripts.html">
+    <!-- Stamp any saved theme choice before first paint; otherwise the OS preference applies -->
+    <script>
+        try {
+            var t = localStorage.getItem('theme');
+            if (t === 'dark' || t === 'light') document.documentElement.dataset.theme = t;
+        } catch (e) { /* storage unavailable */ }
+    </script>
 </head>
 <body>
     <!-- Theme Toggle Button -->
@@ -534,27 +542,26 @@
         const moonIcon = themeToggle.querySelector('.moon-icon');
         const sunIcon = themeToggle.querySelector('.sun-icon');
 
-        const currentTheme = localStorage.getItem('theme') || 'light';
-        document.documentElement.setAttribute('data-theme', currentTheme);
-        updateToggleIcon(currentTheme);
+        // Effective theme: an explicit choice, else the OS preference
+        function isDark() {
+            const t = document.documentElement.getAttribute('data-theme');
+            return t === 'dark' || (!t && window.matchMedia('(prefers-color-scheme: dark)').matches);
+        }
+
+        function updateToggleIcon() {
+            const dark = isDark();
+            moonIcon.style.display = dark ? 'none' : 'block';
+            sunIcon.style.display = dark ? 'block' : 'none';
+        }
+
+        updateToggleIcon();
 
         themeToggle.addEventListener('click', function() {
-            let theme = document.documentElement.getAttribute('data-theme');
-            let newTheme = theme === 'dark' ? 'light' : 'dark';
+            const newTheme = isDark() ? 'light' : 'dark';
             document.documentElement.setAttribute('data-theme', newTheme);
-            localStorage.setItem('theme', newTheme);
-            updateToggleIcon(newTheme);
+            try { localStorage.setItem('theme', newTheme); } catch (e) { /* ignore */ }
+            updateToggleIcon();
         });
-
-        function updateToggleIcon(theme) {
-            if (theme === 'dark') {
-                moonIcon.style.display = 'none';
-                sunIcon.style.display = 'block';
-            } else {
-                moonIcon.style.display = 'block';
-                sunIcon.style.display = 'none';
-            }
-        }
     </script>
 </body>
 </html>
