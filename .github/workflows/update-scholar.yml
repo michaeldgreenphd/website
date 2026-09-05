@@ -7,7 +7,7 @@ on:
     - cron: '5 6 * * *'
     # Afternoon catch-up: if the overnight Scholar fetch was blocked, this
     # second attempt keeps the dashboard from going a full day stale. The
-    # script is idempotent, so this commits nothing when data is unchanged.
+    # scripts are idempotent, so this commits nothing when data is unchanged.
     - cron: '35 17 * * *'
   workflow_dispatch: {}  # allows manual runs from the Actions tab
   push:
@@ -18,6 +18,7 @@ on:
       - 'scripts/fetch_scholar.py'
       - 'scripts/fetch_substack.py'
       - 'scripts/fetch_orcid.py'
+      - 'scripts/render_snapshot.py'
 
 permissions:
   contents: write  # required to commit the refreshed artifacts
@@ -29,10 +30,15 @@ concurrency:
 jobs:
   update:
     runs-on: ubuntu-latest
-    timeout-minutes: 15
+    timeout-minutes: 20
     steps:
       - name: Check out repository
         uses: actions/checkout@v4
+        with:
+          # Do not leave the write token in .git/config where the installed
+          # packages and fetch scripts could read it; the commit step is
+          # handed the token explicitly instead.
+          persist-credentials: false
 
       - name: Set up Python
         uses: actions/setup-python@v5
@@ -40,30 +46,37 @@ jobs:
           python-version: '3.12'
 
       - name: Install dependencies
-        # Pinned: httpx<0.28 (scholarly passes the removed proxies= kwarg on
-        # newer versions) and free-proxy==1.0.6 (newer releases changed
-        # get_proxy_list()'s signature, which broke scholarly's proxy
-        # rotation in the 2026-06-12 run)
-        run: pip install scholarly==1.7.11 matplotlib "free-proxy==1.0.6" "httpx<0.28"
+        timeout-minutes: 5
+        # Pinned: scholarly (parser compatibility), httpx<0.28 (scholarly
+        # passes the removed proxies= kwarg on newer versions), free-proxy
+        # 1.0.6 (newer releases changed get_proxy_list()'s signature, which
+        # broke scholarly's proxy rotation in the 2026-06-12 run), and
+        # matplotlib to the version of the last green run so a release can't
+        # silently change the chart or break the render.
+        run: pip install scholarly==1.7.11 matplotlib==3.11.1 "free-proxy==1.0.6" "httpx<0.28"
 
       - name: Install DM Sans so the chart matches site typography
         # Best-effort: the script falls back to DejaVu Sans if this fails
         run: |
           mkdir -p ~/.fonts
-          curl -fsSL -o ~/.fonts/DMSans.ttf \
+          curl -fsSL --max-time 30 -o ~/.fonts/DMSans.ttf \
             "https://github.com/google/fonts/raw/main/ofl/dmsans/DMSans%5Bopsz%2Cwght%5D.ttf" || true
           fc-cache -f ~/.fonts || true
           rm -rf ~/.cache/matplotlib || true
 
-      # The two fetchers run independently: one failing must not block the
-      # other's artifacts from being committed.
+      # The fetchers run independently with their own time budgets: one
+      # hanging or failing must not block the others' artifacts from being
+      # rendered and committed.
       - name: Fetch Substack posts
         id: substack
+        timeout-minutes: 2
         continue-on-error: true
         run: python scripts/fetch_substack.py
 
       - name: Fetch Scholar data and render charts
         id: scholar
+        # Retry budget is ~7 minutes of blocked attempts plus the chart render
+        timeout-minutes: 10
         continue-on-error: true
         env:
           # Optional: set the SCRAPERAPI_KEY repository secret to fetch
@@ -74,30 +87,41 @@ jobs:
 
       - name: Fetch ORCID publications
         id: orcid
+        timeout-minutes: 2
         continue-on-error: true
         run: python scripts/fetch_orcid.py
 
+      - name: Render data into index.html
+        id: render
+        timeout-minutes: 2
+        continue-on-error: true
+        run: python scripts/render_snapshot.py
+
       - name: Commit and push if changed
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add scholar_stats.json citations_over_time.png citations_over_time_dark.png substack_posts.json orcid_works.json 2>/dev/null || true
+          git add scholar_stats.json citations_over_time.png citations_over_time_dark.png substack_posts.json orcid_works.json index.html 2>/dev/null || true
           if git diff --cached --quiet; then
             echo "No changes to commit."
           else
             git commit -m "Update site data (Scholar dashboard / Substack posts)"
+            REMOTE="https://x-access-token:${GITHUB_TOKEN}@github.com/${GITHUB_REPOSITORY}.git"
             # Rebase onto any commits pushed while this job ran so the push
             # can't fail as non-fast-forward
-            git pull --rebase origin "${GITHUB_REF_NAME}"
-            git push
+            git pull --rebase "$REMOTE" "${GITHUB_REF_NAME}"
+            git push "$REMOTE" HEAD:"${GITHUB_REF_NAME}"
           fi
 
       # Only genuine errors reach here: a routine Google block now exits the
       # scholar script cleanly (logging a ::warning::), so this step fires
-      # only when a fetcher crashed unexpectedly — e.g. a dependency API
-      # change — which is what we actually want to be alerted about.
+      # only when a fetcher or the renderer crashed or timed out — e.g. a
+      # dependency API change — which is what we actually want to be alerted
+      # about.
       - name: Surface fetch failures
-        if: steps.scholar.outcome == 'failure' || steps.substack.outcome == 'failure' || steps.orcid.outcome == 'failure'
+        if: steps.scholar.outcome == 'failure' || steps.substack.outcome == 'failure' || steps.orcid.outcome == 'failure' || steps.render.outcome == 'failure'
         run: |
-          echo "::error::Fetch outcomes — scholar: ${{ steps.scholar.outcome }}, substack: ${{ steps.substack.outcome }}, orcid: ${{ steps.orcid.outcome }}"
+          echo "::error::Step outcomes — scholar: ${{ steps.scholar.outcome }}, substack: ${{ steps.substack.outcome }}, orcid: ${{ steps.orcid.outcome }}, render: ${{ steps.render.outcome }}"
           exit 1

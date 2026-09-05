@@ -64,25 +64,26 @@ class ScholarFetchBlocked(Exception):
 # Bump to force a chart re-render on the next run even when the Scholar data
 # itself is unchanged (the version is stored in scholar_stats.json and
 # participates in the changed-data comparison).
-CHART_STYLE_VERSION = 3
+CHART_STYLE_VERSION = 4
 
-# Muted, minimalist palettes drawn from the site's design tokens (theme.css):
-# desaturated green-slate bars with the current year highlighted in the
-# brand primary; green-tinted neutral text instead of default blacks/grays.
+# Muted, minimalist palettes drawn from the homepage's design tokens
+# (index.html :root): desaturated green-slate bars with the current year
+# highlighted in the page's ink green; green-tinted neutral text instead of
+# default blacks/grays.
 PALETTES = {
     "light": {
         "bar": "#5E7D70",        # muted green-slate (neutral family)
-        "bar_latest": "#2D6A4F", # --color-primary highlight for current year
-        "text": "#22332B",       # --color-text
-        "subtext": "#5B6962",    # --color-text-secondary
-        "spine": "#E2E8E4",      # --color-border
+        "bar_latest": "#1E5B40", # --ink highlight for current year
+        "text": "#16211C",       # --text
+        "subtext": "#566159",    # --text-2
+        "spine": "#DBE2DC",      # --line
     },
     "dark": {
         "bar": "#7FA391",        # lifted green-slate for dark surfaces
-        "bar_latest": "#52B788", # dark-mode --color-primary
-        "text": "#F2F5F3",
-        "subtext": "#C9D4CE",
-        "spine": "#3D5A4A",
+        "bar_latest": "#4FB784", # dark-mode --ink
+        "text": "#EDF2EE",       # dark-mode --text
+        "subtext": "#B4C3B9",    # dark-mode --text-2
+        "spine": "#294034",      # dark-mode --line
     },
 }
 
