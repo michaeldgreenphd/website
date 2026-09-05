@@ -1,0 +1,64 @@
+# www.michaeldgreen.phd
+#
+# Search engines and answer-time AI fetches are welcome; bulk crawling to
+# train models is not. Googlebot is deliberately unrestricted: Google Search
+# and AI Overviews are built from its normal index, and nothing here touches
+# it. The Content-Signal line (contentsignals.org) states the same preference
+# for crawlers that read it: index me, cite me, don't train on me.
+
+User-agent: *
+Content-Signal: search=yes, ai-input=yes, ai-train=no
+Allow: /
+
+# --- AI training / bulk-scraping crawlers -------------------------------
+# Training-only agents. Their search or user-initiated siblings (OAI-SearchBot,
+# ChatGPT-User, Claude-SearchBot, Claude-User, PerplexityBot, Applebot) are
+# not listed here on purpose, so the site stays discoverable in AI answers.
+
+User-agent: GPTBot
+Disallow: /
+
+User-agent: ClaudeBot
+Disallow: /
+
+User-agent: anthropic-ai
+Disallow: /
+
+User-agent: CCBot
+Disallow: /
+
+User-agent: Bytespider
+Disallow: /
+
+User-agent: meta-externalagent
+Disallow: /
+
+User-agent: FacebookBot
+Disallow: /
+
+User-agent: Applebot-Extended
+Disallow: /
+
+User-agent: cohere-ai
+Disallow: /
+
+User-agent: Diffbot
+Disallow: /
+
+User-agent: omgili
+Disallow: /
+
+User-agent: omgilibot
+Disallow: /
+
+User-agent: ImagesiftBot
+Disallow: /
+
+User-agent: img2dataset
+Disallow: /
+
+# Google-Extended governs Gemini training and grounding only (not Search or
+# AI Overviews). Left allowed so the site can be cited in Gemini answers;
+# uncomment to opt out of that too.
+# User-agent: Google-Extended
+# Disallow: /
