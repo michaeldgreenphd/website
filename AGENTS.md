@@ -110,8 +110,14 @@ and `:root[data-theme="dark"]` — and a new token must be added to all three.
 | `--line`   | `#DBE2DC` | `#294034` | hairlines                              |
 | `--tint`   | `rgba(30, 91, 64, 0.06)` | `rgba(79, 183, 132, 0.12)` | faint green wash: row separators in `ul.rows` |
 
-These seven are the complete colour inventory; the only other custom
-properties are the three font stacks (`--serif`, `--sans`, `--mono`).
+These seven are the complete set of **theme tokens**; the only other custom
+properties are the three font stacks (`--serif`, `--sans`, `--mono`). Three
+functional colours in `index.html` deliberately sit outside the tokens and
+are not to be flagged or "tokenised": `::selection` uses a fixed
+`rgba(62, 158, 108, 0.28)` highlight in both themes; the Substack
+`.embed-frame` keeps `background: #fff` (see below); and the `#000` in the
+sticky bar's `mask-image` gradient is an alpha mask, not a rendered colour.
+Derived values via `color-mix()` on a token are fine.
 
 - **Font faces that exist** (`fonts/`, latin + latin-ext subsets): Fraunces
   600 upright and 400 italic; DM Sans variable 400–700; IBM Plex Mono 400
@@ -199,8 +205,9 @@ Learned in Claude Code cloud sessions; other sandboxes may match.
   both backgrounds, `scroll-padding-top` clearance under the sticky bar.
 - Determinism: the renderer must not introduce timestamps or ordering that
   changes between runs with identical data.
-- Any CSS that names a font weight or style not listed above, or a colour
-  not in the token table.
+- Any CSS that names a font weight or style not listed above, or a new
+  theme colour that is not a token (or `color-mix()` of one) — the three
+  functional exceptions documented under Design system facts are fine.
 - Do not flag generated-block content, `%20` paths, the intentional absence
   of the email address on the homepage, the curated lists, or the
   deliberate look-like-bugs listed under Design system facts.
