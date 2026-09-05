@@ -7,7 +7,9 @@ and the live site updates within a couple of minutes.
 
 ## How to edit the page
 
-Everything is in `index.html`; each section is marked with a comment banner.
+The homepage is `index.html`; each section is marked with a comment banner.
+The contact **email address** is the one thing that is not there — it lives
+only in the closing "Getting in touch" block at the end of `faq.html`.
 
 | Section (anchor)      | What to change there                                       |
 |-----------------------|------------------------------------------------------------|
@@ -16,7 +18,7 @@ Everything is in `index.html`; each section is marked with a comment banner.
 | `#fun`                | photos, playlist, podcasts                                   |
 | `#cv`                 | position, education, expertise, select service and awards   |
 | `#media`              | Substack blurb, select media appearances                    |
-| `#contact`            | email, Signal, social links, collaboration interests        |
+| `#contact`            | Signal, social links, collaboration interests (email: see `faq.html`) |
 | `#publications`       | intro sentence only — the list itself is generated         |
 | masthead              | name, role line, intro sentence, header link row            |
 
