@@ -28,10 +28,19 @@ guide; keep it accurate when conventions change.
    again after any push that changes the diff so the new head is reviewed.
 3. Address every Codex finding before the PR is considered done: verify it
    against the diff, push a fix for anything real, and reply on the thread
-   with a reason when a suggestion should not be taken. Resolve the threads
-   you addressed.
-4. Keep the PR title and description accurate as the branch changes.
-5. Agents do not merge; the owner merges.
+   saying what changed. Resolve the threads you addressed.
+4. **Ask before disputing.** When a finding is unclear, or looks wrong,
+   do not argue with it or ignore it — post a comment addressed to
+   `@codex` with the specific question (what it expects, or why it thinks
+   the current code is wrong), then act on the answer: fix, or reply with
+   the reason it should not be taken. Codex answers direct questions; it
+   does not respond to ordinary thread replies.
+5. **One editor per branch.** Never use `@codex address that feedback`, or
+   otherwise ask Codex to push commits, while an agent or session is
+   working on the branch — two editors on one branch produce conflicting
+   commits. Asking Codex questions is fine at any time.
+6. Keep the PR title and description accurate as the branch changes.
+7. Agents do not merge; the owner merges.
 
 ## Rules for edits
 
