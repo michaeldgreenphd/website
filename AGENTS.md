@@ -56,8 +56,10 @@ guide; keep it accurate when conventions change.
   Green (`--ink`) is the only accent. Check light and dark themes and a
   ~390px viewport for any visual change.
 - Images carry `width` and `height` attributes, `loading="lazy"` below the
-  fold, and use `%20` for spaces in paths. New files use
-  lowercase-hyphenated names.
+  fold, and use `%20` for spaces in paths. New **asset** files (images,
+  PDFs, fonts) use lowercase-hyphenated names. Markdown documentation
+  follows the repository's existing uppercase convention (`README.md`,
+  `AGENTS.md`, `docs/SCHOLAR_PIPELINE.md`, `docs/BACKLOG.md`).
 - The CV is linked from two places in `index.html` (the header link row and
   the top of the CV section); update both when a new dated PDF is uploaded.
 - The email address lives only at the end of `faq.html`, not on the homepage.
