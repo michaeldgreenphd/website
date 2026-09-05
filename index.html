@@ -4,12 +4,14 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="Michael D. Green, PhD — population health sciences researcher studying healthcare discrimination, diversity in clinical trials, and social determinants of cardiovascular health.">
-    <meta name="theme-color" content="#1E5B40">
     <title>Michael D. Green, PhD</title>
 
-    <!-- Browser-tab icon: square-cropped headshot -->
-    <link rel="icon" type="image/png" href="images/headshot-icon.png">
-    <link rel="apple-touch-icon" href="images/headshot-icon.png">
+    <link rel="canonical" href="https://www.michaeldgreen.phd/">
+    <link rel="alternate" type="application/rss+xml" title="Not Being Green (Substack)" href="https://www.notbeinggreen.com/feed">
+
+    <!-- Browser-tab and home-screen icons: square-cropped headshot -->
+    <link rel="icon" type="image/png" sizes="64x64" href="images/favicon-64.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="images/apple-touch-icon.png">
 
     <!-- Link previews (iMessage, Slack, social cards): headshot + title -->
     <meta property="og:type" content="website">
@@ -21,19 +23,107 @@
     <meta name="twitter:title" content="Michael D. Green, PhD">
     <meta name="twitter:image" content="https://www.michaeldgreen.phd/images/headshot-icon.png">
 
-    <!-- Site typography: Fraunces (display) + DM Sans (reading) + IBM Plex Mono (labels) -->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700&family=Fraunces:opsz,wght@9..144,600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+    <!-- Who this page is about, for search engines. Update jobTitle/affiliation
+         whenever the role line in the masthead changes. -->
+    <script type="application/ld+json">
+    {"@context":"https://schema.org","@type":"Person","name":"Michael D. Green","honorificSuffix":"PhD","url":"https://www.michaeldgreen.phd/","image":"https://www.michaeldgreen.phd/images/Fall%202025%20Headshot.JPG","jobTitle":"Postdoctoral Fellow","affiliation":{"@type":"Organization","name":"Johns Hopkins Bloomberg School of Public Health"},"sameAs":["https://orcid.org/0000-0002-4982-8154","https://scholar.google.com/citations?user=ea2W0QgAAAAJ","https://www.linkedin.com/in/michaeldgreenphd","https://bsky.app/profile/michaeldgreen.phd","https://www.notbeinggreen.com","https://www.instagram.com/michaeldgreenphd/","https://www.threads.com/@michaeldgreenphd"]}
+    </script>
+
+    <!-- Self-hosted type (files in fonts/); preload the two faces used above the fold -->
+    <link rel="preload" href="fonts/fraunces-latin.woff2" as="font" type="font/woff2" crossorigin>
+    <link rel="preload" href="fonts/dm-sans-latin.woff2" as="font" type="font/woff2" crossorigin>
 
     <style>
         /* ------------------------------------------------------------------
            Flat single-page treatment of the "field notes" identity.
-           Same voice as the tabbed site — Fraunces display, DM Sans reading,
-           IBM Plex Mono label layer, deep-green ink accent, hairline rules —
-           compressed into one plain scrolling column, academic-homepage style.
+           Fraunces display, DM Sans reading, IBM Plex Mono label layer,
+           deep-green ink accent, hairline rules — one plain scrolling column,
+           academic-homepage style.
            ------------------------------------------------------------------ */
 
+        @font-face {
+            font-family: 'DM Sans';
+            font-style: normal;
+            font-weight: 400 700;
+            font-display: swap;
+            src: url('fonts/dm-sans-latin-ext.woff2') format('woff2');
+            unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF;
+        }
+        @font-face {
+            font-family: 'DM Sans';
+            font-style: normal;
+            font-weight: 400 700;
+            font-display: swap;
+            src: url('fonts/dm-sans-latin.woff2') format('woff2');
+            unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+        }
+        @font-face {
+            font-family: 'Fraunces';
+            font-style: italic;
+            font-weight: 400;
+            font-display: swap;
+            src: url('fonts/fraunces-italic-latin-ext.woff2') format('woff2');
+            unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF;
+        }
+        @font-face {
+            font-family: 'Fraunces';
+            font-style: italic;
+            font-weight: 400;
+            font-display: swap;
+            src: url('fonts/fraunces-italic-latin.woff2') format('woff2');
+            unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+        }
+        @font-face {
+            font-family: 'Fraunces';
+            font-style: normal;
+            font-weight: 600;
+            font-display: swap;
+            src: url('fonts/fraunces-latin-ext.woff2') format('woff2');
+            unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF;
+        }
+        @font-face {
+            font-family: 'Fraunces';
+            font-style: normal;
+            font-weight: 600;
+            font-display: swap;
+            src: url('fonts/fraunces-latin.woff2') format('woff2');
+            unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+        }
+        @font-face {
+            font-family: 'IBM Plex Mono';
+            font-style: normal;
+            font-weight: 400;
+            font-display: swap;
+            src: url('fonts/ibm-plex-mono-latin-ext.woff2') format('woff2');
+            unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF;
+        }
+        @font-face {
+            font-family: 'IBM Plex Mono';
+            font-style: normal;
+            font-weight: 400;
+            font-display: swap;
+            src: url('fonts/ibm-plex-mono-latin.woff2') format('woff2');
+            unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+        }
+        @font-face {
+            font-family: 'IBM Plex Mono';
+            font-style: normal;
+            font-weight: 500;
+            font-display: swap;
+            src: url('fonts/ibm-plex-mono-latin-ext.woff2') format('woff2');
+            unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF;
+        }
+        @font-face {
+            font-family: 'IBM Plex Mono';
+            font-style: normal;
+            font-weight: 500;
+            font-display: swap;
+            src: url('fonts/ibm-plex-mono-latin.woff2') format('woff2');
+            unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+        }
+
+        /* ----- Theme tokens: light on :root, dark under the OS preference
+           (unless the toggle chose light) and under the toggle's dark choice ---- */
         :root {
             --ink: #1E5B40;
             --bg: #F4F6F2;
@@ -46,13 +136,10 @@
             --serif: 'Fraunces', Georgia, 'Times New Roman', serif;
             --sans: 'DM Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
             --mono: 'IBM Plex Mono', ui-monospace, 'SFMono-Regular', Menlo, monospace;
-
-            --show-moon: inline;
-            --show-sun: none;
         }
 
         @media (prefers-color-scheme: dark) {
-            :root {
+            :root:not([data-theme="light"]) {
                 --ink: #4FB784;
                 --bg: #0F1E18;
                 --text: #EDF2EE;
@@ -60,21 +147,11 @@
                 --muted: #869187;
                 --line: #294034;
                 --tint: rgba(79, 183, 132, 0.12);
-                --show-moon: none;
-                --show-sun: inline;
             }
-        }
-
-        :root[data-theme="light"] {
-            --ink: #1E5B40;
-            --bg: #F4F6F2;
-            --text: #16211C;
-            --text-2: #566159;
-            --muted: #5F6C64;
-            --line: #DBE2DC;
-            --tint: rgba(30, 91, 64, 0.06);
-            --show-moon: inline;
-            --show-sun: none;
+            :root:not([data-theme="light"]) .chart-light { display: none; }
+            :root:not([data-theme="light"]) .chart-dark { display: block; }
+            :root:not([data-theme="light"]) .theme-switch::before { content: "light"; }
+            :root:not([data-theme="light"]) img:not(.chart-dark) { filter: brightness(0.88); }
         }
 
         :root[data-theme="dark"] {
@@ -85,13 +162,16 @@
             --muted: #869187;
             --line: #294034;
             --tint: rgba(79, 183, 132, 0.12);
-            --show-moon: none;
-            --show-sun: inline;
         }
+        :root[data-theme="dark"] .chart-light { display: none; }
+        :root[data-theme="dark"] .chart-dark { display: block; }
+        :root[data-theme="dark"] .theme-switch::before { content: "light"; }
+        :root[data-theme="dark"] img:not(.chart-dark) { filter: brightness(0.88); }
 
         * { margin: 0; padding: 0; box-sizing: border-box; }
 
-        html { scroll-behavior: smooth; }
+        /* scroll-padding keeps anchor jumps and keyboard focus clear of the sticky bar */
+        html { scroll-behavior: smooth; scroll-padding-top: 4.5rem; }
 
         body {
             font-family: var(--sans);
@@ -107,7 +187,7 @@
 
         a { color: var(--ink); text-decoration: underline; text-decoration-color: color-mix(in srgb, var(--ink) 35%, transparent); text-underline-offset: 2px; transition: text-decoration-color 0.15s ease; }
         a:hover { text-decoration-color: var(--ink); }
-        a:focus-visible, button:focus-visible { outline: 2px solid var(--ink); outline-offset: 2px; border-radius: 2px; }
+        a:focus-visible, button:focus-visible, summary:focus-visible { outline: 2px solid var(--ink); outline-offset: 2px; border-radius: 2px; }
 
         .skip-link {
             position: absolute; left: -9999px; top: 0;
@@ -122,15 +202,22 @@
             padding: 3.5rem 1.5rem 2rem;
         }
 
-        /* ----- Masthead --------------------------------------------------- */
+        /* ----- Masthead: name and portrait side by side, introduction below --- */
         .masthead {
-            display: flex;
-            align-items: flex-start;
-            justify-content: space-between;
-            gap: 2rem;
+            display: grid;
+            grid-template-columns: minmax(0, 1fr) auto;
+            grid-template-rows: auto auto 1fr auto;
+            grid-template-areas:
+                "name photo"
+                "role photo"
+                "lede photo"
+                "links links";
+            column-gap: 2rem;
+            align-items: start;
         }
 
         .masthead h1 {
+            grid-area: name;
             font-family: var(--serif);
             font-weight: 600;
             font-size: clamp(1.9rem, 1.5rem + 2vw, 2.5rem);
@@ -140,19 +227,21 @@
         }
 
         .masthead .role {
+            grid-area: role;
             margin-top: 0.6rem;
             color: var(--text-2);
             max-width: 34rem;
         }
 
         .masthead .lede {
+            grid-area: lede;
             margin-top: 1rem;
             max-width: 34rem;
         }
 
         .headshot-frame {
+            grid-area: photo;
             position: relative;
-            flex-shrink: 0;
             width: clamp(96px, 16vw, 136px);
         }
 
@@ -176,6 +265,7 @@
         }
 
         .id-links {
+            grid-area: links;
             margin-top: 1.1rem;
             font-family: var(--mono);
             font-size: 0.78rem;
@@ -185,13 +275,16 @@
         }
         .id-links .sep { color: var(--muted); margin: 0 0.15rem; }
 
-        /* ----- Sticky one-line index (this replaces the tabs) ------------- */
+        /* ----- Running head: sticky bar with name mark, section links, theme switch */
         .index {
             position: sticky;
             top: 0;
             z-index: 10;
+            display: flex;
+            align-items: baseline;
+            gap: 1rem;
             margin-top: 2.25rem;
-            padding: 0.55rem 0;
+            padding: 0.2rem 0;
             background: var(--bg);
             border-top: 1px solid var(--line);
             border-bottom: 1px solid var(--line);
@@ -200,24 +293,45 @@
             letter-spacing: 0.09em;
             text-transform: lowercase;
         }
-        .index a { text-decoration: none; color: var(--text-2); }
-        .index a:hover { color: var(--ink); }
-        .index .sep { color: var(--line); margin: 0 0.3rem; user-select: none; }
+        .mark {
+            font-family: var(--serif);
+            font-weight: 600;
+            font-size: 0.95rem;
+            letter-spacing: 0;
+            text-transform: none;
+            color: var(--text);
+            text-decoration: none;
+            margin-right: auto;
+            padding: 0.35rem 0;
+            white-space: nowrap;
+        }
+        .mark:hover { color: var(--ink); }
+        .index-links { display: flex; gap: 0.85rem; }
+        .index-links a {
+            display: inline-block;
+            padding: 0.35rem 0.15rem;
+            text-decoration: none;
+            color: var(--text-2);
+        }
+        .index-links a:first-child { margin-left: -0.15rem; }
+        .index-links a:hover { color: var(--ink); }
+        .theme-switch {
+            all: unset;
+            font: inherit;
+            letter-spacing: inherit;
+            cursor: pointer;
+            color: var(--text-2);
+            padding: 0.35rem 0;
+        }
+        .theme-switch::before { content: "dark"; }
+        .theme-switch:hover { color: var(--ink); }
+        .theme-switch:focus-visible { outline: 2px solid var(--ink); outline-offset: 2px; }
 
         /* ----- Sections --------------------------------------------------- */
-        main section {
-            padding: 2.6rem 0 0.4rem;
-            scroll-margin-top: 3.2rem;
-        }
+        main section { padding: 2.6rem 0 0.4rem; }
         main section + section { border-top: 1px solid var(--line); margin-top: 2.2rem; }
 
-        .section-head {
-            display: flex;
-            align-items: baseline;
-            justify-content: space-between;
-            gap: 1rem;
-            margin-bottom: 1.2rem;
-        }
+        .section-head { margin-bottom: 1.2rem; }
         .section-head h2 {
             font-family: var(--serif);
             font-weight: 600;
@@ -225,15 +339,6 @@
             letter-spacing: -0.015em;
             line-height: 1.2;
         }
-        .to-top {
-            font-family: var(--mono);
-            font-size: 0.7rem;
-            letter-spacing: 0.1em;
-            color: var(--muted);
-            text-decoration: none;
-            white-space: nowrap;
-        }
-        .to-top:hover { color: var(--ink); }
 
         h3 {
             font-family: var(--sans);
@@ -280,25 +385,24 @@
             color: var(--ink);
         }
 
-        /* Year group label in publications — the mono field-marker signature */
+        /* ----- Publications, set like a bibliography ----------------------- */
+        .pub-year { margin-top: 1.6rem; }
         .year-label {
-            display: flex;
-            align-items: center;
-            gap: 0.7rem;
-            margin: 1.7rem 0 0.7rem;
-            font-family: var(--mono);
-            font-size: 0.74rem;
-            font-weight: 500;
-            letter-spacing: 0.16em;
-            color: var(--ink);
+            font-family: var(--serif);
+            font-weight: 600;
+            font-size: 1.05rem;
+            letter-spacing: 0;
+            color: var(--text);
+            margin: 0 0 0.5rem;
         }
-        .year-label::before {
-            content: "";
-            width: 24px;
-            height: 1px;
-            background: var(--ink);
-            opacity: 0.55;
-            flex-shrink: 0;
+        /* On wide screens the year hangs in the left margin beside its entries */
+        @media (min-width: 60rem) {
+            .pub-year {
+                display: grid;
+                grid-template-columns: 4.5rem minmax(0, 1fr);
+                margin-left: -4.5rem;
+            }
+            .pub-year .year-label { margin: 0; padding-top: 0.1rem; }
         }
 
         /* Collapsed-by-default publication list (native disclosure) */
@@ -314,9 +418,7 @@
             font-weight: 500;
             letter-spacing: 0.08em;
             color: var(--ink);
-            border: 1px solid var(--line);
-            border-radius: 6px;
-            padding: 0.5rem 0.9rem;
+            padding: 0.35rem 0;
             user-select: none;
         }
         details.pubs-fold > summary::-webkit-details-marker { display: none; }
@@ -326,8 +428,6 @@
             transition: transform 0.2s ease;
         }
         details.pubs-fold[open] > summary::before { transform: rotate(90deg); }
-        details.pubs-fold > summary:hover { border-color: var(--ink); }
-        details.pubs-fold > summary:focus-visible { outline: 2px solid var(--ink); outline-offset: 2px; }
 
         ul.pubs { list-style: none; }
         ul.pubs li {
@@ -337,19 +437,22 @@
             text-indent: -1.1rem;
             font-size: 0.95rem;
         }
-        ul.pubs .journal { color: var(--text-2); font-style: italic; }
-        .tag {
-            font-family: var(--mono);
-            font-size: 0.66rem;
-            letter-spacing: 0.08em;
-            text-transform: uppercase;
-            color: var(--muted);
-            border: 1px solid var(--line);
-            border-radius: 3px;
-            padding: 0.05rem 0.35rem;
-            margin-left: 0.35rem;
-            white-space: nowrap;
+        .journal {
+            font-family: var(--serif);
+            font-style: italic;
+            font-weight: 400;
+            font-size: 0.97em;
+            color: var(--text-2);
         }
+        /* Dense lists: titles in text colour with a quiet rule, green only on hover */
+        ul.pubs a,
+        ul.rows > li > a {
+            color: var(--text);
+            text-decoration-thickness: 1px;
+            text-decoration-color: color-mix(in srgb, var(--text) 28%, transparent);
+        }
+        ul.pubs a:hover,
+        ul.rows > li > a:hover { color: var(--ink); text-decoration-color: var(--ink); }
 
         /* Compact CV / media rows */
         ul.rows { list-style: none; }
@@ -361,6 +464,7 @@
         }
         ul.rows li:last-child { border-bottom: none; }
         ul.rows .meta { display: block; margin-top: 0.05rem; }
+        ul.rows .fine { margin-top: 0.3rem; }
 
         .cv-item { max-width: 42rem; margin-bottom: 1.1rem; }
         .cv-item .what { font-weight: 700; }
@@ -385,12 +489,6 @@
             color: var(--muted);
         }
         .chart-dark { display: none; }
-        @media (prefers-color-scheme: dark) {
-            :root:not([data-theme="light"]) .chart-light { display: none; }
-            :root:not([data-theme="light"]) .chart-dark { display: block; }
-        }
-        :root[data-theme="dark"] .chart-light { display: none; }
-        :root[data-theme="dark"] .chart-dark { display: block; }
 
         /* ----- Embeds (Substack subscribe, Spotify playlist) -------------- */
         .embed-frame {
@@ -400,16 +498,7 @@
             border-radius: 4px;
             background: #fff;
         }
-        .embed-placeholder {
-            max-width: 42rem;
-            padding: 1.1rem 1.2rem;
-            border: 1px dashed var(--line);
-            border-radius: 4px;
-            font-family: var(--mono);
-            font-size: 0.76rem;
-            letter-spacing: 0.03em;
-            color: var(--muted);
-        }
+        .embed-fallback { margin-top: 0.5rem; }
 
         /* ----- For Fun figures -------------------------------------------- */
         .fun-figure {
@@ -455,20 +544,17 @@
             border-radius: 4px;
             border: 1px solid var(--line);
         }
-        .running-grid .embed-frame,
-        .running-grid .embed-placeholder { flex: 1 1 16rem; min-width: 0; }
-
         /* The Spotify player paints its own rounded card and may not fill
            the iframe (compact layout on phones) — keep the frame itself
            invisible so unfilled space never shows as an empty box */
         .running-grid .embed-frame {
+            flex: 1 1 16rem;
+            min-width: 0;
             background: transparent;
             border: none;
             border-radius: 12px;
             height: 352px;
         }
-
-        ul.rows .fine { margin-top: 0.3rem; }
 
         /* ----- Photo strip ------------------------------------------------ */
         .photo-strip {
@@ -492,27 +578,6 @@
             color: var(--muted);
         }
 
-        /* ----- Theme toggle ----------------------------------------------- */
-        .theme-toggle {
-            position: fixed;
-            top: 1rem;
-            right: 1rem;
-            z-index: 20;
-            width: 2.1rem;
-            height: 2.1rem;
-            border-radius: 50%;
-            border: 1px solid var(--line);
-            background: var(--bg);
-            color: var(--ink);
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-        .theme-toggle:hover { border-color: var(--ink); }
-        .theme-toggle .moon { display: var(--show-moon); }
-        .theme-toggle .sun { display: var(--show-sun); }
-
         /* ----- Footer ----------------------------------------------------- */
         footer {
             margin-top: 3rem;
@@ -525,13 +590,39 @@
         }
 
         @media (max-width: 560px) {
-            /* enough top clearance that the fixed theme toggle never overlaps the headshot */
-            .page { padding-top: 4rem; }
+            .masthead {
+                column-gap: 1.1rem;
+                grid-template-areas:
+                    "name photo"
+                    "role photo"
+                    "lede lede"
+                    "links links";
+            }
+            .headshot-frame { width: 88px; }
+            /* Running head becomes two rows: mark + switch, then a scrolling link row */
+            .index {
+                display: grid;
+                grid-template-columns: 1fr auto;
+                row-gap: 0.15rem;
+                font-size: 0.68rem;
+                letter-spacing: 0.05em;
+            }
+            .mark { grid-column: 1; grid-row: 1; }
+            .theme-switch { grid-column: 2; grid-row: 1; justify-self: end; }
+            .index-links {
+                grid-column: 1 / -1;
+                grid-row: 2;
+                flex-wrap: nowrap;
+                overflow-x: auto;
+                scrollbar-width: none;
+                -webkit-overflow-scrolling: touch;
+                -webkit-mask-image: linear-gradient(to right, #000 calc(100% - 1.5rem), transparent);
+                mask-image: linear-gradient(to right, #000 calc(100% - 1.5rem), transparent);
+            }
+            .index-links::-webkit-scrollbar { display: none; }
+            .index-links a { white-space: nowrap; }
             /* Spotify renders its compact card on narrow screens */
             .running-grid .embed-frame { height: 152px; }
-            .masthead { gap: 1.1rem; }
-            .headshot { width: 88px; }
-            .index { font-size: 0.68rem; letter-spacing: 0.05em; }
             .photo-strip { gap: 0.5rem; }
         }
 
@@ -552,35 +643,28 @@
 <body>
     <a class="skip-link" href="#about">Skip to content</a>
 
-    <button class="theme-toggle" id="theme-toggle" aria-label="Dark mode" aria-pressed="false">
-        <svg class="moon" width="15" height="15" viewBox="0 0 24 24" aria-hidden="true"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
-        <svg class="sun" width="15" height="15" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="4.4" fill="currentColor"/><g stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="12" y1="1.5" x2="12" y2="3.8"/><line x1="12" y1="20.2" x2="12" y2="22.5"/><line x1="1.5" y1="12" x2="3.8" y2="12"/><line x1="20.2" y1="12" x2="22.5" y2="12"/><line x1="4.6" y1="4.6" x2="6.2" y2="6.2"/><line x1="17.8" y1="17.8" x2="19.4" y2="19.4"/><line x1="4.6" y1="19.4" x2="6.2" y2="17.8"/><line x1="17.8" y1="6.2" x2="19.4" y2="4.6"/></g></svg>
-    </button>
-
     <div class="page">
         <header class="masthead" id="top">
-            <div>
-                <h1>Michael D. Green, PhD</h1>
-                <p class="role">Population health researcher · Postdoctoral Fellow, Johns&nbsp;Hopkins Bloomberg School of Public Health</p>
-                <p class="lede">I am a United States based population health researcher focused on understanding how unequal treatment in healthcare leads to health inequities, and how to solve them.</p>
-                <p class="id-links">
-                    <a href="https://www.notbeinggreen.com" target="_blank" rel="noopener noreferrer">Not&nbsp;Being&nbsp;Green</a><span class="sep"> · </span>
-                    <a href="https://www.linkedin.com/in/michaeldgreenphd" target="_blank" rel="noopener noreferrer">LinkedIn</a><span class="sep"> · </span>
-                    <a href="https://www.instagram.com/michaeldgreenphd/" target="_blank" rel="noopener noreferrer">Instagram</a><span class="sep"> · </span>
-                    <a href="https://bsky.app/profile/michaeldgreen.phd" target="_blank" rel="noopener noreferrer">Bluesky</a><span class="sep"> · </span>
-                    <a href="https://www.threads.com/@michaeldgreenphd" target="_blank" rel="noopener noreferrer">Threads</a><span class="sep"> · </span>
-                    <a href="https://orcid.org/0000-0002-4982-8154" target="_blank" rel="noopener noreferrer">ORCID</a><span class="sep"> · </span>
-                    <a href="https://scholar.google.com/citations?user=ea2W0QgAAAAJ&amp;hl=en" target="_blank" rel="noopener noreferrer">Google&nbsp;Scholar</a><span class="sep"> · </span>
-                    <a href="cv/Michael%20Green%20June%202026%20CV.pdf" target="_blank">CV</a>
-                </p>
-            </div>
+            <h1>Michael D. Green, PhD</h1>
+            <p class="role">Population health researcher · Postdoctoral Fellow, Johns&nbsp;Hopkins Bloomberg School of Public Health</p>
+            <p class="lede">I am a United States based population health researcher focused on understanding how unequal treatment in healthcare leads to health inequities, and how to solve them.</p>
+            <p class="id-links">
+                <a href="https://www.notbeinggreen.com" target="_blank" rel="noopener noreferrer">Not&nbsp;Being&nbsp;Green</a><span class="sep"> · </span>
+                <a href="https://www.linkedin.com/in/michaeldgreenphd" target="_blank" rel="noopener noreferrer">LinkedIn</a><span class="sep"> · </span>
+                <a href="https://www.instagram.com/michaeldgreenphd/" target="_blank" rel="noopener noreferrer">Instagram</a><span class="sep"> · </span>
+                <a href="https://bsky.app/profile/michaeldgreen.phd" target="_blank" rel="noopener noreferrer">Bluesky</a><span class="sep"> · </span>
+                <a href="https://www.threads.com/@michaeldgreenphd" target="_blank" rel="noopener noreferrer">Threads</a><span class="sep"> · </span>
+                <a href="https://orcid.org/0000-0002-4982-8154" target="_blank" rel="noopener noreferrer">ORCID</a><span class="sep"> · </span>
+                <a href="https://scholar.google.com/citations?user=ea2W0QgAAAAJ&amp;hl=en" target="_blank" rel="noopener noreferrer">Google&nbsp;Scholar</a><span class="sep"> · </span>
+                <a href="cv/Michael%20Green%20June%202026%20CV.pdf" target="_blank" rel="noopener noreferrer">CV</a>
+            </p>
             <div class="headshot-frame">
                 <svg class="vine-border" viewBox="0 0 300 300" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
                     <path d="M 15 5 Q 30 8, 45 10 T 75 12 T 105 14 T 135 15 T 165 15 T 195 14 T 225 12 T 255 10 Q 270 8, 285 5
                              M 295 15 Q 292 30, 290 45 T 288 75 T 286 105 T 285 135 T 285 165 T 286 195 T 288 225 T 290 255 Q 292 270, 295 285
                              M 285 295 Q 270 292, 255 290 T 225 288 T 195 286 T 165 285 T 135 285 T 105 286 T 75 288 T 45 290 Q 30 292, 15 295
                              M 5 285 Q 8 270, 10 255 T 12 225 T 14 195 T 15 165 T 15 135 T 14 105 T 12 75 T 10 45 Q 8 30, 5 15"
-                          fill="none" stroke="currentColor" stroke-width="1.5" opacity="0.4" stroke-linecap="round"/>
+                          fill="none" stroke="currentColor" stroke-width="0.8" vector-effect="non-scaling-stroke" opacity="0.4" stroke-linecap="round"/>
                     <ellipse cx="60" cy="8" rx="3" ry="5" fill="currentColor" opacity="0.35" transform="rotate(-15 60 8)"/>
                     <ellipse cx="120" cy="12" rx="3" ry="5" fill="currentColor" opacity="0.35" transform="rotate(10 120 12)"/>
                     <ellipse cx="180" cy="12" rx="3" ry="5" fill="currentColor" opacity="0.35" transform="rotate(-20 180 12)"/>
@@ -598,18 +682,22 @@
                     <ellipse cx="12" cy="120" rx="3" ry="5" fill="currentColor" opacity="0.35" transform="rotate(-100 12 120)"/>
                     <ellipse cx="8" cy="60" rx="3" ry="5" fill="currentColor" opacity="0.35" transform="rotate(-75 8 60)"/>
                 </svg>
-                <img src="images/Fall%202025%20Headshot.JPG" alt="Michael D. Green, PhD" class="headshot" fetchpriority="high" decoding="async">
+                <img src="images/headshot-408.jpg" alt="Michael D. Green, PhD" class="headshot" width="408" height="570" fetchpriority="high" decoding="async">
             </div>
         </header>
 
         <nav class="index" aria-label="Page sections">
-            <a href="#about">about</a><span class="sep">·</span>
-            <a href="#research">research</a><span class="sep">·</span>
-            <a href="#fun">for fun</a><span class="sep">·</span>
-            <a href="#cv">cv</a><span class="sep">·</span>
-            <a href="#media">media</a><span class="sep">·</span>
-            <a href="#contact">contact</a><span class="sep">·</span>
-            <a href="#publications">publications</a>
+            <a class="mark" href="#top">M. D. Green</a>
+            <div class="index-links">
+                <a href="#about">about</a>
+                <a href="#research">research</a>
+                <a href="#fun">for fun</a>
+                <a href="#cv">cv</a>
+                <a href="#media">media</a>
+                <a href="#contact">contact</a>
+                <a href="#publications">publications</a>
+            </div>
+            <button class="theme-switch" id="theme-toggle" type="button" aria-label="Toggle dark mode"></button>
         </nav>
 
         <main>
@@ -617,7 +705,6 @@
             <section id="about">
                 <div class="section-head">
                     <h2>About</h2>
-                    <a class="to-top" href="#top">↑ top</a>
                 </div>
                 <p>My name is Michael D. Green, and I am a population health sciences researcher, who completed a Ph.D. in Population Health Sciences at the Duke University School of Medicine in 2025. I was born in Maryland, but moved 7 times before the age of 18. I am a member of the Dartmouth College class of 2021, where I graduated with Honors in Anthropology and a minor in Environmental Sciences. I additionally was a 4-year varsity athlete on the Heavyweight Rowing team, which I joined without any prior experience during the winter of my Freshman year.</p>
                 <p>Growing up, many of my family members and loved ones suffered through numerous health ailments. Ever since I was young I was always focused on the "why" questions regarding these ailments. As I matured through my academic career those why questions became more complex. Why is there so much socio-economic disparity in the world? Why are there so many disparities in health outcomes?</p>
@@ -628,16 +715,22 @@
             <section id="research">
                 <div class="section-head">
                     <h2>Research</h2>
-                    <a class="to-top" href="#top">↑ top</a>
                 </div>
                 <p>My research focuses on understanding and eliminating healthcare inequities through rigorous methodological approaches.</p>
-                <p class="metrics">88 citations · h-index 4 · i10-index 3 — <a href="https://scholar.google.com/citations?user=ea2W0QgAAAAJ&amp;hl=en" target="_blank" rel="noopener noreferrer">Google Scholar</a>, July 2026</p>
+                <!-- The blocks between data: markers are generated by scripts/render_snapshot.py
+                     from the JSON files the daily workflow refreshes — edit the JSON or the
+                     script, not these blocks. -->
+                <!-- data:metrics -->
+                <p class="metrics">96 citations · h-index 5 · i10-index 3 — <a href="https://scholar.google.com/citations?user=ea2W0QgAAAAJ&amp;hl=en" target="_blank" rel="noopener noreferrer">Google Scholar</a>, September 2026</p>
+                <!-- /data:metrics -->
 
+                <!-- data:chart -->
                 <figure class="scholar-chart">
-                    <img src="citations_over_time.png" alt="Bar chart of citations per year" class="chart-light" loading="lazy" decoding="async">
-                    <img src="citations_over_time_dark.png" alt="" class="chart-dark" loading="lazy" decoding="async" aria-hidden="true">
+                    <img src="citations_over_time.png" alt="Bar chart of citations per year — 2021: 4, 2022: 3, 2023: 6, 2024: 14, 2025: 32, 2026: 37." class="chart-light" width="1692" height="732" loading="lazy" decoding="async">
+                    <img src="citations_over_time_dark.png" alt="Bar chart of citations per year — 2021: 4, 2022: 3, 2023: 6, 2024: 14, 2025: 32, 2026: 37." class="chart-dark" width="1692" height="732" loading="lazy" decoding="async">
                     <figcaption>citations per year</figcaption>
                 </figure>
+                <!-- /data:chart -->
 
                 <p class="fine">Frequent co-authors:
                     <a href="https://scholar.google.com/citations?user=nHrIIYoAAAAJ&amp;hl=en" target="_blank" rel="noopener noreferrer">Matthew E. Dupre</a>,
@@ -678,39 +771,40 @@
                     <li><a href="https://journals.plos.org/mentalhealth/article?id=10.1371/journal.pmen.0000208" target="_blank" rel="noopener noreferrer">Navigating family life with Hypoplastic Left Heart Syndrome: A qualitative study</a></li>
                 </ul>
             </section>
+
             <!-- ============================== For Fun ====================== -->
             <section id="fun">
                 <div class="section-head">
                     <h2>For Fun</h2>
-                    <a class="to-top" href="#top">↑ top</a>
                 </div>
                 <p>Outside of research, I stay active and creative through a mix of running, hiking, occasional film photography, and travel (a city with a subway or a mountain town).</p>
 
                 <h3>Film Photography</h3>
                 <figure class="photo-strip">
-                    <img loading="lazy" decoding="async" src="images/film%201.png" alt="Mountain valley, shot on film">
-                    <img loading="lazy" decoding="async" src="images/film%202.png" alt="Badlands, shot on film">
-                    <img loading="lazy" decoding="async" src="images/film%203.png" alt="Coastal resort, shot on film">
+                    <img loading="lazy" decoding="async" src="images/film%201.png" alt="Mountain valley, shot on film" width="320" height="213">
+                    <img loading="lazy" decoding="async" src="images/film%202.png" alt="Badlands, shot on film" width="320" height="213">
+                    <img loading="lazy" decoding="async" src="images/film%203.png" alt="Coastal resort, shot on film" width="320" height="215">
                     <figcaption>shot on film</figcaption>
                 </figure>
 
                 <h3>Die-Hard Chargers Fan</h3>
                 <figure class="fun-figure">
-                    <img loading="lazy" decoding="async" src="images/chargers%20sofi.png" alt="At SoFi Stadium">
+                    <img loading="lazy" decoding="async" src="images/chargers%20sofi.png" alt="At SoFi Stadium" width="320" height="256">
                     <figcaption>here at SoFi Stadium</figcaption>
                 </figure>
 
                 <h3>Running</h3>
                 <p class="fine">Here is my most versatile playlist — fully satisfies no one but also rarely dissatisfies everyone.</p>
                 <div class="running-grid">
-                    <img loading="lazy" decoding="async" src="images/running.png" alt="Running">
+                    <img loading="lazy" decoding="async" src="images/running.png" alt="Running" width="167" height="320">
                     <iframe class="embed-frame" title="Spotify playlist: Michael's running mix" src="https://open.spotify.com/embed/playlist/5tfvES2hactUtgckmQfwhm?utm_source=generator" height="352" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe>
                 </div>
+                <p class="meta embed-fallback"><a href="https://open.spotify.com/playlist/5tfvES2hactUtgckmQfwhm" target="_blank" rel="noopener noreferrer">open the playlist on Spotify</a></p>
 
                 <h3>Travel</h3>
                 <div class="duo-strip">
-                    <img loading="lazy" decoding="async" src="images/city%201.png" alt="Paris street scene">
-                    <img loading="lazy" decoding="async" src="images/city%202.png" alt="Tropical coastal walkway">
+                    <img loading="lazy" decoding="async" src="images/city%201.png" alt="Paris street scene" width="240" height="320">
+                    <img loading="lazy" decoding="async" src="images/city%202.png" alt="Tropical coastal walkway" width="240" height="320">
                 </div>
 
                 <h3>Podcasts I Enjoy</h3>
@@ -730,14 +824,12 @@
                 </ul>
             </section>
 
-
             <!-- ============================== CV =========================== -->
             <section id="cv">
                 <div class="section-head">
                     <h2>Curriculum Vitae</h2>
-                    <a class="to-top" href="#top">↑ top</a>
                 </div>
-                <p class="fine">The short version is below — the complete record of education, research experience, publications, presentations, and awards is in the <a href="cv/Michael%20Green%20June%202026%20CV.pdf" target="_blank">full CV (PDF)</a>.</p>
+                <p class="fine">The short version is below — the complete record of education, research experience, publications, presentations, and awards is in the <a href="cv/Michael%20Green%20June%202026%20CV.pdf" target="_blank" rel="noopener noreferrer">full CV (PDF)</a>.</p>
 
                 <h3>Position</h3>
                 <div class="cv-item">
@@ -792,26 +884,29 @@
             <section id="media">
                 <div class="section-head">
                     <h2>Media &amp; Writing</h2>
-                    <a class="to-top" href="#top">↑ top</a>
                 </div>
                 <p>I'm committed to translating research findings into accessible formats such as blogs, short-form videos, and podcasts. I write about health equity, population health research, and the intersection of science and policy on my Substack, <a href="https://www.notbeinggreen.com" target="_blank" rel="noopener noreferrer"><strong>Not Being Green</strong></a>.</p>
 
                 <h3>Subscribe</h3>
                 <p class="fine">Get the latest posts delivered right to your inbox.</p>
                 <iframe class="embed-frame" src="https://www.notbeinggreen.com/embed" width="100%" height="320" title="Subscribe to Not Being Green" frameborder="0" scrolling="no" loading="lazy"></iframe>
+                <p class="meta embed-fallback"><a href="https://www.notbeinggreen.com/subscribe" target="_blank" rel="noopener noreferrer">or subscribe at notbeinggreen.com</a></p>
 
                 <h3>Recent Posts</h3>
+                <!-- Generated by scripts/render_snapshot.py from substack_posts.json — edit the JSON or the script, not this block. -->
                 <ul class="rows" id="recent-posts">
+                    <!-- data:posts -->
+                    <li><a href="https://www.notbeinggreen.com/p/curing-all-diseases-does-not-mean" target="_blank" rel="noopener noreferrer">Curing all diseases does not mean all people will get care</a> <span class="meta">August 2026</span>
+                        <p class="fine">People are using AI for medical advice, but are AI companies ready to accept our messy healthcare reality?</p></li>
                     <li><a href="https://www.notbeinggreen.com/p/politics-have-made-the-future-more" target="_blank" rel="noopener noreferrer">Politics have made the future more uncertain than ever for young scientists</a> <span class="meta">May 2026</span>
                         <p class="fine">The NIH funds programs meant to support promising young researchers. For some reason, they have halted.</p></li>
                     <li><a href="https://www.notbeinggreen.com/p/shocker-if-people-think-they-are" target="_blank" rel="noopener noreferrer">Shocker, if people think they are treated unfairly, it might be bad for their health</a> <span class="meta">May 2026</span>
-                        <p class="fine">What my first published dissertation paper says about healthcare discrimination and heart disease.</p></li>
+                        <p class="fine">What my first published dissertation paper says about healthcare discrimination and heart disease</p></li>
                     <li><a href="https://www.notbeinggreen.com/p/the-privilege-to-wait" target="_blank" rel="noopener noreferrer">The Privilege to Wait</a> <span class="meta">April 2026</span>
                         <p class="fine">Academic research has always been a game of delayed gratification. When the system falls, waiting becomes a privilege.</p></li>
                     <li><a href="https://www.notbeinggreen.com/p/the-future-of-science-is-built-on" target="_blank" rel="noopener noreferrer">The Future of Science Is Built on Trust and Transparency</a> <span class="meta">March 2026</span>
-                        <p class="fine">I asked NIH Director Jay Bhattacharya to be more transparent about what makes a grant a "DEI activity." Instead of answering, he decided to criticize my science without reading it.</p></li>
-                    <li><a href="https://www.notbeinggreen.com/p/the-promise-and-reality-of-investing" target="_blank" rel="noopener noreferrer">The Promise and Reality of Investing in Early Career Scientists</a> <span class="meta">February 2026</span>
-                        <p class="fine">An overview of historical data from the F99/K00 award at the National Institute of Health, from an awardee.</p></li>
+                        <p class="fine">I asked NIH Director Jay Bhattacharya to be more transparent about what makes a grant a &quot;DEI activity.&quot; Instead of answering, he decided to criticize my science without reading it.</p></li>
+                    <!-- /data:posts -->
                 </ul>
 
                 <h3>Select Media Appearances</h3>
@@ -855,12 +950,10 @@
                 </ul>
             </section>
 
-
             <!-- ============================== Contact ====================== -->
             <section id="contact">
                 <div class="section-head">
                     <h2>Contact</h2>
-                    <a class="to-top" href="#top">↑ top</a>
                 </div>
                 <p>I enjoy connecting with researchers, collaborators, and those whom I feel my values align (time and due diligence permitting). Follow my work on social media for updates on research, health equity discussions, and insights from population health sciences — and feel free to reach out through the channels below (after reading the <a href="faq.html">FAQ</a>).</p>
                 <ul class="flat" style="margin-top: 1rem;">
@@ -870,58 +963,67 @@
                 </ul>
                 <p class="fine" style="margin-top: 1rem;">I'm particularly interested in collaborations involving AI algorithm bias (especially surrounding culture or social issues), diversity and representation in clinical trials, healthcare discrimination, and the culture of healthcare.</p>
             </section>
+
             <!-- ============================== Publications ================= -->
             <section id="publications">
                 <div class="section-head">
                     <h2>Publications</h2>
-                    <a class="to-top" href="#top">↑ top</a>
                 </div>
-                <p class="fine">Synced automatically from <a href="https://orcid.org/0000-0002-4982-8154" target="_blank" rel="noopener noreferrer">ORCID</a> (updated <span id="orcid-updated">July 2026</span>). Conference abstracts and posters are omitted here — the complete record is on ORCID. PDFs of all published manuscripts are collected <a href="published-manuscripts.html">on this page</a>.</p>
+                <p class="fine">Synced automatically from <a href="https://orcid.org/0000-0002-4982-8154" target="_blank" rel="noopener noreferrer">ORCID</a> (updated <!-- data:orcid-updated -->August 2026<!-- /data:orcid-updated -->). Conference abstracts and posters are omitted here — the complete record is on ORCID. PDFs of all published manuscripts are collected <a href="published-manuscripts.html">on this page</a>.</p>
 
+                <!-- Generated by scripts/render_snapshot.py from orcid_works.json — edit the JSON or the script, not this block. -->
                 <details class="pubs-fold" id="pubs-fold">
-                    <summary id="pubs-summary">show all 22 publications</summary>
-
-                <div class="year-label">2026</div>
-                <ul class="pubs">
-                    <li><a href="https://doi.org/10.35844/001c.161890" target="_blank" rel="noopener noreferrer">Building Trust Through Dialogue: Community Town Hall Meetings as a Participatory Dissemination Method in Project ENTRUST</a> — <span class="journal">Journal of Participatory Research Methods</span></li>
-                    <li><a href="https://doi.org/10.1161/CIRCOUTCOMES.125.012661" target="_blank" rel="noopener noreferrer">Association Between Discrimination in Health Care and ASCVD Among Middle-Aged and Older Adults in the United States</a> — <span class="journal">Circulation: Population Health and Outcomes</span></li>
-                    <li><a href="https://doi.org/10.1093/jamiaopen/ooag081" target="_blank" rel="noopener noreferrer">Strategies for mitigating artificial intelligence bias in healthcare: a systematic review</a> — <span class="journal">JAMIA Open</span></li>
-                    <li><a href="https://doi.org/10.1161/ATVBAHA.125.324125" target="_blank" rel="noopener noreferrer">Plasma Proteins Associated With Psychosocial Factors and Heart Disease: The Jackson Heart Study</a> — <span class="journal">Arteriosclerosis, Thrombosis, and Vascular Biology</span></li>
-                    <li><a href="https://doi.org/10.1136/bmjoq-2025-003801" target="_blank" rel="noopener noreferrer">Racial and ethnic diversity in clinical studies reported to ClinicalTrials.gov, 2009–2024</a> — <span class="journal">BMJ Open Quality</span></li>
-                    <li><a href="https://doi.org/10.1007/s11606-025-09796-w" target="_blank" rel="noopener noreferrer">Factors Associated with Perceived Discrimination in Healthcare Among United States Middle-aged and Older Adults</a> — <span class="journal">Journal of General Internal Medicine</span></li>
-                </ul>
-
-                <div class="year-label">2025</div>
-                <ul class="pubs">
-                    <li><a href="https://doi.org/10.1016/j.jacadv.2025.102103" target="_blank" rel="noopener noreferrer">Cardiovascular Multimorbidity in Older Adults in the United States by Race and Sex</a> — <span class="journal">JACC: Advances</span></li>
-                    <li><a href="https://doi.org/10.1136/bmj.r2133" target="_blank" rel="noopener noreferrer">Trump's war on diversity in medical education could shorten Americans' lives</a> — <span class="journal">BMJ</span></li>
-                    <li><a href="https://doi.org/10.1101/2025.09.02.25334565" target="_blank" rel="noopener noreferrer">Quantifying Social Determinants of Health for Disease Prediction: A Multi-Level Approach Using Healthy People 2030 and All of Us Data</a><span class="tag">preprint</span></li>
-                    <li><a href="https://doi.org/10.1007/s40615-025-02602-7" target="_blank" rel="noopener noreferrer">Development and Initial Validation of a Measure of Parental Racial/Ethnic Discrimination in Pediatric Healthcare</a> — <span class="journal">Journal of Racial and Ethnic Health Disparities</span></li>
-                    <li><a href="https://doi.org/10.1177/23733799251360069" target="_blank" rel="noopener noreferrer">Mixed Methods Analysis of Inclusive Pedagogy in a Population Health Sciences Graduate Curriculum</a> — <span class="journal">Pedagogy in Health Promotion</span></li>
-                    <li><a href="https://doi.org/10.1101/2025.07.21.25331865" target="_blank" rel="noopener noreferrer">Racial and Ethnic Diversity in Clinical Studies Reported to ClinicalTrials.gov, 2009–2024</a><span class="tag">preprint</span></li>
-                    <li><a href="https://doi.org/10.21203/rs.3.rs-6507515/v1" target="_blank" rel="noopener noreferrer">Factors Associated with Perceived Discrimination in Healthcare Among Middle-Aged and Older Adults</a><span class="tag">preprint</span></li>
-                    <li><a href="https://doi.org/10.1101/2025.04.14.25325800" target="_blank" rel="noopener noreferrer">Association between Discrimination in Healthcare and Doctor Visits Over Time</a><span class="tag">preprint</span></li>
-                    <li><a href="https://doi.org/10.1371/journal.pone.0318419" target="_blank" rel="noopener noreferrer">Racial and ethnic disparities in longitudinal trajectories of cardiovascular risk factors in U.S. middle-aged and older adults</a> — <span class="journal">PLOS ONE</span></li>
-                </ul>
-
-                <div class="year-label">2024</div>
-                <ul class="pubs">
-                    <li><a href="https://doi.org/10.1101/2024.12.18.24319227" target="_blank" rel="noopener noreferrer">Measurement of perceived healthcare discrimination and its implications on population health research: A systematic review protocol</a><span class="tag">preprint</span></li>
-                    <li><a href="https://doi.org/10.1371/journal.pmen.0000208" target="_blank" rel="noopener noreferrer">Navigating family life with Hypoplastic Left Heart Syndrome: A qualitative study</a> — <span class="journal">PLOS Mental Health</span></li>
-                    <li><a href="https://doi.org/10.1161/CIRCOUTCOMES.124.011141" target="_blank" rel="noopener noreferrer">Association Between Socioeconomic Disadvantage and Risks of Early and Recurrent Admissions Among Patients With Newly Diagnosed Heart Failure</a> — <span class="journal">Circulation: Cardiovascular Quality and Outcomes</span></li>
-                    <li><a href="https://doi.org/10.1037/sah0000524" target="_blank" rel="noopener noreferrer">Everyday discrimination and age-related trajectories of blood pressure among Black and White middle-aged and older adults</a> — <span class="journal">Stigma and Health</span></li>
-                </ul>
-
-                <div class="year-label">2023</div>
-                <ul class="pubs">
-                    <li><a href="https://doi.org/10.1001/jamanetworkopen.2023.44707" target="_blank" rel="noopener noreferrer">Racial and Ethnic Discrimination and Hypertension by Educational Attainment Among a Cohort of US Women</a> — <span class="journal">JAMA Network Open</span></li>
-                    <li><a href="https://doi.org/10.1016/j.ahj.2023.01.001" target="_blank" rel="noopener noreferrer">Public reporting of black participation in anti-hypertensive drug clinical trials</a> — <span class="journal">American Heart Journal</span></li>
-                </ul>
-
-                <div class="year-label">2021</div>
-                <ul class="pubs">
-                    <li><a href="https://doi.org/10.1016/j.athoracsur.2020.06.059" target="_blank" rel="noopener noreferrer">Cardiac Biomarkers Associated With Hospital Length of Stay After Pediatric Congenital Heart Surgery</a> — <span class="journal">Annals of Thoracic Surgery</span></li>
-                </ul>
+                    <!-- data:pubs -->
+                    <summary id="pubs-summary">show all 23 publications</summary>
+                    <div class="pub-year">
+                    <div class="year-label">2026</div>
+                    <ul class="pubs">
+                        <li><a href="https://doi.org/10.1038/s44528-026-00018-1" target="_blank" rel="noopener noreferrer">Practical considerations for social determinant-based disease prediction in the All of Us research program</a> — <span class="journal">Communications Health</span></li>
+                        <li><a href="https://doi.org/10.35844/001c.161890" target="_blank" rel="noopener noreferrer">Building Trust Through Dialogue: Community Town Hall Meetings as a Participatory Dissemination Method in Project ENTRUST</a> — <span class="journal">Journal of Participatory Research Methods</span></li>
+                        <li><a href="https://doi.org/10.1161/CIRCOUTCOMES.125.012661" target="_blank" rel="noopener noreferrer">Association Between Discrimination in Health Care and ASCVD Among Middle-Aged and Older Adults in the United States</a> — <span class="journal">Circulation: Population Health and Outcomes</span></li>
+                        <li><a href="https://doi.org/10.1093/jamiaopen/ooag081" target="_blank" rel="noopener noreferrer">Strategies for mitigating artificial intelligence bias in healthcare: a systematic review</a> — <span class="journal">JAMIA Open</span></li>
+                        <li><a href="https://doi.org/10.1161/ATVBAHA.125.324125" target="_blank" rel="noopener noreferrer">Plasma Proteins Associated With Psychosocial Factors and Heart Disease: The Jackson Heart Study</a> — <span class="journal">Arteriosclerosis, Thrombosis, and Vascular Biology</span></li>
+                        <li><a href="https://doi.org/10.1136/bmjoq-2025-003801" target="_blank" rel="noopener noreferrer">Racial and ethnic diversity in clinical studies reported to ClinicalTrials.gov, 2009–2024</a> — <span class="journal">BMJ Open Quality</span></li>
+                        <li><a href="https://doi.org/10.1007/s11606-025-09796-w" target="_blank" rel="noopener noreferrer">Factors Associated with Perceived Discrimination in Healthcare Among United States Middle-aged and Older Adults</a> — <span class="journal">Journal of General Internal Medicine</span></li>
+                    </ul>
+                    </div>
+                    <div class="pub-year">
+                    <div class="year-label">2025</div>
+                    <ul class="pubs">
+                        <li><a href="https://doi.org/10.1016/j.jacadv.2025.102103" target="_blank" rel="noopener noreferrer">Cardiovascular Multimorbidity in Older Adults in the United States by Race and Sex</a> — <span class="journal">JACC: Advances</span></li>
+                        <li><a href="https://doi.org/10.1136/bmj.r2133" target="_blank" rel="noopener noreferrer">Trump’s war on diversity in medical education could shorten Americans’ lives</a> — <span class="journal">BMJ</span></li>
+                        <li><a href="https://doi.org/10.1101/2025.09.02.25334565" target="_blank" rel="noopener noreferrer">Quantifying Social Determinants of Health for Disease Prediction: A Multi-Level Approach Using Healthy People 2030 and All of Us Data</a> — <span class="journal">Preprint</span></li>
+                        <li><a href="https://doi.org/10.1007/s40615-025-02602-7" target="_blank" rel="noopener noreferrer">Development and Initial Validation of a Measure of Parental Racial/Ethnic Discrimination in Pediatric Healthcare</a> — <span class="journal">Journal of Racial and Ethnic Health Disparities</span></li>
+                        <li><a href="https://doi.org/10.1177/23733799251360069" target="_blank" rel="noopener noreferrer">Mixed Methods Analysis of Inclusive Pedagogy in a Population Health Sciences Graduate Curriculum</a> — <span class="journal">Pedagogy in Health Promotion</span></li>
+                        <li><a href="https://doi.org/10.1101/2025.07.21.25331865" target="_blank" rel="noopener noreferrer">Racial and Ethnic Diversity in Clinical Studies Reported to ClinicalTrials.gov, 2009-2024</a> — <span class="journal">Preprint</span></li>
+                        <li><a href="https://doi.org/10.21203/rs.3.rs-6507515/v1" target="_blank" rel="noopener noreferrer">Factors Associated with Perceived Discrimination in Healthcare Among Middle-Aged and Older Adults</a> — <span class="journal">Preprint</span></li>
+                        <li><a href="https://doi.org/10.1101/2025.04.14.25325800" target="_blank" rel="noopener noreferrer">Association between Discrimination in Healthcare and Doctor Visits Over Time</a> — <span class="journal">Preprint</span></li>
+                        <li><a href="https://doi.org/10.1371/journal.pone.0318419" target="_blank" rel="noopener noreferrer">Racial and ethnic disparities in longitudinal trajectories of cardiovascular risk factors in U.S. middle-aged and older adults</a> — <span class="journal">PLOS ONE</span></li>
+                    </ul>
+                    </div>
+                    <div class="pub-year">
+                    <div class="year-label">2024</div>
+                    <ul class="pubs">
+                        <li><a href="https://doi.org/10.1101/2024.12.18.24319227" target="_blank" rel="noopener noreferrer">Measurement of perceived healthcare discrimination and its implications on population health research: A systematic review protocol</a> — <span class="journal">Preprint</span></li>
+                        <li><a href="https://doi.org/10.1371/journal.pmen.0000208" target="_blank" rel="noopener noreferrer">Navigating family life with Hypoplastic Left Heart Syndrome: A qualitative study</a> — <span class="journal">PLOS Mental Health</span></li>
+                        <li><a href="https://doi.org/10.1161/CIRCOUTCOMES.124.011141" target="_blank" rel="noopener noreferrer">Association Between Socioeconomic Disadvantage and Risks of Early and Recurrent Admissions Among Patients With Newly Diagnosed Heart Failure</a> — <span class="journal">Circulation: Cardiovascular Quality and Outcomes</span></li>
+                        <li><a href="https://doi.org/10.1037/sah0000524" target="_blank" rel="noopener noreferrer">Everyday discrimination and age-related trajectories of blood pressure among Black and White middle-aged and older adults.</a> — <span class="journal">Stigma and Health</span></li>
+                    </ul>
+                    </div>
+                    <div class="pub-year">
+                    <div class="year-label">2023</div>
+                    <ul class="pubs">
+                        <li><a href="https://doi.org/10.1001/jamanetworkopen.2023.44707" target="_blank" rel="noopener noreferrer">Racial and Ethnic Discrimination and Hypertension by Educational Attainment Among a Cohort of US Women.</a> — <span class="journal">JAMA network open</span></li>
+                        <li><a href="https://doi.org/10.1016/j.ahj.2023.01.001" target="_blank" rel="noopener noreferrer">Public reporting of black participation in anti-hypertensive drug clinical trials</a> — <span class="journal">American Heart Journal</span></li>
+                    </ul>
+                    </div>
+                    <div class="pub-year">
+                    <div class="year-label">2021</div>
+                    <ul class="pubs">
+                        <li><a href="https://doi.org/10.1016/j.athoracsur.2020.06.059" target="_blank" rel="noopener noreferrer">Cardiac Biomarkers Associated With Hospital Length of Stay After Pediatric Congenital Heart Surgery</a> — <span class="journal">Annals of Thoracic Surgery</span></li>
+                    </ul>
+                    </div>
+                    <!-- /data:pubs -->
                 </details>
             </section>
         </main>
@@ -932,9 +1034,10 @@
     </div>
 
     <script>
-        // Theme toggle: explicit choice is stamped on <html> and persisted
+        // Theme switch: explicit choice is stamped on <html> and persisted
         // (initial stamp happens in <head> to avoid a flash); with no stored
-        // choice the OS preference applies via the media query.
+        // choice the OS preference applies via the media query. The button's
+        // label ("dark"/"light") follows the same rules in CSS.
         (function () {
             const root = document.documentElement;
             const btn = document.getElementById('theme-toggle');
@@ -944,87 +1047,10 @@
                     (!root.dataset.theme && window.matchMedia('(prefers-color-scheme: dark)').matches);
             }
 
-            btn.setAttribute('aria-pressed', String(isDark()));
-
             btn.addEventListener('click', function () {
                 root.dataset.theme = isDark() ? 'light' : 'dark';
-                btn.setAttribute('aria-pressed', String(isDark()));
                 try { localStorage.setItem('theme', root.dataset.theme); } catch (e) { /* ignore */ }
             });
-        })();
-    </script>
-
-    <script>
-        // Data hydration: the page ships with a static snapshot of metrics,
-        // recent posts, and publications; this refreshes each from the JSON
-        // files the daily GitHub Action regenerates. Any fetch failure leaves
-        // the static snapshot in place.
-        (function () {
-            function monthYear(value) {
-                const d = new Date(value);
-                return isNaN(d) ? '' : d.toLocaleDateString('en-US', { month: 'long', year: 'numeric' });
-            }
-
-            fetch('scholar_stats.json')
-                .then(function (r) { return r.ok ? r.json() : Promise.reject(); })
-                .then(function (data) {
-                    const el = document.querySelector('.metrics');
-                    const m = data.metrics;
-                    if (!el || !m) return;
-                    const when = data.updated ? monthYear(data.updated + 'T12:00:00') : '';
-                    el.innerHTML = m.citations + ' citations · h-index ' + m.h_index +
-                        ' · i10-index ' + m.i10_index +
-                        ' — <a href="' + data.profile_url + '" target="_blank" rel="noopener noreferrer">Google Scholar</a>' +
-                        (when ? ', ' + when : '');
-                })
-                .catch(function () { /* keep static snapshot */ });
-
-            fetch('substack_posts.json')
-                .then(function (r) { return r.ok ? r.json() : Promise.reject(); })
-                .then(function (data) {
-                    const list = document.getElementById('recent-posts');
-                    const posts = (data.posts || []).slice(0, 5);
-                    if (!list || !posts.length) return;
-                    list.innerHTML = posts.map(function (p) {
-                        return '<li><a href="' + p.link + '" target="_blank" rel="noopener noreferrer">' + p.title + '</a>' +
-                            ' <span class="meta">' + monthYear(p.pubDate) + '</span>' +
-                            (p.description ? '<p class="fine">' + p.description + '</p>' : '') + '</li>';
-                    }).join('');
-                })
-                .catch(function () { /* keep static snapshot */ });
-
-            fetch('orcid_works.json')
-                .then(function (r) { return r.ok ? r.json() : Promise.reject(); })
-                .then(function (data) {
-                    // Editorial choice mirrored from the static list: conference
-                    // abstracts and posters stay on ORCID, not on the page.
-                    const works = (data.works || []).filter(function (w) {
-                        return w.type !== 'conference-abstract' && w.type !== 'conference-poster';
-                    });
-                    const fold = document.getElementById('pubs-fold');
-                    if (!fold || !works.length) return;
-                    const byYear = {};
-                    works.forEach(function (w) { (byYear[w.year] = byYear[w.year] || []).push(w); });
-                    const years = Object.keys(byYear).sort(function (a, b) { return b - a; });
-                    let html = '';
-                    years.forEach(function (y) {
-                        html += '<div class="year-label">' + y + '</div><ul class="pubs">';
-                        byYear[y].forEach(function (w) {
-                            html += '<li><a href="' + w.url + '" target="_blank" rel="noopener noreferrer">' + w.title + '</a>';
-                            if (w.journal) html += ' — <span class="journal">' + w.journal + '</span>';
-                            if (w.type && w.type !== 'journal-article') html += '<span class="tag">' + w.type.replace('-', ' ') + '</span>';
-                            html += '</li>';
-                        });
-                        html += '</ul>';
-                    });
-                    fold.innerHTML = '<summary id="pubs-summary">show all ' + works.length + ' publications</summary>' + html;
-                    const stamp = document.getElementById('orcid-updated');
-                    if (stamp && data.updated) {
-                        const when = monthYear(data.updated + 'T12:00:00');
-                        if (when) stamp.textContent = when;
-                    }
-                })
-                .catch(function () { /* keep static snapshot */ });
         })();
     </script>
 </body>
