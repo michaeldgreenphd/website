@@ -71,5 +71,7 @@ website/
 └── docs/                       # Pipeline and upload guides
 ```
 
-The previous tabbed version of the site is preserved at the git tag
-`tabbed-site-final` (`git show tabbed-site-final:tabbed-site.html`).
+The previous tabbed version of the site is preserved in git history at
+commit `60bd128` — view it at
+<https://github.com/michaeldgreenphd/website/blob/60bd128/tabbed-site.html>
+or restore it with `git show 60bd128:tabbed-site.html > tabbed-site.html`.
