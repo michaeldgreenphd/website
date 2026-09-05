@@ -108,6 +108,10 @@ and `:root[data-theme="dark"]` — and a new token must be added to all three.
 | `--text-2` | `#566159` | `#B4C3B9` | supporting copy                        |
 | `--muted`  | `#5F6C64` | `#869187` | ≥ 4.5:1 on `--bg`; do not lighten      |
 | `--line`   | `#DBE2DC` | `#294034` | hairlines                              |
+| `--tint`   | `rgba(30, 91, 64, 0.06)` | `rgba(79, 183, 132, 0.12)` | faint green wash: row separators in `ul.rows` |
+
+These seven are the complete colour inventory; the only other custom
+properties are the three font stacks (`--serif`, `--sans`, `--mono`).
 
 - **Font faces that exist** (`fonts/`, latin + latin-ext subsets): Fraunces
   600 upright and 400 italic; DM Sans variable 400–700; IBM Plex Mono 400
