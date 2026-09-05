@@ -70,7 +70,7 @@ website/
 ├── .github/workflows/          # Twice-daily data refresh
 ├── scholar_stats.json, substack_posts.json, orcid_works.json,
 │   citations_over_time*.png    # Generated — do not edit by hand
-└── docs/                       # Pipeline and upload guides
+└── docs/                       # Pipeline and upload guides, plus BACKLOG.md (parked work)
 ```
 
 The previous tabbed version of the site is preserved in git history at
