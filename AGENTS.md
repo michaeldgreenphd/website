@@ -124,8 +124,11 @@ Derived values via `color-mix()` on a token are fine.
   and 500. Any other weight or style renders as a synthetic fallback (a
   Fraunces 700 heading becomes fake-bold). Adding one means adding its
   woff2 files and `@font-face` blocks for both subsets, and a `preload`
-  if it is used above the fold. `faq.html` and `published-manuscripts.html`
-  still load Google Fonts; the homepage does not.
+  if it is used above the fold. This inventory is the **homepage's only**:
+  `faq.html` and `published-manuscripts.html` still load Google Fonts and
+  have a wider set — Fraunces 500/600/700 upright, DM Sans 400/500/700,
+  IBM Plex Mono 400/500/600, no italics — so those weights are valid there
+  and nothing more.
 - Type roles: Fraunces for the name, section headings, publication years
   and italic venues; DM Sans for reading text; IBM Plex Mono for the label
   layer (sticky bar, dates, metrics, captions). The page column is 46rem;
@@ -205,9 +208,12 @@ Learned in Claude Code cloud sessions; other sandboxes may match.
   both backgrounds, `scroll-padding-top` clearance under the sticky bar.
 - Determinism: the renderer must not introduce timestamps or ordering that
   changes between runs with identical data.
-- Any CSS that names a font weight or style not listed above, or a new
-  theme colour that is not a token (or `color-mix()` of one) — the three
-  functional exceptions documented under Design system facts are fine.
+- In `index.html`: any CSS that names a font weight or style not in the
+  self-hosted inventory above, or a new theme colour that is not a token
+  (or `color-mix()` of one) — the three functional exceptions documented
+  under Design system facts are fine. For `faq.html` and
+  `published-manuscripts.html`, check weights against their Google Fonts
+  set instead.
 - Do not flag generated-block content, `%20` paths, the intentional absence
   of the email address on the homepage, the curated lists, or the
   deliberate look-like-bugs listed under Design system facts.
