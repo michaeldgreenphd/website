@@ -5,19 +5,38 @@
       "Bash(git push origin main*)",
       "Bash(git push -u origin main*)",
       "Bash(git push origin HEAD:main*)",
+      "Bash(gh pr merge*)",
       "Edit(./scholar_stats.json)",
-      "Edit(./substack_posts.json)",
-      "Edit(./orcid_works.json)",
+      "MultiEdit(./scholar_stats.json)",
       "Write(./scholar_stats.json)",
+      "Edit(./substack_posts.json)",
+      "MultiEdit(./substack_posts.json)",
       "Write(./substack_posts.json)",
+      "Edit(./orcid_works.json)",
+      "MultiEdit(./orcid_works.json)",
       "Write(./orcid_works.json)",
+      "Edit(./citations_over_time.png)",
+      "MultiEdit(./citations_over_time.png)",
       "Write(./citations_over_time.png)",
+      "Edit(./citations_over_time_dark.png)",
+      "MultiEdit(./citations_over_time_dark.png)",
       "Write(./citations_over_time_dark.png)",
       "mcp__github__merge_pull_request",
       "mcp__github__enable_pr_auto_merge"
     ]
   },
   "hooks": {
+    "PreToolUse": [
+      {
+        "matcher": "Bash",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "bash \"$CLAUDE_PROJECT_DIR\"/.claude/hooks/pre-push-guard.sh"
+          }
+        ]
+      }
+    ],
     "PostToolUse": [
       {
         "matcher": "Edit|MultiEdit|Write",

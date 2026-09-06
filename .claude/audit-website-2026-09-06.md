@@ -741,11 +741,21 @@ actually applied.*
   files. A pixel diff of Playwright screenshots at 390px and 1280px in
   both themes shows changes only in the header link row and the sticky
   bar.
-- **Applied as proposed**: `.claude/settings.json` (13 deny rules, one
-  PostToolUse hook), `.claude/hooks/post-edit-check.sh`, the `.gitignore`
-  line, and the two backlog items. The permission denials took effect in
-  the same session: the merge and auto-merge tools disappeared from the
-  tool list as soon as the file was written.
+- **Applied as proposed**: `.claude/settings.json`,
+  `.claude/hooks/post-edit-check.sh`, the `.gitignore` line, and the two
+  backlog items. The permission denials took effect in the same session:
+  the merge and auto-merge tools disappeared from the tool list as soon as
+  the file was written.
+- **Tightened after Codex's review of the PR.** Codex found three gaps in
+  the guardrails and one in the font commit, all real: a bare `git push`
+  with `main` checked out matched no deny rule (fixed with a PreToolUse
+  hook, `.claude/hooks/pre-push-guard.sh`, that blocks any push naming
+  `main` and any push at all while `main` is checked out); `MultiEdit`
+  was not denied on the generated files (added, along with `Edit` on the
+  PNGs); `gh pr merge` from the shell was not denied (added); and the new
+  mono 400 face was used above the fold without a `preload`, which the
+  inventory rule itself requires (added). The deny list is now 21 rules
+  with two hooks.
 - **Resulting budgets**: Claude always-on ~3,330 tokens (`CLAUDE.md` plus
   the imported root `AGENTS.md`); Codex loads 11.8 KiB at the root and at
   most 13.5 KiB in any subdirectory (cap 32 KiB).
