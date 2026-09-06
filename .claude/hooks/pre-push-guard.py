@@ -10,19 +10,25 @@ for every clause that is `git [global options] push ...` blocks:
     `:main`, `+main`, or fully qualified `refs/heads/main`. The source
     half is ignored, so `main:feature` is allowed. With `--delete` every
     refspec is a destination;
-  - an all-ref push (`--all`, `--branches`, `--mirror`), which would update
-    origin/main without naming it;
+  - an all-ref push (`--all`, `--branches`, `--mirror`, or the
+    matching-branches refspec `:`), which would update origin/main
+    without naming it;
   - a push that would update main because main is the checked-out branch
-    of the repository the command selects (honouring `-C`, `--git-dir`,
-    `--work-tree`): a bare push with no refspec, or a `HEAD` refspec.
-    Pushing another branch by name from a main checkout is allowed.
+    of the repository the command selects: a bare push with no refspec,
+    or a `HEAD` (or `@`) refspec. The repository is the one git would use,
+    honouring `-C`, `--git-dir`, `--work-tree`, `env -C`, and any earlier
+    `cd`/`pushd` clause in the same command. Pushing another branch by
+    name from a main checkout is allowed.
 
-Global options between `git` and `push` (`-C dir`, `-c k=v`, `--git-dir=…`,
-`--no-pager`, …) are skipped to find the subcommand, and only the clause's
-own arguments are inspected, so `git fetch origin main && git push origin
-feature` and commit-message prose that mentions "git push" and "main" are
-not mistaken for a push to main. Exit 2 blocks the command and returns
-stderr to Claude as the reason; exit 0 allows it.
+Transparent prefixes are skipped to find the command: `VAR=value`
+assignments and the wrappers env (with its options), command, exec,
+nohup, time and nice. Global options between `git` and `push` (`-C dir`,
+`-c k=v`, `--git-dir=…`, `--no-pager`, …) are skipped to find the
+subcommand, and only the clause's own arguments are inspected, so
+`git fetch origin main && git push origin feature` and commit-message
+prose that mentions "git push" and "main" are not mistaken for a push to
+main. Exit 2 blocks the command and returns stderr to Claude as the
+reason; exit 0 allows it.
 
 Scope: this guards against an agent pushing to main by accident or habit.
 It reads the command text, so a deliberate evasion (an alias, `eval`,
@@ -44,6 +50,17 @@ GIT_GLOBAL_WITH_ARG = {
 PUSH_OPT_WITH_ARG = {"-o", "--push-option", "--repo", "--receive-pack", "--exec"}
 ALL_REF_OPTS = {"--all", "--branches", "--mirror"}
 MAIN_REFS = {"main", "refs/heads/main"}
+HEAD_ALIASES = {"HEAD", "@"}
+# wrappers that run the command that follows them, and their options that
+# take a separate argument (when not written =value)
+WRAPPER_OPT_WITH_ARG = {
+    "env": {"-u", "--unset", "-C", "--chdir", "-S", "--split-string"},
+    "command": set(),
+    "exec": {"-a"},
+    "nohup": set(),
+    "time": set(),
+    "nice": {"-n", "--adjustment"},
+}
 RULE = "(AGENTS.md, workflow step 1)"
 
 
@@ -74,13 +91,52 @@ def clauses(cmd):
         yield current
 
 
-def parse_push(words):
-    """Return (global_options, push_options, positionals) if the clause is
-    `[VAR=value ...] [env ...] git [globals] push [args]`, else None."""
+def resolve_dir(target, cwd):
+    """The directory a `cd`/`env -C` selects, or None when unknowable."""
+    if not target or target == "-":
+        return None
+    target = os.path.expanduser(os.path.expandvars(target))
+    base = cwd or os.environ.get("CLAUDE_PROJECT_DIR") or os.getcwd()
+    return os.path.normpath(os.path.join(base, target))
+
+
+def strip_prefix(words, cwd):
+    """Skip VAR=value assignments and transparent wrappers with their
+    options. Returns (index of the command word or None, effective cwd)."""
     i = 0
-    while i < len(words) and (words[i] == "env" or ("=" in words[i] and not words[i].startswith("-"))):
-        i += 1
-    if i >= len(words) or os.path.basename(words[i]) != "git":
+    while i < len(words):
+        w = words[i]
+        if "=" in w and not w.startswith("-"):
+            i += 1
+            continue
+        if w not in WRAPPER_OPT_WITH_ARG:
+            break
+        name, i = w, i + 1
+        with_arg = WRAPPER_OPT_WITH_ARG[name]
+        while i < len(words):
+            w = words[i]
+            if w == "--":
+                i += 1
+                break
+            if w.startswith("-"):
+                opt, has_value, value = w.partition("=")
+                if name == "command" and opt in ("-v", "-V"):
+                    return None, cwd  # prints a path; runs nothing
+                if name == "env" and opt in ("-C", "--chdir"):
+                    cwd = resolve_dir(value if has_value else (words[i + 1] if i + 1 < len(words) else ""), cwd)
+                i += 2 if (opt in with_arg and not has_value and i + 1 < len(words)) else 1
+            elif name == "env" and "=" in w:
+                i += 1
+            else:
+                break
+    return (i if i < len(words) else None), cwd
+
+
+def parse_push(words, cwd):
+    """Return (global_options, push_options, positionals, cwd) if the clause
+    is `[prefixes] git [globals] push [args]`, else None."""
+    i, cwd = strip_prefix(words, cwd)
+    if i is None or os.path.basename(words[i]) != "git":
         return None
     i += 1
     globals_ = []
@@ -114,16 +170,16 @@ def parse_push(words):
         else:
             positionals.append(a)
             j += 1
-    return globals_, opts, positionals
+    return globals_, opts, positionals, cwd
 
 
-def current_branch(globals_):
+def current_branch(globals_, cwd):
     """The checked-out branch of the repository the command selects."""
     expanded = [os.path.expanduser(os.path.expandvars(g)) for g in globals_]
     try:
         out = subprocess.run(
             ["git", *expanded, "symbolic-ref", "--short", "-q", "HEAD"],
-            cwd=os.environ.get("CLAUDE_PROJECT_DIR") or None,
+            cwd=cwd or os.environ.get("CLAUDE_PROJECT_DIR") or None,
             capture_output=True, text=True, timeout=5,
         )
     except (OSError, subprocess.SubprocessError):
@@ -138,11 +194,20 @@ def main():
         return 0
     if not isinstance(cmd, str) or "push" not in cmd:
         return 0
+    cwd = os.environ.get("CLAUDE_PROJECT_DIR") or None
+    previous = None  # where `cd -` would go back to
     for words in clauses(cmd):
-        parsed = parse_push(words)
+        if words and words[0] in ("cd", "pushd"):
+            targets = [w for w in words[1:] if w == "-" or not w.startswith("-")] or ["~"]
+            if targets[-1] == "-":
+                cwd, previous = previous, cwd
+            else:
+                cwd, previous = resolve_dir(targets[-1], cwd), cwd
+            continue
+        parsed = parse_push(words, cwd)
         if not parsed:
             continue
-        globals_, opts, positionals = parsed
+        globals_, opts, positionals, clause_cwd = parsed
         if any(o.split("=", 1)[0] in ALL_REF_OPTS for o in opts):
             block("an all-ref push (--all, --branches, --mirror) would update origin/main; push one branch by name")
         delete = any(o in ("-d", "--delete") for o in opts)
@@ -154,14 +219,15 @@ def main():
         dests = []
         for spec in refspecs:
             spec = spec.lstrip("+")
+            if spec == ":":
+                block("the matching-branches refspec ':' would update origin/main; push one branch by name")
             dests.append(spec if delete or ":" not in spec else spec.split(":", 1)[1])
         if any(d in MAIN_REFS for d in dests):
             block("this push targets main")
-        if current_branch(globals_) == "main":
+        if (not refspecs or any(d in HEAD_ALIASES for d in dests)) and current_branch(globals_, clause_cwd) == "main":
             if not refspecs:
                 block("main is checked out, so a push with no refspec would update origin/main; create a branch first")
-            if any(d == "HEAD" for d in dests):
-                block("main is checked out, so pushing HEAD would update origin/main; create a branch first")
+            block("main is checked out, so pushing HEAD would update origin/main; create a branch first")
     return 0
 
 

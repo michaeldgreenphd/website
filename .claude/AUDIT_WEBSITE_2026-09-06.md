@@ -797,3 +797,12 @@ actually applied.*
   name from a `main` checkout is allowed, since it cannot update
   origin/main. The regression test grew to 59 shapes with a second
   worktree for the `-C` cases.
+- **Sixth round (head `1772e97`).** Four findings, all real and all
+  taken: the matching-branches refspec `:` updates every branch present
+  on both sides (now blocked like `--all`); `@` is shorthand for `HEAD`
+  (now treated the same); a `cd` earlier in the same command moved git to
+  a worktree the branch check never looked at (the clauses are now walked
+  in order and `cd`/`pushd`/`env -C` set the directory later clauses are
+  checked in); and env's own options (`env -- git`, `env -i`, `env -u X`)
+  stopped the prefix scan (env, command, exec, nohup, time and nice are
+  now skipped with their options). The regression test covers 84 shapes.
