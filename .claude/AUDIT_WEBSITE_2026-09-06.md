@@ -814,3 +814,14 @@ actually applied.*
   assignments in the clause prefix (bare or via `env`) are now passed to
   the branch check. Codex did not answer the direct scope question in
   this round; the thread stays open.
+- **Eighth round (head `ab9cd82`).** Two findings, both taken. The
+  serious one: the tokenizer treated a newline as whitespace, so in a
+  multi-line Bash call a push on its own line after another command was
+  folded into that command's clause and never inspected. Newlines are
+  now clause separators, and with that came the shell forms that only
+  matter once lines are real: heredoc bodies are skipped up to their
+  delimiter, `#` comments are dropped to end of line, `\\`-newline
+  continuations are joined, and redirections (`> file`, `2>&1`) are
+  removed with their file-descriptor digits so they are not read as a
+  repository or refspec. The small one: `--recurse-submodules` takes a
+  separate argument, which had been read as the repository.

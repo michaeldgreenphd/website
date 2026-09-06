@@ -3,8 +3,11 @@
 
 Reads the Bash tool call from stdin (JSON with tool_input.command), splits
 the command into clauses with shell-aware tokenising (quotes removed, so
-`git push origin "HEAD:main"` reads the same as the unquoted form), and
-for every clause that is `git [global options] push ...` blocks:
+`git push origin "HEAD:main"` reads the same as the unquoted form; newlines,
+`;`, `&&`, `||`, `|` and parentheses separate clauses; heredoc bodies,
+comments, redirections and `\\`-newline continuations are handled as the
+shell does), and for every clause that is `git [global options] push ...`
+blocks:
 
   - a refspec whose *destination* is main: `main`, `HEAD:main`, `x:main`,
     `:main`, `+main`, or fully qualified `refs/heads/main`. The source
@@ -27,10 +30,10 @@ assignments and the wrappers env (with its options), command, exec,
 nohup, time and nice. Global options between `git` and `push` (`-C dir`,
 `-c k=v`, `--git-dir=…`, `--no-pager`, …) are skipped to find the
 subcommand, and only the clause's own arguments are inspected, so
-`git fetch origin main && git push origin feature` and commit-message
-prose that mentions "git push" and "main" are not mistaken for a push to
-main. Exit 2 blocks the command and returns stderr to Claude as the
-reason; exit 0 allows it.
+`git fetch origin main && git push origin feature`, a heredoc or comment
+that mentions "git push origin main", and commit-message prose are not
+mistaken for a push to main. Exit 2 blocks the command and returns
+stderr to Claude as the reason; exit 0 allows it.
 
 Scope: this guards against an agent pushing to main by accident or habit.
 It reads the command text, so a deliberate evasion (an alias, `eval`,
@@ -49,7 +52,10 @@ GIT_GLOBAL_WITH_ARG = {
     "--config-env", "--super-prefix", "--attr-source", "--list-cmds",
 }
 # git push options that take a separate argument (when not written =value)
-PUSH_OPT_WITH_ARG = {"-o", "--push-option", "--repo", "--receive-pack", "--exec"}
+PUSH_OPT_WITH_ARG = {
+    "-o", "--push-option", "--repo", "--receive-pack", "--exec",
+    "--recurse-submodules",
+}
 ALL_REF_OPTS = {"--all", "--branches", "--mirror"}
 MAIN_REFS = {"main", "refs/heads/main"}
 HEAD_ALIASES = {"HEAD", "@"}
@@ -63,6 +69,7 @@ WRAPPER_OPT_WITH_ARG = {
     "time": set(),
     "nice": {"-n", "--adjustment"},
 }
+PUNCTUATION = ";&|()<>\n"
 RULE = "(AGENTS.md, workflow step 1)"
 
 
@@ -71,26 +78,79 @@ def block(reason):
     sys.exit(2)
 
 
-def clauses(cmd):
-    """Yield the command's clauses as lists of unquoted words."""
-    lex = shlex.shlex(cmd, posix=True, punctuation_chars=True)
+def tokens_of(cmd):
+    """Shell-style tokens: quotes removed, punctuation (including newlines)
+    as separate tokens, comments kept as words starting with '#'."""
+    cmd = cmd.replace("\\\n", " ")  # line continuation
+    lex = shlex.shlex(cmd, posix=True, punctuation_chars=PUNCTUATION)
+    lex.whitespace = " \t\r"        # newlines are punctuation, not whitespace
     lex.whitespace_split = True
+    lex.commenters = ""             # handled below, so the newline survives
     try:
-        tokens = list(lex)
+        return list(lex)
     except ValueError:  # unbalanced quotes: fall back to a plain split
-        tokens = []
-        for piece in cmd.replace("&&", " ; ").replace("||", " ; ").replace("|", " ; ").replace("&", " ; ").split(";"):
-            tokens += piece.split() + [";"]
-    current = []
-    for tok in tokens:
-        if tok and all(ch in ";&|()" for ch in tok):
-            if current:
-                yield current
-            current = []
-        else:
-            current.append(tok)
-    if current:
-        yield current
+        out = []
+        for line in cmd.splitlines():
+            for piece in line.replace("&&", " ; ").replace("||", " ; ").replace("|", " ; ").replace("&", " ; ").split(";"):
+                out += piece.split() + [";"]
+            out.append("\n")
+        return out
+
+
+def clauses(cmd):
+    """The command's clauses as lists of unquoted words, in order."""
+    tokens = tokens_of(cmd)
+    out, clause, line = [], [], []
+    pending, skipping, comment = [], None, False  # heredoc delimiters; active heredoc; in a comment
+    i, n = 0, len(tokens)
+
+    def flush():
+        if clause:
+            out.append(list(clause))
+        clause.clear()
+
+    while i < n:
+        tok = tokens[i]
+        i += 1
+        punct = all(ch in PUNCTUATION for ch in tok)
+        if punct and "\n" in tok:  # end of line (possibly glued to ; or &&)
+            comment = False
+            if skipping is not None:
+                if line == [skipping]:
+                    skipping = None
+                clause.clear()
+            else:
+                flush()
+                if pending:
+                    skipping = pending.pop(0)
+            line = []
+            continue
+        if skipping is not None:  # inside a heredoc body
+            line.append(tok)
+            continue
+        if comment:
+            continue
+        if tok.startswith("#"):  # a word starting with # begins a comment
+            comment = True
+            continue
+        if punct:
+            if tok in ("<<", "<<-"):  # heredoc: the next word is the delimiter
+                if i < n:
+                    pending.append(tokens[i])
+                    i += 1
+                continue
+            if "<" in tok or ">" in tok:  # redirection: drop it, its fd and its target
+                if clause and clause[-1].isdigit():
+                    clause.pop()
+                if i < n and not all(ch in PUNCTUATION for ch in tokens[i]):
+                    i += 1
+                continue
+            flush()  # ; & && | || ( )
+            continue
+        clause.append(tok)
+        line.append(tok)
+    flush()
+    return out
 
 
 def expand(value):

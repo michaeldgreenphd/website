@@ -26,7 +26,7 @@ check() { # check <want-exit> <command>
     | CLAUDE_PROJECT_DIR="$T" bash "$HOOK" 2>/dev/null
   got=$?; total=$((total+1))
   if [ "$got" = "$want" ]; then printf 'ok    '; else printf 'FAIL  '; fail=1; fi
-  printf 'want=%s got=%s  %s\n' "$want" "$got" "$cmd"
+  printf 'want=%s got=%s  %s\n' "$want" "$got" "$(printf '%s' "$cmd" | tr '\n' '~')"
 }
 
 git -C "$T" checkout -q -b feature          # project on feature
@@ -54,6 +54,14 @@ check 0 "git -C $T2 push origin feature"
 check 0 "env FOO=1 git push origin feature"
 check 0 "command -v git"
 check 0 "cd $T2 && git push origin feature"
+check 0 "git push --recurse-submodules on-demand origin feature"
+check 0 "git push origin feature 2>&1 | tail -1"
+check 0 "git push origin feature > /tmp/push.log 2>&1"
+check 0 "git push origin feature # not main"
+check 0 $'echo preparing\ngit push origin feature'
+check 0 $'git push \\\n  origin feature'
+check 0 $'cat > notes.txt <<\'EOF\'\ngit push origin main\nEOF\ngit push origin feature'
+check 0 $'git commit -F- <<EOF\nDo not git push origin main by hand.\nEOF'
 echo "-- project on feature: blocked (destination is main) --"
 check 2 "git push origin main"
 check 2 "git push origin HEAD:main"
@@ -73,6 +81,13 @@ check 2 "git push origin 'main'"
 check 2 "git push -o ci.skip origin main"
 check 2 "git push --repo=origin main"
 check 2 "git push origin feature main"
+check 2 "git push --recurse-submodules on-demand origin main"
+check 2 "git push origin main 2>&1"
+check 2 "git push origin main > /dev/null"
+check 2 $'echo preparing\ngit push origin main'
+check 2 $'git push \\\n  origin main'
+check 2 $'cat <<EOF\nnotes\nEOF\ngit push origin main'
+check 2 $'git push origin feature # fine\ngit push origin main'
 echo "-- project on feature: blocked (wrappers before git) --"
 check 2 "env FOO=1 git push origin main"
 check 2 "env -- git push origin main"
@@ -111,6 +126,7 @@ check 2 "cd $T2 && cd $MISSING || git push"
 check 2 "GIT_DIR=$T2/.git GIT_WORK_TREE=$T2 git push"
 check 2 "GIT_DIR=$T2/.git git push"
 check 2 "env GIT_DIR=$T2/.git GIT_WORK_TREE=$T2 git push origin HEAD"
+check 2 $'cd '"$T2"$'\ngit push'
 
 git -C "$T" checkout -q main                # project on main
 git -C "$T2" checkout -q -b feature         # second worktree on feature
@@ -125,6 +141,9 @@ check 2 "cd $MISSING || git push"
 check 2 "cd $MISSING; git push"
 check 2 "cd $MISSING && git push"
 check 2 "env -u GIT_DIR git push"
+check 2 "git push 2>&1"
+check 2 "git push --recurse-submodules on-demand origin"
+check 2 $'echo x\ngit push'
 echo "-- project on main: allowed (another branch by name, or another worktree) --"
 check 0 "git commit -m 'mention git push here' && git push origin feature"
 check 0 "git push origin HEAD:feature"
@@ -133,6 +152,7 @@ check 0 "git -C $T2 push"
 check 0 "cd $T2 && git push"
 check 0 "env -C $T2 git push origin HEAD"
 check 0 "GIT_DIR=$T2/.git GIT_WORK_TREE=$T2 git push"
+check 0 $'cat <<EOF\ngit push\nEOF'
 check 0 "git status"
 
 if [ "$fail" = 0 ]; then echo "ALL $total CASES PASS"; else echo "SOME OF $total CASES FAILED"; exit 1; fi
