@@ -710,4 +710,46 @@ deletion.
 
 ---
 
-*Awaiting approval. No file other than this report has been changed.*
+*Sections 1–5 were written before any change; see Revisions for what was
+actually applied.*
+
+---
+
+## Revisions (2026-09-06, after owner review)
+
+- **Rules-file move rejected.** Section 5 proposed moving the design and
+  pipeline facts into `.claude/rules/*.md` with `paths:` frontmatter. The
+  owner rejected it: Codex discovers instructions by walking `AGENTS.md`
+  files from the git root down to its working directory (at most one per
+  directory, root first) and reads neither `CLAUDE.md`, `.claude/rules/`,
+  nor `settings.json`, so facts placed there would have been invisible to
+  every Codex review. Directory-level facts now live in
+  `scripts/AGENTS.md`, `.github/workflows/AGENTS.md` and
+  `images/AGENTS.md`, each paired with a one-line `CLAUDE.md` containing
+  `@AGENTS.md` so Claude Code loads them when it works in that directory.
+  Facts that govern root files (design tokens, fonts, look-like-bugs) or
+  span directories stay in the root `AGENTS.md`, which now states that it
+  is read by both tools and must stay tool-neutral.
+- **Global preferences dropped.** The two items proposed for
+  `~/.claude/CLAUDE.md` were withdrawn: the owner works in cloud sessions,
+  where that file never loads. The commit-message convention stays in the
+  root `AGENTS.md`.
+- **Font bug fixed in code** rather than parked: a genuine IBM Plex Mono
+  400 face (latin + latin-ext) was added, the two existing 500 files were
+  renamed to carry their weight, and the declarations in `index.html` and
+  `404.html` (which the first audit pass missed) now point at the right
+  files. A pixel diff of Playwright screenshots at 390px and 1280px in
+  both themes shows changes only in the header link row and the sticky
+  bar.
+- **Applied as proposed**: `.claude/settings.json` (13 deny rules, one
+  PostToolUse hook), `.claude/hooks/post-edit-check.sh`, the `.gitignore`
+  line, and the two backlog items. The permission denials took effect in
+  the same session: the merge and auto-merge tools disappeared from the
+  tool list as soon as the file was written.
+- **Resulting budgets**: Claude always-on ~3,330 tokens (`CLAUDE.md` plus
+  the imported root `AGENTS.md`); Codex loads 11.8 KiB at the root and at
+  most 13.5 KiB in any subdirectory (cap 32 KiB).
+- **Not done**: GitHub branch protection on `main` (owner's dashboard; the
+  twice-daily bot would need an exemption) and the first live test of the
+  `Edit`/`Write` path denials, which cannot be exercised from inside the
+  session that wrote them.
