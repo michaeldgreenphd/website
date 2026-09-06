@@ -3,10 +3,10 @@
 # repository root:
 #   bash .claude/hooks/pre-push-guard.test.sh
 # Builds two throwaway repositories (the "project" the hook sees through
-# CLAUDE_PROJECT_DIR, and a second worktree reached only via `git -C`, `cd`
-# or `env -C`), feeds each command to the hook as Claude Code would (JSON
-# on stdin), and checks the exit code: 0 = allowed, 2 = blocked. Exits
-# non-zero if any case disagrees.
+# CLAUDE_PROJECT_DIR, and a second worktree reached only via `git -C`, `cd`,
+# `env -C` or GIT_DIR/GIT_WORK_TREE), feeds each command to the hook as
+# Claude Code would (JSON on stdin), and checks the exit code: 0 = allowed,
+# 2 = blocked. Exits non-zero if any case disagrees.
 set -u
 HOOK="$(cd "$(dirname "$0")" && pwd)/pre-push-guard.sh"
 T=$(mktemp -d); T2=$(mktemp -d)
@@ -16,6 +16,7 @@ for R in "$T" "$T2"; do
   git -C "$R" -c user.email=t@t -c user.name=t commit -q --allow-empty -m init
 done
 T2REL="../$(basename "$T2")"   # T2 relative to the project directory
+MISSING=/definitely/missing/dir
 
 fail=0; total=0
 check() { # check <want-exit> <command>
@@ -97,7 +98,7 @@ check 2 "git push --mirror origin"
 check 2 "git -C /repo push --mirror origin"
 check 2 "git push origin :"
 check 2 "git push origin +:"
-echo "-- project on feature, second worktree on main: blocked via -C, cd, env -C --"
+echo "-- project on feature, second worktree on main: blocked via -C, cd, env -C, GIT_DIR --"
 check 2 "git -C $T2 push"
 check 2 "git -C $T2 push origin HEAD"
 check 2 "cd $T2 && git push"
@@ -106,6 +107,10 @@ check 2 "cd $T2REL && git push origin @"
 check 2 "pushd $T2 && git push"
 check 2 "env -C $T2 git push"
 check 2 "env --chdir=$T2 git push origin HEAD"
+check 2 "cd $T2 && cd $MISSING || git push"
+check 2 "GIT_DIR=$T2/.git GIT_WORK_TREE=$T2 git push"
+check 2 "GIT_DIR=$T2/.git git push"
+check 2 "env GIT_DIR=$T2/.git GIT_WORK_TREE=$T2 git push origin HEAD"
 
 git -C "$T" checkout -q main                # project on main
 git -C "$T2" checkout -q -b feature         # second worktree on feature
@@ -116,6 +121,10 @@ check 2 "git -C \"\$CLAUDE_PROJECT_DIR\" push"
 check 2 "git push origin HEAD"
 check 2 "git push origin @"
 check 2 "cd $T2 && cd - && git push"
+check 2 "cd $MISSING || git push"
+check 2 "cd $MISSING; git push"
+check 2 "cd $MISSING && git push"
+check 2 "env -u GIT_DIR git push"
 echo "-- project on main: allowed (another branch by name, or another worktree) --"
 check 0 "git commit -m 'mention git push here' && git push origin feature"
 check 0 "git push origin HEAD:feature"
@@ -123,6 +132,7 @@ check 0 "git push origin main:feature"
 check 0 "git -C $T2 push"
 check 0 "cd $T2 && git push"
 check 0 "env -C $T2 git push origin HEAD"
+check 0 "GIT_DIR=$T2/.git GIT_WORK_TREE=$T2 git push"
 check 0 "git status"
 
 if [ "$fail" = 0 ]; then echo "ALL $total CASES PASS"; else echo "SOME OF $total CASES FAILED"; exit 1; fi

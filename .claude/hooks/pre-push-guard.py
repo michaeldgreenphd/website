@@ -16,8 +16,10 @@ for every clause that is `git [global options] push ...` blocks:
   - a push that would update main because main is the checked-out branch
     of the repository the command selects: a bare push with no refspec,
     or a `HEAD` (or `@`) refspec. The repository is the one git would use,
-    honouring `-C`, `--git-dir`, `--work-tree`, `env -C`, and any earlier
-    `cd`/`pushd` clause in the same command. Pushing another branch by
+    honouring `-C`, `--git-dir`, `--work-tree`, `GIT_DIR`/`GIT_WORK_TREE`
+    assignments, `env -C`, and any earlier `cd`/`pushd` clause in the same
+    command (a `cd` to a directory that does not exist leaves the shell
+    where it was, and is treated the same). Pushing another branch by
     name from a main checkout is allowed.
 
 Transparent prefixes are skipped to find the command: `VAR=value`
@@ -91,22 +93,37 @@ def clauses(cmd):
         yield current
 
 
+def expand(value):
+    return os.path.expanduser(os.path.expandvars(value))
+
+
 def resolve_dir(target, cwd):
-    """The directory a `cd`/`env -C` selects, or None when unknowable."""
-    if not target or target == "-":
-        return None
-    target = os.path.expanduser(os.path.expandvars(target))
+    """The directory a `cd`/`env -C` selects. A target that cannot be
+    entered leaves the shell where it was, so the previous directory is
+    kept in that case."""
+    if not target:
+        return cwd
     base = cwd or os.environ.get("CLAUDE_PROJECT_DIR") or os.getcwd()
-    return os.path.normpath(os.path.join(base, target))
+    path = os.path.normpath(os.path.join(base, expand(target)))
+    return path if os.path.isdir(path) else cwd
 
 
 def strip_prefix(words, cwd):
     """Skip VAR=value assignments and transparent wrappers with their
-    options. Returns (index of the command word or None, effective cwd)."""
+    options. Returns (index of the command word or None, effective cwd,
+    GIT_* environment overrides: value, or None for `env -u`)."""
     i = 0
+    env_over = {}
+
+    def assign(word):
+        name, _, value = word.partition("=")
+        if name.startswith("GIT_"):
+            env_over[name] = expand(value)
+
     while i < len(words):
         w = words[i]
         if "=" in w and not w.startswith("-"):
+            assign(w)
             i += 1
             continue
         if w not in WRAPPER_OPT_WITH_ARG:
@@ -120,22 +137,27 @@ def strip_prefix(words, cwd):
                 break
             if w.startswith("-"):
                 opt, has_value, value = w.partition("=")
+                if not has_value and opt in with_arg and i + 1 < len(words):
+                    value = words[i + 1]
                 if name == "command" and opt in ("-v", "-V"):
-                    return None, cwd  # prints a path; runs nothing
+                    return None, cwd, env_over  # prints a path; runs nothing
                 if name == "env" and opt in ("-C", "--chdir"):
-                    cwd = resolve_dir(value if has_value else (words[i + 1] if i + 1 < len(words) else ""), cwd)
+                    cwd = resolve_dir(value, cwd)
+                if name == "env" and opt in ("-u", "--unset") and value.startswith("GIT_"):
+                    env_over[value] = None
                 i += 2 if (opt in with_arg and not has_value and i + 1 < len(words)) else 1
             elif name == "env" and "=" in w:
+                assign(w)
                 i += 1
             else:
                 break
-    return (i if i < len(words) else None), cwd
+    return (i if i < len(words) else None), cwd, env_over
 
 
 def parse_push(words, cwd):
-    """Return (global_options, push_options, positionals, cwd) if the clause
-    is `[prefixes] git [globals] push [args]`, else None."""
-    i, cwd = strip_prefix(words, cwd)
+    """Return (global_options, push_options, positionals, cwd, env_over) if
+    the clause is `[prefixes] git [globals] push [args]`, else None."""
+    i, cwd, env_over = strip_prefix(words, cwd)
     if i is None or os.path.basename(words[i]) != "git":
         return None
     i += 1
@@ -170,17 +192,22 @@ def parse_push(words, cwd):
         else:
             positionals.append(a)
             j += 1
-    return globals_, opts, positionals, cwd
+    return globals_, opts, positionals, cwd, env_over
 
 
-def current_branch(globals_, cwd):
+def current_branch(globals_, cwd, env_over):
     """The checked-out branch of the repository the command selects."""
-    expanded = [os.path.expanduser(os.path.expandvars(g)) for g in globals_]
+    env = dict(os.environ)
+    for name, value in env_over.items():
+        if value is None:
+            env.pop(name, None)
+        else:
+            env[name] = value
     try:
         out = subprocess.run(
-            ["git", *expanded, "symbolic-ref", "--short", "-q", "HEAD"],
+            ["git", *(expand(g) for g in globals_), "symbolic-ref", "--short", "-q", "HEAD"],
             cwd=cwd or os.environ.get("CLAUDE_PROJECT_DIR") or None,
-            capture_output=True, text=True, timeout=5,
+            env=env, capture_output=True, text=True, timeout=5,
         )
     except (OSError, subprocess.SubprocessError):
         return None
@@ -202,12 +229,14 @@ def main():
             if targets[-1] == "-":
                 cwd, previous = previous, cwd
             else:
-                cwd, previous = resolve_dir(targets[-1], cwd), cwd
+                new = resolve_dir(targets[-1], cwd)
+                if new != cwd:  # a failed cd changes neither PWD nor OLDPWD
+                    cwd, previous = new, cwd
             continue
         parsed = parse_push(words, cwd)
         if not parsed:
             continue
-        globals_, opts, positionals, clause_cwd = parsed
+        globals_, opts, positionals, clause_cwd, env_over = parsed
         if any(o.split("=", 1)[0] in ALL_REF_OPTS for o in opts):
             block("an all-ref push (--all, --branches, --mirror) would update origin/main; push one branch by name")
         delete = any(o in ("-d", "--delete") for o in opts)
@@ -224,7 +253,7 @@ def main():
             dests.append(spec if delete or ":" not in spec else spec.split(":", 1)[1])
         if any(d in MAIN_REFS for d in dests):
             block("this push targets main")
-        if (not refspecs or any(d in HEAD_ALIASES for d in dests)) and current_branch(globals_, clause_cwd) == "main":
+        if (not refspecs or any(d in HEAD_ALIASES for d in dests)) and current_branch(globals_, clause_cwd, env_over) == "main":
             if not refspecs:
                 block("main is checked out, so a push with no refspec would update origin/main; create a branch first")
             block("main is checked out, so pushing HEAD would update origin/main; create a branch first")

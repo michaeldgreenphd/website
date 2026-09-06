@@ -806,3 +806,11 @@ actually applied.*
   checked in); and env's own options (`env -- git`, `env -i`, `env -u X`)
   stopped the prefix scan (env, command, exec, nohup, time and nice are
   now skipped with their options). The regression test covers 84 shapes.
+- **Seventh round (head `a2dfa2c`).** Two findings, both taken: a `cd`
+  to a directory that does not exist leaves the shell where it was, so
+  the tracked directory (and the `cd -` return point) now changes only
+  when the target exists; and `GIT_DIR=… GIT_WORK_TREE=…
+  git push` selects a repository through the environment, so `GIT_*`
+  assignments in the clause prefix (bare or via `env`) are now passed to
+  the branch check. Codex did not answer the direct scope question in
+  this round; the thread stays open.
