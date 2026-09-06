@@ -10,9 +10,11 @@ printf '%s' "$cmd" | grep -Eq '(^|[^[:alnum:]_])git[[:space:]]+push([[:space:]]|
 # Look only at clauses that *start* with `git push` (after splitting a
 # compound command on ; | &), so neither `git fetch origin main && git push
 # origin feature` nor prose in a commit message that mentions "git push"
-# and "main" is mistaken for a push to main.
+# and "main" is mistaken for a push to main. A target of main can be
+# spelled `main`, `HEAD:main`, `x:main`, `+main` (forced), or fully
+# qualified as `refs/heads/main` in any of those positions.
 if printf '%s\n' "$cmd" | tr ';|&' '\n' | grep -E '^[[:space:]]*git[[:space:]]+push' \
-   | grep -Eq '(^|[[:space:]]|:)main([[:space:]]|:|$)'; then
+   | grep -Eq '(^|[[:space:]]|:|\+|refs/heads/)main([[:space:]]|:|$)'; then
   echo "Blocked: this push targets main. Open a pull request instead (AGENTS.md, workflow step 1)." >&2
   exit 2
 fi

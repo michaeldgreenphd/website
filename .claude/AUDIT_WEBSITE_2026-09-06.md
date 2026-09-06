@@ -772,3 +772,8 @@ actually applied.*
   Markdown naming rule the audit had just tightened, so it was renamed to
   `AUDIT_WEBSITE_2026-09-06.md`. The owner had specified the lowercase
   pattern; the rule won, and the rename is trivial to reverse.
+- **Third round (head `5427988`).** One finding: a fully qualified
+  refspec such as `git push origin HEAD:refs/heads/main` slipped past the
+  push guard because `main` was preceded by a slash. The pattern now also
+  matches `refs/heads/main` and the forced `+main` form; the test set
+  grew to twenty-two command shapes.
