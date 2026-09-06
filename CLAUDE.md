@@ -24,6 +24,11 @@ This file holds only what applies to Claude Code sessions.
   YAML check needs PyYAML, which the cloud container ships; a local
   checkout without it gets a "NOT validated" message from the hook until
   `pip install pyyaml`.
+- The push guard reads the command text and stops accidental pushes to
+  `main` (named targets, all-ref modes, or any push with `main` checked
+  out). Deliberate evasion through an alias, `eval`, or a nested shell is
+  out of its scope; GitHub branch protection is the control for that. Run
+  `bash .claude/hooks/pre-push-guard.test.sh` after changing it.
 
 ## Cloud-container gotchas
 

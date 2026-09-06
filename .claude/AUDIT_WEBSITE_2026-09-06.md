@@ -777,3 +777,13 @@ actually applied.*
   push guard because `main` was preceded by a slash. The pattern now also
   matches `refs/heads/main` and the forced `+main` form; the test set
   grew to twenty-two command shapes.
+- **Fourth round (head `89635ad`).** Two findings, both real: git
+  global options between `git` and `push` (`git -C dir push origin
+  HEAD:main`) defeated the adjacency check, and the all-ref modes
+  (`--all`, `--branches`, `--mirror`) update main without naming it. The
+  guard now walks each clause token by token, skips git global options
+  to find the `push` subcommand, inspects only that clause's arguments,
+  and blocks the all-ref modes. Its header and `CLAUDE.md` now state the
+  scope: accidental pushes, not deliberate evasion through aliases,
+  `eval`, or a nested shell, for which GitHub branch protection is the
+  control. The regression test grew to cover the new shapes.
