@@ -49,6 +49,14 @@ two-skeptic verification, plus follow-up discussion.
   attributes.
 - **`text-wrap: pretty`** on paragraphs (Safari/Chrome); older browsers
   ignore it.
+- **Self-host the fonts on `faq.html` and `published-manuscripts.html`** so
+  the "no web-font CDN" rule holds site-wide: reuse the `fonts/` files and
+  add the weights those pages use, or reduce their weights to the
+  homepage's set.
+- **`docs/SCHOLAR_PIPELINE.md` is stale** (it still describes a "dashboard
+  on the Research tab"). Fold what is still true into `scripts/AGENTS.md`
+  and `.github/workflows/AGENTS.md`, delete it, and update the pointers in
+  `README.md` and `scripts/fetch_scholar.py`.
 
 ## Email friction (parked by the owner)
 
