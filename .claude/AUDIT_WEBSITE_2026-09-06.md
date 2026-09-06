@@ -787,3 +787,13 @@ actually applied.*
   scope: accidental pushes, not deliberate evasion through aliases,
   `eval`, or a nested shell, for which GitHub branch protection is the
   control. The regression test grew to cover the new shapes.
+- **Fifth round (head `370dc4f`).** Three findings, all taken, and the
+  guard moved from bash to Python (`pre-push-guard.py`, behind the `.sh`
+  wrapper): shell quotes around a refspec hid `main` from the tokeniser
+  (now `shlex`); `main:feature` was wrongly blocked because both halves
+  of a refspec were matched (now only the destination); and the branch
+  check ignored a `-C` path (now run through the same global options).
+  A side effect corrected at the same time: pushing another branch by
+  name from a `main` checkout is allowed, since it cannot update
+  origin/main. The regression test grew to 59 shapes with a second
+  worktree for the `-C` cases.
