@@ -10,8 +10,9 @@ shell does), and for every clause that is `git [global options] push ...`
 blocks:
 
   - a refspec whose *destination* is main: `main`, `HEAD:main`, `x:main`,
-    `:main`, `+main`, or fully qualified `refs/heads/main`. The source
-    half is ignored, so `main:feature` is allowed. With `--delete` every
+    `:main`, `+main`, fully qualified `refs/heads/main`, or a wildcard
+    such as `refs/heads/*` whose expansion includes main. The source half
+    is ignored, so `main:feature` is allowed. With `--delete` every
     refspec is a destination;
   - an all-ref push (`--all`, `--branches`, `--mirror`, or the
     matching-branches refspec `:`), which would update origin/main
@@ -21,25 +22,30 @@ blocks:
     or a `HEAD` (or `@`) refspec. The repository is the one git would use,
     honouring `-C`, `--git-dir`, `--work-tree`, `GIT_DIR`/`GIT_WORK_TREE`
     assignments, `env -C`, and any earlier `cd`/`pushd` clause in the same
-    command (a `cd` to a directory that does not exist leaves the shell
-    where it was, and is treated the same). Pushing another branch by
-    name from a main checkout is allowed.
+    command. A `cd` to a directory that does not exist leaves the shell
+    where it was; a `cd` behind `&&` or `||` may or may not run, so both
+    directories are checked; a `cd` inside `( … )` or a pipeline does not
+    outlive it. Pushing another branch by name from a main checkout is
+    allowed.
 
 Transparent prefixes are skipped to find the command: `VAR=value`
-assignments and the wrappers env (with its options), command, exec,
-nohup, time and nice. Global options between `git` and `push` (`-C dir`,
-`-c k=v`, `--git-dir=…`, `--no-pager`, …) are skipped to find the
-subcommand, and only the clause's own arguments are inspected, so
-`git fetch origin main && git push origin feature`, a heredoc or comment
-that mentions "git push origin main", and commit-message prose are not
-mistaken for a push to main. Exit 2 blocks the command and returns
-stderr to Claude as the reason; exit 0 allows it.
+assignments and the wrappers env (with its options, including `-S`, whose
+string is re-tokenised), command, exec, nohup, time and nice. Global
+options between `git` and `push` (`-C dir`, `-c k=v`, `--git-dir=…`,
+`--no-pager`, …) are skipped to find the subcommand, and only the clause's
+own arguments are inspected, so `git fetch origin main && git push origin
+feature`, a heredoc or comment that mentions "git push origin main", and
+commit-message prose are not mistaken for a push to main. Exit 2 blocks
+the command and returns stderr to Claude as the reason; exit 0 allows it.
 
 Scope: this guards against an agent pushing to main by accident or habit.
 It reads the command text, so a deliberate evasion (an alias, `eval`,
 `sh -c "..."`, a script that pushes, or a push.default of `matching`)
 is out of scope; GitHub branch protection on main is the control for that.
+The GitHub MCP tools that write files to a branch are denied outright in
+settings.json, since this hook only sees Bash.
 """
+import fnmatch
 import json
 import os
 import shlex
@@ -97,8 +103,38 @@ def tokens_of(cmd):
         return out
 
 
-def clauses(cmd):
-    """The command's clauses as lists of unquoted words, in order."""
+def separator(tok):
+    """Normalise a punctuation run to the operator that governs the next
+    clause: '&&', '||', '|' or ';' (newline, ';', '&')."""
+    if "&&" in tok:
+        return "&&"
+    if "||" in tok:
+        return "||"
+    if "|" in tok:
+        return "|"
+    return ";"
+
+
+def separators(tok):
+    """A punctuation run as its operators, keeping each parenthesis as its
+    own item: ');' -> [')', ';'], '&&(' -> ['&&', '(']."""
+    out, rest = [], ""
+    for ch in tok:
+        if ch in "()":
+            if rest:
+                out.append(separator(rest))
+                rest = ""
+            out.append(ch)
+        else:
+            rest += ch
+    if rest:
+        out.append(separator(rest))
+    return out
+
+
+def items_of(cmd):
+    """The command as a list of ('sep', operator) and ('cmd', words) items,
+    in order."""
     tokens = tokens_of(cmd)
     out, clause, line = [], [], []
     pending, skipping, comment = [], None, False  # heredoc delimiters; active heredoc; in a comment
@@ -106,7 +142,7 @@ def clauses(cmd):
 
     def flush():
         if clause:
-            out.append(list(clause))
+            out.append(("cmd", list(clause)))
         clause.clear()
 
     while i < n:
@@ -121,6 +157,7 @@ def clauses(cmd):
                 clause.clear()
             else:
                 flush()
+                out.extend(("sep", s) for s in separators(tok))
                 if pending:
                     skipping = pending.pop(0)
             line = []
@@ -145,7 +182,8 @@ def clauses(cmd):
                 if i < n and not all(ch in PUNCTUATION for ch in tokens[i]):
                     i += 1
                 continue
-            flush()  # ; & && | || ( )
+            flush()
+            out.extend(("sep", s) for s in separators(tok))
             continue
         clause.append(tok)
         line.append(tok)
@@ -171,7 +209,9 @@ def resolve_dir(target, cwd):
 def strip_prefix(words, cwd):
     """Skip VAR=value assignments and transparent wrappers with their
     options. Returns (index of the command word or None, effective cwd,
-    GIT_* environment overrides: value, or None for `env -u`)."""
+    GIT_* environment overrides (value, or None for `env -u`), words),
+    where words may have had an `env -S` string spliced in."""
+    words = list(words)
     i = 0
     env_over = {}
 
@@ -197,27 +237,36 @@ def strip_prefix(words, cwd):
                 break
             if w.startswith("-"):
                 opt, has_value, value = w.partition("=")
-                if not has_value and opt in with_arg and i + 1 < len(words):
+                separate = not has_value and opt in with_arg and i + 1 < len(words)
+                if separate:
                     value = words[i + 1]
                 if name == "command" and opt in ("-v", "-V"):
-                    return None, cwd, env_over  # prints a path; runs nothing
+                    return None, cwd, env_over, words  # prints a path; runs nothing
                 if name == "env" and opt in ("-C", "--chdir"):
                     cwd = resolve_dir(value, cwd)
                 if name == "env" and opt in ("-u", "--unset") and value.startswith("GIT_"):
                     env_over[value] = None
-                i += 2 if (opt in with_arg and not has_value and i + 1 < len(words)) else 1
+                if name == "env" and opt in ("-S", "--split-string"):
+                    # the string is split into arguments and becomes the command
+                    try:
+                        spliced = shlex.split(value)
+                    except ValueError:
+                        spliced = value.split()
+                    words[i:i + (2 if separate else 1)] = spliced
+                    break  # re-examine from the spliced words
+                i += 2 if separate else 1
             elif name == "env" and "=" in w:
                 assign(w)
                 i += 1
             else:
                 break
-    return (i if i < len(words) else None), cwd, env_over
+    return (i if i < len(words) else None), cwd, env_over, words
 
 
 def parse_push(words, cwd):
     """Return (global_options, push_options, positionals, cwd, env_over) if
     the clause is `[prefixes] git [globals] push [args]`, else None."""
-    i, cwd, env_over = strip_prefix(words, cwd)
+    i, cwd, env_over, words = strip_prefix(words, cwd)
     if i is None or os.path.basename(words[i]) != "git":
         return None
     i += 1
@@ -255,6 +304,15 @@ def parse_push(words, cwd):
     return globals_, opts, positionals, cwd, env_over
 
 
+def targets_main(dest):
+    """Whether a refspec destination names main, literally or by wildcard."""
+    if dest in MAIN_REFS:
+        return True
+    if "*" in dest:
+        return fnmatch.fnmatchcase("refs/heads/main", dest) or fnmatch.fnmatchcase("main", dest)
+    return False
+
+
 def current_branch(globals_, cwd, env_over):
     """The checked-out branch of the repository the command selects."""
     env = dict(os.environ)
@@ -274,6 +332,15 @@ def current_branch(globals_, cwd, env_over):
     return out.stdout.strip() if out.returncode == 0 else None
 
 
+def unique(dirs):
+    seen, out = set(), []
+    for d in dirs:
+        if d not in seen:
+            seen.add(d)
+            out.append(d)
+    return out
+
+
 def main():
     try:
         cmd = json.load(sys.stdin).get("tool_input", {}).get("command", "")
@@ -281,22 +348,38 @@ def main():
         return 0
     if not isinstance(cmd, str) or "push" not in cmd:
         return 0
-    cwd = os.environ.get("CLAUDE_PROJECT_DIR") or None
-    previous = None  # where `cd -` would go back to
-    for words in clauses(cmd):
-        if words and words[0] in ("cd", "pushd"):
+    items = items_of(cmd)
+    cwds = [os.environ.get("CLAUDE_PROJECT_DIR") or None]  # every directory the shell may be in
+    previous = None       # where `cd -` would go back to
+    stack = []            # cwds saved at each `(`
+    op = ";"              # the operator before the current clause
+    for idx, (kind, value) in enumerate(items):
+        if kind == "sep":
+            if value == "(":
+                stack.append((list(cwds), previous))
+            elif value == ")" and stack:
+                cwds, previous = stack.pop()
+            op = value
+            continue
+        words = value
+        next_op = items[idx + 1][1] if idx + 1 < len(items) and items[idx + 1][0] == "sep" else ";"
+        if words[0] in ("cd", "pushd"):
+            if op == "|" or next_op == "|":
+                continue  # a cd inside a pipeline runs in a subshell
             targets = [w for w in words[1:] if w == "-" or not w.startswith("-")] or ["~"]
             if targets[-1] == "-":
-                cwd, previous = previous, cwd
+                new = previous if previous is not None else cwds
             else:
-                new = resolve_dir(targets[-1], cwd)
-                if new != cwd:  # a failed cd changes neither PWD nor OLDPWD
-                    cwd, previous = new, cwd
+                new = unique(resolve_dir(targets[-1], c) for c in cwds)
+            if op in ("&&", "||"):
+                new = unique(cwds + new)  # the cd may not run; keep both possibilities
+            if new != cwds:  # a failed cd changes neither PWD nor OLDPWD
+                cwds, previous = new, cwds
             continue
-        parsed = parse_push(words, cwd)
+        parsed = parse_push(words, cwds[0])
         if not parsed:
             continue
-        globals_, opts, positionals, clause_cwd, env_over = parsed
+        globals_, opts, positionals, _, env_over = parsed
         if any(o.split("=", 1)[0] in ALL_REF_OPTS for o in opts):
             block("an all-ref push (--all, --branches, --mirror) would update origin/main; push one branch by name")
         delete = any(o in ("-d", "--delete") for o in opts)
@@ -311,12 +394,15 @@ def main():
             if spec == ":":
                 block("the matching-branches refspec ':' would update origin/main; push one branch by name")
             dests.append(spec if delete or ":" not in spec else spec.split(":", 1)[1])
-        if any(d in MAIN_REFS for d in dests):
+        if any(targets_main(d) for d in dests):
             block("this push targets main")
-        if (not refspecs or any(d in HEAD_ALIASES for d in dests)) and current_branch(globals_, clause_cwd, env_over) == "main":
-            if not refspecs:
-                block("main is checked out, so a push with no refspec would update origin/main; create a branch first")
-            block("main is checked out, so pushing HEAD would update origin/main; create a branch first")
+        if not refspecs or any(d in HEAD_ALIASES for d in dests):
+            for c in cwds:
+                _, clause_cwd, _, _ = strip_prefix(words, c)  # applies any `env -C`
+                if current_branch(globals_, clause_cwd, env_over) == "main":
+                    if not refspecs:
+                        block("main is checked out, so a push with no refspec would update origin/main; create a branch first")
+                    block("main is checked out, so pushing HEAD would update origin/main; create a branch first")
     return 0
 
 

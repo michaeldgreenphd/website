@@ -62,6 +62,11 @@ check 0 $'echo preparing\ngit push origin feature'
 check 0 $'git push \\\n  origin feature'
 check 0 $'cat > notes.txt <<\'EOF\'\ngit push origin main\nEOF\ngit push origin feature'
 check 0 $'git commit -F- <<EOF\nDo not git push origin main by hand.\nEOF'
+check 0 "env -S \"git push origin feature\""
+check 0 "git push origin 'refs/heads/feat*:refs/heads/feat*'"
+check 0 "(cd $T2 && git push origin feature)"
+check 0 "(cd $T2); git push"
+check 0 "cd $T2 | cat; git push"
 echo "-- project on feature: blocked (destination is main) --"
 check 2 "git push origin main"
 check 2 "git push origin HEAD:main"
@@ -88,6 +93,15 @@ check 2 $'echo preparing\ngit push origin main'
 check 2 $'git push \\\n  origin main'
 check 2 $'cat <<EOF\nnotes\nEOF\ngit push origin main'
 check 2 $'git push origin feature # fine\ngit push origin main'
+check 2 "env -S 'git push origin main'"
+check 2 "env --split-string='git push origin main'"
+check 2 "git push origin 'refs/heads/*:refs/heads/*'"
+check 2 "git push origin refs/heads/*"
+check 2 "git push origin '+refs/heads/*:refs/heads/*'"
+echo "-- project on feature, second worktree on main: blocked via conditional or subshell cd --"
+check 2 "(cd $T2 && git push)"
+check 2 "true && cd $T2 && git push"
+check 2 "false && cd $T2; git push"
 echo "-- project on feature: blocked (wrappers before git) --"
 check 2 "env FOO=1 git push origin main"
 check 2 "env -- git push origin main"
@@ -144,6 +158,10 @@ check 2 "env -u GIT_DIR git push"
 check 2 "git push 2>&1"
 check 2 "git push --recurse-submodules on-demand origin"
 check 2 $'echo x\ngit push'
+check 2 "false && cd $T2; git push"
+check 2 "(cd $T2); git push"
+check 2 "cd $T2 | cat; git push"
+check 2 "true && cd $T2 && git push"
 echo "-- project on main: allowed (another branch by name, or another worktree) --"
 check 0 "git commit -m 'mention git push here' && git push origin feature"
 check 0 "git push origin HEAD:feature"
@@ -153,6 +171,9 @@ check 0 "cd $T2 && git push"
 check 0 "env -C $T2 git push origin HEAD"
 check 0 "GIT_DIR=$T2/.git GIT_WORK_TREE=$T2 git push"
 check 0 $'cat <<EOF\ngit push\nEOF'
+check 0 "cd $T2 || true; git push"
+check 0 "(cd $T2 && git push)"
+check 0 "env -S 'git push origin feature'"
 check 0 "git status"
 
 if [ "$fail" = 0 ]; then echo "ALL $total CASES PASS"; else echo "SOME OF $total CASES FAILED"; exit 1; fi

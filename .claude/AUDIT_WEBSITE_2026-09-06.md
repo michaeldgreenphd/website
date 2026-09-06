@@ -825,3 +825,15 @@ actually applied.*
   removed with their file-descriptor digits so they are not read as a
   repository or refspec. The small one: `--recurse-submodules` takes a
   separate argument, which had been read as the repository.
+- **Ninth round (head `1c4f00a`).** Four findings, all taken. Two inside
+  the guard: `env -S "git push origin main"` hid the command in an option
+  value (the string is now re-tokenised and inspected), and a wildcard
+  refspec such as `refs/heads/*:refs/heads/*` covers `main` without naming
+  it (destinations with `*` are now matched against `refs/heads/main`).
+  One in control flow: a `cd` behind `&&` or `||` may never run, so the
+  guard now tracks every directory the shell could be in and blocks if any
+  of them is a `main` checkout; a `cd` inside `( … )` or a pipeline no
+  longer leaks out. One on another surface: the GitHub MCP tools that
+  commit files to a branch (`create_or_update_file`, `push_files`,
+  `delete_file`) bypass a Bash-only hook, so they are denied outright in
+  `settings.json`. Codex has still not answered the scope question.

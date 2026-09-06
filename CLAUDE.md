@@ -17,8 +17,10 @@ This file holds only what applies to Claude Code sessions.
 
 ## Hooks and permissions
 
-- `.claude/settings.json` denies pushes to `main`, PR merges, and edits to
-  the generated data files, and runs two hooks: `pre-push-guard.sh` before
+- `.claude/settings.json` denies pushes to `main`, PR merges, the GitHub
+  MCP tools that commit files to a branch directly (`create_or_update_file`,
+  `push_files`, `delete_file`; use git in the sandbox instead), and edits
+  to the generated data files, and runs two hooks: `pre-push-guard.sh` before
   every Bash command and `post-edit-check.sh` after every edit (a
   `py_compile` for Python files, a PyYAML parse for workflow files). The
   YAML check needs PyYAML, which the cloud container ships; a local
