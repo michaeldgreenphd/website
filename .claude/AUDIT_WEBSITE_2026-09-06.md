@@ -763,3 +763,12 @@ actually applied.*
   twice-daily bot would need an exemption) and the first live test of the
   `Edit`/`Write` path denials, which cannot be exercised from inside the
   session that wrote them.
+- **Second review round (of the same head, triggered by a duplicate
+  `@codex review`).** Two more findings, both taken: the YAML branch of
+  the post-edit hook assumed PyYAML and would have reported a valid
+  workflow as failed on a machine without it (it now says "NOT validated"
+  and how to install the parser, and `CLAUDE.md` documents the
+  dependency); and this report's own lowercase filename broke the
+  Markdown naming rule the audit had just tightened, so it was renamed to
+  `AUDIT_WEBSITE_2026-09-06.md`. The owner had specified the lowercase
+  pattern; the rule won, and the rename is trivial to reverse.

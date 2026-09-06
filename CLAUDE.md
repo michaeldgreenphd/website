@@ -15,6 +15,16 @@ This file holds only what applies to Claude Code sessions.
   run or checked), **Skipped** (and why), **For the owner** (anything only
   they can click: merges, dashboard toggles, profile links).
 
+## Hooks and permissions
+
+- `.claude/settings.json` denies pushes to `main`, PR merges, and edits to
+  the generated data files, and runs two hooks: `pre-push-guard.sh` before
+  every Bash command and `post-edit-check.sh` after every edit (a
+  `py_compile` for Python files, a PyYAML parse for workflow files). The
+  YAML check needs PyYAML, which the cloud container ships; a local
+  checkout without it gets a "NOT validated" message from the hook until
+  `pip install pyyaml`.
+
 ## Cloud-container gotchas
 
 - The git proxy refuses tag pushes (HTTP 403); reference archived states
