@@ -1,0 +1,33 @@
+{
+  "$schema": "https://json.schemastore.org/claude-code-settings.json",
+  "permissions": {
+    "deny": [
+      "Bash(git push origin main*)",
+      "Bash(git push -u origin main*)",
+      "Bash(git push origin HEAD:main*)",
+      "Edit(./scholar_stats.json)",
+      "Edit(./substack_posts.json)",
+      "Edit(./orcid_works.json)",
+      "Write(./scholar_stats.json)",
+      "Write(./substack_posts.json)",
+      "Write(./orcid_works.json)",
+      "Write(./citations_over_time.png)",
+      "Write(./citations_over_time_dark.png)",
+      "mcp__github__merge_pull_request",
+      "mcp__github__enable_pr_auto_merge"
+    ]
+  },
+  "hooks": {
+    "PostToolUse": [
+      {
+        "matcher": "Edit|MultiEdit|Write",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "bash \"$CLAUDE_PROJECT_DIR\"/.claude/hooks/post-edit-check.sh"
+          }
+        ]
+      }
+    ]
+  }
+}
