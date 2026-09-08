@@ -15,6 +15,7 @@ on:
     # immediately on any branch
     paths:
       - '.github/workflows/update-scholar.yml'
+      - 'scripts/requirements.txt'
       - 'scripts/fetch_scholar.py'
       - 'scripts/fetch_substack.py'
       - 'scripts/fetch_orcid.py'
@@ -47,13 +48,12 @@ jobs:
 
       - name: Install dependencies
         timeout-minutes: 5
-        # Pinned: scholarly (parser compatibility), httpx<0.28 (scholarly
-        # passes the removed proxies= kwarg on newer versions), free-proxy
-        # 1.0.6 (newer releases changed get_proxy_list()'s signature, which
-        # broke scholarly's proxy rotation in the 2026-06-12 run), and
-        # matplotlib to the version of the last green run so a release can't
-        # silently change the chart or break the render.
-        run: pip install scholarly==1.7.11 matplotlib==3.11.1 "free-proxy==1.0.6" "httpx<0.28"
+        # Every package, including transitive ones, is pinned in
+        # scripts/requirements.txt (the reasons for each direct pin are
+        # there). Only direct dependencies used to be pinned, and on
+        # 2026-09-08 an unpinned transitive one (bibtexparser 2.0.0) broke
+        # scholarly's import. Bump one line at a time and watch the next run.
+        run: pip install -r scripts/requirements.txt
 
       - name: Install DM Sans so the chart matches site typography
         # Best-effort: the script falls back to DejaVu Sans if this fails
