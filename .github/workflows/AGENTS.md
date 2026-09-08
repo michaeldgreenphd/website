@@ -9,10 +9,15 @@ workflow; what the scripts it runs do is described in `scripts/AGENTS.md`.
   true`, and the job has its own timeout. The commit step runs before the
   final outcome check, so data from steps that succeeded is committed even
   when the run ends red.
-- Pins in the install step are deliberate: `scholarly==1.7.11` (parser),
-  `free-proxy==1.0.6` (newer releases changed `get_proxy_list()`'s
-  signature), `httpx<0.28` (known breakage), and `matplotlib` pinned to
-  the last green run's version. Bump one at a time and watch the next run.
+- Every Python package, direct and transitive, is pinned in
+  `scripts/requirements.txt` to the versions of the last green run. The
+  direct pins guard known breakages (`scholarly==1.7.11` for the parser,
+  `free-proxy==1.0.6` because newer releases changed `get_proxy_list()`'s
+  signature, `httpx==0.27.2` because 0.28 removed the `proxies=` kwarg,
+  `matplotlib==3.11.1` for the chart); the transitive pins exist because
+  `bibtexparser` 2.0.0 (2026-09-08) removed a module `scholarly` imports
+  while it was unpinned. Bump one line at a time and watch the next run;
+  a change to the file runs the workflow on the branch that carries it.
 - The checkout uses `persist-credentials: false`; the commit step is handed
   `GITHUB_TOKEN` explicitly and pushes with it. Keep it that way.
 - Pushing a branch that touches the listed paths runs the workflow on that
