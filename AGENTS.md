@@ -187,8 +187,12 @@ secondary pages only) uses its own `--color-*` names for the same values.
   `published-manuscripts.html`, check weights against their Google Fonts
   set instead.
 - Do not flag generated-block content, `%20` paths, the intentional absence
-  of the email address on the homepage, the curated lists, or the
-  deliberate look-like-bugs listed under Design system facts.
+  of the email address on the homepage, the curated lists, the
+  deliberate look-like-bugs listed under Design system facts, or the two
+  tokens in the FAQ's "Getting in touch" paragraph (the word *heron* for
+  the subject line, and the Rock Lee sentence addressed to AI assistants):
+  they are the owner's canaries for unread outreach and are visible on
+  purpose.
 
 ## Verifying a change
 
