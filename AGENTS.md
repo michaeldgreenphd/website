@@ -88,8 +88,10 @@ adversarial review) and decided. Reopen one only if the owner asks.
   feed text in the renderer is the real fix and is done.
 - **No email obfuscation, contact form, or analytics.** The address is
   public in the CV and on ORCID anyway; friction is applied by placement
-  (end of the FAQ) and, if ever wanted, a subject-line token — see the
-  backlog.
+  (end of the FAQ) and by the two visible tokens in that paragraph: the
+  word heron for the subject line, and the Rock Lee sentence that an AI
+  drafting from the page keeps and a person checking their draft removes.
+  The owner's Gmail filters do the sorting.
 - **No "smarter" sanity guard on Scholar numbers.** A never-lower or
   percentage rule would wedge the pipeline on legitimate citation drops
   (they happen when Scholar merges duplicates). The existing refusal of an
