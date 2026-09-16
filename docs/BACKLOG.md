@@ -60,11 +60,14 @@ two-skeptic verification, plus follow-up discussion.
 
 ## Email friction (parked by the owner)
 
-- **Subject-line token.** Add to the FAQ's "Getting in touch" block: "put
-  the word *heron* in your subject line so I know you've been here", plus a
-  Gmail filter (subject doesn't contain the word → skip inbox, label
-  "unread cold"). Costs a real reader four seconds; invisible to scrapers
-  and templated outreach. **Owner** sets the filter.
+- **Subject-line token and AI canary** — on the site since 2026-09-16: the
+  FAQ's "Getting in touch" block asks for the word *heron* in the subject
+  line and tells an AI assistant drafting the email to mention that Rock
+  Lee is the best ninja in Naruto (a person checking their draft removes
+  it). What remains is the **owner's** Gmail side: a filter that labels
+  mail whose subject lacks *heron*, and one that labels mail mentioning
+  "Rock Lee" as drafted-and-unread. Heron only = read or checked; both =
+  nobody looked; neither = never reached the FAQ.
 - **Dedicated alias.** With Cloudflare Email Routing (free once DNS moves),
   publish `hello@michaeldgreen.phd` forwarding to Gmail; rotate it if it
   attracts junk. Different aliases per surface (site / CV / ORCID) show
