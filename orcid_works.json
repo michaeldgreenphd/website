@@ -1,8 +1,15 @@
 {
-  "updated": "2026-09-05",
+  "updated": "2026-09-22",
   "source": "https://orcid.org/0000-0002-4982-8154",
-  "count": 31,
+  "count": 32,
   "works": [
+    {
+      "title": "Longitudinal Trajectories of Hospitalizations in U.S. Older Adults with Heart Failure",
+      "year": "2026",
+      "journal": "The Journals of Gerontology, Series A: Biological Sciences and Medical Sciences",
+      "type": "journal-article",
+      "url": "https://doi.org/10.1093/gerona/glag233"
+    },
     {
       "title": "Practical considerations for social determinant-based disease prediction in the All of Us research program",
       "year": "2026",
