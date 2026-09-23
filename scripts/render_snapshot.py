@@ -97,7 +97,7 @@ def month_year_rfc(value):
     """RFC 2822 pubDate -> 'May 2026' ('' if unparseable)."""
     try:
         return parsedate_to_datetime(str(value)).strftime("%B %Y")
-    except (TypeError, ValueError, IndexError):
+    except (TypeError, ValueError, IndexError, OverflowError):
         return ""
 
 
@@ -115,16 +115,25 @@ def png_size(path):
 
 def load_json(path):
     try:
-        return json.loads(path.read_text(encoding="utf-8"))
-    except (OSError, json.JSONDecodeError) as err:
+        data = json.loads(path.read_text(encoding="utf-8"))
+    except (OSError, ValueError, RecursionError) as err:
         raise RenderError(f"cannot read {path.name}: {err}")
+    if not isinstance(data, dict):
+        raise RenderError(f"{path.name} is not a JSON object")
+    return data
+
+
+def dicts(value):
+    """The object entries of a JSON list; anything else is skipped."""
+    return [v for v in value if isinstance(v, dict)] if isinstance(value, list) else []
 
 
 # --- Block renderers ----------------------------------------------------------
 
 
 def render_metrics(stats):
-    metrics = stats.get("metrics") or {}
+    metrics = stats.get("metrics")
+    metrics = metrics if isinstance(metrics, dict) else {}
     values = [metrics.get("citations"), metrics.get("h_index"), metrics.get("i10_index")]
     if any(v is None for v in values):
         raise RenderError("scholar_stats.json is missing citations/h_index/i10_index")
@@ -141,7 +150,7 @@ def render_metrics(stats):
 def render_chart(stats):
     per_year = [
         (clean(entry.get("year")), clean(entry.get("citations")))
-        for entry in (stats.get("citations_per_year") or [])
+        for entry in dicts(stats.get("citations_per_year"))
         if entry.get("year") is not None and entry.get("citations") is not None
     ]
     alt = "Bar chart of citations per year"
@@ -159,7 +168,7 @@ def render_chart(stats):
 
 
 def render_posts(feed):
-    posts = [p for p in (feed.get("posts") or []) if p.get("title")][:MAX_POSTS]
+    posts = [p for p in dicts(feed.get("posts")) if p.get("title")][:MAX_POSTS]
     if not posts:
         raise RenderError("substack_posts.json has no posts")
     items = []
@@ -186,7 +195,7 @@ def venue_for(work):
 
 def render_pubs(orcid):
     works = [
-        w for w in (orcid.get("works") or [])
+        w for w in dicts(orcid.get("works"))
         if w.get("title") and str(w.get("type") or "").strip().lower() not in OMITTED_TYPES
     ]
     if not works:
