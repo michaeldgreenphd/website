@@ -1,0 +1,9 @@
+# GitHub Pages builds this repository with Jekyll. Everything that is not
+# part of the site stays out of the published output: the Markdown notes
+# (README, AGENTS/CLAUDE files, docs/) and the data pipeline in scripts/.
+# Do not replace this with a .nojekyll file: that would also stop Jekyll
+# from skipping dot-folders such as .claude/.
+exclude:
+  - "*.md"   # every Markdown file, at any depth
+  - scripts  # pipeline code and requirements; nothing on the site loads them
+  - CNAME    # a custom exclude list drops the default CNAME exclusion; keep it

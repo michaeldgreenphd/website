@@ -64,6 +64,7 @@ website/
 ├── published-manuscripts.html  # Manuscript PDFs, by year
 ├── faq.html                    # Contact FAQ
 ├── theme.css                   # Tokens for the two secondary pages above
+├── _config.yml                 # Keeps the Markdown notes and scripts/ off the published site
 ├── fonts/                      # Self-hosted Fraunces, DM Sans, IBM Plex Mono
 ├── images/, cv/, manuscripts/  # Assets (see docs/UPLOADING_FILES_GUIDE.md)
 ├── scripts/                    # Data pipeline (fetch_*.py, render_snapshot.py)
