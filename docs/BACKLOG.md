@@ -92,11 +92,25 @@ two-skeptic verification, plus follow-up discussion.
 
 - **Cloudflare in front of GitHub Pages**: move nameservers from Squarespace,
   A records to GitHub Pages plus `CNAME www → michaeldgreenphd.github.io`,
-  SSL/TLS "Full", keep GitHub's Enforce HTTPS. Then: turn on *Block AI
-  crawlers* (training bots only; leave search/answer crawlers allowed to
-  match `robots.txt`) and *AI Labyrinth*; leave *Bot Fight Mode* off (it
-  challenges RSS readers and link-preview fetchers). Pay-per-crawl was a
-  limited beta, not a personal-site option.
+  SSL/TLS "Full", keep GitHub's Enforce HTTPS. Then, in AI Crawl Control,
+  set Search = Allow and Agent = Allow, and leave Training on Allow so
+  `robots.txt` carries the policy. Never choose *Block* or *Block on pages
+  with ads* for Training, or the legacy *Block AI bots* toggle: since
+  2026-09-15 those also block crawlers that do both search and training
+  (Googlebot, Bingbot, Applebot), which would drop the site from Search and
+  from Bing-fed answers
+  (<https://blog.cloudflare.com/accountable-mixed-use-ai-crawlers/>).
+  *Disallow AI Training* is the only edge alternative, and it prepends
+  Disallow lines for Google-Extended and Applebot-Extended to the served
+  `robots.txt`, reversing the Google-Extended choice below; leave
+  Cloudflare's managed robots.txt off otherwise. *AI Labyrinth* is fine;
+  leave *Bot Fight Mode* off (it challenges RSS readers and link-preview
+  fetchers). After any change, check that Googlebot still gets HTTP 200 in
+  Search Console's crawl stats. Optionally add a response-header rule
+  `Content-Security-Policy: frame-ancestors 'self'`: a header that only
+  limits who may frame the site, not the settled-against CSP meta tag, so
+  it cannot break the embeds. Pay-per-crawl was a limited beta, not a
+  personal-site option.
 - `Google-Extended` stays allowed in `robots.txt` (Gemini training and
   grounding; unrelated to Search/AI Overviews). Uncomment the block in
   `robots.txt` to opt out.
