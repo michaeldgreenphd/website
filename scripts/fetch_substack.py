@@ -9,7 +9,9 @@ runtime dependency on third-party RSS-to-JSON proxies (rss2json / allorigins)
 that rate-limit shared mobile IPs and made the block load unreliably.
 
 Runs from the same GitHub Actions workflow as the Scholar pipeline.
-Idempotent: if the post list is unchanged, the file is left untouched.
+Idempotent: if the post list is unchanged, the file is left untouched,
+except that its "updated" date is refreshed once a week so the staleness
+check below counts from the last successful fetch, not the last new post.
 
 Usage:
     python scripts/fetch_substack.py
@@ -32,6 +34,10 @@ TIMEOUT_S = 30
 # A feed outage keeps the cached posts; past this age the cache is stale
 # enough that the run should fail loudly instead.
 MAX_CACHE_AGE_DAYS = 30
+# A successful fetch rewrites "updated" at least this often, even when the
+# posts are unchanged (at most one small data commit a week), so a quiet
+# month of no new posts does not make one feed error fail the run.
+REFRESH_AFTER_DAYS = 7
 
 # Only what an HTML parser would treat as a tag, so text such as
 # "aged <65 and >85 years" is not cut down to "aged 85 years"
@@ -90,13 +96,13 @@ def parse_items(xml_bytes):
     return items
 
 
-def cache_is_stale():
+def cache_is_stale(max_age_days=MAX_CACHE_AGE_DAYS):
     try:
         cached = json.loads(OUT_PATH.read_text(encoding="utf-8"))
         updated = date.fromisoformat(cached.get("updated", ""))
-    except (OSError, ValueError, json.JSONDecodeError):
+    except (OSError, ValueError, AttributeError, TypeError):
         return True
-    return date.today() - updated > timedelta(days=MAX_CACHE_AGE_DAYS)
+    return date.today() - updated > timedelta(days=max_age_days)
 
 
 def main():
@@ -117,8 +123,10 @@ def main():
         try:
             old = json.loads(OUT_PATH.read_text(encoding="utf-8"))
             if old.get("posts") == items:
-                print("Substack posts unchanged; leaving cache untouched.")
-                return
+                if not cache_is_stale(REFRESH_AFTER_DAYS):
+                    print("Substack posts unchanged; leaving cache untouched.")
+                    return
+                print("Substack posts unchanged; refreshing the cache date.")
         except (json.JSONDecodeError, OSError):
             pass
 

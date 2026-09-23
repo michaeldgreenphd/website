@@ -13,7 +13,10 @@ are described in `.github/workflows/AGENTS.md`.
   chart's palette or styling changes; otherwise the PNGs are re-rendered
   only when the data changes.
 - `fetch_substack.py`: keeps the cached posts on a transient failure but
-  fails loudly when the cache is older than `MAX_CACHE_AGE_DAYS` (30).
+  fails loudly when the cache is older than `MAX_CACHE_AGE_DAYS` (30). A
+  successful fetch refreshes the cache's `updated` date weekly
+  (`REFRESH_AFTER_DAYS`) even when the posts are unchanged, so that age
+  counts from the last good fetch; expect one small data commit a week.
 - `fetch_orcid.py`: keeps its cache on any failure.
 - `render_snapshot.py` splices generated HTML between the
   `<!-- data:NAME -->` markers in `index.html`. It is deterministic — no
