@@ -1,6 +1,6 @@
 # scripts/ — the data pipeline
 
-Read together with the root `AGENTS.md`. These four scripts are run by
+Read together with the root `AGENTS.md`. These five scripts are run by
 `.github/workflows/update-scholar.yml`; its schedule, pins and commit step
 are described in `.github/workflows/AGENTS.md`.
 
@@ -29,6 +29,10 @@ are described in `.github/workflows/AGENTS.md`.
   timestamps, no run-dependent ordering — and a second run on unchanged
   data prints "index.html data blocks unchanged." It omits works typed
   `conference-abstract` and `conference-poster` on purpose.
+- `stage_data.py` runs only in the workflow's `publish` job, standard
+  library only: `import DIR` copies the fetched data files in after
+  checking each one, and `check` refuses the commit if anything but the
+  data files and the `<!-- data: -->` blocks of `index.html` changed.
 - Keep both escaping layers: the fetch scripts' `clean_text()` (tags
   stripped, entities decoded, before writing JSON) and the renderer's
   `clean()` / `safe_url()` (escaped on output; links only for http(s)

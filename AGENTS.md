@@ -15,10 +15,10 @@ single page (inline CSS, self-hosted fonts in `fonts/`, no external
 scripts); `faq.html` and `published-manuscripts.html` share `theme.css`;
 `404.html` forwards old root-level PDF links. A GitHub Actions workflow
 (`.github/workflows/update-scholar.yml`) runs twice a day: the three
-`scripts/fetch_*.py` scripts write JSON/PNG data files and
-`scripts/render_snapshot.py` renders them into marked blocks in
-`index.html`, which the workflow then commits. Pushing to `main` deploys
-within a couple of minutes.
+`scripts/fetch_*.py` scripts write JSON/PNG data files in a read-only job,
+and a second job checks them (`scripts/stage_data.py`), renders them into
+marked blocks in `index.html` (`scripts/render_snapshot.py`) and commits.
+Pushing to `main` deploys within a couple of minutes.
 
 ## Pull request workflow — required
 
@@ -172,11 +172,14 @@ secondary pages only) uses its own `--color-*` names for the same values.
   fetch scripts strip markup before writing JSON. Flag any new path where
   feed text could reach the DOM unescaped or a non-http(s) URL could become a
   link.
-- Workflow changes: the checkout uses `persist-credentials: false` and the
-  commit step is handed the token explicitly; every fetch/render step has a
-  `timeout-minutes` and `continue-on-error: true`; dependencies stay pinned;
-  a new script appears in `on.push.paths`; no tags or releases are created
-  from CI.
+- Workflow changes: third-party packages run only in the read-only `fetch`
+  job, and the `publish` job (the only one with write access) runs nothing
+  but standard-library scripts from its own checkout; actions stay pinned
+  to commit SHAs; the checkouts use `persist-credentials: false` and the
+  commit step is handed the token explicitly; every fetch/stage/render step
+  has a `timeout-minutes` and `continue-on-error: true`; dependencies stay
+  pinned with hashes; a new script appears in `on.push.paths`; no tags or
+  releases are created from CI.
 - Accessibility and mobile: heading order, link text that names its
   destination, tap targets in the sticky bar, contrast of `--muted` text on
   both backgrounds, `scroll-padding-top` clearance under the sticky bar.
