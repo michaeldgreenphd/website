@@ -19,14 +19,23 @@ T2REL="../$(basename "$T2")"   # T2 relative to the project directory
 MISSING=/definitely/missing/dir
 
 fail=0; total=0
-check() { # check <want-exit> <command>
-  local want="$1" cmd="$2" got
-  printf '{"tool_input":{"command":%s}}' \
-    "$(python3 -c 'import json,sys; print(json.dumps(sys.argv[1]))' "$cmd")" \
+report() { # report <want> <got> <label>
+  total=$((total+1))
+  if [ "$2" = "$1" ]; then printf 'ok    '; else printf 'FAIL  '; fail=1; fi
+  printf 'want=%s got=%s  %s\n' "$1" "$2" "$(printf '%s' "$3" | tr '\n' '~')"
+}
+check() { # check <want-exit> <command> [session cwd, sent as the "cwd" field]
+  local want="$1" cmd="$2" cwd="${3:-}" got
+  python3 -c 'import json,sys; d={"tool_input":{"command":sys.argv[1]}}; d.update({"cwd":sys.argv[2]} if sys.argv[2] else {}); print(json.dumps(d))' "$cmd" "$cwd" \
     | CLAUDE_PROJECT_DIR="$T" bash "$HOOK" 2>/dev/null
-  got=$?; total=$((total+1))
-  if [ "$got" = "$want" ]; then printf 'ok    '; else printf 'FAIL  '; fail=1; fi
-  printf 'want=%s got=%s  %s\n' "$want" "$got" "$(printf '%s' "$cmd" | tr '\n' '~')"
+  got=$?
+  report "$want" "$got" "$cmd${cwd:+  [cwd=$cwd]}"
+}
+check_raw() { # check_raw <want-exit> <label> <hook input JSON> [PATH]
+  local got
+  printf '%s' "$3" | CLAUDE_PROJECT_DIR="$T" PATH="${4:-$PATH}" /bin/bash "$HOOK" 2>/dev/null
+  got=$?
+  report "$1" "$got" "$2"
 }
 
 git -C "$T" checkout -q -b feature          # project on feature
@@ -67,6 +76,11 @@ check 0 "git push origin 'refs/heads/feat*:refs/heads/feat*'"
 check 0 "(cd $T2 && git push origin feature)"
 check 0 "(cd $T2); git push"
 check 0 "cd $T2 | cat; git push"
+check 0 "timeout 60 git push origin feature"
+check 0 "for i in 1 2 3; do git push -u origin feature && break; sleep 2; done"
+check 0 "if git push origin feature; then echo ok; fi"
+check 0 "stdbuf -oL git push origin feature"
+check 0 "git stash push -m wip"
 echo "-- project on feature: blocked (destination is main) --"
 check 2 "git push origin main"
 check 2 "git push origin HEAD:main"
@@ -98,6 +112,20 @@ check 2 "env --split-string='git push origin main'"
 check 2 "git push origin 'refs/heads/*:refs/heads/*'"
 check 2 "git push origin refs/heads/*"
 check 2 "git push origin '+refs/heads/*:refs/heads/*'"
+check 2 "git push origin heads/main"
+check 2 "git push origin HEAD:heads/main"
+echo "-- project on feature: blocked (loops, conditionals, groups, timeout/stdbuf) --"
+check 2 "for i in 1 2 3; do git push origin HEAD:refs/heads/main && break; sleep 2; done"
+check 2 "until git push -f origin feature:main; do sleep 2; done"
+check 2 "while true; do git push origin main && break; done"
+check 2 "timeout 60 git push origin HEAD:refs/heads/main"
+check 2 "timeout -k 5 --signal=KILL 60 git push origin main"
+check 2 "stdbuf -oL git push origin main"
+check 2 "! git push origin main"
+check 2 "if true; then git push origin main; fi"
+check 2 "{ git push origin main; } 2>&1 | tail -3"
+check 2 "builtin command git push origin main"
+check 2 "xargs -n 1 git push origin main"
 echo "-- project on feature, second worktree on main: blocked via conditional or subshell cd --"
 check 2 "(cd $T2 && git push)"
 check 2 "true && cd $T2 && git push"
@@ -141,6 +169,20 @@ check 2 "GIT_DIR=$T2/.git GIT_WORK_TREE=$T2 git push"
 check 2 "GIT_DIR=$T2/.git git push"
 check 2 "env GIT_DIR=$T2/.git GIT_WORK_TREE=$T2 git push origin HEAD"
 check 2 $'cd '"$T2"$'\ngit push'
+echo "-- project on feature, session cwd in the worktree on main --"
+check 2 "git push" "$T2"
+check 2 "git push -u origin HEAD" "$T2"
+check 0 "git push -u origin feature" "$T2"
+echo "-- guard cannot run: pushes fail closed, other commands pass --"
+NOPY=$(mktemp -d); STUB=$(mktemp -d)
+trap 'rm -rf "$T" "$T2" "$NOPY" "$STUB"' EXIT
+for c in cat dirname; do ln -s "$(command -v $c)" "$NOPY/$c"; done
+cp -P "$NOPY"/* "$STUB"/; printf '#!/bin/sh\nexit 49\n' > "$STUB/python3"; chmod +x "$STUB/python3"
+check_raw 2 "no python3: git push origin feature" '{"tool_input":{"command":"git push origin feature"}}' "$NOPY"
+check_raw 0 "no python3: ls" '{"tool_input":{"command":"ls"}}' "$NOPY"
+check_raw 2 "stub python3: git push" '{"tool_input":{"command":"git push"}}' "$STUB"
+check_raw 0 "stub python3: git status" '{"tool_input":{"command":"git status"}}' "$STUB"
+check_raw 2 "checker error: git -C 'a<NUL>b' push" '{"tool_input":{"command":"git -C a\u0000b push"}}'
 
 git -C "$T" checkout -q main                # project on main
 git -C "$T2" checkout -q -b feature         # second worktree on feature
@@ -175,5 +217,17 @@ check 0 "cd $T2 || true; git push"
 check 0 "(cd $T2 && git push)"
 check 0 "env -S 'git push origin feature'"
 check 0 "git status"
+echo "-- project on main: blocked (loops, conditionals, groups, timeout) --"
+check 2 "for i in 1 2 3 4; do git push -u origin HEAD && break; sleep 2; done"
+check 2 "for i in 1 2 3 4; do git push && break; sleep 2; done"
+check 2 "timeout 60 git push"
+check 2 "timeout 120 git push -u origin HEAD"
+check 2 "if ! git push; then echo failed; fi"
+check 2 "{ git push; } 2>&1 | tail -3"
+check 2 "stdbuf -oL -eL git push"
+echo "-- project on main, session cwd in the worktree on feature --"
+check 0 "git push -u origin HEAD" "$T2"
+check 0 "git push" "$T2"
+check 2 "cd $T && git push" "$T2"
 
 if [ "$fail" = 0 ]; then echo "ALL $total CASES PASS"; else echo "SOME OF $total CASES FAILED"; exit 1; fi

@@ -29,7 +29,11 @@ This file holds only what applies to Claude Code sessions.
 - The push guard (`pre-push-guard.py`, behind the `.sh` wrapper) reads the
   command text and stops accidental pushes to `main`: a refspec whose
   destination is `main`, an all-ref mode, or a bare or `HEAD` push while
-  `main` is checked out in the repository the command selects. Pushing
+  `main` is checked out in the repository the command selects, starting
+  from the session's current directory (the hook input's `cwd`). It also
+  sees a push inside a loop, `if`, `{ … }` group, or behind `timeout`,
+  `stdbuf` or `xargs`. If python3 cannot run, it blocks any command that
+  mentions a push rather than letting it through unchecked. Pushing
   another branch by name is always allowed. Deliberate evasion through an
   alias, `eval`, or a nested shell is out of its scope; GitHub branch
   protection is the control for that. Run
