@@ -36,10 +36,10 @@ When your role changes, update the masthead role line **and** the
 Three scripts run twice a day via GitHub Actions
 (`.github/workflows/update-scholar.yml`) and write `scholar_stats.json`,
 `citations_over_time.png`, `citations_over_time_dark.png`,
-`substack_posts.json`, and `orcid_works.json`; a fourth,
-`scripts/render_snapshot.py`, renders those into `index.html`. The bot then
-commits whatever changed, so pull before editing a local clone (editing in
-the GitHub web editor is unaffected).
+`substack_posts.json`, and `orcid_works.json`; a separate step checks those
+files (`scripts/stage_data.py`) and `scripts/render_snapshot.py` renders them
+into `index.html`. The bot then commits whatever changed, so pull before
+editing a local clone (editing in the GitHub web editor is unaffected).
 
 A red run means a script crashed and should be looked at; a Google Scholar
 block only produces a warning and the previous numbers stay in place.
@@ -64,10 +64,12 @@ website/
 ├── published-manuscripts.html  # Manuscript PDFs, by year
 ├── faq.html                    # Contact FAQ
 ├── theme.css                   # Tokens for the two secondary pages above
+├── _config.yml                 # Keeps the Markdown notes and scripts/ off the published site
 ├── fonts/                      # Self-hosted Fraunces, DM Sans, IBM Plex Mono
 ├── images/, cv/, manuscripts/  # Assets (see docs/UPLOADING_FILES_GUIDE.md)
-├── scripts/                    # Data pipeline (fetch_*.py, render_snapshot.py)
+├── scripts/                    # Data pipeline (fetch_*.py, stage_data.py, render_snapshot.py)
 ├── .github/workflows/          # Twice-daily data refresh
+├── .github/dependabot.yml      # Weekly PR to update the pinned workflow actions
 ├── scholar_stats.json, substack_posts.json, orcid_works.json,
 │   citations_over_time*.png    # Generated — do not edit by hand
 └── docs/                       # Pipeline and upload guides, plus BACKLOG.md (parked work)

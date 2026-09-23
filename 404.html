@@ -20,7 +20,9 @@
         }
         (function () {
             var target = resolveMovedPdf(location.pathname);
-            if (target) location.replace(target);
+            // Keep ?query and #fragment (e.g. #page=4); both start with ? or #,
+            // so the result stays a same-origin path
+            if (target) location.replace(target + location.search + location.hash);
         })();
     </script>
 

@@ -10,7 +10,7 @@ shell does), and for every clause that is `git [global options] push ...`
 blocks:
 
   - a refspec whose *destination* is main: `main`, `HEAD:main`, `x:main`,
-    `:main`, `+main`, fully qualified `refs/heads/main`, or a wildcard
+    `:main`, `+main`, `heads/main`, fully qualified `refs/heads/main`, or a wildcard
     such as `refs/heads/*` whose expansion includes main. The source half
     is ignored, so `main:feature` is allowed. With `--delete` every
     refspec is a destination;
@@ -29,8 +29,11 @@ blocks:
     allowed.
 
 Transparent prefixes are skipped to find the command: `VAR=value`
-assignments and the wrappers env (with its options, including `-S`, whose
-string is re-tokenised), command, exec, nohup, time and nice. Global
+assignments, the shell keywords that can start a clause (`if`, `then`,
+`else`, `elif`, `do`, `while`, `until`, `!`, `{`, `time`), so a push inside
+a retry loop or an `if` is seen, and the wrappers env (with its options,
+including `-S`, whose string is re-tokenised), command, exec, nohup, time,
+nice, timeout (and its duration), stdbuf, builtin, noglob and xargs. Global
 options between `git` and `push` (`-C dir`, `-c k=v`, `--git-dir=…`,
 `--no-pager`, …) are skipped to find the subcommand, and only the clause's
 own arguments are inspected, so `git fetch origin main && git push origin
@@ -41,7 +44,9 @@ the command and returns stderr to Claude as the reason; exit 0 allows it.
 Scope: this guards against an agent pushing to main by accident or habit.
 It reads the command text, so a deliberate evasion (an alias, `eval`,
 `sh -c "..."`, a script that pushes, or a push.default of `matching`)
-is out of scope; GitHub branch protection on main is the control for that.
+is out of scope. On GitHub, the "Restrict Deletion" ruleset on main
+refuses force-pushes and deletion of main; it does not refuse an ordinary
+fast-forward push, which only a "Require a pull request" rule would.
 The GitHub MCP tools that write files to a branch are denied outright in
 settings.json, since this hook only sees Bash.
 """
@@ -63,7 +68,7 @@ PUSH_OPT_WITH_ARG = {
     "--recurse-submodules",
 }
 ALL_REF_OPTS = {"--all", "--branches", "--mirror"}
-MAIN_REFS = {"main", "refs/heads/main"}
+MAIN_REFS = {"main", "heads/main", "refs/heads/main"}
 HEAD_ALIASES = {"HEAD", "@"}
 # wrappers that run the command that follows them, and their options that
 # take a separate argument (when not written =value)
@@ -74,7 +79,16 @@ WRAPPER_OPT_WITH_ARG = {
     "nohup": set(),
     "time": set(),
     "nice": {"-n", "--adjustment"},
+    "timeout": {"-s", "--signal", "-k", "--kill-after"},  # then a DURATION word
+    "stdbuf": {"-i", "-o", "-e", "--input", "--output", "--error"},
+    "builtin": set(),
+    "noglob": set(),
+    "xargs": {"-a", "--arg-file", "-d", "--delimiter", "-E", "-I", "-L",
+              "--max-lines", "-n", "--max-args", "-P", "--max-procs", "-s",
+              "--max-chars"},
 }
+# shell keywords that can come before the command word of a clause
+SHELL_KEYWORDS = {"if", "then", "else", "elif", "do", "while", "until", "!", "{", "time"}
 PUNCTUATION = ";&|()<>\n"
 RULE = "(AGENTS.md, workflow step 1)"
 
@@ -201,7 +215,7 @@ def resolve_dir(target, cwd):
     kept in that case."""
     if not target:
         return cwd
-    base = cwd or os.environ.get("CLAUDE_PROJECT_DIR") or os.getcwd()
+    base = cwd or os.getcwd()
     path = os.path.normpath(os.path.join(base, expand(target)))
     return path if os.path.isdir(path) else cwd
 
@@ -222,6 +236,9 @@ def strip_prefix(words, cwd):
 
     while i < len(words):
         w = words[i]
+        if w in SHELL_KEYWORDS:
+            i += 1
+            continue
         if "=" in w and not w.startswith("-"):
             assign(w)
             i += 1
@@ -258,6 +275,9 @@ def strip_prefix(words, cwd):
             elif name == "env" and "=" in w:
                 assign(w)
                 i += 1
+            elif name == "timeout":
+                i += 1  # the DURATION word; the command follows it
+                break
             else:
                 break
     return (i if i < len(words) else None), cwd, env_over, words
@@ -324,7 +344,7 @@ def current_branch(globals_, cwd, env_over):
     try:
         out = subprocess.run(
             ["git", *(expand(g) for g in globals_), "symbolic-ref", "--short", "-q", "HEAD"],
-            cwd=cwd or os.environ.get("CLAUDE_PROJECT_DIR") or None,
+            cwd=cwd or None,
             env=env, capture_output=True, text=True, timeout=5,
         )
     except (OSError, subprocess.SubprocessError):
@@ -343,13 +363,16 @@ def unique(dirs):
 
 def main():
     try:
-        cmd = json.load(sys.stdin).get("tool_input", {}).get("command", "")
+        data = json.load(sys.stdin)
+        cmd = data.get("tool_input", {}).get("command", "")
+        session_cwd = data.get("cwd")  # follows the session's cd and worktrees
     except (ValueError, AttributeError):
         return 0
     if not isinstance(cmd, str) or "push" not in cmd:
         return 0
     items = items_of(cmd)
-    cwds = [os.environ.get("CLAUDE_PROJECT_DIR") or None]  # every directory the shell may be in
+    # every directory the shell may be in
+    cwds = [session_cwd or os.environ.get("CLAUDE_PROJECT_DIR") or None]
     previous = None       # where `cd -` would go back to
     stack = []            # cwds saved at each `(`
     op = ";"              # the operator before the current clause

@@ -47,7 +47,12 @@ MAX_POSTS = 5
 OMITTED_TYPES = {"conference-abstract", "conference-poster"}
 FALLBACK_SCHOLAR_URL = "https://scholar.google.com/citations?user=ea2W0QgAAAAJ&amp;hl=en"
 
-TAG_RE = re.compile(r"<[^>]+>")
+# Only what an HTML parser would treat as a tag, so text such as
+# "aged <65 and >85 years" is not cut down to "aged 85 years"
+TAG_RE = re.compile(r"</?[A-Za-z][^<>]*>")
+# Bidi controls and Unicode tag characters: invisible on the page, but they
+# reorder or hide words in the text that is stored and committed
+INVISIBLE_RE = re.compile("[\u202a-\u202e\u2066-\u2069\U000e0000-\U000e007f]")
 
 
 class RenderError(SystemExit):
@@ -61,6 +66,7 @@ class RenderError(SystemExit):
 def clean(value):
     """Plain text for HTML: strip any markup, decode entities, escape."""
     text = html.unescape(TAG_RE.sub("", "" if value is None else str(value)))
+    text = INVISIBLE_RE.sub("", text)
     return html.escape(" ".join(text.split()), quote=True)
 
 
@@ -91,7 +97,7 @@ def month_year_rfc(value):
     """RFC 2822 pubDate -> 'May 2026' ('' if unparseable)."""
     try:
         return parsedate_to_datetime(str(value)).strftime("%B %Y")
-    except (TypeError, ValueError, IndexError):
+    except (TypeError, ValueError, IndexError, OverflowError):
         return ""
 
 
@@ -109,16 +115,25 @@ def png_size(path):
 
 def load_json(path):
     try:
-        return json.loads(path.read_text(encoding="utf-8"))
-    except (OSError, json.JSONDecodeError) as err:
+        data = json.loads(path.read_text(encoding="utf-8"))
+    except (OSError, ValueError, RecursionError) as err:
         raise RenderError(f"cannot read {path.name}: {err}")
+    if not isinstance(data, dict):
+        raise RenderError(f"{path.name} is not a JSON object")
+    return data
+
+
+def dicts(value):
+    """The object entries of a JSON list; anything else is skipped."""
+    return [v for v in value if isinstance(v, dict)] if isinstance(value, list) else []
 
 
 # --- Block renderers ----------------------------------------------------------
 
 
 def render_metrics(stats):
-    metrics = stats.get("metrics") or {}
+    metrics = stats.get("metrics")
+    metrics = metrics if isinstance(metrics, dict) else {}
     values = [metrics.get("citations"), metrics.get("h_index"), metrics.get("i10_index")]
     if any(v is None for v in values):
         raise RenderError("scholar_stats.json is missing citations/h_index/i10_index")
@@ -135,7 +150,7 @@ def render_metrics(stats):
 def render_chart(stats):
     per_year = [
         (clean(entry.get("year")), clean(entry.get("citations")))
-        for entry in (stats.get("citations_per_year") or [])
+        for entry in dicts(stats.get("citations_per_year"))
         if entry.get("year") is not None and entry.get("citations") is not None
     ]
     alt = "Bar chart of citations per year"
@@ -153,7 +168,7 @@ def render_chart(stats):
 
 
 def render_posts(feed):
-    posts = [p for p in (feed.get("posts") or []) if p.get("title")][:MAX_POSTS]
+    posts = [p for p in dicts(feed.get("posts")) if p.get("title")][:MAX_POSTS]
     if not posts:
         raise RenderError("substack_posts.json has no posts")
     items = []
@@ -180,7 +195,7 @@ def venue_for(work):
 
 def render_pubs(orcid):
     works = [
-        w for w in (orcid.get("works") or [])
+        w for w in dicts(orcid.get("works"))
         if w.get("title") and str(w.get("type") or "").strip().lower() not in OMITTED_TYPES
     ]
     if not works:
@@ -249,7 +264,9 @@ def main():
     if doc == original:
         print("index.html data blocks unchanged.")
         return
-    INDEX_PATH.write_text(doc, encoding="utf-8")
+    # Encode before opening: write_text() empties the file first, so an
+    # encoding error there would leave a blank index.html to be committed.
+    INDEX_PATH.write_bytes(doc.encode("utf-8"))
     print("Rendered data blocks into index.html.")
 
 

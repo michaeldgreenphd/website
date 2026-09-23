@@ -16,33 +16,47 @@ on:
     paths:
       - '.github/workflows/update-scholar.yml'
       - 'scripts/requirements.txt'
+      - 'scripts/build-requirements.txt'
       - 'scripts/fetch_scholar.py'
       - 'scripts/fetch_substack.py'
       - 'scripts/fetch_orcid.py'
       - 'scripts/render_snapshot.py'
+      - 'scripts/stage_data.py'
 
+# Read-only by default; only the publish job below can write.
 permissions:
-  contents: write  # required to commit the refreshed artifacts
+  contents: read
 
 concurrency:
   group: scholar-dashboard
   cancel-in-progress: false
 
+# Two jobs, so the write token never shares a machine with third-party code.
+# `fetch` installs the Python packages and runs the fetchers with a read-only
+# token, then hands over only the five data files. `publish` checks them,
+# renders index.html with the standard-library renderer from its own
+# checkout, and commits. Actions are pinned to full commit SHAs (the version
+# is in the trailing comment); Dependabot keeps them current.
 jobs:
-  update:
+  fetch:
     runs-on: ubuntu-latest
     timeout-minutes: 20
+    permissions:
+      contents: read
+    outputs:
+      scholar: ${{ steps.scholar.outcome }}
+      substack: ${{ steps.substack.outcome }}
+      orcid: ${{ steps.orcid.outcome }}
     steps:
       - name: Check out repository
-        uses: actions/checkout@v4
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with:
-          # Do not leave the write token in .git/config where the installed
-          # packages and fetch scripts could read it; the commit step is
-          # handed the token explicitly instead.
+          # Do not leave a token in .git/config where the installed packages
+          # and fetch scripts could read it.
           persist-credentials: false
 
       - name: Set up Python
-        uses: actions/setup-python@v5
+        uses: actions/setup-python@5fda3b95a4ea91299a34e894583c3862153e4b97 # v7.0.0
         with:
           python-version: '3.12'
 
@@ -53,20 +67,27 @@ jobs:
         # there). Only direct dependencies used to be pinned, and on
         # 2026-09-08 an unpinned transitive one (bibtexparser 2.0.0) broke
         # scholarly's import. Bump one line at a time and watch the next run.
-        run: pip install -r scripts/requirements.txt
+        # Every file is also hash-checked, and the two sdist-only pins are
+        # built with the pinned setuptools rather than the newest release.
+        run: |
+          pip install --require-hashes -r scripts/build-requirements.txt
+          pip install --require-hashes --no-build-isolation -r scripts/requirements.txt
 
       - name: Install DM Sans so the chart matches site typography
-        # Best-effort: the script falls back to DejaVu Sans if this fails
+        # Best-effort: the script falls back to DejaVu Sans if this fails.
+        # Pinned to a google/fonts commit and checked by hash; a mismatch
+        # removes the file rather than using it.
         run: |
           mkdir -p ~/.fonts
           curl -fsSL --max-time 30 -o ~/.fonts/DMSans.ttf \
-            "https://github.com/google/fonts/raw/main/ofl/dmsans/DMSans%5Bopsz%2Cwght%5D.ttf" || true
+            "https://raw.githubusercontent.com/google/fonts/b5efa9c32e8f9b63005f5cdb1ad5527a77d2cd04/ofl/dmsans/DMSans%5Bopsz%2Cwght%5D.ttf" || true
+          echo "8cd08d97e89c24d0aa92edd2f0f4c8ee6195eee9b7c9f154865a58b02f0c1c0d  $HOME/.fonts/DMSans.ttf" | sha256sum -c - || rm -f ~/.fonts/DMSans.ttf
           fc-cache -f ~/.fonts || true
           rm -rf ~/.cache/matplotlib || true
 
       # The fetchers run independently with their own time budgets: one
-      # hanging or failing must not block the others' artifacts from being
-      # rendered and committed.
+      # hanging or failing must not block the others' data from being
+      # published.
       - name: Fetch Substack posts
         id: substack
         timeout-minutes: 2
@@ -91,11 +112,59 @@ jobs:
         continue-on-error: true
         run: python scripts/fetch_orcid.py
 
+      - name: Hand the data files to the publish job
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
+        with:
+          name: site-data
+          path: |
+            scholar_stats.json
+            citations_over_time.png
+            citations_over_time_dark.png
+            substack_posts.json
+            orcid_works.json
+          if-no-files-found: error
+          retention-days: 1
+
+  publish:
+    needs: fetch
+    # Dependabot's branch runs get a read-only token; testing the fetch job
+    # is what those runs are for. Matched by branch, not by github.actor, so
+    # a scheduled run on main can never be mistaken for one.
+    if: ${{ !startsWith(github.ref, 'refs/heads/dependabot/') }}
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    permissions:
+      contents: write  # required to commit the refreshed data
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          # The commit step is handed the token explicitly instead.
+          persist-credentials: false
+
+      - name: Download the fetched data files
+        uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c # v8.0.1
+        with:
+          name: site-data
+          path: ${{ runner.temp }}/site-data
+
+      # Only the five data files are taken, each checked (JSON object, PNG
+      # signature); a bad one keeps the committed version and fails the run.
+      - name: Check and stage the data files
+        id: stage
+        timeout-minutes: 1
+        continue-on-error: true
+        run: python3 scripts/stage_data.py import "$RUNNER_TEMP/site-data"
+
       - name: Render data into index.html
         id: render
         timeout-minutes: 2
         continue-on-error: true
-        run: python scripts/render_snapshot.py
+        run: python3 scripts/render_snapshot.py
+
+      - name: Check that only the data changed
+        timeout-minutes: 1
+        run: python3 scripts/stage_data.py check
 
       - name: Commit and push if changed
         env:
@@ -103,25 +172,27 @@ jobs:
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add scholar_stats.json citations_over_time.png citations_over_time_dark.png substack_posts.json orcid_works.json index.html 2>/dev/null || true
+          # One file at a time: a single missing path must not stage nothing
+          for f in scholar_stats.json citations_over_time.png citations_over_time_dark.png substack_posts.json orcid_works.json index.html; do
+            if [ -e "$f" ]; then git add -- "$f"; fi
+          done
           if git diff --cached --quiet; then
             echo "No changes to commit."
           else
             git commit -m "Update site data (Scholar dashboard / Substack posts)"
             REMOTE="https://x-access-token:${GITHUB_TOKEN}@github.com/${GITHUB_REPOSITORY}.git"
-            # Rebase onto any commits pushed while this job ran so the push
-            # can't fail as non-fast-forward
+            # Rebase onto any commits pushed while this run was going so the
+            # push can't fail as non-fast-forward
             git pull --rebase "$REMOTE" "${GITHUB_REF_NAME}"
             git push "$REMOTE" HEAD:"${GITHUB_REF_NAME}"
           fi
 
-      # Only genuine errors reach here: a routine Google block now exits the
-      # scholar script cleanly (logging a ::warning::), so this step fires
-      # only when a fetcher or the renderer crashed or timed out — e.g. a
-      # dependency API change — which is what we actually want to be alerted
-      # about.
+      # Only genuine errors reach here: a routine Google block exits the
+      # scholar script cleanly (logging a ::warning::), while the same
+      # unexpected error on repeated attempts, a crash or timeout in any
+      # fetcher, a bad data file, or a render failure turns the run red.
       - name: Surface fetch failures
-        if: steps.scholar.outcome == 'failure' || steps.substack.outcome == 'failure' || steps.orcid.outcome == 'failure' || steps.render.outcome == 'failure'
+        if: needs.fetch.outputs.scholar == 'failure' || needs.fetch.outputs.substack == 'failure' || needs.fetch.outputs.orcid == 'failure' || steps.stage.outcome == 'failure' || steps.render.outcome == 'failure'
         run: |
-          echo "::error::Step outcomes — scholar: ${{ steps.scholar.outcome }}, substack: ${{ steps.substack.outcome }}, orcid: ${{ steps.orcid.outcome }}, render: ${{ steps.render.outcome }}"
+          echo "::error::Step outcomes — scholar: ${{ needs.fetch.outputs.scholar }}, substack: ${{ needs.fetch.outputs.substack }}, orcid: ${{ needs.fetch.outputs.orcid }}, stage: ${{ steps.stage.outcome }}, render: ${{ steps.render.outcome }}"
           exit 1

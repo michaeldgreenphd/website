@@ -16,9 +16,11 @@ The pipeline is built to degrade gracefully:
   and charts, logs a `::warning::`, and **exits successfully** (green run).
   The dashboard keeps showing the previous numbers with its "Data as of"
   date, and the next scheduled run tries again.
-- **A real bug** (e.g. a dependency changes its API) → the script exits with
-  an error and the workflow run goes **red**, so you actually hear about the
-  things worth fixing.
+- **A real bug** (e.g. a dependency changes its API, or Scholar changes its
+  page layout) → the same unexpected error shows up on two or more of the
+  four attempts, the script exits with an error, and the workflow run goes
+  **red**, so you actually hear about the things worth fixing. A single odd
+  error is treated like a block, because a free proxy can return a junk page.
 
 Because of this, a green run does not always mean the data changed, and a
 stale "Data as of" date for a day or two just means Google was blocking the

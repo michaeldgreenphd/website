@@ -1,0 +1,13 @@
+# Keeps the SHA-pinned actions in .github/workflows current: one grouped PR
+# a week at most, updating each commit SHA and its version comment. Python
+# packages are bumped by hand, one line at a time (scripts/requirements.txt).
+version: 2
+updates:
+  - package-ecosystem: github-actions
+    directory: /
+    schedule:
+      interval: weekly
+    groups:
+      actions:
+        patterns:
+          - "*"

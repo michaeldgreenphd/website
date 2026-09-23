@@ -25,6 +25,7 @@ import multiprocessing
 import os
 import sys
 import time
+from collections import Counter
 from datetime import date
 from pathlib import Path
 
@@ -33,7 +34,7 @@ import matplotlib
 matplotlib.use("Agg")  # headless rendering, no display required
 import matplotlib.pyplot as plt
 from matplotlib import font_manager
-from scholarly import scholarly
+from scholarly import DOSException, MaxTriesExceededException, scholarly
 
 # --- Configuration -----------------------------------------------------------
 
@@ -60,6 +61,12 @@ SCRAPERAPI_KEY = os.environ.get("SCRAPERAPI_KEY", "").strip()
 class ScholarFetchBlocked(Exception):
     """Every fetch attempt was blocked/timed out — the expected transient
     case (Google rate-limiting CI IPs), distinct from an unexpected bug."""
+
+
+class ScholarFetchError(Exception):
+    """The same unexpected error on two or more attempts: a dependency or
+    Scholar markup change, which should fail the run rather than warn."""
+
 
 # Bump to force a chart re-render on the next run even when the Scholar data
 # itself is unchanged (the version is stored in scholar_stats.json and
@@ -133,7 +140,13 @@ def _configure_proxy(attempt):
 
 
 def _fetch_worker(queue, attempt):
-    """Child-process body: fetch the author record and report via queue."""
+    """Child-process body: fetch the author record and report via queue.
+
+    Only scholarly's own block signals count as "blocked" (its page fetcher
+    already turns network errors into MaxTriesExceededException). Anything
+    else, such as a dependency API change or a Scholar markup change, is
+    reported as a "bug".
+    """
     try:
         _configure_proxy(attempt)
         author = scholarly.search_author_id(SCHOLAR_ID)
@@ -141,8 +154,10 @@ def _fetch_worker(queue, attempt):
             author, sections=["basics", "indices", "counts", "coauthors"]
         )
         queue.put(("ok", dict(author)))
-    except Exception as err:  # noqa: BLE001 - scholarly raises broadly
-        queue.put(("err", repr(err)))
+    except (MaxTriesExceededException, DOSException) as err:
+        queue.put(("blocked", repr(err)))
+    except Exception as err:  # noqa: BLE001 - anything else is unexpected
+        queue.put(("bug", f"{type(err).__name__}: {err}"))
 
 
 def fetch_author():
@@ -154,8 +169,14 @@ def fetch_author():
     insufficient), and a tarpitted connection would otherwise hang the CI
     job until the workflow-level timeout. Retries route through free
     proxies to get a fresh IP.
+
+    Blocks and timeouts end in ScholarFetchBlocked. The same unexpected
+    error type on two or more attempts ends in ScholarFetchError instead; a
+    single one is treated like a block, since a free proxy can return a
+    junk page that fails to parse.
     """
     last_err = None
+    bugs = []
 
     for attempt in range(1, RETRIES + 1):
         queue = multiprocessing.Queue()
@@ -174,9 +195,11 @@ def fetch_author():
             try:
                 status, payload = queue.get(timeout=5)
             except Exception:  # noqa: BLE001 - empty queue means worker died
-                status, payload = "err", "worker exited without a result"
+                status, payload = "blocked", "worker exited without a result"
             if status == "ok":
                 return payload
+            if status == "bug":
+                bugs.append(payload)
             last_err = payload
             print(f"Fetch attempt {attempt}/{RETRIES} failed: {payload}", file=sys.stderr)
 
@@ -184,6 +207,13 @@ def fetch_author():
             print("Retrying in 10s...", file=sys.stderr)
             time.sleep(10)
 
+    kinds = Counter(b.split(":", 1)[0] for b in bugs)
+    repeated = [kind for kind, n in kinds.items() if n >= 2]
+    if repeated:
+        latest = [b for b in bugs if b.startswith(repeated[0] + ":")][-1]
+        raise ScholarFetchError(
+            f"{kinds[repeated[0]]} of {RETRIES} attempts failed with {latest}"
+        )
     raise ScholarFetchBlocked(f"all {RETRIES} attempts failed: {last_err}")
 
 
@@ -236,6 +266,14 @@ def payload_changed(new_payload):
         return True
     old.pop("updated", None)
     return old != new_payload
+
+
+def write_json(data):
+    """Write scholar_stats.json, encoding first: write_text() empties the
+    file before encoding, so an encoding error would leave it blank."""
+    JSON_PATH.write_bytes(
+        (json.dumps(data, indent=2, ensure_ascii=False) + "\n").encode("utf-8")
+    )
 
 
 # --- Chart rendering -----------------------------------------------------------
@@ -338,9 +376,7 @@ def rerender_from_cache(reason):
         cached["citations_per_year"], PALETTES["dark"], CHART_DARK_PATH, font_name
     )
     cached["chart_style"] = CHART_STYLE_VERSION
-    JSON_PATH.write_text(
-        json.dumps(cached, indent=2, ensure_ascii=False) + "\n", encoding="utf-8"
-    )
+    write_json(cached)
     print("Charts re-rendered from cache; metrics unchanged.")
     return True
 
@@ -353,14 +389,16 @@ def main():
         # bug. Keep the committed last-good data (the dashboard surfaces its
         # "Data as of" date and the twice-daily schedule self-heals), refresh
         # charts from cache if the styling changed, and exit 0 so a routine
-        # block doesn't show up as a failed workflow run. A genuine bug raises
-        # some other exception and still fails loudly.
+        # block doesn't show up as a failed workflow run.
         rerender_from_cache(str(err))
         print(
             f"::warning::Google Scholar fetch skipped ({err}); "
             "kept the last cached metrics."
         )
         return
+    except ScholarFetchError as err:
+        # A genuine bug: keep the cached data but fail the run loudly.
+        raise SystemExit(f"::error::Google Scholar fetch failed: {err}")
 
     payload = build_payload(author)
 
@@ -381,9 +419,7 @@ def main():
     )
 
     payload["updated"] = date.today().isoformat()
-    JSON_PATH.write_text(
-        json.dumps(payload, indent=2, ensure_ascii=False) + "\n", encoding="utf-8"
-    )
+    write_json(payload)
     print(f"Wrote {JSON_PATH}")
     print(
         f"Citations: {payload['metrics']['citations']}, "
