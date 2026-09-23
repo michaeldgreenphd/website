@@ -4,15 +4,19 @@
 # train models is not. Googlebot is deliberately unrestricted: Google Search
 # and AI Overviews are built from its normal index, and nothing here touches
 # it. The Content-Signal line (contentsignals.org) states the same preference
-# for crawlers that read it: index me, cite me, don't train on me.
+# for crawlers that read it: index me, cite me, don't train on me. The
+# Content-Usage line says "no training" in the IETF AI-preferences draft's
+# vocabulary.
 
 User-agent: *
 Content-Signal: search=yes, ai-input=yes, ai-train=no
+Content-Usage: train-ai=n
 Allow: /
 
 # --- AI training / bulk-scraping crawlers -------------------------------
 # Training-only agents. Their search or user-initiated siblings (OAI-SearchBot,
-# ChatGPT-User, Claude-SearchBot, Claude-User, PerplexityBot, Applebot) are
+# ChatGPT-User, Claude-SearchBot, Claude-User, PerplexityBot, Applebot,
+# Amzn-SearchBot, Amzn-User, Kimi-SearchBot, Kimi-User, MistralAI-User) are
 # not listed here on purpose, so the site stays discoverable in AI answers.
 
 User-agent: GPTBot
@@ -55,6 +59,24 @@ User-agent: ImagesiftBot
 Disallow: /
 
 User-agent: img2dataset
+Disallow: /
+
+User-agent: Amazonbot
+Disallow: /
+
+User-agent: AI2Bot
+Disallow: /
+
+User-agent: Ai2Bot-Dolma
+Disallow: /
+
+User-agent: KimiBot
+Disallow: /
+
+User-agent: Webzio-Extended
+Disallow: /
+
+User-agent: cohere-training-data-crawler
 Disallow: /
 
 # Google-Extended governs Gemini training and grounding only (not Search or
