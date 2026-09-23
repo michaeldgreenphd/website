@@ -249,7 +249,9 @@ def main():
     if doc == original:
         print("index.html data blocks unchanged.")
         return
-    INDEX_PATH.write_text(doc, encoding="utf-8")
+    # Encode before opening: write_text() empties the file first, so an
+    # encoding error there would leave a blank index.html to be committed.
+    INDEX_PATH.write_bytes(doc.encode("utf-8"))
     print("Rendered data blocks into index.html.")
 
 

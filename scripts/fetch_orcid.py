@@ -129,8 +129,9 @@ def main():
         "count": len(works),
         "works": works,
     }
-    OUT_PATH.write_text(
-        json.dumps(payload, indent=2, ensure_ascii=False) + "\n", encoding="utf-8"
+    # Encode before opening, so an encoding error cannot leave an empty file
+    OUT_PATH.write_bytes(
+        (json.dumps(payload, indent=2, ensure_ascii=False) + "\n").encode("utf-8")
     )
     print(f"Wrote {OUT_PATH} with {len(works)} works")
 

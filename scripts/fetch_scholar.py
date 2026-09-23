@@ -238,6 +238,14 @@ def payload_changed(new_payload):
     return old != new_payload
 
 
+def write_json(data):
+    """Write scholar_stats.json, encoding first: write_text() empties the
+    file before encoding, so an encoding error would leave it blank."""
+    JSON_PATH.write_bytes(
+        (json.dumps(data, indent=2, ensure_ascii=False) + "\n").encode("utf-8")
+    )
+
+
 # --- Chart rendering -----------------------------------------------------------
 
 
@@ -338,9 +346,7 @@ def rerender_from_cache(reason):
         cached["citations_per_year"], PALETTES["dark"], CHART_DARK_PATH, font_name
     )
     cached["chart_style"] = CHART_STYLE_VERSION
-    JSON_PATH.write_text(
-        json.dumps(cached, indent=2, ensure_ascii=False) + "\n", encoding="utf-8"
-    )
+    write_json(cached)
     print("Charts re-rendered from cache; metrics unchanged.")
     return True
 
@@ -381,9 +387,7 @@ def main():
     )
 
     payload["updated"] = date.today().isoformat()
-    JSON_PATH.write_text(
-        json.dumps(payload, indent=2, ensure_ascii=False) + "\n", encoding="utf-8"
-    )
+    write_json(payload)
     print(f"Wrote {JSON_PATH}")
     print(
         f"Citations: {payload['metrics']['citations']}, "
