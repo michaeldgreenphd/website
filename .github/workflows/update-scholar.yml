@@ -16,6 +16,7 @@ on:
     paths:
       - '.github/workflows/update-scholar.yml'
       - 'scripts/requirements.txt'
+      - 'scripts/build-requirements.txt'
       - 'scripts/fetch_scholar.py'
       - 'scripts/fetch_substack.py'
       - 'scripts/fetch_orcid.py'
@@ -53,7 +54,11 @@ jobs:
         # there). Only direct dependencies used to be pinned, and on
         # 2026-09-08 an unpinned transitive one (bibtexparser 2.0.0) broke
         # scholarly's import. Bump one line at a time and watch the next run.
-        run: pip install -r scripts/requirements.txt
+        # Every file is also hash-checked, and the two sdist-only pins are
+        # built with the pinned setuptools rather than the newest release.
+        run: |
+          pip install --require-hashes -r scripts/build-requirements.txt
+          pip install --require-hashes --no-build-isolation -r scripts/requirements.txt
 
       - name: Install DM Sans so the chart matches site typography
         # Best-effort: the script falls back to DejaVu Sans if this fails

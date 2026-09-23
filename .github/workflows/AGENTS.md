@@ -18,6 +18,11 @@ workflow; what the scripts it runs do is described in `scripts/AGENTS.md`.
   `bibtexparser` 2.0.0 (2026-09-08) removed a module `scholarly` imports
   while it was unpinned. Bump one line at a time and watch the next run;
   a change to the file runs the workflow on the branch that carries it.
+- Every pin also carries sha256 hashes and the install uses
+  `--require-hashes`; `scripts/build-requirements.txt` pins the setuptools
+  that builds the two sdist-only packages (`--no-build-isolation`). A bump
+  must replace that pin's hash lines too (the header of
+  `scripts/requirements.txt` says where to get them).
 - The checkout uses `persist-credentials: false`; the commit step is handed
   `GITHUB_TOKEN` explicitly and pushes with it. Keep it that way.
 - Pushing a branch that touches the listed paths runs the workflow on that
