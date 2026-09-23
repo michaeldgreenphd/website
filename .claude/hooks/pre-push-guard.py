@@ -10,7 +10,7 @@ shell does), and for every clause that is `git [global options] push ...`
 blocks:
 
   - a refspec whose *destination* is main: `main`, `HEAD:main`, `x:main`,
-    `:main`, `+main`, fully qualified `refs/heads/main`, or a wildcard
+    `:main`, `+main`, `heads/main`, fully qualified `refs/heads/main`, or a wildcard
     such as `refs/heads/*` whose expansion includes main. The source half
     is ignored, so `main:feature` is allowed. With `--delete` every
     refspec is a destination;
@@ -44,7 +44,9 @@ the command and returns stderr to Claude as the reason; exit 0 allows it.
 Scope: this guards against an agent pushing to main by accident or habit.
 It reads the command text, so a deliberate evasion (an alias, `eval`,
 `sh -c "..."`, a script that pushes, or a push.default of `matching`)
-is out of scope; GitHub branch protection on main is the control for that.
+is out of scope. On GitHub, the "Restrict Deletion" ruleset on main
+refuses force-pushes and deletion of main; it does not refuse an ordinary
+fast-forward push, which only a "Require a pull request" rule would.
 The GitHub MCP tools that write files to a branch are denied outright in
 settings.json, since this hook only sees Bash.
 """

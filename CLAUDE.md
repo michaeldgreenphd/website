@@ -35,9 +35,11 @@ This file holds only what applies to Claude Code sessions.
   `stdbuf` or `xargs`. If python3 cannot run, it blocks any command that
   mentions a push rather than letting it through unchecked. Pushing
   another branch by name is always allowed. Deliberate evasion through an
-  alias, `eval`, or a nested shell is out of its scope; GitHub branch
-  protection is the control for that. Run
-  `bash .claude/hooks/pre-push-guard.test.sh` after changing it.
+  alias, `eval`, or a nested shell is out of its scope. On GitHub, the
+  "Restrict Deletion" ruleset on `main` refuses force-pushes and deletion
+  of `main`, but not an ordinary push; stopping those rests on this hook
+  and on AGENTS.md step 1 unless the owner adds a "Require a pull request"
+  rule. Run `bash .claude/hooks/pre-push-guard.test.sh` after changing it.
 
 ## Cloud-container gotchas
 
