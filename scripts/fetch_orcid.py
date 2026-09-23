@@ -32,13 +32,19 @@ REPO_ROOT = Path(__file__).resolve().parent.parent
 OUT_PATH = REPO_ROOT / "orcid_works.json"
 TIMEOUT_S = 30
 
-TAG_RE = re.compile(r"<[^>]+>")
+# Only what an HTML parser would treat as a tag, so text such as
+# "aged <65 and >85 years" is not cut down to "aged 85 years"
+TAG_RE = re.compile(r"</?[A-Za-z][^<>]*>")
+# Bidi controls and Unicode tag characters: invisible on the page, but they
+# reorder or hide words in the text that is stored and committed
+INVISIBLE_RE = re.compile("[\u202a-\u202e\u2066-\u2069\U000e0000-\U000e007f]")
 
 
 def clean_text(value):
     """Plain text: strip markup (Crossref-fed titles carry <i>/<sub>), decode
-    entities, tidy whitespace."""
-    return " ".join(html.unescape(TAG_RE.sub("", value or "")).split())
+    entities, drop invisible controls, tidy whitespace."""
+    text = INVISIBLE_RE.sub("", html.unescape(TAG_RE.sub("", value or "")))
+    return " ".join(text.split())
 
 
 def fetch_works():

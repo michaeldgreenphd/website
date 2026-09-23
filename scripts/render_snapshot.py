@@ -47,7 +47,12 @@ MAX_POSTS = 5
 OMITTED_TYPES = {"conference-abstract", "conference-poster"}
 FALLBACK_SCHOLAR_URL = "https://scholar.google.com/citations?user=ea2W0QgAAAAJ&amp;hl=en"
 
-TAG_RE = re.compile(r"<[^>]+>")
+# Only what an HTML parser would treat as a tag, so text such as
+# "aged <65 and >85 years" is not cut down to "aged 85 years"
+TAG_RE = re.compile(r"</?[A-Za-z][^<>]*>")
+# Bidi controls and Unicode tag characters: invisible on the page, but they
+# reorder or hide words in the text that is stored and committed
+INVISIBLE_RE = re.compile("[\u202a-\u202e\u2066-\u2069\U000e0000-\U000e007f]")
 
 
 class RenderError(SystemExit):
@@ -61,6 +66,7 @@ class RenderError(SystemExit):
 def clean(value):
     """Plain text for HTML: strip any markup, decode entities, escape."""
     text = html.unescape(TAG_RE.sub("", "" if value is None else str(value)))
+    text = INVISIBLE_RE.sub("", text)
     return html.escape(" ".join(text.split()), quote=True)
 
 

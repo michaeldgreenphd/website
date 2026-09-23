@@ -33,12 +33,19 @@ TIMEOUT_S = 30
 # enough that the run should fail loudly instead.
 MAX_CACHE_AGE_DAYS = 30
 
-TAG_RE = re.compile(r"<[^>]+>")
+# Only what an HTML parser would treat as a tag, so text such as
+# "aged <65 and >85 years" is not cut down to "aged 85 years"
+TAG_RE = re.compile(r"</?[A-Za-z][^<>]*>")
+# Bidi controls and Unicode tag characters: invisible on the page, but they
+# reorder or hide words in the text that is stored and committed
+INVISIBLE_RE = re.compile("[\u202a-\u202e\u2066-\u2069\U000e0000-\U000e007f]")
 
 
 def clean_text(value):
-    """Feed text as plain text: strip markup, decode entities, tidy spaces."""
-    return " ".join(html.unescape(TAG_RE.sub("", value or "")).split())
+    """Feed text as plain text: strip markup, decode entities, drop invisible
+    controls, tidy spaces."""
+    text = INVISIBLE_RE.sub("", html.unescape(TAG_RE.sub("", value or "")))
+    return " ".join(text.split())
 
 # A browser-like UA avoids over-eager CDN bot filtering on feed requests
 USER_AGENT = (
