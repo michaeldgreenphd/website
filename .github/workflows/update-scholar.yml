@@ -128,8 +128,9 @@ jobs:
   publish:
     needs: fetch
     # Dependabot's branch runs get a read-only token; testing the fetch job
-    # is what those runs are for.
-    if: github.actor != 'dependabot[bot]'
+    # is what those runs are for. Matched by branch, not by github.actor, so
+    # a scheduled run on main can never be mistaken for one.
+    if: ${{ !startsWith(github.ref, 'refs/heads/dependabot/') }}
     runs-on: ubuntu-latest
     timeout-minutes: 5
     permissions:

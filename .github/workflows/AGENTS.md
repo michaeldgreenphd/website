@@ -12,7 +12,9 @@ workflow; what the scripts it runs do is described in `scripts/AGENTS.md`.
   PNG), `render_snapshot.py`, and `stage_data.py check` (only the data
   files and the `<!-- data: -->` blocks of `index.html` may change), then
   commits. Keep third-party code out of `publish`. It is skipped on
-  Dependabot's branch runs, whose token is read-only.
+  Dependabot's `dependabot/…` branches, whose token is read-only (matched
+  by branch name, not `github.actor`, so scheduled runs on `main` always
+  publish).
 - Every fetch/stage/render step has `timeout-minutes` and
   `continue-on-error: true`, and each job has its own timeout. The commit
   step runs before the final outcome check, so data from steps that
