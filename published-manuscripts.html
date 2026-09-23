@@ -563,6 +563,8 @@
         }
 
         updateToggleIcon();
+        // Follow the OS switching light/dark while the page is open
+        window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', updateToggleIcon);
 
         themeToggle.addEventListener('click', function() {
             const newTheme = isDark() ? 'light' : 'dark';
