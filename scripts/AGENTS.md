@@ -19,7 +19,11 @@ are described in `.github/workflows/AGENTS.md`.
   successful fetch refreshes the cache's `updated` date weekly
   (`REFRESH_AFTER_DAYS`) even when the posts are unchanged, so that age
   counts from the last good fetch; expect one small data commit a week.
-- `fetch_orcid.py`: keeps its cache on any failure.
+- `fetch_orcid.py`: keeps its cache on any failure. Publication links are
+  built only as `https://doi.org/<DOI>`; a work without a well-formed DOI
+  is listed without a link. Each work keeps its ORCID `source` (not
+  rendered), and works added to or removed from the record are printed as
+  `::notice::` lines in the run summary.
 - `render_snapshot.py` splices generated HTML between the
   `<!-- data:NAME -->` markers in `index.html`. It is deterministic — no
   timestamps, no run-dependent ordering — and a second run on unchanged
