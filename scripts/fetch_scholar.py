@@ -64,14 +64,18 @@ class ScholarFetchBlocked(Exception):
 
 
 class ScholarFetchError(Exception):
-    """An unexpected error on Scholar's own profile page, or before any page
+    """An unexpected error on a page Scholar served, or before any page
     arrived: a Scholar markup change or a dependency break, which should
     fail the run rather than warn."""
 
 
-# Every Scholar citations profile page carries the gsc_prf... profile-header
-# markup; a consent, "unusual traffic", error or junk proxy page does not.
-SCHOLAR_PAGE_MARKER = "gsc_prf"
+# Google's own block pages: the consent interstitial, the "unusual traffic"
+# /sorry/ page, and captcha pages. An error on one of these is a block.
+BLOCK_PAGE_MARKERS = ("consent.google", "/sorry/", "unusual traffic", "captcha")
+# Scholar's site-wide markup (gs_hdr, gs_bdy, gsc_prf_in, ...), found on
+# every Scholar page whatever its profile layout. A page with neither this
+# nor "Google Scholar" in its title (a proxy's junk) is not Scholar's.
+SCHOLAR_MARKUP_RE = re.compile(r"""(?:id|class)\s*=\s*["'][^"']*\bgsc?_""", re.IGNORECASE)
 
 
 # Bump to force a chart re-render on the next run even when the Scholar data
@@ -177,16 +181,30 @@ def _page_title(html):
     return " ".join(match.group(1).split())[:80] if match else "untitled"
 
 
+def _page_kind(html):
+    """'scholar' when Google Scholar itself served the page (whatever its
+    profile layout), 'block page' for Google's consent, "unusual traffic"
+    or captcha pages, and 'other' for anything else, such as proxy junk."""
+    lowered = html.lower()
+    if any(marker in lowered for marker in BLOCK_PAGE_MARKERS):
+        return "block page"
+    if SCHOLAR_MARKUP_RE.search(html) or "google scholar" in _page_title(html).lower():
+        return "scholar"
+    return "other"
+
+
 def _fetch_worker(queue, attempt):
     """Child-process body: fetch the author record and report via queue.
 
     scholarly's own block signals are "blocked" (its page fetcher already
     turns network errors into MaxTriesExceededException). Any other error is
-    judged by the last page scholarly received: a page that is not a Scholar
-    profile (a consent, "unusual traffic" or error page, or a free proxy's
-    junk) is "blocked" too, whatever the connection. An error on Scholar's
-    own profile page (a markup change), or before any page arrived (a
-    dependency break), is a "bug".
+    judged by the last page scholarly received: Google's consent, "unusual
+    traffic" or captcha pages, and pages that are not Scholar's at all (a
+    free proxy's junk), are "blocked" too, whatever the connection. An error
+    on a page Scholar served (a markup change), or before any page arrived
+    (a dependency break), is a "bug". A successful fetch also checks that
+    the last page is recognised as Scholar's, so the markers above cannot
+    drift out of date unnoticed.
     """
     transport = "direct"
     pages = _record_pages()  # patched in this child process only
@@ -196,17 +214,27 @@ def _fetch_worker(queue, attempt):
         author = scholarly.fill(
             author, sections=["basics", "indices", "counts", "coauthors"]
         )
+        if pages and _page_kind(pages[-1]) != "scholar":
+            print(
+                f"::warning::fetch_scholar's page check did not recognise a page "
+                f"Scholar served ({_page_kind(pages[-1])}, titled "
+                f"{_page_title(pages[-1])!r}); update BLOCK_PAGE_MARKERS or "
+                "SCHOLAR_MARKUP_RE in scripts/fetch_scholar.py.",
+                flush=True,
+            )
         queue.put(("ok", dict(author), transport))
     except (MaxTriesExceededException, DOSException) as err:
         queue.put(("blocked", repr(err), transport))
     except Exception as err:  # noqa: BLE001 - anything else is unexpected
         detail = f"{type(err).__name__}: {err} (via {transport}"
         if pages:
-            if SCHOLAR_PAGE_MARKER not in pages[-1]:
-                title = _page_title(pages[-1])
-                queue.put(("blocked", f"{detail}, on a non-Scholar page titled {title!r})", transport))
+            kind = _page_kind(pages[-1])
+            title = _page_title(pages[-1])
+            if kind != "scholar":
+                where = "a Google block page" if kind == "block page" else "a non-Scholar page"
+                queue.put(("blocked", f"{detail}, on {where} titled {title!r})", transport))
                 return
-            detail += ", on Scholar's profile page"
+            detail += f", on a Scholar page titled {title!r}"
         elif pages is None and transport == "free-proxy":
             # Pages cannot be inspected; a free proxy's junk is the likely cause
             queue.put(("blocked", f"{detail})", transport))
@@ -225,9 +253,9 @@ def fetch_author():
     proxies to get a fresh IP.
 
     Blocks and timeouts end in ScholarFetchBlocked, and so does an
-    unexpected error on a page that is not Scholar's (see _fetch_worker).
-    An unexpected error on Scholar's own profile page, or before any page
-    arrived, ends in ScholarFetchError instead.
+    unexpected error on a Google block page or a page that is not Scholar's
+    (see _fetch_worker). An unexpected error on a page Scholar served, or
+    before any page arrived, ends in ScholarFetchError instead.
     """
     last_err = None
     bugs = []

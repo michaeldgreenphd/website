@@ -17,12 +17,12 @@ The pipeline is built to degrade gracefully:
   The dashboard keeps showing the previous numbers with its "Data as of"
   date, and the next scheduled run tries again.
 - **A real bug** (e.g. a dependency changes its API, or Scholar changes its
-  page layout) → an error while reading Scholar's own profile page, or
-  before any page arrived, makes the script exit with an error, and the
-  workflow run goes **red**, so you actually hear about the things worth
-  fixing. An error on any other page — a Google consent or "unusual
-  traffic" page, or the junk a free proxy sometimes returns — is treated
-  like a block.
+  page layout) → an error while reading a page Scholar served, or before
+  any page arrived, makes the script exit with an error, and the workflow
+  run goes **red**, so you actually hear about the things worth fixing. An
+  error on any other page — a Google consent, "unusual traffic" or captcha
+  page, or the junk a free proxy sometimes returns — is treated like a
+  block.
 
 Because of this, a green run does not always mean the data changed, and a
 stale "Data as of" date for a day or two just means Google was blocking the
