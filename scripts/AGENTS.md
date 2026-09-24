@@ -7,10 +7,12 @@ are described in `.github/workflows/AGENTS.md`.
 - `fetch_scholar.py`: four attempts of 90 seconds each (direct, then
   free-proxy rotation), each in a subprocess that is killed on timeout. A
   Google block ends in a `::warning::` and keeps the cached numbers —
-  routine, not a failure. Only scholarly's `MaxTriesExceededException` and
-  `DOSException` (and timeouts) count as blocks; the same other exception
-  type on two or more attempts exits 1 as a real bug. Refusing an empty or zero payload is the only
-  sanity guard; do not add a never-lower or percentage rule (settled
+  routine, not a failure. scholarly's `MaxTriesExceededException` and
+  `DOSException`, timeouts, and any error on a free-proxy attempt (a free
+  proxy can return a consent or error page that fails to parse) count as
+  blocks; any other exception over a direct or ScraperAPI connection exits
+  1 as a real bug. Refusing an empty or zero payload is the only sanity
+  guard; do not add a never-lower or percentage rule (settled
   decision, root `AGENTS.md`). Bump `CHART_STYLE_VERSION` whenever the
   chart's palette or styling changes; otherwise the PNGs are re-rendered
   only when the data changes.
