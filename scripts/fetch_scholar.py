@@ -23,9 +23,9 @@ Usage:
 import json
 import multiprocessing
 import os
+import re
 import sys
 import time
-from collections import Counter
 from datetime import date
 from pathlib import Path
 
@@ -64,8 +64,18 @@ class ScholarFetchBlocked(Exception):
 
 
 class ScholarFetchError(Exception):
-    """The same unexpected error on two or more attempts: a dependency or
-    Scholar markup change, which should fail the run rather than warn."""
+    """An unexpected error on a page Scholar served, or before any page
+    arrived: a Scholar markup change or a dependency break, which should
+    fail the run rather than warn."""
+
+
+# Google's own block pages: the consent interstitial, the "unusual traffic"
+# /sorry/ page, and captcha pages. An error on one of these is a block.
+BLOCK_PAGE_MARKERS = ("consent.google", "/sorry/", "unusual traffic", "captcha")
+# Scholar's site-wide markup (gs_hdr, gs_bdy, gsc_prf_in, ...), found on
+# every Scholar page whatever its profile layout. A page with neither this
+# nor "Google Scholar" in its title (a proxy's junk) is not Scholar's.
+SCHOLAR_MARKUP_RE = re.compile(r"""(?:id|class)\s*=\s*["'][^"']*\bgsc?_""", re.IGNORECASE)
 
 
 # Bump to force a chart re-render on the next run even when the Scholar data
@@ -103,7 +113,7 @@ def _enable_free_proxies():
 
     Google Scholar frequently blocks or tarpits CI runner IPs; proxy
     rotation gives retries a fresh address. Best-effort: on any failure we
-    continue with a direct connection.
+    continue with a direct connection. Returns whether proxies are in use.
     """
     try:
         from scholarly import ProxyGenerator
@@ -112,8 +122,10 @@ def _enable_free_proxies():
         if pg.FreeProxies():
             scholarly.use_proxy(pg)
             print("Retrying via free proxy rotation", file=sys.stderr)
+            return True
     except Exception as err:  # noqa: BLE001
         print(f"Proxy setup failed ({err}); continuing direct", file=sys.stderr)
+    return False
 
 
 def _configure_proxy(attempt):
@@ -122,6 +134,7 @@ def _configure_proxy(attempt):
     With SCRAPERAPI_KEY set, route every attempt through ScraperAPI, which
     reliably gets past Google's datacenter-IP block. Without a key, attempt 1
     goes direct and later attempts rotate free proxies (best-effort).
+    Returns the transport used: "scraperapi", "free-proxy" or "direct".
     """
     if SCRAPERAPI_KEY:
         try:
@@ -131,33 +144,102 @@ def _configure_proxy(attempt):
             if pg.ScraperAPI(SCRAPERAPI_KEY):
                 scholarly.use_proxy(pg)
                 print("Using ScraperAPI proxy", file=sys.stderr)
-                return
+                return "scraperapi"
             print("ScraperAPI rejected the key; falling back", file=sys.stderr)
         except Exception as err:  # noqa: BLE001
             print(f"ScraperAPI setup failed ({err}); falling back", file=sys.stderr)
-    if attempt > 1:
-        _enable_free_proxies()
+    if attempt > 1 and _enable_free_proxies():
+        return "free-proxy"
+    return "direct"
+
+
+def _record_pages():
+    """Keep the last page scholarly received, so an unexpected error can be
+    judged by what was actually served. scholarly 1.7.11 parses every
+    Scholar page through Navigator._get_soup; returns None if that hook is
+    missing (e.g. after a version bump)."""
+    try:
+        from scholarly._navigator import Navigator
+    except ImportError:
+        return None
+    original = getattr(Navigator, "_get_soup", None)
+    if original is None:
+        return None
+    pages = []
+
+    def _get_soup(self, url):
+        soup = original(self, url)
+        pages[:] = [str(soup)]
+        return soup
+
+    Navigator._get_soup = _get_soup
+    return pages
+
+
+def _page_title(html):
+    match = re.search(r"<title[^>]*>(.*?)</title>", html, re.IGNORECASE | re.DOTALL)
+    return " ".join(match.group(1).split())[:80] if match else "untitled"
+
+
+def _page_kind(html):
+    """'scholar' when Google Scholar itself served the page (whatever its
+    profile layout), 'block page' for Google's consent, "unusual traffic"
+    or captcha pages, and 'other' for anything else, such as proxy junk."""
+    lowered = html.lower()
+    if any(marker in lowered for marker in BLOCK_PAGE_MARKERS):
+        return "block page"
+    if SCHOLAR_MARKUP_RE.search(html) or "google scholar" in _page_title(html).lower():
+        return "scholar"
+    return "other"
 
 
 def _fetch_worker(queue, attempt):
     """Child-process body: fetch the author record and report via queue.
 
-    Only scholarly's own block signals count as "blocked" (its page fetcher
-    already turns network errors into MaxTriesExceededException). Anything
-    else, such as a dependency API change or a Scholar markup change, is
-    reported as a "bug".
+    scholarly's own block signals are "blocked" (its page fetcher already
+    turns network errors into MaxTriesExceededException). Any other error is
+    judged by the last page scholarly received: Google's consent, "unusual
+    traffic" or captcha pages, and pages that are not Scholar's at all (a
+    free proxy's junk), are "blocked" too, whatever the connection. An error
+    on a page Scholar served (a markup change), or before any page arrived
+    (a dependency break), is a "bug". A successful fetch also checks that
+    the last page is recognised as Scholar's, so the markers above cannot
+    drift out of date unnoticed.
     """
+    transport = "direct"
+    pages = _record_pages()  # patched in this child process only
     try:
-        _configure_proxy(attempt)
+        transport = _configure_proxy(attempt)
         author = scholarly.search_author_id(SCHOLAR_ID)
         author = scholarly.fill(
             author, sections=["basics", "indices", "counts", "coauthors"]
         )
-        queue.put(("ok", dict(author)))
+        if pages and _page_kind(pages[-1]) != "scholar":
+            print(
+                f"::warning::fetch_scholar's page check did not recognise a page "
+                f"Scholar served ({_page_kind(pages[-1])}, titled "
+                f"{_page_title(pages[-1])!r}); update BLOCK_PAGE_MARKERS or "
+                "SCHOLAR_MARKUP_RE in scripts/fetch_scholar.py.",
+                flush=True,
+            )
+        queue.put(("ok", dict(author), transport))
     except (MaxTriesExceededException, DOSException) as err:
-        queue.put(("blocked", repr(err)))
+        queue.put(("blocked", repr(err), transport))
     except Exception as err:  # noqa: BLE001 - anything else is unexpected
-        queue.put(("bug", f"{type(err).__name__}: {err}"))
+        detail = f"{type(err).__name__}: {err} (via {transport}"
+        if pages:
+            kind = _page_kind(pages[-1])
+            title = _page_title(pages[-1])
+            if kind != "scholar":
+                where = "a Google block page" if kind == "block page" else "a non-Scholar page"
+                queue.put(("blocked", f"{detail}, on {where} titled {title!r})", transport))
+                return
+            detail += f", on a Scholar page titled {title!r}"
+        elif pages is None and transport == "free-proxy":
+            # Pages cannot be inspected; a free proxy's junk is the likely cause
+            queue.put(("blocked", f"{detail})", transport))
+            return
+        queue.put(("bug", f"{detail})", transport))
 
 
 def fetch_author():
@@ -170,10 +252,10 @@ def fetch_author():
     job until the workflow-level timeout. Retries route through free
     proxies to get a fresh IP.
 
-    Blocks and timeouts end in ScholarFetchBlocked. The same unexpected
-    error type on two or more attempts ends in ScholarFetchError instead; a
-    single one is treated like a block, since a free proxy can return a
-    junk page that fails to parse.
+    Blocks and timeouts end in ScholarFetchBlocked, and so does an
+    unexpected error on a Google block page or a page that is not Scholar's
+    (see _fetch_worker). An unexpected error on a page Scholar served, or
+    before any page arrived, ends in ScholarFetchError instead.
     """
     last_err = None
     bugs = []
@@ -193,9 +275,9 @@ def fetch_author():
             print(f"Fetch attempt {attempt}/{RETRIES}: {last_err}", file=sys.stderr)
         else:
             try:
-                status, payload = queue.get(timeout=5)
+                status, payload, _transport = queue.get(timeout=5)
             except Exception:  # noqa: BLE001 - empty queue means worker died
-                status, payload = "blocked", "worker exited without a result"
+                status, payload, _transport = "blocked", "worker exited without a result", "direct"
             if status == "ok":
                 return payload
             if status == "bug":
@@ -207,12 +289,9 @@ def fetch_author():
             print("Retrying in 10s...", file=sys.stderr)
             time.sleep(10)
 
-    kinds = Counter(b.split(":", 1)[0] for b in bugs)
-    repeated = [kind for kind, n in kinds.items() if n >= 2]
-    if repeated:
-        latest = [b for b in bugs if b.startswith(repeated[0] + ":")][-1]
+    if bugs:
         raise ScholarFetchError(
-            f"{kinds[repeated[0]]} of {RETRIES} attempts failed with {latest}"
+            f"{len(bugs)} of {RETRIES} attempts failed with {bugs[-1]}"
         )
     raise ScholarFetchBlocked(f"all {RETRIES} attempts failed: {last_err}")
 

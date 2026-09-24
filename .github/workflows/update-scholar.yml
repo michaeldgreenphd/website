@@ -187,10 +187,11 @@ jobs:
             git push "$REMOTE" HEAD:"${GITHUB_REF_NAME}"
           fi
 
-      # Only genuine errors reach here: a routine Google block exits the
-      # scholar script cleanly (logging a ::warning::), while the same
-      # unexpected error on repeated attempts, a crash or timeout in any
-      # fetcher, a bad data file, or a render failure turns the run red.
+      # Only genuine errors reach here: a routine Google block (including a
+      # consent or junk page instead of the profile) exits the scholar
+      # script cleanly with a ::warning::, while an error on a page Scholar
+      # served, a crash or timeout in any fetcher, a bad data file, or a
+      # render failure turns the run red.
       - name: Surface fetch failures
         if: needs.fetch.outputs.scholar == 'failure' || needs.fetch.outputs.substack == 'failure' || needs.fetch.outputs.orcid == 'failure' || steps.stage.outcome == 'failure' || steps.render.outcome == 'failure'
         run: |
