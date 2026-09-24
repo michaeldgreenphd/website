@@ -23,6 +23,7 @@ Usage:
 import json
 import multiprocessing
 import os
+import re
 import sys
 import time
 from datetime import date
@@ -63,9 +64,14 @@ class ScholarFetchBlocked(Exception):
 
 
 class ScholarFetchError(Exception):
-    """An unexpected error over a direct or ScraperAPI connection: a
-    dependency or Scholar markup change, which should fail the run rather
-    than warn."""
+    """An unexpected error on Scholar's own profile page, or before any page
+    arrived: a Scholar markup change or a dependency break, which should
+    fail the run rather than warn."""
+
+
+# Every Scholar citations profile page carries the gsc_prf... profile-header
+# markup; a consent, "unusual traffic", error or junk proxy page does not.
+SCHOLAR_PAGE_MARKER = "gsc_prf"
 
 
 # Bump to force a chart re-render on the next run even when the Scholar data
@@ -143,15 +149,47 @@ def _configure_proxy(attempt):
     return "direct"
 
 
+def _record_pages():
+    """Keep the last page scholarly received, so an unexpected error can be
+    judged by what was actually served. scholarly 1.7.11 parses every
+    Scholar page through Navigator._get_soup; returns None if that hook is
+    missing (e.g. after a version bump)."""
+    try:
+        from scholarly._navigator import Navigator
+    except ImportError:
+        return None
+    original = getattr(Navigator, "_get_soup", None)
+    if original is None:
+        return None
+    pages = []
+
+    def _get_soup(self, url):
+        soup = original(self, url)
+        pages[:] = [str(soup)]
+        return soup
+
+    Navigator._get_soup = _get_soup
+    return pages
+
+
+def _page_title(html):
+    match = re.search(r"<title[^>]*>(.*?)</title>", html, re.IGNORECASE | re.DOTALL)
+    return " ".join(match.group(1).split())[:80] if match else "untitled"
+
+
 def _fetch_worker(queue, attempt):
     """Child-process body: fetch the author record and report via queue.
 
-    Only scholarly's own block signals count as "blocked" (its page fetcher
-    already turns network errors into MaxTriesExceededException). Anything
-    else, such as a dependency API change or a Scholar markup change, is
-    reported as a "bug", together with the transport the attempt used.
+    scholarly's own block signals are "blocked" (its page fetcher already
+    turns network errors into MaxTriesExceededException). Any other error is
+    judged by the last page scholarly received: a page that is not a Scholar
+    profile (a consent, "unusual traffic" or error page, or a free proxy's
+    junk) is "blocked" too, whatever the connection. An error on Scholar's
+    own profile page (a markup change), or before any page arrived (a
+    dependency break), is a "bug".
     """
     transport = "direct"
+    pages = _record_pages()  # patched in this child process only
     try:
         transport = _configure_proxy(attempt)
         author = scholarly.search_author_id(SCHOLAR_ID)
@@ -162,7 +200,18 @@ def _fetch_worker(queue, attempt):
     except (MaxTriesExceededException, DOSException) as err:
         queue.put(("blocked", repr(err), transport))
     except Exception as err:  # noqa: BLE001 - anything else is unexpected
-        queue.put(("bug", f"{type(err).__name__}: {err}", transport))
+        detail = f"{type(err).__name__}: {err} (via {transport}"
+        if pages:
+            if SCHOLAR_PAGE_MARKER not in pages[-1]:
+                title = _page_title(pages[-1])
+                queue.put(("blocked", f"{detail}, on a non-Scholar page titled {title!r})", transport))
+                return
+            detail += ", on Scholar's profile page"
+        elif pages is None and transport == "free-proxy":
+            # Pages cannot be inspected; a free proxy's junk is the likely cause
+            queue.put(("blocked", f"{detail})", transport))
+            return
+        queue.put(("bug", f"{detail})", transport))
 
 
 def fetch_author():
@@ -176,10 +225,9 @@ def fetch_author():
     proxies to get a fresh IP.
 
     Blocks and timeouts end in ScholarFetchBlocked, and so does an
-    unexpected error on a free-proxy attempt: a free proxy can hand back a
-    page that is not Scholar's (a consent or error page), which then fails
-    to parse. An unexpected error over a direct or ScraperAPI connection,
-    which does reach Scholar, ends in ScholarFetchError instead.
+    unexpected error on a page that is not Scholar's (see _fetch_worker).
+    An unexpected error on Scholar's own profile page, or before any page
+    arrived, ends in ScholarFetchError instead.
     """
     last_err = None
     bugs = []
@@ -199,16 +247,13 @@ def fetch_author():
             print(f"Fetch attempt {attempt}/{RETRIES}: {last_err}", file=sys.stderr)
         else:
             try:
-                status, payload, transport = queue.get(timeout=5)
+                status, payload, _transport = queue.get(timeout=5)
             except Exception:  # noqa: BLE001 - empty queue means worker died
-                status, payload, transport = "blocked", "worker exited without a result", "direct"
+                status, payload, _transport = "blocked", "worker exited without a result", "direct"
             if status == "ok":
                 return payload
             if status == "bug":
-                if transport == "free-proxy":
-                    payload += " (via a free proxy, so counted as a block)"
-                else:
-                    bugs.append(f"{payload} (via {transport})")
+                bugs.append(payload)
             last_err = payload
             print(f"Fetch attempt {attempt}/{RETRIES} failed: {payload}", file=sys.stderr)
 

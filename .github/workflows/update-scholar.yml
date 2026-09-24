@@ -188,10 +188,10 @@ jobs:
           fi
 
       # Only genuine errors reach here: a routine Google block (including a
-      # junk page from a free proxy) exits the scholar script cleanly with a
-      # ::warning::, while an unexpected error over a direct or ScraperAPI
-      # connection, a crash or timeout in any fetcher, a bad data file, or a
-      # render failure turns the run red.
+      # consent or junk page instead of the profile) exits the scholar
+      # script cleanly with a ::warning::, while an error on Scholar's own
+      # profile page, a crash or timeout in any fetcher, a bad data file, or
+      # a render failure turns the run red.
       - name: Surface fetch failures
         if: needs.fetch.outputs.scholar == 'failure' || needs.fetch.outputs.substack == 'failure' || needs.fetch.outputs.orcid == 'failure' || steps.stage.outcome == 'failure' || steps.render.outcome == 'failure'
         run: |

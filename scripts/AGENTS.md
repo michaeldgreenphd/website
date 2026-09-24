@@ -8,10 +8,12 @@ are described in `.github/workflows/AGENTS.md`.
   free-proxy rotation), each in a subprocess that is killed on timeout. A
   Google block ends in a `::warning::` and keeps the cached numbers —
   routine, not a failure. scholarly's `MaxTriesExceededException` and
-  `DOSException`, timeouts, and any error on a free-proxy attempt (a free
-  proxy can return a consent or error page that fails to parse) count as
-  blocks; any other exception over a direct or ScraperAPI connection exits
-  1 as a real bug. Refusing an empty or zero payload is the only sanity
+  `DOSException`, timeouts, and any other error raised on a page that is not
+  Scholar's (a consent, "unusual traffic" or error page, or a free proxy's
+  junk — judged by the last page scholarly received, via a hook on its
+  `Navigator._get_soup`) count as blocks. An error on Scholar's own profile
+  page (`gsc_prf…` markup) or before any page arrived exits 1 as a real
+  bug. Refusing an empty or zero payload is the only sanity
   guard; do not add a never-lower or percentage rule (settled
   decision, root `AGENTS.md`). Bump `CHART_STYLE_VERSION` whenever the
   chart's palette or styling changes; otherwise the PNGs are re-rendered
