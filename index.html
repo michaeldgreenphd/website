@@ -599,6 +599,19 @@
                 padding-left: 2.5rem;
                 padding-right: 2.5rem;
             }
+            /* Masthead on the same axes: portrait in the rail; name, role,
+               introduction and link row in the reading column */
+            .masthead {
+                grid-template-columns: 16rem minmax(0, 1fr);
+                grid-template-rows: auto auto auto 1fr;
+                grid-template-areas:
+                    "photo name"
+                    "photo role"
+                    "photo lede"
+                    "photo links";
+                column-gap: 3rem;
+            }
+            .headshot-frame { width: 10rem; justify-self: start; }
             main section {
                 display: grid;
                 grid-template-columns: 16rem minmax(0, 1fr);
