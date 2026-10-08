@@ -170,8 +170,16 @@ secondary pages only) uses its own `--color-*` names for the same values.
 - Type roles: Fraunces for the name, section headings, publication years
   and italic venues; DM Sans for reading text; IBM Plex Mono for the label
   layer (sticky bar, dates, metrics, captions) at 400, with 500 reserved
-  for the publications fold's summary line. The page column is 46rem;
-  paragraphs are capped at 42rem.
+  for the publications fold's summary line. Up to 64rem the page is one
+  46rem column with paragraphs capped at 42rem. From 64rem the frame is
+  68rem and the masthead, the running head and every section are
+  two-column grids: a 16rem left rail holds the portrait, the section
+  heading (its `.section-head` wrapper) and every `h3`; the reading
+  column holds everything else at a 36rem measure (about 77 characters),
+  with figures and embeds keeping their 42rem cap and the chart 28rem.
+  Placement is positional: a section's headings and content must stay
+  direct children of the section (no wrapper divs) and subheadings must
+  be `h3` elements, or they land in the wrong column.
 - **Deliberate things that look like bugs — leave them**: the Substack
   iframe keeps `background: #fff` (its form text would vanish on the dark
   page); the Spotify iframe is transparent and borderless and drops to
@@ -179,8 +187,8 @@ secondary pages only) uses its own `--color-*` names for the same values.
   paints an opaque canvas behind both iframes); on phones the sticky bar's
   link row scrolls sideways with a fade as the cue (wrapping is the
   fallback if the owner dislikes it); photos are dimmed to 88% brightness
-  in dark mode; the publications' year labels hang in the left margin only
-  at viewports of 60rem and up.
+  in dark mode; the publications' year labels hang in the left rail only
+  at viewports of 64rem and up.
 
 ## What a reviewer should look for
 

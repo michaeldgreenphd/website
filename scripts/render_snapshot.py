@@ -147,6 +147,9 @@ def render_metrics(stats):
     )
 
 
+# The homepage's desktop layout (index.html, @media (min-width: 64rem))
+# places each generated block by its class name and by its position as a
+# direct child of its section; keep the wrappers below as they are.
 def render_chart(stats):
     per_year = [
         (clean(entry.get("year")), clean(entry.get("citations")))
