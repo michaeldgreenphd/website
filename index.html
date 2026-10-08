@@ -396,15 +396,8 @@
             color: var(--text);
             margin: 0 0 0.5rem;
         }
-        /* On wide screens the year hangs in the left margin beside its entries */
-        @media (min-width: 60rem) {
-            .pub-year {
-                display: grid;
-                grid-template-columns: 4.5rem minmax(0, 1fr);
-                margin-left: -4.5rem;
-            }
-            .pub-year .year-label { margin: 0; padding-top: 0.1rem; }
-        }
+        /* On wide screens the year hangs in the left rail beside its entries
+           (see the desktop spread block below) */
 
         /* Collapsed-by-default publication list (native disclosure) */
         details.pubs-fold { margin-top: 1.2rem; }
@@ -588,6 +581,64 @@
             font-size: 0.72rem;
             letter-spacing: 0.04em;
             color: var(--muted);
+        }
+
+        /* ----- Desktop spread (64rem and up) ------------------------------
+           The frame is 68rem wide and every section becomes a two-column
+           grid: the section heading (its .section-head wrapper) and each h3
+           sit in a 16rem left rail, everything else in the reading column.
+           Placement is positional: headings and content must stay direct
+           children of the section (no wrapper divs) and subheadings must be
+           h3 elements; the generated data blocks already satisfy this.
+           rem inside a media query always means 16px. Below 64rem the page
+           is the single column defined above; below 560px the phone rules
+           at the end apply unchanged. */
+        @media (min-width: 64rem) {
+            .page {
+                max-width: 68rem;
+                padding-left: 2.5rem;
+                padding-right: 2.5rem;
+            }
+            main section {
+                display: grid;
+                grid-template-columns: 16rem minmax(0, 1fr);
+                column-gap: 3rem;
+                align-items: start;
+                padding-top: 3rem;
+            }
+            main section + section { margin-top: 2.6rem; }
+            main section > * { grid-column: 2; }
+            main section > .section-head,
+            main section > h3 { grid-column: 1; }
+            main section > .section-head { margin-bottom: 0; }
+            main section > .section-head h2 { padding-top: 0.05rem; }
+            /* A subheading and its first sibling share a grid row, so both
+               carry the same top margin and stay level */
+            main section > h3 { margin: 1.8rem 0 0; text-wrap: balance; }
+            .page section > h3 + * { margin-top: 1.8rem; }
+
+            /* Reading measure of about 77 characters; figures and embeds keep
+               their 42rem cap so they run a little wider than the type */
+            p, ul.flat li, ul.rows li, ul.pubs li, .cv-item { max-width: 36rem; }
+            .masthead .id-links { max-width: 42rem; }
+            .scholar-chart { max-width: 28rem; }
+
+            /* Running head on the same two axes as the sections */
+            .index {
+                display: grid;
+                grid-template-columns: 16rem minmax(0, 1fr) auto;
+                column-gap: 3rem;
+            }
+            .index-links { gap: 1.1rem; }
+
+            /* Publication years hang in the rail beside their entries */
+            .pub-year {
+                display: grid;
+                grid-template-columns: 16rem minmax(0, 1fr);
+                column-gap: 3rem;
+                margin-left: -19rem;
+            }
+            .pub-year .year-label { margin: 0; padding-top: 0.1rem; }
         }
 
         @media (max-width: 560px) {
