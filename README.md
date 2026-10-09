@@ -31,6 +31,13 @@ change. To change how they look, edit that script.
 When your role changes, update the masthead role line **and** the
 `jobTitle`/`affiliation` values in the JSON-LD block in `<head>`.
 
+On laptop screens each section is laid out as two columns: the section
+heading sits in a left rail and stays in view while you scroll that
+section; everything else sits in the `<div class="section-body">` that
+follows the heading. When you add to a section, put the new paragraph,
+list or figure **inside that `section-body` div**, or it lands in the wrong
+column on wide screens. Phones and tablets show one column regardless.
+
 ## Automatic data
 
 Three scripts run twice a day via GitHub Actions

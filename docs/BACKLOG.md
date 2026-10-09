@@ -41,9 +41,16 @@ two-skeptic verification, plus follow-up discussion.
   Fraunces on the green with the headshot — for LinkedIn/Bluesky/iMessage
   previews; keep the 256px square as a fallback `og:image` or switch
   `twitter:card` to `summary_large_image`.
-- **Reading measure.** Paragraphs run ~90 characters per line on desktop
-  (`p { max-width: 42rem }`); 65–75 is the comfortable range — try `~38rem`
-  or `70ch`.
+- **Reading measure.** From 64rem the 2026-10 desktop spread runs text
+  across the full 44rem reading column at a 17px root (~88 characters per
+  line; the owner chose this over a 36rem cap that read as narrow). Below
+  64rem the single 46rem column lets paragraphs run to 42rem (~90
+  characters) on tablets. If either reads long, cap `p` inside the
+  desktop block or lower the base cap toward `38rem`.
+- **Secondary pages keep the old frame.** `faq.html` and
+  `published-manuscripts.html` (on `theme.css`) stay a 46rem-wide single
+  column, so a visitor moving from the homepage to the FAQ on a laptop
+  sees the column snap back. Widen their frame to match, or accept it.
 - **Typographic quotes.** Straight `"` and `'` in the prose → curly
   (“ ” ’), including `O'Brien`; prose only, never inside code or
   attributes.
