@@ -129,6 +129,12 @@ def dicts(value):
 
 
 # --- Block renderers ----------------------------------------------------------
+# The homepage's desktop layout (index.html, @media (min-width: 64rem)) styles
+# these blocks by class name (.metrics, .scholar-chart, .pub-year, .year-label,
+# ul.pubs) and by where index.html places them: p.metrics and figure.scholar-chart
+# are direct children of the research section, the posts sit inside
+# ul#recent-posts, the publications inside details.pubs-fold. Keep the wrappers
+# and class names below as they are.
 
 
 def render_metrics(stats):
@@ -147,9 +153,6 @@ def render_metrics(stats):
     )
 
 
-# The homepage's desktop layout (index.html, @media (min-width: 64rem))
-# places each generated block by its class name and by its position as a
-# direct child of its section; keep the wrappers below as they are.
 def render_chart(stats):
     per_year = [
         (clean(entry.get("year")), clean(entry.get("citations")))

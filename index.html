@@ -629,11 +629,29 @@
                carry the same top margin and stay level */
             main section > h3 { margin: 1.8rem 0 0; text-wrap: balance; }
             .page section > h3 + * { margin-top: 1.8rem; }
+            /* Pictures sit on the heading's cap line rather than its line box */
+            .page section > h3 + figure,
+            .page section > h3 + .duo-strip { margin-top: 2.25rem; }
+            /* A row list's first entry drops its top padding so its title
+               sits level with the heading */
+            main section > h3 + ul.rows > li:first-child { padding-top: 0; }
+            /* Grid items do not collapse margins: trailing margins that used
+               to fold into the next heading's top margin are zeroed, and the
+               gaps they carried inside a group are restated */
+            main section > .cv-item,
+            main section > .photo-strip,
+            main section > .fun-figure,
+            main section > .duo-strip,
+            main section > .running-grid,
+            main section > .metrics { margin-bottom: 0; }
+            main section > .cv-item + .cv-item { margin-top: 1.1rem; }
+            main section > .scholar-chart { margin-top: 1.4rem; }
+            main section > .embed-fallback { margin-top: 0.6rem; }
 
             /* Reading measure of about 77 characters; figures and embeds keep
                their 42rem cap so they run a little wider than the type */
             p, ul.flat li, ul.rows li, ul.pubs li, .cv-item { max-width: 36rem; }
-            .masthead .id-links { max-width: 42rem; }
+            .masthead .role, .masthead .lede { max-width: 36rem; }
             .scholar-chart { max-width: 28rem; }
 
             /* Running head on the same two axes as the sections */
