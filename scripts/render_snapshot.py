@@ -132,7 +132,7 @@ def dicts(value):
 # The homepage's desktop layout (index.html, @media (min-width: 64rem)) styles
 # these blocks by class name (.metrics, .scholar-chart, .pub-year, .year-label,
 # ul.pubs) and by where index.html places them: p.metrics and figure.scholar-chart
-# are direct children of the research section, the posts sit inside
+# sit in the research section's .section-body, the posts inside
 # ul#recent-posts, the publications inside details.pubs-fold. Keep the wrappers
 # and class names below as they are.
 

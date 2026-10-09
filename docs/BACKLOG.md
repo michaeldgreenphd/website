@@ -41,10 +41,12 @@ two-skeptic verification, plus follow-up discussion.
   Fraunces on the green with the headshot — for LinkedIn/Bluesky/iMessage
   previews; keep the 256px square as a fallback `og:image` or switch
   `twitter:card` to `summary_large_image`.
-- **Reading measure below desktop.** The 2026-10 desktop spread caps
-  running text at 36rem (~77 characters) from 64rem up; below that the
-  single 46rem column still lets paragraphs run to 42rem (~90 characters)
-  on tablets. If that reads long, lower the base `p` cap toward `38rem`.
+- **Reading measure.** From 64rem the 2026-10 desktop spread runs text
+  across the full 44rem reading column at a 17px root (~88 characters per
+  line; the owner chose this over a 36rem cap that read as narrow). Below
+  64rem the single 46rem column lets paragraphs run to 42rem (~90
+  characters) on tablets. If either reads long, cap `p` inside the
+  desktop block or lower the base cap toward `38rem`.
 - **Secondary pages keep the old frame.** `faq.html` and
   `published-manuscripts.html` (on `theme.css`) stay a 46rem-wide single
   column, so a visitor moving from the homepage to the FAQ on a laptop

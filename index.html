@@ -584,16 +584,18 @@
         }
 
         /* ----- Desktop spread (64rem and up) ------------------------------
-           The frame is 68rem wide and every section becomes a two-column
-           grid: the section heading (its .section-head wrapper) and each h3
-           sit in a 16rem left rail, everything else in the reading column.
-           Placement is positional: headings and content must stay direct
-           children of the section (no wrapper divs) and subheadings must be
-           h3 elements; the generated data blocks already satisfy this.
-           rem inside a media query always means 16px. Below 64rem the page
-           is the single column defined above; below 560px the phone rules
-           at the end apply unchanged. */
+           The root size rises to 17px, the frame is 68rem wide, and the
+           masthead and every section become two-column grids: a 16rem
+           left rail holds the portrait, the section heading (its
+           .section-head wrapper, which stays pinned below the running head
+           while its section scrolls) and the publication years; the
+           .section-body wrapper holds everything else and runs the full
+           reading column. The running head joins the grid from 70rem (next
+           block). rem inside a media query always means 16px. Below 64rem
+           the page is the single column defined above; below 560px the
+           phone rules at the end apply unchanged. */
         @media (min-width: 64rem) {
+            html { font-size: 17px; }
             .page {
                 max-width: 68rem;
                 padding-left: 2.5rem;
@@ -612,6 +614,9 @@
                 column-gap: 3rem;
             }
             .headshot-frame { width: 10rem; justify-self: start; }
+            .masthead .role, .masthead .lede { max-width: none; }
+            .masthead .role { text-wrap: balance; }
+
             main section {
                 display: grid;
                 grid-template-columns: 16rem minmax(0, 1fr);
@@ -620,47 +625,17 @@
                 padding-top: 3rem;
             }
             main section + section { margin-top: 2.6rem; }
-            main section > * { grid-column: 2; }
-            main section > .section-head,
-            main section > h3 { grid-column: 1; }
-            main section > .section-head { margin-bottom: 0; }
-            main section > .section-head h2 { padding-top: 0.05rem; }
-            /* A subheading and its first sibling share a grid row, so both
-               carry the same top margin and stay level */
-            main section > h3 { margin: 1.8rem 0 0; text-wrap: balance; }
-            .page section > h3 + * { margin-top: 1.8rem; }
-            /* Pictures sit on the heading's cap line rather than its line box */
-            .page section > h3 + figure,
-            .page section > h3 + .duo-strip { margin-top: 2.25rem; }
-            /* A row list's first entry drops its top padding so its title
-               sits level with the heading */
-            main section > h3 + ul.rows > li:first-child { padding-top: 0; }
-            /* Grid items do not collapse margins: trailing margins that used
-               to fold into the next heading's top margin are zeroed, and the
-               gaps they carried inside a group are restated */
-            main section > .cv-item,
-            main section > .photo-strip,
-            main section > .fun-figure,
-            main section > .duo-strip,
-            main section > .running-grid,
-            main section > .metrics { margin-bottom: 0; }
-            main section > .cv-item + .cv-item { margin-top: 1.1rem; }
-            main section > .scholar-chart { margin-top: 1.4rem; }
-            main section > .embed-fallback { margin-top: 0.6rem; }
-
-            /* Reading measure of about 77 characters; figures and embeds keep
-               their 42rem cap so they run a little wider than the type */
-            p, ul.flat li, ul.rows li, ul.pubs li, .cv-item { max-width: 36rem; }
-            .masthead .role, .masthead .lede { max-width: 36rem; }
-            .scholar-chart { max-width: 28rem; }
-
-            /* Running head on the same two axes as the sections */
-            .index {
-                display: grid;
-                grid-template-columns: 16rem minmax(0, 1fr) auto;
-                column-gap: 3rem;
+            main section > .section-head {
+                margin-bottom: 0;
+                position: sticky;
+                top: 3.5rem;
             }
-            .index-links { gap: 1.1rem; }
+            main section > .section-head h2 { padding-top: 0.05rem; }
+
+            /* Text, lists and figures run the full reading column */
+            p, ul.flat li, ul.rows li, ul.pubs li, .cv-item,
+            .embed-frame, .running-grid, .photo-strip { max-width: none; }
+            .scholar-chart { max-width: 30rem; }
 
             /* Publication years hang in the rail beside their entries */
             .pub-year {
@@ -670,6 +645,17 @@
                 margin-left: -19rem;
             }
             .pub-year .year-label { margin: 0; padding-top: 0.1rem; }
+        }
+
+        /* Running head on the same two axes as the sections, once the
+           reading column is wide enough to hold the link row on one line */
+        @media (min-width: 70rem) {
+            .index {
+                display: grid;
+                grid-template-columns: 16rem minmax(0, 1fr) auto;
+                column-gap: 3rem;
+            }
+            .index-links { gap: 1.1rem; }
         }
 
         @media (max-width: 560px) {
@@ -789,9 +775,11 @@
                 <div class="section-head">
                     <h2>About</h2>
                 </div>
+                <div class="section-body">
                 <p>My name is Michael D. Green, and I am a population health sciences researcher, who completed a Ph.D. in Population Health Sciences at the Duke University School of Medicine in 2025. I was born in Maryland, but moved 7 times before the age of 18. I am a member of the Dartmouth College class of 2021, where I graduated with Honors in Anthropology and a minor in Environmental Sciences. I additionally was a 4-year varsity athlete on the Heavyweight Rowing team, which I joined without any prior experience during the winter of my Freshman year.</p>
                 <p>Growing up, many of my family members and loved ones suffered through numerous health ailments. Ever since I was young I was always focused on the "why" questions regarding these ailments. As I matured through my academic career those why questions became more complex. Why is there so much socio-economic disparity in the world? Why are there so many disparities in health outcomes?</p>
                 <p>Currently, I believe that I need to use the information I gained on "why" issues occur in order to apply them to questions on "how" we can disrupt these issues. I focus on methodology for fixing many of the problems that I spent so much of my early life pondering. I hope that I am able to illuminate, and eventually solve, population health issues that are consequences of social determinants of health.</p>
+                </div>
             </section>
 
             <!-- ============================== Research ===================== -->
@@ -799,6 +787,7 @@
                 <div class="section-head">
                     <h2>Research</h2>
                 </div>
+                <div class="section-body">
                 <p>My long term goal is understanding and eliminating healthcare inequities. Personally I believe a lot of these come from the “culture” of medicine. When we think about solutions in healthcare, culture is often brushed aside when it should be front and center.</p>
                 <p>My work uses quantitative and qualitative methods to work towards improving that culture.</p>
                 <!-- The blocks between data: markers are generated by scripts/render_snapshot.py
@@ -854,6 +843,7 @@
                     <li><a href="https://psycnet.apa.org/record/2024-73766-001" target="_blank" rel="noopener noreferrer">Everyday discrimination and age-related trajectories of blood pressure among Black and White middle-aged and older adults</a></li>
                     <li><a href="https://journals.plos.org/mentalhealth/article?id=10.1371/journal.pmen.0000208" target="_blank" rel="noopener noreferrer">Navigating family life with Hypoplastic Left Heart Syndrome: A qualitative study</a></li>
                 </ul>
+                </div>
             </section>
 
             <!-- ============================== For Fun ====================== -->
@@ -861,6 +851,7 @@
                 <div class="section-head">
                     <h2>For Fun</h2>
                 </div>
+                <div class="section-body">
                 <p>Outside of research, I stay active and creative through a mix of running, hiking, occasional film photography, and travel (a city with a subway or a mountain town).</p>
 
                 <h3>Film Photography</h3>
@@ -906,6 +897,7 @@
                     <li><a href="https://podcasts.voxmedia.com/show/on-with-kara-swisher" target="_blank" rel="noopener noreferrer">On with Kara Swisher</a> <span class="meta"><a href="https://podcasts.apple.com/us/podcast/on-with-kara-swisher/id1643307527" target="_blank" rel="noopener noreferrer">Apple</a> · <a href="https://open.spotify.com/show/42ntT7XnfdbbYetUQu0vu5" target="_blank" rel="noopener noreferrer">Spotify</a></span>
                         <p class="fine">The podcast of tech/media journalist Kara Swisher, my favorite interviewer.</p></li>
                 </ul>
+                </div>
             </section>
 
             <!-- ============================== CV =========================== -->
@@ -913,6 +905,7 @@
                 <div class="section-head">
                     <h2>Curriculum Vitae</h2>
                 </div>
+                <div class="section-body">
                 <p class="fine">The short version is below — the complete record of education, research experience, publications, presentations, and awards is in the <a href="cv/Michael%20Green%20June%202026%20CV.pdf" target="_blank" rel="noopener noreferrer">full CV (PDF)</a>.</p>
 
                 <h3>Position</h3>
@@ -962,6 +955,7 @@
                     <li>Executive Board Member <span class="meta">Globemed Dartmouth · September 2017 – September 2020</span>
                         <p class="fine">"Global Health university" team member and financial chair.</p></li>
                 </ul>
+                </div>
             </section>
 
             <!-- ============================== Media ======================== -->
@@ -969,6 +963,7 @@
                 <div class="section-head">
                     <h2>Media &amp; Writing</h2>
                 </div>
+                <div class="section-body">
                 <p>I'm committed to translating research findings into accessible formats such as blogs, short-form videos, and podcasts. I write about health equity, population health research, and the intersection of science and policy on my Substack, <a href="https://www.notbeinggreen.com" target="_blank" rel="noopener noreferrer"><strong>Not Being Green</strong></a>.</p>
 
                 <h3>Subscribe</h3>
@@ -1034,6 +1029,7 @@
                     <li><a href="https://dartmouthsports.com/news/2020/3/18/hrow-intern-experience-more-than-expected-at-the-cdc-200318.aspx" target="_blank" rel="noopener noreferrer">Intern Experience More Than Expected at the CDC</a> <span class="meta">Dartmouth Sports · March 2020</span>
                         <p class="fine">Reflection on 10-week internship at the Centers for Disease Control and Prevention.</p></li>
                 </ul>
+                </div>
             </section>
 
             <!-- ============================== Contact ====================== -->
@@ -1041,6 +1037,7 @@
                 <div class="section-head">
                     <h2>Contact</h2>
                 </div>
+                <div class="section-body">
                 <p>I enjoy connecting with researchers, collaborators, and those whom I feel my values align (time and due diligence permitting). Follow my work on social media for updates on research, health equity discussions, and insights from population health sciences — and feel free to reach out through the channels below (after reading the <a href="faq.html">FAQ</a>).</p>
                 <ul class="flat" style="margin-top: 1rem;">
                     <li>Email — <a href="faq.html">at the end of the FAQ</a></li>
@@ -1048,6 +1045,7 @@
                     <li>Elsewhere — <a href="https://bsky.app/profile/michaeldgreen.phd" target="_blank" rel="noopener noreferrer">Bluesky</a>, <a href="https://www.linkedin.com/in/michaeldgreenphd" target="_blank" rel="noopener noreferrer">LinkedIn</a>, <a href="https://www.instagram.com/michaeldgreenphd/" target="_blank" rel="noopener noreferrer">Instagram</a></li>
                 </ul>
                 <p class="fine" style="margin-top: 1rem;">I'm particularly interested in collaborations involving AI algorithm bias (especially surrounding culture or social issues), diversity and representation in clinical trials, healthcare discrimination, and the culture of healthcare.</p>
+                </div>
             </section>
 
             <!-- ============================== Publications ================= -->
@@ -1055,6 +1053,7 @@
                 <div class="section-head">
                     <h2>Publications</h2>
                 </div>
+                <div class="section-body">
                 <p class="fine">Synced automatically from <a href="https://orcid.org/0000-0002-4982-8154" target="_blank" rel="noopener noreferrer">ORCID</a> (updated <!-- data:orcid-updated -->September 2026<!-- /data:orcid-updated -->). Conference abstracts and posters are omitted here — the complete record is on ORCID. PDFs of all published manuscripts are collected <a href="published-manuscripts.html">on this page</a>.</p>
 
                 <!-- Generated by scripts/render_snapshot.py from orcid_works.json — edit the JSON or the script, not this block. -->
@@ -1112,6 +1111,7 @@
                     </div>
                     <!-- /data:pubs -->
                 </details>
+                </div>
             </section>
         </main>
 

@@ -171,15 +171,16 @@ secondary pages only) uses its own `--color-*` names for the same values.
   and italic venues; DM Sans for reading text; IBM Plex Mono for the label
   layer (sticky bar, dates, metrics, captions) at 400, with 500 reserved
   for the publications fold's summary line. Up to 64rem the page is one
-  46rem column with paragraphs capped at 42rem. From 64rem the frame is
-  68rem and the masthead, the running head and every section are
-  two-column grids: a 16rem left rail holds the portrait, the section
-  heading (its `.section-head` wrapper) and every `h3`; the reading
-  column holds everything else at a 36rem measure (about 77 characters),
-  with figures and embeds keeping their 42rem cap and the chart 28rem.
-  Placement is positional: a section's headings and content must stay
-  direct children of the section (no wrapper divs) and subheadings must
-  be `h3` elements, or they land in the wrong column.
+  46rem column with paragraphs capped at 42rem. From 64rem the root size
+  is 17px, the frame is 68rem, and the masthead and every section are
+  two-column grids: a 16rem left rail holds the portrait and the section
+  heading (its `.section-head` wrapper, pinned below the running head
+  while its section scrolls); the `.section-body` wrapper that follows
+  holds everything else and runs the full 44rem reading column (about 88
+  characters, the owner's choice over a tighter measure), with the chart
+  capped at 30rem. Every section is exactly those two children; new
+  content goes inside `.section-body`. The running head joins the same
+  grid from 70rem, where its link row fits on one line.
 - **Deliberate things that look like bugs — leave them**: the Substack
   iframe keeps `background: #fff` (its form text would vanish on the dark
   page); the Spotify iframe is transparent and borderless and drops to
