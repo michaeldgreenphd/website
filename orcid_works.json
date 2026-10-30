@@ -1,8 +1,16 @@
 {
-  "updated": "2026-10-23",
+  "updated": "2026-10-30",
   "source": "https://orcid.org/0000-0002-4982-8154",
-  "count": 33,
+  "count": 34,
   "works": [
+    {
+      "title": "Genetics in Context: Social Factors Modify Polygenic Risk Across Multiple Cardiometabolic Diseases",
+      "year": "2026",
+      "journal": "",
+      "type": "preprint",
+      "url": "https://doi.org/10.64898/2026.10.27.26366625",
+      "source": "Crossref"
+    },
     {
       "title": "Role of Plasma Proteins in the Association Between Socioeconomic Status and Cardiovascular Disease Events: Results From Trans‐Omics for Precision Medicine Cohorts",
       "year": "2026",
