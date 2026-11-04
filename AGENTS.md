@@ -84,7 +84,7 @@ Pushing to `main` deploys within a couple of minutes.
   and is linked from two places in `index.html` (the header link row and
   the top of the CV section); update both when a new PDF is uploaded, and
   update `cv_counts.json` (publications, first- and senior-author
-  publications, invited talks, conference panels, sessions facilitated)
+  publications, invited talks, conference panels, sessions moderated)
   from the same CV. That file is the one hand-edited JSON; the renderer
   draws it into the CV tally under the Curriculum Vitae heading.
 - The email address lives only at the end of `faq.html`, not on the homepage.
