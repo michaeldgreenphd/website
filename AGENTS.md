@@ -65,7 +65,7 @@ Pushing to `main` deploys within a couple of minutes.
 - **Never hand-edit the generated blocks in `index.html`** — everything
   between `<!-- data:NAME -->` and `<!-- /data:NAME -->` (citation metrics,
   the chart, recent posts, the publication list, the ORCID date, the media
-  tally) — nor
+  and CV tallies) — nor
   `scholar_stats.json`, `substack_posts.json`, `orcid_works.json`, or
   `citations_over_time*.png`. Change `scripts/render_snapshot.py` or the
   fetch scripts instead, then run the renderer; a second run must print
@@ -82,7 +82,11 @@ Pushing to `main` deploys within a couple of minutes.
   `AGENTS.md`, `docs/SCHOLAR_PIPELINE.md`, `docs/BACKLOG.md`).
 - The CV keeps its dated filename (a stable name was offered and declined)
   and is linked from two places in `index.html` (the header link row and
-  the top of the CV section); update both when a new PDF is uploaded.
+  the top of the CV section); update both when a new PDF is uploaded, and
+  update `cv_counts.json` (publications, first- and senior-author
+  publications, invited talks, conference panels, sessions facilitated)
+  from the same CV. That file is the one hand-edited JSON; the renderer
+  draws it into the CV tally under the Curriculum Vitae heading.
 - The email address lives only at the end of `faq.html`, not on the homepage.
 - The JSON-LD Person block in `<head>` carries `jobTitle`/`affiliation`;
   update it whenever the masthead role line changes.

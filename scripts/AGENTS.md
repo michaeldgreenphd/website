@@ -35,11 +35,15 @@ are described in `.github/workflows/AGENTS.md`.
   `<!-- data:NAME -->` markers in `index.html`. It is deterministic — no
   timestamps, no run-dependent ordering — and a second run on unchanged
   data prints "index.html data blocks unchanged." It omits works typed
-  `conference-abstract` and `conference-poster` on purpose. The
-  `media-tally` block is the one not drawn from a data file: it counts the
+  `conference-abstract` and `conference-poster` on purpose. Two blocks
+  are not drawn from fetched data, and both are built by the shared
+  `render_tally()` so they look alike. `media-tally` counts the
   `data-kind` of each entry in the hand-curated `ul#media-appearances` in
   `index.html` itself; an entry without a known kind prints a
-  `::warning::` and is left out of the count rather than failing the run.
+  `::warning::` and is left out of the count. `cv-tally` reads the
+  owner's hand-edited `cv_counts.json`; if that file is malformed the run
+  prints a `::warning::` and leaves the block as it was. Neither fails the
+  data refresh.
 - `stage_data.py` runs only in the workflow's `publish` job, standard
   library only: `import DIR` copies the fetched data files in after
   checking each one, and `check` refuses the commit if anything but the
