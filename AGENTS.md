@@ -64,11 +64,17 @@ Pushing to `main` deploys within a couple of minutes.
 
 - **Never hand-edit the generated blocks in `index.html`** — everything
   between `<!-- data:NAME -->` and `<!-- /data:NAME -->` (citation metrics,
-  the chart, recent posts, the publication list, the ORCID date) — nor
-  `scholar_stats.json`, `substack_posts.json`, `orcid_works.json`, or
-  `citations_over_time*.png`. Change `scripts/render_snapshot.py` or the
-  fetch scripts instead, then run the renderer; a second run must print
-  "unchanged".
+  the chart, recent posts, the media appearances tally, the publication
+  list, the ORCID date) — nor `scholar_stats.json`, `substack_posts.json`,
+  `orcid_works.json`, or `citations_over_time*.png`. Change
+  `scripts/render_snapshot.py` or the fetch scripts instead, then run the
+  renderer; a second run must print "unchanged".
+- **Tag every entry in `<ul class="rows" id="media-appearances">`** with
+  `data-kind="podcast"`, `"news"`, `"blog"`, or `"talk"`.
+  `scripts/render_snapshot.py` tallies those tags into the
+  `<!-- data:media-tally -->` block inside `#media`'s `.section-head`; an
+  untagged or unknown-kind entry prints a `::warning::` rather than failing
+  the data refresh.
 - Keep the homepage flat and quiet: no entrance or scroll animations, no
   cards or pill tags, no third-party scripts, no web-font CDN. Green
   (`--ink`) is the only accent. (`faq.html` and `published-manuscripts.html`

@@ -23,10 +23,26 @@ only in the closing "Getting in touch" block at the end of `faq.html`.
 | masthead              | name, role line, intro sentence, header link row            |
 
 **Do not hand-edit the blocks between `<!-- data:… -->` and `<!-- /data:… -->`
-markers** (citation metrics, the citations chart, recent posts, the
-publication list, the ORCID "updated" date). `scripts/render_snapshot.py`
-regenerates them from the JSON data files and would overwrite any manual
-change. To change how they look, edit that script.
+markers** (citation metrics, the citations chart, recent posts, the media
+appearances tally, the publication list, the ORCID "updated" date).
+`scripts/render_snapshot.py` regenerates them from the JSON data files (and,
+for the media tally, from the list tags in `index.html`) and would overwrite
+any manual change. To change how they look, edit that script.
+
+To **add a new media appearance** so the tally updates: add an `<li data-kind="…">`
+at the right date position (newest first) inside `<ul class="rows" id="media-appearances">`
+under `<h3>Select Media Appearances</h3>`, setting `data-kind` to `"podcast"`,
+`"news"`, `"blog"`, or `"talk"`:
+
+```html
+<li data-kind="news"><a href="https://example.com" target="_blank" rel="noopener noreferrer">Title</a> <span class="meta">Outlet · Month Year</span>
+    <p class="fine">Short description.</p></li>
+```
+
+Leave the title as plain text if there is no URL, and leave out `<p class="fine">`
+if there is no description. Then run `python3 scripts/render_snapshot.py` (or if
+you edited on GitHub, the twice-daily data workflow will re-run it and update
+the counts automatically).
 
 When your role changes, update the masthead role line **and** the
 `jobTitle`/`affiliation` values in the JSON-LD block in `<head>`.

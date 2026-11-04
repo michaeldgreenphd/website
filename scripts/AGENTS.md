@@ -32,10 +32,14 @@ are described in `.github/workflows/AGENTS.md`.
   rendered), and works added to or removed from the record are printed as
   `::notice::` lines in the run summary.
 - `render_snapshot.py` splices generated HTML between the
-  `<!-- data:NAME -->` markers in `index.html`. It is deterministic — no
-  timestamps, no run-dependent ordering — and a second run on unchanged
-  data prints "index.html data blocks unchanged." It omits works typed
-  `conference-abstract` and `conference-poster` on purpose.
+  `<!-- data:NAME -->` markers in `index.html` (`metrics`, `chart`, `posts`,
+  `media-tally`, `pubs`, `orcid-updated`). For `media-tally`, it counts the
+  `data-kind` attributes (`podcast`, `news`, `blog`, `talk`) on the `<li>`
+  entries of `<ul id="media-appearances">` in `index.html`; an untagged or
+  unrecognised entry logs a `::warning::` instead of failing the run. It is
+  deterministic — no timestamps, no run-dependent ordering — and a second
+  run on unchanged data prints "index.html data blocks unchanged." It omits
+  works typed `conference-abstract` and `conference-poster` on purpose.
 - `stage_data.py` runs only in the workflow's `publish` job, standard
   library only: `import DIR` copies the fetched data files in after
   checking each one, and `check` refuses the commit if anything but the
