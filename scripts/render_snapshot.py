@@ -13,6 +13,7 @@ Marked regions in index.html (each pair must appear exactly once):
     <!-- data:metrics -->        citation metrics line
     <!-- data:chart -->          citations-per-year figure (alt text + size)
     <!-- data:posts -->          five most recent Substack posts
+    <!-- data:media-tally -->    media appearances tally by kind
     <!-- data:pubs -->           publication list (summary + year groups)
     <!-- data:orcid-updated -->  "updated <Month Year>" stamp
 
@@ -31,6 +32,7 @@ import struct
 import sys
 from datetime import datetime
 from email.utils import parsedate_to_datetime
+from html.parser import HTMLParser
 from pathlib import Path
 
 REPO_ROOT = Path(__file__).resolve().parent.parent
@@ -46,6 +48,15 @@ MAX_POSTS = 5
 # the page (the intro sentence above the list says so).
 OMITTED_TYPES = {"conference-abstract", "conference-poster"}
 FALLBACK_SCHOLAR_URL = "https://scholar.google.com/citations?user=ea2W0QgAAAAJ&amp;hl=en"
+MEDIA_KINDS = (
+    ("podcast", "podcast appearances"),
+    ("news", "news articles"),
+    ("blog", "blog posts"),
+    ("talk", "talks & panels"),
+)
+MEDIA_LIST_RE = re.compile(
+    r'<ul\b[^>]*\bid="media-appearances"[^>]*>(.*?)</ul>', re.S
+)
 
 # Only what an HTML parser would treat as a tag, so text such as
 # "aged <65 and >85 years" is not cut down to "aged 85 years"
@@ -187,6 +198,94 @@ def render_posts(feed):
     return "\n".join(items)
 
 
+class MediaListParser(HTMLParser):
+    """Extract (data-kind, text) for each top-level <li> in #media-appearances."""
+
+    def __init__(self):
+        super().__init__()
+        self.items = []
+        self._depth = 0
+        self._kind = None
+        self._text = []
+
+    def handle_starttag(self, tag, attrs):
+        if tag == "li":
+            if self._depth == 0:
+                attr_dict = dict(attrs)
+                self._kind = (attr_dict.get("data-kind") or "").strip()
+                self._text = []
+            self._depth += 1
+
+    def handle_endtag(self, tag):
+        if tag == "li" and self._depth > 0:
+            self._depth -= 1
+            if self._depth == 0:
+                title = " ".join("".join(self._text).split())
+                self.items.append((self._kind, title))
+                self._kind = None
+                self._text = []
+
+    def handle_data(self, data):
+        if self._depth > 0:
+            self._text.append(data)
+
+
+def tally_svg(count):
+    """Inline SVG drawing five-stroke field-note tally bundles for count."""
+    commands = []
+    for g in range(count // 5):
+        x0 = 3 + g * 44
+        for k in range(4):
+            x = x0 + k * 8
+            commands.append(f"M{x} 12.5L{x + 1} 1.5")
+        commands.append(f"M{x0 - 2.5:g} 10.5L{x0 + 27.5:g} 3.5")
+    rem_x0 = 3 + (count // 5) * 44
+    for k in range(count % 5):
+        x = rem_x0 + k * 8
+        commands.append(f"M{x} 12.5L{x + 1} 1.5")
+    width = max(272, ((max(count, 1) - 1) // 5 + 1) * 44)
+    path = f'<path d="{"".join(commands)}"/>' if commands else ""
+    return (
+        f'<svg class="tally-marks" viewBox="0 0 {width} 14" '
+        f'preserveAspectRatio="xMinYMid meet" aria-hidden="true">{path}</svg>'
+    )
+
+
+def render_media_tally(doc):
+    match = MEDIA_LIST_RE.search(doc)
+    if not match:
+        raise RenderError('missing <ul id="media-appearances"> in index.html')
+    parser = MediaListParser()
+    parser.feed(match.group(1))
+    if not parser.items:
+        raise RenderError("#media-appearances has no <li> entries")
+
+    counts = {kind: 0 for kind, _ in MEDIA_KINDS}
+    for kind, text in parser.items:
+        snippet = text[:72] or "<empty>"
+        if not kind:
+            print(f"::warning::render_snapshot: media appearance is missing data-kind: {snippet}")
+        elif kind not in counts:
+            print(f"::warning::render_snapshot: media appearance has unknown data-kind={kind!r}: {snippet}")
+        else:
+            counts[kind] += 1
+
+    total = sum(counts.values())
+    lines = [
+        '<div class="media-tally" role="group" aria-label="Select media appearances by kind">',
+        f'    <p class="tally-total"><span class="tally-num">{total}</span> <span class="tally-unit">appearances on record</span></p>',
+        '    <dl class="tally-list">',
+    ]
+    for kind, label in MEDIA_KINDS:
+        count = counts[kind]
+        lines.append('        <div class="tally-row">')
+        lines.append(f"            <dt>{clean(label)}</dt>")
+        lines.append(f'            <dd><span class="tally-count">{count}</span>{tally_svg(count)}</dd>')
+        lines.append("        </div>")
+    lines += ["    </dl>", "</div>"]
+    return "\n".join(lines)
+
+
 def venue_for(work):
     journal = clean(work.get("journal"))
     if journal:
@@ -264,6 +363,7 @@ def main():
     doc = splice(doc, "metrics", render_metrics(scholar))
     doc = splice(doc, "chart", render_chart(scholar))
     doc = splice(doc, "posts", render_posts(substack))
+    doc = splice(doc, "media-tally", render_media_tally(doc))
     doc = splice(doc, "pubs", render_pubs(orcid))
     doc = splice(doc, "orcid-updated", orcid_updated, inline=True)
 
