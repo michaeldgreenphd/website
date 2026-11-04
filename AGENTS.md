@@ -64,7 +64,8 @@ Pushing to `main` deploys within a couple of minutes.
 
 - **Never hand-edit the generated blocks in `index.html`** — everything
   between `<!-- data:NAME -->` and `<!-- /data:NAME -->` (citation metrics,
-  the chart, recent posts, the publication list, the ORCID date) — nor
+  the chart, recent posts, the publication list, the ORCID date, the media
+  tally) — nor
   `scholar_stats.json`, `substack_posts.json`, `orcid_works.json`, or
   `citations_over_time*.png`. Change `scripts/render_snapshot.py` or the
   fetch scripts instead, then run the renderer; a second run must print
@@ -121,7 +122,10 @@ adversarial review) and decided. Reopen one only if the owner asks.
   co-author line (seven names, chosen by the owner), "Select Service and
   Awards", "Select Media Appearances", and the omission of conference
   abstracts and posters from Publications. A reviewer should not flag
-  these as incomplete; an agent should not "complete" them.
+  these as incomplete; an agent should not "complete" them. Each entry in
+  "Select Media Appearances" (`ul#media-appearances`) carries a
+  `data-kind` of `podcast`, `news`, `blog` or `talk`; the renderer counts
+  those into the media tally under the Media heading.
 - **Publications sit at the bottom of the page and stay collapsed**; the
   section order (about, research, for fun, cv, media, contact,
   publications) is the owner's.
