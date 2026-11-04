@@ -15,6 +15,14 @@ Marked regions in index.html (each pair must appear exactly once):
     <!-- data:posts -->          five most recent Substack posts
     <!-- data:pubs -->           publication list (summary + year groups)
     <!-- data:orcid-updated -->  "updated <Month Year>" stamp
+    <!-- data:media-tally -->    counts of the hand-curated media list by kind
+    <!-- data:cv-tally -->       counts from the CV (cv_counts.json)
+
+The media tally is the one block not drawn from a data file: it counts the
+data-kind attribute of each entry in the curated <ul id="media-appearances">
+in index.html itself, so tagging a new entry is all it takes to update it.
+The CV tally comes from cv_counts.json, which the owner edits by hand from
+the CV; a mistake there warns and leaves that block alone.
 
 Deterministic: unchanged data produces no diff, so the workflow's commit
 step stays quiet. Exits non-zero with a ::error:: line if a marker is
@@ -38,10 +46,21 @@ INDEX_PATH = REPO_ROOT / "index.html"
 SCHOLAR_PATH = REPO_ROOT / "scholar_stats.json"
 SUBSTACK_PATH = REPO_ROOT / "substack_posts.json"
 ORCID_PATH = REPO_ROOT / "orcid_works.json"
+# Hand-maintained from the owner's CV (not fetched): update it with each new CV
+CV_COUNTS_PATH = REPO_ROOT / "cv_counts.json"
 CHART_LIGHT = "citations_over_time.png"
 CHART_DARK = "citations_over_time_dark.png"
 
 MAX_POSTS = 5
+# Kinds a curated media entry can carry (data-kind="..."), in display order,
+# with the label used for one and for several
+MEDIA_KINDS = {
+    "podcast": ("podcast appearance", "podcast appearances"),
+    "news": ("news article", "news articles"),
+    "blog": ("blog post", "blog posts"),
+    "talk": ("talk or panel", "talks & panels"),
+}
+MEDIA_TOTAL_LABEL = "appearances on record"
 # Editorial choice: conference abstracts and posters stay on ORCID, not on
 # the page (the intro sentence above the list says so).
 OMITTED_TYPES = {"conference-abstract", "conference-poster"}
@@ -230,6 +249,100 @@ def render_pubs(orcid):
     return "\n".join(groups)
 
 
+def tally_marks(count):
+    """Tally marks as an inline SVG: groups of four strokes and a slash."""
+    step, group_gap, height = 5, 9, 14
+    strokes, x = [], 3
+    for group_start in range(0, count, 5):
+        in_group = min(5, count - group_start)
+        for k in range(min(4, in_group)):
+            strokes.append(f"M{x + k * step} 2V{height - 2}")
+        if in_group == 5:
+            strokes.append(f"M{x - 2} {height - 3}L{x + 3 * step + 2} 3")
+        x += 3 * step + group_gap
+    width = x - group_gap + 3
+    return (
+        f'<svg class="tally-marks" viewBox="0 0 {width} {height}" width="{width}" height="{height}" '
+        f'aria-hidden="true" focusable="false"><path d="{"".join(strokes)}"/></svg>'
+    )
+
+
+def render_tally(aria_label, total, rows):
+    """A tally block: a total line, then one row per (count, label) with marks.
+
+    Shared by the media and CV tallies so both read the same: Fraunces
+    numerals, Plex Mono labels, tally marks in --ink on the desktop spread.
+    """
+    lines = [f'<div class="tally" role="group" aria-label="{html.escape(aria_label, quote=True)}">']
+    if total is not None:
+        n, label = total
+        lines.append(f'    <p class="tally-total"><span class="tally-n">{n}</span> '
+                     f'<span class="tally-label">{html.escape(label, quote=False)}</span></p>')
+    lines.append('    <ul class="tally-rows">')
+    for n, label in rows:
+        lines.append(f'        <li><span class="tally-n">{n}</span> '
+                     f'<span class="tally-label">{html.escape(label, quote=False)}</span>{tally_marks(n)}</li>')
+    lines += ["    </ul>", "</div>"]
+    return "\n".join(lines)
+
+
+def render_media_tally(doc):
+    """Count the curated media list by data-kind; the list lives in index.html."""
+    opener = '<ul class="rows" id="media-appearances">'
+    if doc.count(opener) != 1:
+        raise RenderError("the curated list ul#media-appearances is missing or duplicated in index.html")
+    start = doc.index(opener) + len(opener)
+    items = doc[start:doc.index("</ul>", start)]
+    counts = {kind: 0 for kind in MEDIA_KINDS}
+    for match in re.finditer(r"<li\b([^>]*)>", items):
+        kind = re.search(r'\bdata-kind="([^"]*)"', match.group(1))
+        if kind and kind.group(1) in counts:
+            counts[kind.group(1)] += 1
+        else:
+            # Counted nowhere rather than failing the whole data refresh
+            print(f"::warning::render_snapshot: a media entry has no known data-kind "
+                  f"({', '.join(MEDIA_KINDS)}): {match.group(0)}")
+    rows = [(counts[k], one if counts[k] == 1 else several)
+            for k, (one, several) in MEDIA_KINDS.items() if counts[k]]
+    if not rows:
+        raise RenderError("the curated media list has no tagged entries")
+    return render_tally("Select media appearances by kind",
+                        (sum(counts.values()), MEDIA_TOTAL_LABEL), rows)
+
+
+def cv_count(entry, where):
+    """(count, label) from one cv_counts.json entry; ValueError if malformed."""
+    if not isinstance(entry, dict):
+        raise ValueError(f"{where} is not an object")
+    count, label = entry.get("count"), entry.get("label")
+    if isinstance(count, bool) or not isinstance(count, int) or count < 0:
+        raise ValueError(f"{where} needs a whole-number count")
+    if not isinstance(label, str) or not label.strip():
+        raise ValueError(f"{where} needs a label")
+    return count, " ".join(label.split())
+
+
+def render_cv_tally():
+    """The CV tally from cv_counts.json, or None (with a warning) if unusable.
+
+    The file is hand-edited, so a mistake in it warns and leaves the block
+    as it was instead of failing the whole data refresh.
+    """
+    try:
+        data = json.loads(CV_COUNTS_PATH.read_text(encoding="utf-8"))
+        if not isinstance(data, dict):
+            raise ValueError("the file is not a JSON object")
+        total = cv_count(data.get("total"), "total")
+        entries = data.get("rows")
+        if not isinstance(entries, list) or not entries:
+            raise ValueError("rows must be a non-empty list")
+        rows = [cv_count(e, f"rows[{i}]") for i, e in enumerate(entries)]
+    except (OSError, ValueError, RecursionError) as err:
+        print(f"::warning::render_snapshot: cv_counts.json is unusable, CV tally left as is: {err}")
+        return None
+    return render_tally("Counts from the CV", total, [r for r in rows if r[0]])
+
+
 # --- Splicing -----------------------------------------------------------------
 
 
@@ -266,6 +379,10 @@ def main():
     doc = splice(doc, "posts", render_posts(substack))
     doc = splice(doc, "pubs", render_pubs(orcid))
     doc = splice(doc, "orcid-updated", orcid_updated, inline=True)
+    doc = splice(doc, "media-tally", render_media_tally(doc))
+    cv_tally = render_cv_tally()
+    if cv_tally is not None:
+        doc = splice(doc, "cv-tally", cv_tally)
 
     if doc == original:
         print("index.html data blocks unchanged.")

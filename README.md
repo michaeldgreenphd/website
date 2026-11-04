@@ -24,9 +24,22 @@ only in the closing "Getting in touch" block at the end of `faq.html`.
 
 **Do not hand-edit the blocks between `<!-- data:… -->` and `<!-- /data:… -->`
 markers** (citation metrics, the citations chart, recent posts, the
-publication list, the ORCID "updated" date). `scripts/render_snapshot.py`
-regenerates them from the JSON data files and would overwrite any manual
-change. To change how they look, edit that script.
+publication list, the ORCID "updated" date, the media and CV tallies).
+`scripts/render_snapshot.py` regenerates them from the JSON data files and
+would overwrite any manual change. To change how they look, edit that script.
+
+**Adding a media appearance.** Copy an existing entry in "Select Media
+Appearances", keep the list newest first, and set its `data-kind` to
+`podcast`, `news`, `blog` or `talk`. The counts under the "Media & Writing"
+heading come from those tags: they update at the next twice-daily data
+refresh, or straight away if you run `python scripts/render_snapshot.py`.
+
+**Updating the CV counts.** The numbers under the "Curriculum Vitae" heading
+come from `cv_counts.json`. When you upload a new CV, edit the counts (and,
+if a count changes between one and several, its label) in that file. They
+show on the site after the next data refresh, or straight away if you run
+the renderer. A typo in the file leaves the old numbers in place and adds a
+warning to the workflow run.
 
 When your role changes, update the masthead role line **and** the
 `jobTitle`/`affiliation` values in the JSON-LD block in `<head>`.

@@ -64,7 +64,8 @@ Pushing to `main` deploys within a couple of minutes.
 
 - **Never hand-edit the generated blocks in `index.html`** — everything
   between `<!-- data:NAME -->` and `<!-- /data:NAME -->` (citation metrics,
-  the chart, recent posts, the publication list, the ORCID date) — nor
+  the chart, recent posts, the publication list, the ORCID date, the media
+  and CV tallies) — nor
   `scholar_stats.json`, `substack_posts.json`, `orcid_works.json`, or
   `citations_over_time*.png`. Change `scripts/render_snapshot.py` or the
   fetch scripts instead, then run the renderer; a second run must print
@@ -81,7 +82,11 @@ Pushing to `main` deploys within a couple of minutes.
   `AGENTS.md`, `docs/SCHOLAR_PIPELINE.md`, `docs/BACKLOG.md`).
 - The CV keeps its dated filename (a stable name was offered and declined)
   and is linked from two places in `index.html` (the header link row and
-  the top of the CV section); update both when a new PDF is uploaded.
+  the top of the CV section); update both when a new PDF is uploaded, and
+  update `cv_counts.json` (publications, first- and senior-author
+  publications, invited talks, conference panels, sessions moderated)
+  from the same CV. That file is the one hand-edited JSON; the renderer
+  draws it into the CV tally under the Curriculum Vitae heading.
 - The email address lives only at the end of `faq.html`, not on the homepage.
 - The JSON-LD Person block in `<head>` carries `jobTitle`/`affiliation`;
   update it whenever the masthead role line changes.
@@ -121,7 +126,10 @@ adversarial review) and decided. Reopen one only if the owner asks.
   co-author line (seven names, chosen by the owner), "Select Service and
   Awards", "Select Media Appearances", and the omission of conference
   abstracts and posters from Publications. A reviewer should not flag
-  these as incomplete; an agent should not "complete" them.
+  these as incomplete; an agent should not "complete" them. Each entry in
+  "Select Media Appearances" (`ul#media-appearances`) carries a
+  `data-kind` of `podcast`, `news`, `blog` or `talk`; the renderer counts
+  those into the media tally under the Media heading.
 - **Publications sit at the bottom of the page and stay collapsed**; the
   section order (about, research, for fun, cv, media, contact,
   publications) is the owner's.
