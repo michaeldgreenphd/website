@@ -1,0 +1,12 @@
+{
+  "note": "Hand-maintained from the CV; update with each new CV. scripts/render_snapshot.py draws these into the tally under the Curriculum Vitae heading.",
+  "source": "Michael Green CV, November 2026",
+  "total": { "count": 21, "label": "publications" },
+  "rows": [
+    { "count": 6, "label": "first-author publications" },
+    { "count": 1, "label": "senior-author publication" },
+    { "count": 5, "label": "invited talks" },
+    { "count": 1, "label": "conference panel" },
+    { "count": 6, "label": "conference sessions facilitated" }
+  ]
+}
