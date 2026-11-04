@@ -15,6 +15,11 @@ Marked regions in index.html (each pair must appear exactly once):
     <!-- data:posts -->          five most recent Substack posts
     <!-- data:pubs -->           publication list (summary + year groups)
     <!-- data:orcid-updated -->  "updated <Month Year>" stamp
+    <!-- data:media-tally -->    counts of the hand-curated media list by kind
+
+The media tally is the one block not drawn from a data file: it counts the
+data-kind attribute of each entry in the curated <ul id="media-appearances">
+in index.html itself, so tagging a new entry is all it takes to update it.
 
 Deterministic: unchanged data produces no diff, so the workflow's commit
 step stays quiet. Exits non-zero with a ::error:: line if a marker is
@@ -42,6 +47,14 @@ CHART_LIGHT = "citations_over_time.png"
 CHART_DARK = "citations_over_time_dark.png"
 
 MAX_POSTS = 5
+# Kinds a curated media entry can carry (data-kind="..."), in display order,
+# with the label used for one and for several
+MEDIA_KINDS = {
+    "podcast": ("podcast appearance", "podcast appearances"),
+    "news": ("news article", "news articles"),
+    "blog": ("blog post", "blog posts"),
+    "talk": ("talk or panel", "talks & panels"),
+}
 # Editorial choice: conference abstracts and posters stay on ORCID, not on
 # the page (the intro sentence above the list says so).
 OMITTED_TYPES = {"conference-abstract", "conference-poster"}
@@ -230,6 +243,52 @@ def render_pubs(orcid):
     return "\n".join(groups)
 
 
+def tally_marks(count):
+    """Tally marks as an inline SVG: groups of four strokes and a slash."""
+    step, group_gap, height = 5, 9, 14
+    strokes, x = [], 3
+    for group_start in range(0, count, 5):
+        in_group = min(5, count - group_start)
+        for k in range(min(4, in_group)):
+            strokes.append(f"M{x + k * step} 2V{height - 2}")
+        if in_group == 5:
+            strokes.append(f"M{x - 2} {height - 3}L{x + 3 * step + 2} 3")
+        x += 3 * step + group_gap
+    width = x - group_gap + 3
+    return (
+        f'<svg class="tally-marks" viewBox="0 0 {width} {height}" width="{width}" height="{height}" '
+        f'aria-hidden="true" focusable="false"><path d="{"".join(strokes)}"/></svg>'
+    )
+
+
+def render_media_tally(doc):
+    """Count the curated media list by data-kind; the list lives in index.html."""
+    opener = '<ul class="rows" id="media-appearances">'
+    if doc.count(opener) != 1:
+        raise RenderError("the curated list ul#media-appearances is missing or duplicated in index.html")
+    start = doc.index(opener) + len(opener)
+    items = doc[start:doc.index("</ul>", start)]
+    counts = {kind: 0 for kind in MEDIA_KINDS}
+    for match in re.finditer(r"<li\b([^>]*)>", items):
+        kind = re.search(r'\bdata-kind="([^"]*)"', match.group(1))
+        if kind and kind.group(1) in counts:
+            counts[kind.group(1)] += 1
+        else:
+            # Counted nowhere rather than failing the whole data refresh
+            print(f"::warning::render_snapshot: a media entry has no known data-kind "
+                  f"({', '.join(MEDIA_KINDS)}): {match.group(0)}")
+    rows = []
+    for kind, (one, several) in MEDIA_KINDS.items():
+        n = counts[kind]
+        if n:
+            label = html.escape(one if n == 1 else several, quote=False)
+            rows.append(f'    <li><span class="tally-n">{n}</span> <span class="tally-label">{label}</span>'
+                        f"{tally_marks(n)}</li>")
+    if not rows:
+        raise RenderError("the curated media list has no tagged entries")
+    return "\n".join(['<ul class="media-tally" aria-label="Select media appearances by kind">', *rows, "</ul>"])
+
+
 # --- Splicing -----------------------------------------------------------------
 
 
@@ -266,6 +325,7 @@ def main():
     doc = splice(doc, "posts", render_posts(substack))
     doc = splice(doc, "pubs", render_pubs(orcid))
     doc = splice(doc, "orcid-updated", orcid_updated, inline=True)
+    doc = splice(doc, "media-tally", render_media_tally(doc))
 
     if doc == original:
         print("index.html data blocks unchanged.")
