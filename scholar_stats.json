@@ -47,14 +47,14 @@
       "profile_url": "https://scholar.google.com/citations?user=HufwIMQAAAAJ&hl=en"
     },
     {
-      "name": "Emily C. O'Brien",
-      "affiliation": "Associate Professor at Duke University",
-      "profile_url": "https://scholar.google.com/citations?user=O2slgIQAAAAJ&hl=en"
-    },
-    {
       "name": "LáShauntá Glover",
       "affiliation": "Assistant Professor at Duke University",
       "profile_url": "https://scholar.google.com/citations?user=bZWka-AAAAAJ&hl=en"
+    },
+    {
+      "name": "Emily C. O'Brien",
+      "affiliation": "Associate Professor at Duke University",
+      "profile_url": "https://scholar.google.com/citations?user=O2slgIQAAAAJ&hl=en"
     },
     {
       "name": "Ann Marie Navar",
@@ -87,5 +87,5 @@
       "profile_url": "https://scholar.google.com/citations?user=KAW_mqoAAAAJ&hl=en"
     }
   ],
-  "updated": "2026-11-03"
+  "updated": "2026-11-04"
 }
