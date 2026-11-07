@@ -3,8 +3,11 @@
 Substack feed cache.
 
 Fetches the Not Being Green RSS feed and writes the latest posts to
-substack_posts.json in the repository root. scripts/render_snapshot.py then
-renders it into the "Recent Posts" block of index.html, which removes any
+substack_posts.json in the repository root, with the number of posts the
+blog has published ("post_count", counted from its sitemap, because the feed
+carries only the newest 20). scripts/render_snapshot.py then renders the
+posts into the "Recent Posts" block of index.html and the count into the
+media tally, which removes any
 runtime dependency on third-party RSS-to-JSON proxies (rss2json / allorigins)
 that rate-limit shared mobile IPs and made the block load unreliably.
 
@@ -27,6 +30,10 @@ from pathlib import Path
 from urllib.request import Request, urlopen
 
 FEED_URL = "https://www.notbeinggreen.com/feed"
+SITEMAP_URL = "https://www.notbeinggreen.com/sitemap.xml"
+# A post's address in the sitemap: the blog's own host, /p/<slug>, nothing more
+POST_URL_RE = re.compile(r"^https://www\.notbeinggreen\.com/p/[^/?#\s]+/?$")
+SITEMAP_NS = "{http://www.sitemaps.org/schemas/sitemap/0.9}"
 REPO_ROOT = Path(__file__).resolve().parent.parent
 OUT_PATH = REPO_ROOT / "substack_posts.json"
 MAX_POSTS = 5
@@ -60,9 +67,9 @@ USER_AGENT = (
 )
 
 
-def fetch_feed():
+def fetch(url):
     request = Request(
-        FEED_URL,
+        url,
         headers={
             "User-Agent": USER_AGENT,
             "Accept": "application/rss+xml, application/xml, text/xml",
@@ -70,6 +77,21 @@ def fetch_feed():
     )
     with urlopen(request, timeout=TIMEOUT_S) as response:
         return response.read()
+
+
+def count_posts(xml_bytes):
+    """Distinct post addresses in the blog's sitemap (a <urlset>)."""
+    root = ET.fromstring(xml_bytes)
+    if root.tag != SITEMAP_NS + "urlset":
+        raise ValueError(f"sitemap root is {root.tag}, not a urlset")
+    posts = {
+        loc.text.strip().rstrip("/")
+        for loc in root.iter(SITEMAP_NS + "loc")
+        if loc.text and POST_URL_RE.match(loc.text.strip())
+    }
+    if not posts:
+        raise ValueError("sitemap lists no posts")
+    return len(posts)
 
 
 def parse_items(xml_bytes):
@@ -105,9 +127,17 @@ def cache_is_stale(max_age_days=MAX_CACHE_AGE_DAYS):
     return date.today() - updated > timedelta(days=max_age_days)
 
 
+def cached_post_count():
+    try:
+        count = json.loads(OUT_PATH.read_text(encoding="utf-8")).get("post_count")
+    except (OSError, ValueError, AttributeError):
+        return None
+    return count if isinstance(count, int) and not isinstance(count, bool) else None
+
+
 def main():
     try:
-        items = parse_items(fetch_feed())
+        items = parse_items(fetch(FEED_URL))
     except Exception as err:  # noqa: BLE001 - network/parse failures alike
         # A transient feed outage should not fail the workflow or clobber a
         # good cache — keep last-good, unless that cache is itself stale.
@@ -119,10 +149,18 @@ def main():
     if not items:
         raise SystemExit("Feed contained no items; refusing to write empty cache.")
 
+    # The count is a second request: if it fails, keep the cached count (the
+    # page then shows the last good number) rather than lose the new posts.
+    try:
+        post_count = count_posts(fetch(SITEMAP_URL))
+    except Exception as err:  # noqa: BLE001 - network/parse failures alike
+        post_count = cached_post_count()
+        print(f"::warning::Substack sitemap count skipped ({err}); kept the cached count ({post_count}).")
+
     if OUT_PATH.exists():
         try:
             old = json.loads(OUT_PATH.read_text(encoding="utf-8"))
-            if old.get("posts") == items:
+            if old.get("posts") == items and old.get("post_count") == post_count:
                 if not cache_is_stale(REFRESH_AFTER_DAYS):
                     print("Substack posts unchanged; leaving cache untouched.")
                     return
@@ -135,11 +173,13 @@ def main():
         "source": FEED_URL,
         "posts": items,
     }
+    if post_count is not None:
+        payload["post_count"] = post_count
     # Encode before opening, so an encoding error cannot leave an empty file
     OUT_PATH.write_bytes(
         (json.dumps(payload, indent=2, ensure_ascii=False) + "\n").encode("utf-8")
     )
-    print(f"Wrote {OUT_PATH} with {len(items)} posts")
+    print(f"Wrote {OUT_PATH} with {len(items)} posts (of {post_count} published)")
 
 
 if __name__ == "__main__":
