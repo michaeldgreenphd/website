@@ -19,7 +19,8 @@ are described in `.github/workflows/AGENTS.md`.
   `BLOCK_PAGE_MARKERS` / `SCHOLAR_MARKUP_RE`. Refusing an empty or zero payload is the only sanity
   guard; do not add a never-lower or percentage rule (settled
   decision, root `AGENTS.md`). Bump `CHART_STYLE_VERSION` whenever the
-  chart's palette or styling changes; otherwise the PNGs are re-rendered
+  chart's palette or styling changes (the PNGs are no longer shown on the
+  page, see `docs/BACKLOG.md`); otherwise the PNGs are re-rendered
   only when the data changes.
 - `fetch_substack.py`: keeps the cached posts on a transient failure but
   fails loudly when the cache is older than `MAX_CACHE_AGE_DAYS` (30). A
@@ -44,6 +45,14 @@ are described in `.github/workflows/AGENTS.md`.
   owner's hand-edited `cv_counts.json`; if that file is malformed the run
   prints a `::warning::` and leaves the block as it was. Neither fails the
   data refresh.
+- The citations draw from `scholar_stats.json` twice: `render_metrics()`
+  sets a word-sized SVG sparkline inside the metrics line, and
+  `render_chart()` writes a table of years with inline bars on one
+  zero-based scale. The last year counts as partial (open end dot, dashed
+  unfilled bar) when it is the year of the file's own `updated` date, never
+  the clock, so the output stays deterministic. The stage column comes from
+  `career_stages` in `cv_counts.json`; a malformed entry warns and leaves
+  the column blank.
 - `stage_data.py` runs only in the workflow's `publish` job, standard
   library only: `import DIR` copies the fetched data files in after
   checking each one, and `check` refuses the commit if anything but the
