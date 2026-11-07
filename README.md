@@ -44,6 +44,11 @@ warning to the workflow run. The same file's `career_stages` label the rows
 of the citations table ("PhD year 1" … "postdoc year 1"); a stage with no
 `to` year keeps counting on its own, so edit it only when your role changes.
 
+**Printing.** Printing the homepage, or saving it as a PDF from the print
+dialog, gives a plain paper layout: light colours, no sticky bar or embeds,
+and the publication list open with each DOI printed after its title. On an
+iPhone use Share → Print (Share → PDF skips the print layout).
+
 When your role changes, update the masthead role line **and** the
 `jobTitle`/`affiliation` values in the JSON-LD block in `<head>`.
 
@@ -86,7 +91,7 @@ website/
 ├── 404.html                    # Not-found page; forwards old root-level PDF links
 ├── published-manuscripts.html  # Manuscript PDFs, by year
 ├── faq.html                    # Contact FAQ
-├── theme.css                   # Tokens for the two secondary pages above
+├── theme.css                   # Tokens and font faces for the two secondary pages above
 ├── _config.yml                 # Keeps the Markdown notes and scripts/ off the published site
 ├── fonts/                      # Self-hosted Fraunces, DM Sans, IBM Plex Mono
 ├── images/, cv/, manuscripts/  # Assets (see docs/UPLOADING_FILES_GUIDE.md)

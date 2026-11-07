@@ -289,7 +289,7 @@ def render_pubs(orcid):
     groups = [f'<summary id="pubs-summary">show all {len(works)} publications</summary>']
     for year in sorted(by_year, reverse=True):  # 0 (undated) naturally sorts last
         label = str(year) if year else "undated"
-        lines = [f'<div class="pub-year">', f'<div class="year-label">{label}</div>', '<ul class="pubs">']
+        lines = [f'<div class="pub-year">', f'<h3 class="year-label">{label}</h3>', '<ul class="pubs">']
         for work in by_year[year]:
             entry = link(work.get("url"), clean(work.get("title")))
             venue = venue_for(work)

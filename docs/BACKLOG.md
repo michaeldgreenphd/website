@@ -11,28 +11,11 @@ two-skeptic verification, plus follow-up discussion.
 
 ## Site polish (audit items not yet done)
 
-- **Sharper For Fun photos (audit P1).** The seven photos are 320px PNGs —
-  soft on a phone and ~880 KB together. Re-save as JPEG (quality ~80):
-  `film 1`, `film 3` and `chargers sofi` have larger originals in git history
-  at commit `60bd128` (`images/film 1.jpg`, `film 3.jpg`,
-  `chargers sofi.jpg`); **`film 2.jpg` there is a different photo — re-save
-  the pixels of `film 2.png` instead**; `running`, `city 1`, `city 2` have
-  no larger originals. Update `width`/`height` attributes to match. Expected
-  ~240 KB total.
 - **Descriptive link text (A4).** In `index.html`: the Guardian item's
   "Full speech link *here*" → "watch the full speech on YouTube" (also
   fixes the missing "a" in that sentence); the publications intro's
   "collected *on this page*" → "PDFs of all published manuscripts are
   collected on a separate page" with the link on the noun phrase.
-- **Year labels as headings (A5).** Emit `<h3 class="year-label">` instead of
-  `<div>` in `scripts/render_snapshot.py` (the CSS class rule already
-  overrides the bare `h3` rule) so screen-reader users can jump by year.
-- **Print stylesheet (F2).** ~20 lines of `@media print`: hide the sticky
-  bar, theme switch, skip link and iframes; force the light palette; open
-  the publications fold (`details.pubs-fold::details-content` /
-  `content-visibility`); avoid breaks inside entries; print pub URLs after
-  titles. Test via iPhone Share → Print (Share → PDF does not apply print
-  styles).
 - **Page title with discipline.** `<title>` is just the name; "Michael D.
   Green, PhD · Population Health Researcher, Johns Hopkins" matches how
   people search and disambiguates a common name. Keep the JSON-LD `name`
@@ -51,15 +34,6 @@ two-skeptic verification, plus follow-up discussion.
   `published-manuscripts.html` (on `theme.css`) stay a 46rem-wide single
   column, so a visitor moving from the homepage to the FAQ on a laptop
   sees the column snap back. Widen their frame to match, or accept it.
-- **Typographic quotes.** Straight `"` and `'` in the prose → curly
-  (“ ” ’), including `O'Brien`; prose only, never inside code or
-  attributes.
-- **`text-wrap: pretty`** on paragraphs (Safari/Chrome); older browsers
-  ignore it.
-- **Self-host the fonts on `faq.html` and `published-manuscripts.html`** so
-  the "no web-font CDN" rule holds site-wide: reuse the `fonts/` files and
-  add the weights those pages use, or reduce their weights to the
-  homepage's set.
 - **`docs/SCHOLAR_PIPELINE.md` is stale** (it still describes a "dashboard
   on the Research tab"). Fold what is still true into `scripts/AGENTS.md`
   and `.github/workflows/AGENTS.md`, delete it, and update the pointers in
