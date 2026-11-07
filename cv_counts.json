@@ -1,5 +1,5 @@
 {
-  "note": "Hand-maintained from the CV; update with each new CV. scripts/render_snapshot.py draws these into the tally under the Curriculum Vitae heading.",
+  "note": "Hand-maintained from the CV; update with each new CV. scripts/render_snapshot.py draws total and rows into the tally under the Curriculum Vitae heading, and career_stages into the stage column of the citations table (a stage with no 'to' year runs on, so its year count advances by itself).",
   "source": "Michael Green CV, November 2026",
   "total": { "count": 21, "label": "publications" },
   "rows": [
@@ -8,5 +8,9 @@
     { "count": 5, "label": "invited talks" },
     { "count": 1, "label": "conference panel" },
     { "count": 6, "label": "conference sessions moderated" }
+  ],
+  "career_stages": [
+    { "label": "PhD", "from": 2021, "to": 2025 },
+    { "label": "postdoc", "from": 2026 }
   ]
 }

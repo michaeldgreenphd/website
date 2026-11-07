@@ -11,7 +11,7 @@ and links are only emitted for http(s) URLs.
 Marked regions in index.html (each pair must appear exactly once):
 
     <!-- data:metrics -->        citation metrics line
-    <!-- data:chart -->          citations-per-year figure (alt text + size)
+    <!-- data:chart -->          citations-per-year table with inline bars
     <!-- data:posts -->          five most recent Substack posts
     <!-- data:pubs -->           publication list (summary + year groups)
     <!-- data:orcid-updated -->  "updated <Month Year>" stamp
@@ -35,7 +35,6 @@ Usage:
 import html
 import json
 import re
-import struct
 import sys
 from datetime import datetime
 from email.utils import parsedate_to_datetime
@@ -48,8 +47,6 @@ SUBSTACK_PATH = REPO_ROOT / "substack_posts.json"
 ORCID_PATH = REPO_ROOT / "orcid_works.json"
 # Hand-maintained from the owner's CV (not fetched): update it with each new CV
 CV_COUNTS_PATH = REPO_ROOT / "cv_counts.json"
-CHART_LIGHT = "citations_over_time.png"
-CHART_DARK = "citations_over_time_dark.png"
 
 MAX_POSTS = 5
 # Kinds a curated media entry can carry (data-kind="..."), in display order,
@@ -120,18 +117,6 @@ def month_year_rfc(value):
         return ""
 
 
-def png_size(path):
-    """(width, height) from a PNG header, or None."""
-    try:
-        with open(path, "rb") as handle:
-            head = handle.read(24)
-    except OSError:
-        return None
-    if head[:8] != b"\x89PNG\r\n\x1a\n":
-        return None
-    return struct.unpack(">II", head[16:24])
-
-
 def load_json(path):
     try:
         data = json.loads(path.read_text(encoding="utf-8"))
@@ -149,11 +134,55 @@ def dicts(value):
 
 # --- Block renderers ----------------------------------------------------------
 # The homepage's desktop layout (index.html, @media (min-width: 64rem)) styles
-# these blocks by class name (.metrics, .scholar-chart, .pub-year, .year-label,
-# ul.pubs) and by where index.html places them: p.metrics and figure.scholar-chart
-# sit in the research section's .section-body, the posts inside
+# these blocks by class name (.metrics, .spark, table.cite-table, .pub-year,
+# .year-label, ul.pubs) and by where index.html places them: p.metrics and
+# table.cite-table sit in the research section's .section-body, the posts inside
 # ul#recent-posts, the publications inside details.pubs-fold. Keep the wrappers
 # and class names below as they are.
+
+
+def citation_series(stats):
+    """[(year, citations)] in year order, and whether the last year is partial.
+
+    The last year counts as partial when it is the year of the stats' own
+    'updated' date, so the answer depends only on the data, never the clock.
+    """
+    series = {}
+    for entry in dicts(stats.get("citations_per_year")):
+        year, count = entry.get("year"), entry.get("citations")
+        try:
+            year, count = int(year), int(count)
+        except (TypeError, ValueError):
+            continue
+        if count >= 0:
+            series[year] = count
+    ordered = sorted(series.items())
+    updated = str(stats.get("updated") or "")[:4]
+    partial = bool(ordered) and updated.isdigit() and int(updated) == ordered[-1][0]
+    return ordered, partial
+
+
+def sparkline(series, partial):
+    """A word-sized line of citations per year, set inside the metrics line."""
+    width, height = 72, 17
+    peak = max(count for _, count in series) or 1
+    step = (width - 4) / (len(series) - 1)
+    points = [(2 + i * step, 15 - count / peak * 12) for i, (_, count) in enumerate(series)]
+    fmt = lambda pts: " ".join(f"{x:.1f},{y:.2f}" for x, y in pts)
+    label = "citations per year: " + "; ".join(f"{year}, {count}" for year, count in series)
+    end_x, end_y = points[-1]
+    parts = [f'<svg class="spark" role="img" aria-label="{html.escape(label, quote=True)}" '
+             f'width="{width}" height="{height}" viewBox="0 0 {width} {height}">']
+    if partial:
+        if len(points) > 2:
+            parts.append(f'<polyline points="{fmt(points[:-1])}"/>')
+        parts.append(f'<polyline class="spark-partial" points="{fmt(points[-2:])}"/>')
+        parts.append(f'<circle class="spark-end spark-open" cx="{end_x:.1f}" cy="{end_y:.2f}" r="2"/>')
+    else:
+        parts.append(f'<polyline points="{fmt(points)}"/>')
+        parts.append(f'<circle class="spark-end" cx="{end_x:.1f}" cy="{end_y:.2f}" r="2"/>')
+    parts.append("</svg>")
+    return "".join(parts)
 
 
 def render_metrics(stats):
@@ -166,30 +195,53 @@ def render_metrics(stats):
     profile = safe_url(stats.get("profile_url")) or FALLBACK_SCHOLAR_URL
     when = month_year_iso(stats.get("updated"))
     tail = f", {when}" if when else ""
+    series, partial = citation_series(stats)
+    spark = sparkline(series, partial) if len(series) > 1 else " "
     return (
-        f'<p class="metrics">{citations} citations · h-index {h_index} · i10-index {i10} — '
+        f'<p class="metrics">{citations} citations{spark}· <span class="nowrap">h-index {h_index}</span> · '
+        f'<span class="nowrap">i10-index {i10}</span> — '
         f'<a href="{profile}" target="_blank" rel="noopener noreferrer">Google Scholar</a>{tail}</p>'
     )
 
 
-def render_chart(stats):
-    per_year = [
-        (clean(entry.get("year")), clean(entry.get("citations")))
-        for entry in dicts(stats.get("citations_per_year"))
-        if entry.get("year") is not None and entry.get("citations") is not None
-    ]
-    alt = "Bar chart of citations per year"
-    if per_year:
-        alt += " — " + ", ".join(f"{year}: {count}" for year, count in per_year) + "."
-    size = png_size(REPO_ROOT / CHART_LIGHT) or png_size(REPO_ROOT / CHART_DARK)
-    dims = f' width="{size[0]}" height="{size[1]}"' if size else ""
-    return (
-        '<figure class="scholar-chart">\n'
-        f'    <img src="{CHART_LIGHT}" alt="{alt}" class="chart-light"{dims} loading="lazy" decoding="async">\n'
-        f'    <img src="{CHART_DARK}" alt="{alt}" class="chart-dark"{dims} loading="lazy" decoding="async">\n'
-        "    <figcaption>citations per year</figcaption>\n"
-        "</figure>"
-    )
+def career_stage(year, stages):
+    """'PhD year 3' for a year inside a stage, else ''."""
+    for stage in stages:
+        if stage["from"] <= year and (stage["to"] is None or year <= stage["to"]):
+            return stage["label"], f'{stage["label"]} year {year - stage["from"] + 1}'
+    return "", ""
+
+
+def render_chart(stats, stages):
+    """Citations per year as a table: year, career stage, a bar and the count.
+
+    Bars share one scale from zero; the partial current year is an unfilled
+    bar with a dashed edge, and a darker rule marks a change of career stage.
+    """
+    series, partial = citation_series(stats)
+    if not series:
+        return ""
+    peak = max(count for _, count in series) or 1
+    rows, previous = [], None
+    for i, (year, count) in enumerate(series):
+        group, stage = career_stage(year, stages)
+        row_class = ' class="stage-start"' if previous is not None and group != previous else ""
+        previous = group
+        bar_class = "cite-bar partial" if partial and i == len(series) - 1 else "cite-bar"
+        width = count / peak * 80
+        rows.append(
+            f'        <tr{row_class}><th scope="row">{year}</th><td class="cite-stage">{clean(stage)}</td>'
+            f'<td class="cite-val"><span class="{bar_class}" style="width: {width:.1f}%"></span>'
+            f'<span class="cite-n">{count}</span></td></tr>'
+        )
+    return "\n".join([
+        '<table class="cite-table">',
+        "    <caption>citations per year</caption>",
+        "    <tbody>",
+        *rows,
+        "    </tbody>",
+        "</table>",
+    ])
 
 
 def render_posts(feed):
@@ -322,6 +374,36 @@ def cv_count(entry, where):
     return count, " ".join(label.split())
 
 
+def load_career_stages():
+    """Career stages from cv_counts.json for the citations table, or [].
+
+    Each stage is {"label", "from", optional "to"}; a stage without "to" runs
+    on, so its year count advances by itself. A mistake warns and drops the
+    stage column's labels rather than failing the data refresh.
+    """
+    try:
+        data = json.loads(CV_COUNTS_PATH.read_text(encoding="utf-8"))
+        entries = data.get("career_stages", []) if isinstance(data, dict) else None
+        if not isinstance(entries, list):
+            raise ValueError("career_stages must be a list")
+        stages = []
+        for i, entry in enumerate(entries):
+            if not isinstance(entry, dict):
+                raise ValueError(f"career_stages[{i}] is not an object")
+            label, start, end = entry.get("label"), entry.get("from"), entry.get("to")
+            if not isinstance(label, str) or not label.strip():
+                raise ValueError(f"career_stages[{i}] needs a label")
+            if isinstance(start, bool) or not isinstance(start, int):
+                raise ValueError(f"career_stages[{i}] needs a whole-number 'from' year")
+            if end is not None and (isinstance(end, bool) or not isinstance(end, int) or end < start):
+                raise ValueError(f"career_stages[{i}] has an unusable 'to' year")
+            stages.append({"label": " ".join(label.split()), "from": start, "to": end})
+        return stages
+    except (OSError, ValueError, RecursionError, AttributeError) as err:
+        print(f"::warning::render_snapshot: career_stages in cv_counts.json unusable, stage labels left out: {err}")
+        return []
+
+
 def render_cv_tally():
     """The CV tally from cv_counts.json, or None (with a warning) if unusable.
 
@@ -375,7 +457,7 @@ def main():
 
     doc = original
     doc = splice(doc, "metrics", render_metrics(scholar))
-    doc = splice(doc, "chart", render_chart(scholar))
+    doc = splice(doc, "chart", render_chart(scholar, load_career_stages()))
     doc = splice(doc, "posts", render_posts(substack))
     doc = splice(doc, "pubs", render_pubs(orcid))
     doc = splice(doc, "orcid-updated", orcid_updated, inline=True)
