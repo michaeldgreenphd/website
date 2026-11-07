@@ -144,8 +144,13 @@ These govern `index.html`, `theme.css`, `faq.html` and
 they stay in this file.
 
 Tokens live in `index.html` in three blocks — `:root` (light),
-`@media (prefers-color-scheme: dark)` scoped to `:root:not([data-theme="light"])`,
-and `:root[data-theme="dark"]` — and a new token must be added to all three.
+`@media screen and (prefers-color-scheme: dark)` scoped to
+`:root:not([data-theme="light"])`, and `:root[data-theme="dark"]` inside
+`@media screen` — and a new token must be added to all three. Both dark
+blocks are screen-only so that printing always uses the light values; the
+`@media print` block near the end of the stylesheet sets the paper layout
+(no running head, theme switch or embeds; publication list open with each
+DOI printed after its title) and holds no colour values of its own.
 
 | Token      | Light     | Dark      | Note                                   |
 |------------|-----------|-----------|----------------------------------------|

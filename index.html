@@ -124,7 +124,9 @@
         }
 
         /* ----- Theme tokens: light on :root, dark under the OS preference
-           (unless the toggle chose light) and under the toggle's dark choice ---- */
+           (unless the toggle chose light) and under the toggle's dark choice.
+           Both dark blocks apply on screen only, so print always uses the
+           light tokens ---- */
         :root {
             --ink: #1E5B40;
             --bg: #F4F6F2;
@@ -139,7 +141,7 @@
             --mono: 'IBM Plex Mono', ui-monospace, 'SFMono-Regular', Menlo, monospace;
         }
 
-        @media (prefers-color-scheme: dark) {
+        @media screen and (prefers-color-scheme: dark) {
             :root:not([data-theme="light"]) {
                 --ink: #4FB784;
                 --bg: #0F1E18;
@@ -153,17 +155,19 @@
             :root:not([data-theme="light"]) img { filter: brightness(0.88); }
         }
 
-        :root[data-theme="dark"] {
-            --ink: #4FB784;
-            --bg: #0F1E18;
-            --text: #EDF2EE;
-            --text-2: #B4C3B9;
-            --muted: #869187;
-            --line: #294034;
-            --tint: rgba(79, 183, 132, 0.12);
+        @media screen {
+            :root[data-theme="dark"] {
+                --ink: #4FB784;
+                --bg: #0F1E18;
+                --text: #EDF2EE;
+                --text-2: #B4C3B9;
+                --muted: #869187;
+                --line: #294034;
+                --tint: rgba(79, 183, 132, 0.12);
+            }
+            :root[data-theme="dark"] .theme-switch::before { content: "light"; }
+            :root[data-theme="dark"] img { filter: brightness(0.88); }
         }
-        :root[data-theme="dark"] .theme-switch::before { content: "light"; }
-        :root[data-theme="dark"] img { filter: brightness(0.88); }
 
         * { margin: 0; padding: 0; box-sizing: border-box; }
 
@@ -796,6 +800,38 @@
             .photo-strip { gap: 0.5rem; }
         }
 
+        /* ----- Print: one light column on paper. The running head, theme
+           switch and embeds are left off (each embed keeps its text link),
+           the publication list prints open (the script below opens it for
+           browsers without ::details-content), and each publication's link
+           is printed after it. */
+        @page { margin: 16mm 15mm; }
+        @media print {
+            html { font-size: 10.5pt; }
+            body { background: none; }
+            .page { max-width: none; padding: 0; }
+            .index, .skip-link, iframe { display: none; }
+            main section { padding-top: 1.4rem; }
+            main section + section { margin-top: 1.2rem; }
+            details.pubs-fold > summary { display: none; }
+            ul.pubs a[href]::after {
+                content: attr(href);
+                display: inline-block;  /* keeps the title's underline off the URL */
+                margin-left: 0.5em;
+                text-indent: 0;
+                font-family: var(--mono);
+                font-size: 0.72rem;
+                color: var(--muted);
+                overflow-wrap: anywhere;
+            }
+            .cite-bar { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+            h2, h3, .year-label { break-after: avoid; }
+            li, tr, figure, .cv-item, .running-grid, .duo-strip { break-inside: avoid; }
+        }
+        @media print {
+            details.pubs-fold::details-content { content-visibility: visible; }
+        }
+
         @media (prefers-reduced-motion: reduce) {
             html { scroll-behavior: auto; }
             *, *::before, *::after { transition-duration: 0.01ms !important; }
@@ -1309,6 +1345,16 @@
             btn.addEventListener('click', function () {
                 root.dataset.theme = isDark() ? 'light' : 'dark';
                 try { localStorage.setItem('theme', root.dataset.theme); } catch (e) { /* ignore */ }
+            });
+
+            // Printing opens the publication list, then puts it back as it was
+            const fold = document.getElementById('pubs-fold');
+            let foldWasOpen = null;
+            window.addEventListener('beforeprint', function () {
+                if (foldWasOpen === null) { foldWasOpen = fold.open; fold.open = true; }
+            });
+            window.addEventListener('afterprint', function () {
+                if (foldWasOpen !== null) { fold.open = foldWasOpen; foldWasOpen = null; }
             });
         })();
     </script>
