@@ -63,9 +63,9 @@ Pushing to `main` deploys within a couple of minutes.
 ## Rules for edits
 
 - **Never hand-edit the generated blocks in `index.html`** — everything
-  between `<!-- data:NAME -->` and `<!-- /data:NAME -->` (citation metrics,
-  the chart, recent posts, the publication list, the ORCID date, the media
-  and CV tallies) — nor
+  between `<!-- data:NAME -->` and `<!-- /data:NAME -->` (citation metrics
+  with their sparkline, the citations table, recent posts, the publication
+  list, the ORCID date, the media and CV tallies) — nor
   `scholar_stats.json`, `substack_posts.json`, `orcid_works.json`, or
   `citations_over_time*.png`. Change `scripts/render_snapshot.py` or the
   fetch scripts instead, then run the renderer; a second run must print
@@ -86,7 +86,10 @@ Pushing to `main` deploys within a couple of minutes.
   update `cv_counts.json` (publications, first- and senior-author
   publications, invited talks, conference panels, sessions moderated)
   from the same CV. That file is the one hand-edited JSON; the renderer
-  draws it into the CV tally under the Curriculum Vitae heading.
+  draws it into the CV tally under the Curriculum Vitae heading, and its
+  `career_stages` (PhD 2021–2025, postdoc from 2026, open-ended so the year
+  count advances by itself) into the stage column of the citations table.
+  Change a stage there when a role changes.
 - The email address lives only at the end of `faq.html`, not on the homepage.
 - The JSON-LD Person block in `<head>` carries `jobTitle`/`affiliation`;
   update it whenever the masthead role line changes.
@@ -185,9 +188,9 @@ secondary pages only) uses its own `--color-*` names for the same values.
   heading (its `.section-head` wrapper, pinned below the running head
   while its section scrolls); the `.section-body` wrapper that follows
   holds everything else and runs the full 44rem reading column (about 88
-  characters, the owner's choice over a tighter measure), with the chart
-  capped at 30rem. Every section is exactly those two children; new
-  content goes inside `.section-body`. The running head joins the same
+  characters, the owner's choice over a tighter measure), with the
+  citations table capped at 34rem. Every section is exactly those two
+  children; new content goes inside `.section-body`. The running head joins the same
   grid from 70rem, where its link row fits on one line.
 - **Deliberate things that look like bugs — leave them**: the Substack
   iframe keeps `background: #fff` (its form text would vanish on the dark

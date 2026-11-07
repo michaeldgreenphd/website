@@ -23,8 +23,9 @@ only in the closing "Getting in touch" block at the end of `faq.html`.
 | masthead              | name, role line, intro sentence, header link row            |
 
 **Do not hand-edit the blocks between `<!-- data:… -->` and `<!-- /data:… -->`
-markers** (citation metrics, the citations chart, recent posts, the
-publication list, the ORCID "updated" date, the media and CV tallies).
+markers** (citation metrics and their sparkline, the citations table,
+recent posts, the publication list, the ORCID "updated" date, the media and
+CV tallies).
 `scripts/render_snapshot.py` regenerates them from the JSON data files and
 would overwrite any manual change. To change how they look, edit that script.
 
@@ -39,7 +40,9 @@ come from `cv_counts.json`. When you upload a new CV, edit the counts (and,
 if a count changes between one and several, its label) in that file. They
 show on the site after the next data refresh, or straight away if you run
 the renderer. A typo in the file leaves the old numbers in place and adds a
-warning to the workflow run.
+warning to the workflow run. The same file's `career_stages` label the rows
+of the citations table ("PhD year 1" … "postdoc year 1"); a stage with no
+`to` year keeps counting on its own, so edit it only when your role changes.
 
 When your role changes, update the masthead role line **and** the
 `jobTitle`/`affiliation` values in the JSON-LD block in `<head>`.

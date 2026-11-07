@@ -65,6 +65,15 @@ two-skeptic verification, plus follow-up discussion.
   and `.github/workflows/AGENTS.md`, delete it, and update the pointers in
   `README.md` and `scripts/fetch_scholar.py`.
 
+- **Retire the PNG citations chart.** Since 2026-11 the page shows the
+  citations as a sparkline and an HTML table, so `citations_over_time*.png`
+  are no longer displayed. `scripts/fetch_scholar.py` still renders them with
+  matplotlib in the fetch job. Removing that (the chart code,
+  `CHART_STYLE_VERSION`, the PNG files, `PNG_FILES` in
+  `scripts/stage_data.py`, the workflow's chart-font step and the matplotlib
+  pins) would shorten the run and drop a heavy dependency. Do it as its own
+  change and watch one run.
+
 ## Email friction (parked by the owner)
 
 - **Subject-line token and AI canary** — on the site since 2026-09-16: the
