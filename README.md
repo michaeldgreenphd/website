@@ -31,7 +31,9 @@ would overwrite any manual change. To change how they look, edit that script.
 
 **Adding a media appearance.** Copy an existing entry in "Select Media
 Appearances", keep the list newest first, and set its `data-kind` to
-`podcast`, `news`, `blog` or `talk`. The counts under the "Media & Writing"
+`podcast`, `news`, `blog` (a guest post on someone else's blog) or `talk`.
+Your own Not Being Green posts are not listed there: their count, on its
+own line under the appearances, updates by itself from the blog. The counts under the "Media & Writing"
 heading come from those tags: they update at the next twice-daily data
 refresh, or straight away if you run `python scripts/render_snapshot.py`.
 

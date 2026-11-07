@@ -54,10 +54,13 @@ MAX_POSTS = 5
 MEDIA_KINDS = {
     "podcast": ("podcast appearance", "podcast appearances"),
     "news": ("news article", "news articles"),
-    "blog": ("blog post", "blog posts"),
+    "blog": ("guest blog post", "guest blog posts"),
     "talk": ("talk or panel", "talks & panels"),
 }
 MEDIA_TOTAL_LABEL = "appearances on record"
+# The owner's own blog, counted apart from the appearances above it
+PERSONAL_BLOG = ("personal blog post on", "personal blog posts on", "Not Being Green",
+                 "https://www.notbeinggreen.com")
 # Editorial choice: conference abstracts and posters stay on ORCID, not on
 # the page (the intro sentence above the list says so).
 OMITTED_TYPES = {"conference-abstract", "conference-poster"}
@@ -319,11 +322,12 @@ def tally_marks(count):
     )
 
 
-def render_tally(aria_label, total, rows):
+def render_tally(aria_label, total, rows, label_link=None):
     """A tally block: a total line, then one row per (count, label) with marks.
 
     Shared by the media and CV tallies so both read the same: Fraunces
     numerals, Plex Mono labels, tally marks in --ink on the desktop spread.
+    label_link, a (text, url) pair, is linked after every row's label.
     """
     lines = [f'<div class="tally" role="group" aria-label="{html.escape(aria_label, quote=True)}">']
     if total is not None:
@@ -331,15 +335,29 @@ def render_tally(aria_label, total, rows):
         lines.append(f'    <p class="tally-total"><span class="tally-n">{n}</span> '
                      f'<span class="tally-label">{html.escape(label, quote=False)}</span></p>')
     lines.append('    <ul class="tally-rows">')
+    tail = ""
+    if label_link:
+        tail = " " + link(label_link[1], html.escape(label_link[0], quote=False))
     for n, label in rows:
         lines.append(f'        <li><span class="tally-n">{n}</span> '
-                     f'<span class="tally-label">{html.escape(label, quote=False)}</span>{tally_marks(n)}</li>')
+                     f'<span class="tally-label">{html.escape(label, quote=False)}{tail}</span>{tally_marks(n)}</li>')
     lines += ["    </ul>", "</div>"]
     return "\n".join(lines)
 
 
-def render_media_tally(doc):
-    """Count the curated media list by data-kind; the list lives in index.html."""
+def personal_blog_count(feed):
+    """post_count from substack_posts.json, or None (with a warning) if unusable."""
+    count = feed.get("post_count")
+    if isinstance(count, bool) or not isinstance(count, int) or count < 1:
+        print("::warning::render_snapshot: substack_posts.json has no usable post_count; "
+              "the personal blog line is left out of the media tally")
+        return None
+    return count
+
+
+def render_media_tally(doc, feed):
+    """Count the curated media list by data-kind (the list lives in index.html),
+    then, as its own group, the posts on the owner's blog."""
     opener = '<ul class="rows" id="media-appearances">'
     if doc.count(opener) != 1:
         raise RenderError("the curated list ul#media-appearances is missing or duplicated in index.html")
@@ -358,8 +376,14 @@ def render_media_tally(doc):
             for k, (one, several) in MEDIA_KINDS.items() if counts[k]]
     if not rows:
         raise RenderError("the curated media list has no tagged entries")
-    return render_tally("Select media appearances by kind",
-                        (sum(counts.values()), MEDIA_TOTAL_LABEL), rows)
+    block = render_tally("Select media appearances by kind",
+                         (sum(counts.values()), MEDIA_TOTAL_LABEL), rows)
+    own = personal_blog_count(feed)
+    if own is not None:
+        one, several, name, url = PERSONAL_BLOG
+        block += "\n" + render_tally("Personal blog", None,
+                                     [(own, one if own == 1 else several)], (name, url))
+    return block
 
 
 def cv_count(entry, where):
@@ -461,7 +485,7 @@ def main():
     doc = splice(doc, "posts", render_posts(substack))
     doc = splice(doc, "pubs", render_pubs(orcid))
     doc = splice(doc, "orcid-updated", orcid_updated, inline=True)
-    doc = splice(doc, "media-tally", render_media_tally(doc))
+    doc = splice(doc, "media-tally", render_media_tally(doc, substack))
     cv_tally = render_cv_tally()
     if cv_tally is not None:
         doc = splice(doc, "cv-tally", cv_tally)

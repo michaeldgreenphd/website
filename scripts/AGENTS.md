@@ -23,7 +23,12 @@ are described in `.github/workflows/AGENTS.md`.
   page, see `docs/BACKLOG.md`); otherwise the PNGs are re-rendered
   only when the data changes.
 - `fetch_substack.py`: keeps the cached posts on a transient failure but
-  fails loudly when the cache is older than `MAX_CACHE_AGE_DAYS` (30). A
+  fails loudly when the cache is older than `MAX_CACHE_AGE_DAYS` (30). It
+  also writes `post_count`, the number of posts Not Being Green has
+  published, counted from the blog's `sitemap.xml` (distinct `/p/` addresses
+  on its own host): the feed carries only the newest 20, and Substack's
+  archive API is undocumented and has changed. A failed count keeps the
+  cached one with a `::warning::`. A
   successful fetch refreshes the cache's `updated` date weekly
   (`REFRESH_AFTER_DAYS`) even when the posts are unchanged, so that age
   counts from the last good fetch; expect one small data commit a week.
@@ -37,11 +42,14 @@ are described in `.github/workflows/AGENTS.md`.
   timestamps, no run-dependent ordering — and a second run on unchanged
   data prints "index.html data blocks unchanged." It omits works typed
   `conference-abstract` and `conference-poster` on purpose. Two blocks
-  are not drawn from fetched data, and both are built by the shared
-  `render_tally()` so they look alike. `media-tally` counts the
+  are drawn mostly from hand-kept sources, and both are built by the
+  shared `render_tally()` so they look alike. `media-tally` counts the
   `data-kind` of each entry in the hand-curated `ul#media-appearances` in
   `index.html` itself; an entry without a known kind prints a
-  `::warning::` and is left out of the count. `cv-tally` reads the
+  `::warning::` and is left out of the count. Below it, as its own group,
+  `media-tally` shows `post_count` from `substack_posts.json` as "personal
+  blog posts on Not Being Green" (linked); a missing count prints a
+  `::warning::` and leaves that line out. `cv-tally` reads the
   owner's hand-edited `cv_counts.json`; if that file is malformed the run
   prints a `::warning::` and leaves the block as it was. Neither fails the
   data refresh.

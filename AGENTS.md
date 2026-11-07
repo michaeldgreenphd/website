@@ -131,8 +131,10 @@ adversarial review) and decided. Reopen one only if the owner asks.
   abstracts and posters from Publications. A reviewer should not flag
   these as incomplete; an agent should not "complete" them. Each entry in
   "Select Media Appearances" (`ul#media-appearances`) carries a
-  `data-kind` of `podcast`, `news`, `blog` or `talk`; the renderer counts
-  those into the media tally under the Media heading.
+  `data-kind` of `podcast`, `news`, `blog` (a guest post on someone else's
+  blog) or `talk`; the renderer counts those into the media tally under the
+  Media heading, with the owner's own posts on Not Being Green counted
+  automatically on a separate line below.
 - **Publications sit at the bottom of the page and stay collapsed**; the
   section order (about, research, for fun, cv, media, contact,
   publications) is the owner's.
