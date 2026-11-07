@@ -1,5 +1,5 @@
 {
-  "updated": "2026-11-02",
+  "updated": "2026-11-07",
   "source": "https://www.notbeinggreen.com/feed",
   "posts": [
     {
@@ -32,5 +32,6 @@
       "pubDate": "Tue, 03 Mar 2026 13:09:59 GMT",
       "description": "I asked NIH Director Jay Bhattacharya to be more transparent about what makes a grant a \"DEI activity.\" Instead of answering, he decided to criticize my science without reading it."
     }
-  ]
+  ],
+  "post_count": 21
 }
