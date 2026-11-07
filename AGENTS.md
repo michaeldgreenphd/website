@@ -72,9 +72,9 @@ Pushing to `main` deploys within a couple of minutes.
   "unchanged".
 - Keep the homepage flat and quiet: no entrance or scroll animations, no
   cards or pill tags, no third-party scripts, no web-font CDN. Green
-  (`--ink`) is the only accent. (`faq.html` and `published-manuscripts.html`
-  still load Google Fonts; self-hosting them is a backlog item, not a rule
-  violation.)
+  (`--ink`) is the only accent. No page on the site loads a web-font CDN:
+  `faq.html` and `published-manuscripts.html` take the same self-hosted
+  faces from `theme.css`.
 - Images carry `width` and `height` attributes, `loading="lazy"` below the
   fold, and use `%20` for spaces in paths. New **asset** files (images,
   PDFs, fonts) use lowercase-hyphenated names. Markdown documentation
@@ -178,11 +178,10 @@ secondary pages only) uses its own `--color-*` names for the same values.
   static faces. Any other weight or style renders as a synthetic fallback
   (a Fraunces 700 heading becomes fake-bold). Adding one means adding its
   woff2 files and `@font-face` blocks for both subsets, and a `preload` if
-  it is used above the fold. This inventory is the **homepage's only**:
-  `faq.html` and `published-manuscripts.html` load Google Fonts with a
-  wider set — Fraunces 500/600/700 upright, DM Sans 400/500/700, IBM Plex
-  Mono 400/500/600, no italics — so those weights are valid there and
-  nothing more.
+  it is used above the fold. The inventory is **site-wide**: the same
+  `@font-face` blocks sit in `index.html` and in `theme.css` (for
+  `faq.html` and `published-manuscripts.html`), so a new face is added to
+  both.
 - Type roles: Fraunces for the name, section headings, publication years
   and italic venues; DM Sans for reading text; IBM Plex Mono for the label
   layer (sticky bar, dates, metrics, captions) at 400, with 500 reserved
@@ -227,12 +226,10 @@ secondary pages only) uses its own `--color-*` names for the same values.
   both backgrounds, `scroll-padding-top` clearance under the sticky bar.
 - Determinism: the renderer must not introduce timestamps or ordering that
   changes between runs with identical data.
-- In `index.html`: any CSS that names a font weight or style not in the
-  self-hosted inventory above, or a new theme colour that is not a token
-  (or `color-mix()` of one) — the three functional exceptions documented
-  under Design system facts are fine. For `faq.html` and
-  `published-manuscripts.html`, check weights against their Google Fonts
-  set instead.
+- Any CSS, on any page, that names a font weight or style not in the
+  self-hosted inventory above; in `index.html`, a new theme colour that is
+  not a token (or `color-mix()` of one) — the three functional exceptions
+  documented under Design system facts are fine.
 - Do not flag generated-block content, `%20` paths, the intentional absence
   of the email address on the homepage, the curated lists, the
   deliberate look-like-bugs listed under Design system facts, or the two
