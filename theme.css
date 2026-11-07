@@ -180,6 +180,9 @@ body {
     text-rendering: optimizeLegibility;
 }
 
+/* Avoid a lone short word on a paragraph's last line (ignored where unsupported) */
+p { text-wrap: pretty; }
+
 /* Serif display voice for major headings; sans + weight for minor levels */
 h1, h2, h3 {
     font-family: var(--font-serif);
