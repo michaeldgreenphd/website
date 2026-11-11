@@ -1,8 +1,16 @@
 {
-  "updated": "2026-11-04",
+  "updated": "2026-11-11",
   "source": "https://orcid.org/0000-0002-4982-8154",
   "count": 34,
   "works": [
+    {
+      "title": "Development and Initial Validation of a Measure of Parental Racial/Ethnic Discrimination in Pediatric Healthcare",
+      "year": "2026",
+      "journal": "Journal of Racial and Ethnic Health Disparities",
+      "type": "journal-article",
+      "url": "https://doi.org/10.1007/s40615-025-02602-7",
+      "source": "Crossref"
+    },
     {
       "title": "Role of Plasma Proteins in the Association Between Socioeconomic Status and Cardiovascular Disease Events: Results From Trans‐Omics for Precision Medicine Cohorts",
       "year": "2026",
@@ -105,14 +113,6 @@
       "journal": "",
       "type": "preprint",
       "url": "https://doi.org/10.1101/2025.09.02.25334565",
-      "source": "Crossref"
-    },
-    {
-      "title": "Development and Initial Validation of a Measure of Parental Racial/Ethnic Discrimination in Pediatric Healthcare",
-      "year": "2025",
-      "journal": "Journal of Racial and Ethnic Health Disparities",
-      "type": "journal-article",
-      "url": "https://doi.org/10.1007/s40615-025-02602-7",
       "source": "Crossref"
     },
     {
