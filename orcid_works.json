@@ -1,7 +1,7 @@
 {
-  "updated": "2026-11-11",
+  "updated": "2026-11-17",
   "source": "https://orcid.org/0000-0002-4982-8154",
-  "count": 34,
+  "count": 35,
   "works": [
     {
       "title": "Development and Initial Validation of a Measure of Parental Racial/Ethnic Discrimination in Pediatric Healthcare",
@@ -9,6 +9,14 @@
       "journal": "Journal of Racial and Ethnic Health Disparities",
       "type": "journal-article",
       "url": "https://doi.org/10.1007/s40615-025-02602-7",
+      "source": "Crossref"
+    },
+    {
+      "title": "Sex and Gender Reporting and Female Participation Relative to Disease Burden in ClinicalTrials.gov",
+      "year": "2026",
+      "journal": "",
+      "type": "preprint",
+      "url": "https://doi.org/10.64898/2026.11.14.26368113",
       "source": "Crossref"
     },
     {
